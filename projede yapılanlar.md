@@ -74,3 +74,10 @@ Tarihler Europe/Istanbul saat dilimine göredir.
 - Yerel depo `main` dalında başlatıldı. Commit kimliği, oturum açmış GitHub
   hesabındaki gerçek ad ve hesabın resmî noreply adresiyle yalnızca bu depoda ayarlandı.
 - Doğrulama: GitHub hesap kimliği API'den okundu; mevcut başka depo değiştirilmedi.
+
+### 008 — İlk commit'ler ve bağlam devri
+
+- Kurallar/günlük ve Django temeli ayrı anlamlı commit'lerle yerel Git'e kaydedildi.
+- `docs/DEVAM_NOTU.md` oluşturuldu; kullanıcı tercihi, gerçek ilerleme,
+  aktif kurulum sorunu ve sonraki kontroller kaydedildi.
+- Doğrulama: commit çıktıları kontrol edildi. Commit'ler henüz dış depoya gönderilmedi.
