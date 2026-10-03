@@ -1,0 +1,22 @@
+.venv/
+.env
+.env.*
+!.env.example
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.sqlite3-*
+.pytest_cache/
+.ruff_cache/
+.hypothesis/
+.coverage
+.coverage.*
+htmlcov/
+/reports/
+/staticfiles/
+/test-results/
+/playwright-report/
+/mutants/
+*.egg-info/
+# Başvuruya yönelik özel notlar yerelde tutulur.
+/KarKontrol_Proje_Plani.md
