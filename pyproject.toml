@@ -1,0 +1,56 @@
+[project]
+name = "karkontrol"
+version = "0.1.0"
+description = "Pazaryeri kâr hesapları için bağımsız kalite güvence projesi"
+readme = "README.md"
+requires-python = ">=3.13,<3.14"
+dependencies = [
+    "django>=5.2,<5.3",
+    "python-dotenv>=1.1,<2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.4,<10",
+    "pytest-django>=4.11,<5",
+    "pytest-cov>=6,<8",
+    "pytest-xdist>=3.8,<4",
+    "pytest-html>=4.1,<5",
+    "hypothesis>=6.135,<7",
+    "ruff>=0.12,<1",
+]
+e2e = ["pytest-playwright>=0.7,<1"]
+mutation = ["mutmut>=3,<4; sys_platform == 'linux'"]
+
+[tool.uv]
+package = false
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+extend-exclude = ["mutants"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings.test"
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "--strict-markers --strict-config"
+markers = [
+    "unit: Saf Python birim testleri",
+    "integration: Django ve veritabanı entegrasyon testleri",
+    "reconciliation: İnsan doğrulamalı altın veri mutabakatı",
+    "property: Hypothesis değişmez kural testleri",
+    "e2e: Playwright tarayıcı testleri",
+    "eval: Asistan değerlendirmeleri",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["config", "apps"]
+omit = ["*/migrations/*", "config/asgi.py", "config/wsgi.py", "config/settings/test.py"]
+
+[tool.coverage.report]
+show_missing = true

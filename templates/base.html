@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}KârKontrol{% endblock %}</title>
+  <style>
+    :root { color-scheme: light; font-family: system-ui, sans-serif; color: #182a35; background: #f3f6f8; }
+    body { margin: 0; } header, main, footer { max-width: 860px; margin: auto; padding: 24px; }
+    header { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+    a { color: #136454; } h1 { font-size: clamp(2rem, 6vw, 3rem); line-height: 1.15; }
+    p, li { line-height: 1.7; } .card { background: #fff; padding: 28px; border: 1px solid #d9e2e7; border-radius: 12px; }
+    button { background: #136454; color: white; border: 0; border-radius: 6px; padding: 10px 16px; cursor: pointer; }
+    input { display: block; padding: 10px; max-width: 100%; margin-top: 6px; box-sizing: border-box; }
+    .errorlist { color: #9a281f; } footer { font-size: .85rem; color: #506673; }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="{% url 'home' %}"><strong>KârKontrol</strong></a>
+    <nav aria-label="Hesap">
+    {% if user.is_authenticated %}
+      <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button data-testid="logout" type="submit">Çıkış yap</button></form>
+    {% else %}
+      <a data-testid="login-link" href="{% url 'login' %}">Giriş yap</a>
+    {% endif %}
+    </nav>
+  </header>
+  <main>{% block content %}{% endblock %}</main>
+  <footer>Bağımsız eğitim projesidir, hiçbir pazaryeriyle ilişkisi yoktur; oranlar örnektir.</footer>
+</body>
+</html>

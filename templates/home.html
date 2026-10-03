@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card">
+  <p>KârKontrol · Geliştirme aşamasında</p>
+  <h1>Pazaryeri kârını<br>kanıtlarla doğrula.</h1>
+  <p>Satış, kesintiler ve hakediş arasındaki farkı görünür kılan bağımsız kalite güvence projesi.</p>
+  <p data-testid="project-status">Uygulama altyapısı hazır. Kâr hesaplama ve sipariş aktarımı hazırlanıyor.</p>
+  {% if user.is_authenticated %}<p data-testid="welcome">Hoş geldin, {{ user.username }}.</p>{% endif %}
+</section>
+{% endblock %}
