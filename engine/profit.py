@@ -1,16 +1,18 @@
-"""Kurallar: docs/KURALLAR_v1.md ve docs/KURALLAR_v2.md."""
+"""Kurallar: docs/KURALLAR.md."""
 
 from dataclasses import dataclass
 from decimal import ROUND_CEILING, ROUND_HALF_UP, Decimal, localcontext
+from fractions import Fraction
 
-ZERO = Decimal("0")
+ZERO = Decimal("0.00")
 CENT = Decimal("0.01")
 HUNDRED = Decimal("100")
 VERSION = "demo-v1"
 
 
 def money(value: Decimal) -> Decimal:
-    return value.quantize(CENT, rounding=ROUND_HALF_UP)
+    rounded = value.quantize(CENT, rounding=ROUND_HALF_UP)
+    return ZERO if rounded == ZERO else rounded
 
 
 def validate_decimal(value, name, *, maximum=None):
@@ -59,6 +61,10 @@ class LineInput:
             validate_decimal(getattr(self, name), name, maximum=Decimal("9999999999.99"))
         for name in ("vat_percent", "commission_percent", "cost_vat_percent"):
             validate_decimal(getattr(self, name), name, maximum=HUNDRED)
+        for name in ("unit_price_gross", "unit_cost_net", "seller_discount", "platform_coupon"):
+            value = getattr(self, name)
+            if value != money(value):
+                raise ValueError(f"{name}: kuruş altı para kabul edilmez")
         if self.currency not in ("TRY", "USD", "EUR") or self.exchange_rate <= ZERO:
             raise ValueError("Para birimi veya kur geçersiz")
         if self.currency == "TRY" and self.exchange_rate != Decimal("1"):
@@ -85,6 +91,7 @@ class LineResult:
 
     @property
     def cash_profit(self):
+        """Uyumluluk için cebirsel kâr eşitliği; bağımsız hesap doğrulaması değildir."""
         return (
             self.payout
             - self.cost
@@ -96,7 +103,7 @@ class LineResult:
 
 def allocate(total: Decimal, weights: list[Decimal]) -> list[Decimal]:
     """Kuruşların tamamını korur; eşit kalanlarda liste sırası belirleyicidir."""
-    if not weights or any(weight < ZERO for weight in weights):
+    if not weights:
         raise ValueError("Dağıtım ağırlıkları geçersiz")
     for weight in weights:
         validate_decimal(weight, "weight")
@@ -104,12 +111,19 @@ def allocate(total: Decimal, weights: list[Decimal]) -> list[Decimal]:
     if sum(weights) == ZERO:
         weights = [Decimal("1")] * len(weights)
     cents = int(money(total) * HUNDRED)
-    exact = [Decimal(cents) * weight / sum(weights) for weight in weights]
-    base = [int(value) for value in exact]
-    ranked = sorted(range(len(base)), key=lambda i: (-(exact[i] - base[i]), i))
+    return _allocate_cents(cents, [Fraction(weight) for weight in weights])
+
+
+def _allocate_cents(cents: int, exact_weights: list[Fraction]) -> list[Decimal]:
+    # Decimal bölmesi aynı rasyonel kalana farklı son basamaklar verebilir.
+    # Fraction ve divmod, eşit kalanları context precision'dan bağımsız tutar.
+    weight_sum = sum(exact_weights)
+    shares = [divmod(cents * weight, weight_sum) for weight in exact_weights]
+    base = [quotient for quotient, _ in shares]
+    ranked = sorted(range(len(base)), key=lambda i: (-shares[i][1], i))
     for index in ranked[: cents - sum(base)]:
         base[index] += 1
-    return [Decimal(value) / HUNDRED for value in base]
+    return [money(Decimal(value) / HUNDRED) for value in base]
 
 
 def shipping_fee(gross: Decimal, desi: Decimal, *, marketplace="demo_tr") -> Decimal:
@@ -153,12 +167,16 @@ def _calculate(lines, marketplace):
     outbound = allocate(freight, weights)
     service = allocate(Decimal("0") if marketplace == "amazon_demo" else Decimal("10"), weights)
     return_weights = [
-        gross * line.returned_quantity / line.quantity
+        Fraction(gross) * line.returned_quantity / line.quantity
         for gross, line in zip(original, lines, strict=True)
     ]
     if not sum(return_weights):
-        return_weights = [Decimal(line.returned_quantity) for line in lines]
-    inbound = allocate(freight, return_weights) if sum(return_weights) else [ZERO] * len(lines)
+        return_weights = [Fraction(line.returned_quantity) for line in lines]
+    inbound = (
+        _allocate_cents(int(freight * HUNDRED), return_weights)
+        if sum(return_weights)
+        else [ZERO] * len(lines)
+    )
     results = []
     for index, line in enumerate(lines):
         remaining = line.quantity - line.returned_quantity

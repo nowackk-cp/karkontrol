@@ -39,7 +39,7 @@ select = ["E", "F", "I", "UP", "B"]
 DJANGO_SETTINGS_MODULE = "config.settings.test"
 pythonpath = ["."]
 testpaths = ["tests"]
-addopts = "--strict-markers --strict-config -m 'not e2e'"
+addopts = "--strict-markers --strict-config -m 'not e2e and not reconciliation'"
 markers = [
     "unit: Saf Python birim testleri",
     "integration: Django ve veritabanı entegrasyon testleri",
@@ -59,8 +59,6 @@ show_missing = true
 
 [tool.mutmut]
 source_paths = ["engine/"]
-pytest_add_cli_args_test_selection = ["tests/unit/test_profit.py"]
+pytest_add_cli_args_test_selection = ["tests/unit/test_profit.py", "tests/unit/test_profit_contract.py"]
 pytest_add_cli_args = ["-c", "mutmut_pytest.ini", "-p", "no:django"]
 also_copy = ["mutmut_pytest.ini"]
-# Error wording is not a financial contract. Conditions and arithmetic remain mutated.
-do_not_mutate_patterns = ["raise ValueError"]

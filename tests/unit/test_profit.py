@@ -35,7 +35,8 @@ def test_user_supplied_600_tl_example():
     assert r.sales_vat == D("100")
     assert r.fee_vat == D("38")
     assert r.cost_vat == D("50")
-    assert r.cash_profit == r.profit
+    assert r.cash_profit == D("60.00")  # Kamu alanının verilen 600 TL örneğindeki değeri.
+    assert_reference_accounting(r, 60000, 12000, 6000, 1000, 25000, 20)
 
 
 @pytest.mark.parametrize(
@@ -71,37 +72,49 @@ def test_half_up(value, expected):
 
 
 @pytest.mark.parametrize(
-    "field,value",
+    "field,value,message",
     [
-        ("quantity", 0),
-        ("quantity", -1),
-        ("quantity", True),
-        ("quantity", 1.5),
-        ("line_number", 0),
-        ("line_number", True),
-        ("returned_quantity", -1),
-        ("returned_quantity", 2),
-        ("returned_quantity", False),
-        ("unit_price_gross", D("NaN")),
-        ("unit_price_gross", D("Infinity")),
-        ("unit_price_gross", D("-0.01")),
-        ("unit_price_gross", 0.1),
-        ("unit_cost_net", D("-1")),
-        ("seller_discount", D("601")),
-        ("platform_coupon", D("601")),
-        ("vat_percent", D("101")),
-        ("commission_percent", D("-1")),
-        ("cost_vat_percent", D("101")),
-        ("desi", D("-1")),
-        ("weight_kg", D("-1")),
-        ("currency", "GBP"),
-        ("exchange_rate", D("0")),
-        ("exchange_rate", D("2")),
-        ("unit_price_gross", D("10000000000")),
+        ("quantity", 0, "quantity: pozitif tamsayı gerekli"),
+        ("quantity", -1, "quantity: pozitif tamsayı gerekli"),
+        ("quantity", True, "quantity: pozitif tamsayı gerekli"),
+        ("quantity", 1.5, "quantity: pozitif tamsayı gerekli"),
+        ("line_number", 0, "line_number: pozitif tamsayı gerekli"),
+        ("line_number", True, "line_number: pozitif tamsayı gerekli"),
+        ("returned_quantity", -1, "İade adedi geçersiz"),
+        ("returned_quantity", 2, "İade adedi geçersiz"),
+        ("returned_quantity", False, "İade adedi geçersiz"),
+        ("unit_price_gross", D("NaN"), "unit_price_gross: sonlu, negatif olmayan Decimal gerekli"),
+        (
+            "unit_price_gross",
+            D("Infinity"),
+            "unit_price_gross: sonlu, negatif olmayan Decimal gerekli",
+        ),
+        (
+            "unit_price_gross",
+            D("-0.01"),
+            "unit_price_gross: sonlu, negatif olmayan Decimal gerekli",
+        ),
+        ("unit_price_gross", 0.1, "unit_price_gross: sonlu, negatif olmayan Decimal gerekli"),
+        ("unit_cost_net", D("-1"), "unit_cost_net: sonlu, negatif olmayan Decimal gerekli"),
+        ("seller_discount", D("601"), "İndirim ve kupon brüt tutarı aşamaz"),
+        ("platform_coupon", D("601"), "İndirim ve kupon brüt tutarı aşamaz"),
+        ("vat_percent", D("101"), "vat_percent: üst sınır aşıldı"),
+        (
+            "commission_percent",
+            D("-1"),
+            "commission_percent: sonlu, negatif olmayan Decimal gerekli",
+        ),
+        ("cost_vat_percent", D("101"), "cost_vat_percent: üst sınır aşıldı"),
+        ("desi", D("-1"), "desi: sonlu, negatif olmayan Decimal gerekli"),
+        ("weight_kg", D("-1"), "weight_kg: sonlu, negatif olmayan Decimal gerekli"),
+        ("currency", "GBP", "Para birimi veya kur geçersiz"),
+        ("exchange_rate", D("0"), "Para birimi veya kur geçersiz"),
+        ("exchange_rate", D("2"), "TRY kuru 1 olmalı"),
+        ("unit_price_gross", D("10000000000"), "unit_price_gross: üst sınır aşıldı"),
     ],
 )
-def test_invalid_input_rejected(field, value):
-    with pytest.raises(ValueError):
+def test_invalid_input_rejected(field, value, message):
+    with pytest.raises(ValueError, match=message):
         result(**{field: value})
 
 
@@ -119,7 +132,7 @@ def test_partial_and_full_return():
     full = result(returned_quantity=1)
     assert full.net_sales == full.commission == full.cost == full.withholding == D("0")
     assert full.profit == D("-120")
-    assert full.cash_profit == full.profit
+    assert_reference_accounting(full, 0, 0, 12000, 0, 0, 20)
 
 
 def test_zero_value_returns_allocate_to_returned_lines_only():
@@ -134,7 +147,8 @@ def test_order_shipping_once_and_cent_tie_is_stable():
     results = calculate_order(lines)
     assert sum(r.shipping for r in results) == D("30")
     assert [r.service for r in results] == [D("3.34"), D("3.33"), D("3.33")]
-    assert all(r.cash_profit == r.profit for r in results)
+    for row, service in zip(results, (334, 333, 333), strict=True):
+        assert_reference_accounting(row, 1, 0, 1000, service, 25000, 20)
 
 
 def test_weight_takes_precedence_over_desi():
@@ -145,20 +159,23 @@ def test_weight_takes_precedence_over_desi():
 def test_vat_split_is_exact(vat):
     r = result(vat_percent=D(vat))
     assert r.net_sales + r.sales_vat == r.gross_sales
-    assert r.cash_profit == r.profit
+    assert_reference_accounting(r, 60000, 12000, 6000, 1000, 25000, int(vat))
 
 
 def test_empty_duplicate_mixed_currency_and_unknown_marketplace():
-    for lines in (
-        [],
-        [line(), line()],
-        [line(), line(line_number=2, currency="USD", exchange_rate=D("40"))],
+    for lines, message in (
+        ([], "Sipariş boş veya satır numaraları tekrarlı"),
+        ([line(), line()], "Sipariş boş veya satır numaraları tekrarlı"),
+        (
+            [line(), line(line_number=2, currency="USD", exchange_rate=D("40"))],
+            "Bir siparişin para birimi ve kuru aynı olmalı",
+        ),
     ):
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match=message):
             calculate_order(lines)
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="Pazaryeri desteklenmiyor"):
         calculate_order([line()], marketplace="unknown")
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="Demo TRY mağazasında yabancı para kullanılamaz"):
         calculate_order([line(currency="USD", exchange_rate=D("40"))])
 
 
@@ -167,15 +184,25 @@ def test_amazon_fixed_rate_and_fee(currency, rate):
     r = calculate_order(
         [line(currency=currency, exchange_rate=D(rate))], marketplace="amazon_demo"
     )[0]
-    assert r.gross_sales == money(D("600") * D(rate))
+    gross_cents = integer_round(Fraction(60000) * Fraction(rate))
+    cost_cents = integer_round(Fraction(25000) * Fraction(rate))
+    commission_cents = integer_round(Fraction(gross_cents, 5))
+    assert r.gross_sales == D(gross_cents) / 100
     assert r.shipping == D("80")
     assert r.service == D("0")
-    assert r.cash_profit == r.profit
+    assert_reference_accounting(r, gross_cents, commission_cents, 8000, 0, cost_cents, 20)
 
 
-@pytest.mark.parametrize("total,weights", [(D("-1"), [D("1")]), (D("1"), []), (D("1"), [D("-1")])])
-def test_bad_allocation(total, weights):
-    with pytest.raises(ValueError):
+@pytest.mark.parametrize(
+    "total,weights,message",
+    [
+        (D("-1"), [D("1")], "total: sonlu, negatif olmayan Decimal gerekli"),
+        (D("1"), [], "Dağıtım ağırlıkları geçersiz"),
+        (D("1"), [D("-1")], "weight: sonlu, negatif olmayan Decimal gerekli"),
+    ],
+)
+def test_bad_allocation(total, weights, message):
+    with pytest.raises(ValueError, match=message):
         allocate(total, weights)
 
 
@@ -183,7 +210,7 @@ def test_largest_remainder_follows_weight_not_input_position():
     assert allocate(D("0.01"), [D("1"), D("3")]) == [D("0"), D("0.01")]
     assert allocate(D("0.01"), [D("3"), D("1")]) == [D("0.01"), D("0")]
     assert allocate(D("1.01"), [D("0"), D("0")]) == [D("0.51"), D("0.50")]
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="weight: sonlu, negatif olmayan Decimal gerekli"):
         allocate(D("1"), [1.5])
 
 
@@ -197,7 +224,7 @@ def test_maximum_quantity_boundary_and_nondefault_cost_vat():
     )
     assert calculate_order([zero])[0].gross_sales == D("0")
     for name in ("quantity", "line_number"):
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match=f"{name}: pozitif tamsayı gerekli"):
             calculate_order([replace(zero, **{name: 2_147_483_648})])
     assert result(cost_vat_percent=D("10")).cost_vat == D("25")
     assert result(cost_vat_percent=D("0")).cost_vat == D("0")
@@ -207,6 +234,29 @@ def test_maximum_quantity_boundary_and_nondefault_cost_vat():
 def integer_round(value: Fraction) -> int:
     """Bağımsız aritmetik yolu: Fraction -> tamsayı kuruş, Decimal motorunu çağırmaz."""
     return (2 * value.numerator + value.denominator) // (2 * value.denominator)
+
+
+def assert_reference_accounting(r, gross, commission, shipping, service, cost, vat, cost_vat=20):
+    """Kural girdilerinden bağımsız tamsayı/Fraction KDV ve hakediş oracle'ı."""
+    net = integer_round(Fraction(gross * 100, 100 + vat))
+    fee_vat = sum(integer_round(Fraction(item, 5)) for item in (commission, shipping, service))
+    withholding = integer_round(Fraction(net, 100))
+    expected = {
+        "gross_sales": gross,
+        "net_sales": net,
+        "sales_vat": gross - net,
+        "commission": commission,
+        "shipping": shipping,
+        "service": service,
+        "cost": cost,
+        "cost_vat": integer_round(Fraction(cost * cost_vat, 100)),
+        "fee_vat": fee_vat,
+        "withholding": withholding,
+        "payout": gross - commission - shipping - service - fee_vat - withholding,
+        "profit": net - commission - shipping - service - cost,
+    }
+    for name, cents in expected.items():
+        assert getattr(r, name) * 100 == cents, name
 
 
 @pytest.mark.property
@@ -219,7 +269,9 @@ def integer_round(value: Fraction) -> int:
     commission=st.integers(0, 100),
 )
 @settings(max_examples=300, deadline=None)
-def test_fraction_reference_and_cash_identity(price, cost, quantity, returned, vat, commission):
+def test_fraction_reference_for_profit_payout_and_vat(
+    price, cost, quantity, returned, vat, commission
+):
     returned = min(returned, quantity)
     remaining = quantity - returned
     gross = price * remaining
@@ -243,7 +295,7 @@ def test_fraction_reference_and_cash_identity(price, cost, quantity, returned, v
     )
     assert int(r.profit * 100) == net - fees - shipping - service - cost * remaining
     assert int(r.payout * 100) == gross - fees - shipping - service - fee_vat - withholding
-    assert r.cash_profit == r.profit
+    assert_reference_accounting(r, gross, fees, shipping, service, cost * remaining, vat)
 
 
 @pytest.mark.property
