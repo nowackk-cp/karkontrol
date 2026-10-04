@@ -1,69 +1,76 @@
-# Bağlam devri — 2026-10-04
+# Bağlam devri — 2026-10-04 / v1.1 kabul işleri
 
-Kullanıcı: soru sorma, bitene kadar devam et; tamamlanan her işi hemen
-`projede yapılanlar.md`ye yaz. AGENTS.md kalıcı altın kuraldır. Otomatik compact
-sonrası bu not/günlük/Git durumundan devam et; tamamlanan işleri tekrarlama.
+Kullanıcı bütün planı tamamla, soru sorma, full computer use yetkisi verdi.
+Her tamamlanan mantıksal işi projede yapılanlar.md'ye hemen yaz. AGENTS geçerli.
+Otomatik compact sonrası bu not/Git/günlükten devam et. Subagent yetkisi yok.
 
-## Son durum
+## Şu anda aktif iş
 
-İşlevsel finans demosu tamamlandı. Repo https://github.com/nowackk-cp/karkontrol.
-PR1/2/3/5 merged; uzak main c65cc65. v0.2.0 ve v1.0.0 demo release yayımlandı.
-Son yerel günlük/bağlam kayıtları main üzerindeki bookkeeping commit'lerinde
-korunur; ürünün test edilmiş public kaynakları origin/main ve v1.0.0 etiketindedir.
-PR4 kasıtlı kırmızı CI demosu kapatıldı, birleştirilmedi. Stopaj normal motorda%1.
+Branch feat/remaining-acceptance, remote source4fe480f. PR#6 DRAFT, attached.
+Repo github.com/nowackk-cp/karkontrol. v1.1.0 paket/lock hazır, release yok.
+Main hâlâc65cc65/v1.0.0; bu branch eski local3 bookkeeping commit'ini de taşır.
+PR son source4fe480f quality37174580100SUCCESS, offline eval37174580073SUCCESS;
+required model-eval37174580104 çalışıyor. GitHub main required contexts artık
+quality + model-eval, strict=true, admins policy korunur. Tüm PR'larda LLM çalışır.
+Son local log080 + mevcut belge değişimleri henüzcommitlenmedi.
 
-261 core test;12 desktop E2E; aynı12 iPhone13 E2E. 40/40 araç asistanı soru
-kontrolü. Engine44/44dal%100. Toplam satır+dal%97,67 (rapor%98).
-Mutmut3.8 gerçek342/369=%92,68;27 survived, other0. Exception raise satırları
-hariç; koşullar/aritmetik dahil, globals/dataclass defaults mutmut3 kapsamı dışında.
-Test boşluğu kalan kuruş sırası/maliyet KDV'sinde bulundu; kontroller eklendi,
-gerçek motor bug diye sayılmadı. APP001/002 önceki gerçek hatalar BUGS.md'de.
+## Yapılanlar ve gerçek kanıt
 
-Main kanıtları: CI37171612643, eval37171612606, mutation37171615550 SUCCESS.
-Pages37171673012 SUCCESS. https://nowackk-cp.github.io/karkontrol/ ve
-/reports/tests.html, /htmlcov/index.html, /reports/e2e.xml HTTP200 doğrulandı.
-PR4 CI37171652470 FAILURE (4failed/257passed), mergeState BLOCKED;
-protection required quality/strict/enforce_admins=true. Merge denemesi/bypass yok.
+316 core test,12 E2E geçti; engine44/44dal100%. Motor hiç değişmedi;
+önceki mutmut342/369=%92,68 kanıtı geçerli. Yeni toplam coverage yaklaşık96%.
+Gerçek Qwen3-1.7B-Q8_0 + llama.cppb11382 Linux CPU temperature0:
+- İlk run37173824046FAILED: v1%32,5, v2%85,5kritikfail; rapor korunur.
+- Düzeltilmiş run37174071378SUCCESS: v1%47,5(19/40),v2%100(40/40),
+  21iyileşme0gerileme. Herprompt36gerçekçağrı4uygulamaöncesirefusal.
+-20gerçekjudge12pass8fail. İnsan puanlar NULL; kalibrasyon yapılmadı.
+Raw data/evidence/llm-first.json,llm-corrected.json; data/draft/judge_review.json.
+APP003 modelEylül11 seçimi gerçek hata; JSONdates kullanıcının month/yıl enum'una
+bağlandı. Model sadece araçseçer; rakamlarıserverrender. SerbestLLMfinans cevabı değil.
 
-## Çalışan kapsam ve dürüst sınırlar
+40senaryo XLSX hazırdata/draft/insan_inceleme.xlsx; expected7/reviewer/date/source
+BOŞ. outputs/remaining-acceptance/insan_inceleme.xlsx finalexport/renderverified.
+check_golden CLI exit1SIP01missinghuman; evaluate_judge--human-review exit1J01missing.
+Bu insan verisini AI ile doldurupgolden/puan diyemezsin.
+Amazon resmîsayfa+16Nisan2026FBA PDF tarihlerleincelendi; demo perorder80TRY
+ile gerçekperunit/kategori/iadefarkları docs/GERCEK_TARIFE_INCELEMESI.md.
+Gerçek satıcı sözleşmesi/humanfinanskabulü/geriye dönükClaudeizolasyonu eksik.
 
-Auth/kayıt, mağaza owner izolasyonu, CSV/XLSX atomik import, iade,
-Decimal saf motor, integer-cents ledger, SQL/window aylık görünüm,
-filtre/sayfalama/CSV export, Free100/DemoPro fake ödeme3sonuç/idempotency,
-owner tools/guardrail deterministik asistan, Amazon TRY/USD/EUR sabit kur.
+## Kalan otomatik iş / sıradaki adımlar
 
-Ücretler sentetik; gerçek ödeme/LLM/canlıkur/pazaryeri API'si yok.
-data/draft 30TRY+10Amazon sadecegirdi; manual_review.csv beklenenlerBOŞ.
-İnsan golden, Claude izolasyonu, judge kalibrasyonu, kör holdout iddiası yok.
-Reserved10 soruyu geliştirenAI gördü. Kullanıcının600TL örneği ayrı kaynak anchor.
-İşlevsel demo kabulü bu bağımsız insan kabulünden ayrıdır. docs/PROJE_DURUMU.md.
+1.37174580104 tam4fe480fmodelCI sonuç/artefact verify. Başarısonra PRreadymerge.
+2.Son log/docREADMErequiredcontexts kayıtlarıfinalsmallcommitpushgerekiyor;
+   modelCI tümPRhercommit yenidençalışır. Bitene kadar kullanıcıyı soruyla durdurma.
+3.Holdoutworkflow .github/workflows/holdout.yml yalnızmanual, main'e girince
+   ghworkflowrun holdout.yml --ref main BİR KEZ. Yeni10Qwen soru promptv2hash
+   sabitkenüretilir ve soru içerikrootagösterilmeden eval çalışır. Sonuç ister
+   başarısızolsun korunur; holdoutsonrasıpromptdeğiştirme, başarıavlamak içinrerun yok.
+   SetAIauthoredsameQwen; bağımsızhumanholdoutdiye sunma. Orijinalreserved10seen.
+4.Holdoutilkbaşarılı/başarısızartifact indir, evidencecopydocs/logkayıtlarıkoru.
+5.v1.1.0 releasecorrectmaincommit, CI/PagesHTTP200currenthead, localcleanGit.
+   Finaldegerçekkazanımlarveinsanverisieksikleri açık. Bütüninsanplanbitti iddiası yok.
+6.Son log/DEVAM bookkeepinginlocalcommitolmasıkorumalimainPRdöngüsünüönler;
+   öncekiprojedetümkaynakpublicdurumuyayımlandıktanlocalfinalkayıtlarayrıcommit.
 
-## Kalan doğrulama ve gelecekteki kabul
+## Ortam / sunucu / tarayıcı
 
-1. Son main CI37172029658 ve Pages37172079601 SUCCESS; canlı indeks HTTP200
-   ve release c65cc65 commit'ini doğruluyor. Son log066; işlevsel demo işi tamamlandı.
-2. İnsan golden hesapları, gerçek LLM/judge kalibrasyonu ve kör hold-out ayrı
-   kabul işleridir; kullanıcıyı soruyla durdurmadan bunların yokluğu açık belirtildi.
-3. Bu sürümde yeni kod gerekmiyor. Yeni istek olmadıkça test/özellik işini baştan
-   çalıştırma. Son yerel bookkeeping commit'i public kaynak değişikliği değildir.
+WindowsPowerShell uv0.11.26Python3.13.14Django5.2.17. approvalnever;
+sandbox_permissions verme. pytestmodülçağrısı, nativeconsolelauncherkullanma.
+Qwen1.834.426.016byte SHA256verified .local/llm;Windowsllama-server.exe
+0xC0E90002ileggml.dllCodeIntegrityEnterprise3077/3033engeli. Güvenliği değiştirme,
+DLLload/renameileengeli aşma. GerçekLLMLinuxrunnerdaçalıştı. LocalUIoffline.
+8001sunucusession24306 --noreload, ownPID17048stoprestartverified. Healthok.
+Browsernodepersistenttabstore2reports, ownerdemo-satici/passworddemo-only-pass-2026,
+profit-20.01payout34.74. tab.reloadverified. Browser skillpreviouslyread.
+Nodeimageoutputsimage(c)forward, rawbase64 text()yok. tab.markDeliverablefinal.
+Latestreportimage reports/screens/profit-report.png fromprevious v1 samefinance.
+Workbookpreview verified noerrorsclippedcounterfixed. Spreadsheet skillalreadyread;
+artifactbundleJSbuilder.local/artifacts/build_review.mjs ignore;markeroncecompleted.
+NoactualCUappautomationneeded;computer-useSKILL+guidance/API/confirmationsread.
 
-## Yerel ortam/tarayıcı
+## Tool/edit notes
 
-Python3.13.14 uv0.11.26 Django5.2.17; .venv/uv.lock.
-8001 --noreload güncel sunucu execsession58801. Eski8000kullanma.
-Demo demo-satici/demo-only-pass-2026. store2 kısmi iade1; profit-20,01TL,
-payout34,74TL; toolasistan aynı tutarlar. DB sentetik,seedidempotent.
-Python/şablon değişimi sonrası kendi PID+CommandLine doğrula/restart/reload.
-Django cached template reload tek başına yetmeyebilir.
-
-Browser skill/docs zaten okundu. tools.mcp__node_repl__js kalıcı agent/browser/tab/fs
-bağları var, selectedtab store2reports. Screenshot güncel1160px:
-C:/Users/emrep/OneDrive/Desktop/proje/reports/screens/profit-report.png.
-tab.markDeliverable() çağrıldı; finalöncesiyineçağır ve screenshotfinalembed.
-Node tool image sonuçlarını text(object) ile basma; content.image bloklarını image() ile ilet.
-Repo pytest headless Chromium testleri ayrı; plugin yalnız selectedtab kontrolü.
-Mobil screenshots reports/mobile-e2e. E2E asyncunsafe yalnız sessiontestfixture.
-
-No subagents (user/AGENTS yetkisi yok). Windows approval never, sandbox_permissions verme.
-Modül pytestlauncher kullan; güvenlik politikasını değiştirme. PowerShell ardışık
-komutlarda hatayı son success ile gizleme. Her mantıksal biten işi logla.
+apply_patch allhunksatomic. NEVER addbogusplaceholderhunks; 2patchesfailed
+completelydueto docs# / logfileanchorincorrect; rerunvalidthirdsucceeded.
+Forlongwholerewrite readGetContentoutputJSnormalizeCRLF andapplyminus/plusfull.
+PRbodyfilesreports/acceptance-pr-final.md;noJSON.stringify shellescaping.
+Loglatest080butrunfurtheractionsimmediatelyrecord081+. Keep progressupdates60sec.

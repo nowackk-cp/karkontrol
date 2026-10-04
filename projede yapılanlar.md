@@ -789,3 +789,40 @@ Tarihler Europe/Istanbul saat dilimine göredir.
   korunur. Paket1.1.0 olarak hazırlanır; release henüz yayımlanmadı.
 - İnsanın puanladığı20 cevap yok;40 finans bekleneninin ve gerçek satıcı
   sözleşmesinin kabulü hâlâ açık. Full computer use bu kanıtların yerine geçmez.
+
+### 080 — Gerçek model gate'inin zorunlu hale getirilmesi
+
+- main branch protection API güncellendi ve geri okunarak doğrulandı:
+  strict=true, required contexts quality ve model-eval. Tüm PR'larda model
+  workflow çalışır; modelin kritik hatası birleştirme için zorunlu engeldir.
+- PR#6 başlığı/açıklaması son uygulama ve gerçek kanıtlarla güncellendi.
+  4fe480f için CI/model/eval çalışıyor; henüz birleştirme yapılmadı.
+- 8001'de kendi manage.py --noreload PID17048 doğrulanarak durduruldu;
+  güncel ürün sunucusu session24306 ile yeniden başlatıldı.
+
+### 081 — Yerel ürün ve bağımsız kabul sınırlarının son kontrolü
+
+- Güncel sunucu/health ve gerçek tarayıcı store2 raporu doğrulandı:
+  -20,01TL kâr /34,74TL hakediş, iade durumu korundu. XLSX son render etiketi
+  artık kırpılmıyor; beklenenler boş ve tamamlanan inceleme sayısı0.
+- Gerçek20 hakem dosyası kalibrasyon komutunda exit1/J-01human scoring missing
+  verdi. Bu eksik kabul gerçek model SUCCESS ile karıştırılmaz.
+- Devam notu aktifPR/source/run/server ve sıradaki tek holdout ölçümüyle
+  yenilendi; README required quality+model-eval ve kalıcı evidence kaynakları yazıldı.
+
+### 082 — Güncel asistanın canlı yerel kontrolü
+
+- Tarayıcıda güncel asistan ekranına gidilip2026 Eylül sorusu gönderildi.
+  Raporla aynı -20,01TL kâr /34,74TL hakediş /124,99TL net satış gösterildi.
+  Windows'taki aktif backend'in offline olduğu kullanıcıya açıkça yazılıyor.
+- Son kaynak4fe480f quality54s PASS ve gerçek model SQL gate PASS;
+ 20hakem çağrısının tamamlanması beklenir. İnsan kabulündeki iki boş alan
+  kontrolü hâlâbeklenen şekilde başarısız; başarı iddiası yapılmaz.
+
+### 083 — v1.1 mobil regresyonu ve son golden kontrolü
+
+- Aynı12 Chromium E2E akışı iPhone13 emülasyonunda yeniden geçti(7,42s).
+  Yeni bağımsız12test diye sayılmaz; cihaz tekrarıdır. Ekranlar reports altında.
+- Son golden kabul komutu yine SIP-01human expected/reviewer/date/source
+  eksikliğiyle exit1 verdi; raporu golden-acceptance-final.json olarak saklandı.
+  Whitespace ve131dosya formatı temiz.

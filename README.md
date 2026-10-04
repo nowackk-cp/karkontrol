@@ -84,7 +84,7 @@ Mutmut fork gerektirir: Linux/WSL'de `uv sync --extra dev --extra mutation`,
 [Resmî mutmut yönergeleri](https://mutmut.readthedocs.io/en/latest/).
 
 CI lint/format/migration/test/coverage/E2E kapılarını uygular; main protected,
-quality kontrolü zorunludur ve yöneticiler de kurallara tabidir. İnsan PR onayı
+quality ve model-eval kontrolleri zorunludur; yöneticiler de kurallara tabidir. İnsan PR onayı
 sayısı 0; bu insan review kanıtı değildir. Raporlar 14 gün artifact olarak
 saklanır. Pages yalnız başarılı ana dal push CI çıktısını yayımlar.
 
