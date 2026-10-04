@@ -13,7 +13,7 @@ harici hizmet gerektiren kanıtların yokluğu gizlenmez.
 | 4 QA | Unit/boundary/Fraction/property/SQL/integration/mutmut | Teknik doğrulama; insan golden kabulü ayrı |
 | 5 CI | Protected PR, test/coverage/E2E gate, artifact/Pages | Uzak kanıtlar günlüğe kaydedilir |
 | 6 UI | Auth, stores, import, report, return, fake subscription | 12 bağımsız E2E çalışır |
-| 7 Asistan | Gerçek Qwen, v1/v2 SQL eval, hakem ve yeni set protokolü | İnsan kalibrasyonu yok; ilk yeni set ölçümü bekleniyor |
+| 7 Asistan | Gerçek Qwen, v1/v2 SQL eval, hakem ve yeni set protokolü | İnsan kalibrasyonu yok; yeni setin ilk kanıtı ayrı workflow artifact'idir |
 | 8 Amazon | Sabit USD/EUR/TRY, 10 girdi, eski TRY regresyonu | Sentetik ücretler ve vergi sözleşmesi |
 | 9 Cilalama | Mimari, kullanım, QA/eval/mülakat notları, sürüm | Başvuru/mesaj gönderimi yapılmaz |
 

@@ -826,3 +826,12 @@ Tarihler Europe/Istanbul saat dilimine göredir.
 - Son golden kabul komutu yine SIP-01human expected/reviewer/date/source
   eksikliğiyle exit1 verdi; raporu golden-acceptance-final.json olarak saklandı.
   Whitespace ve131dosya formatı temiz.
+
+### 084 — Son ürün kaynak başlığında gerçek model onayı
+
+- 4fe480f için run37174580104 SUCCESS tamamlandı. İndirilen ham artifact
+  v2%100/40soru/0kritik hata kapısını doğruladı. Required quality+model-eval
+  strict policy tekrar API'den okundu; ikisi de zorunlu.
+- Son belge/yerel kontroller cab45eb commit'inde korundu. Faz/eval belgeleri
+  yeni setin ilk kanıtının ayrı manual artifact olacağını açıklayacak şekilde
+  güncellendi; holdout sonrası aynı prompt üzerinde ayar yapılmaz.

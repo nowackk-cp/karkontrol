@@ -55,3 +55,9 @@ altında kalıcıdır; yalnız başarılı sonuç seçilip ilk hatalar silinmedi
 20 gerçek hakem yanıtı da kaydedildi:12 pass,8 fail; insan puanları boş.
 Bu dağılım hakem doğruluğu veya insanla%85 mutabakat demek değildir.
 data/draft/judge_review.json doldurulmadan kalibrasyon kapısı başarısızdır.
+
+Yeni10 soru `Frozen prompt holdout` manual workflow'unda v2 hash'i
+sabitken oluşturulur ve önceden geliştiriciye gösterilmeden bir kez çalışır.
+İlk run'ın soru/cevap/hash artifact'i sürüm kanıtına eklenir; ilk başarısız
+sonuç da korunur. Bu modelin ürettiği sentetik set, insan yazımı/onayı değildir.
+Orijinal reserved10 bu yeni protokolün körlük kanıtı olarak kullanılmaz.
