@@ -160,6 +160,16 @@ Tarihler Europe/Istanbul saat dilimine göredir.
 - Yereldeki ana planda biten teknik kurulum maddeleri işaretlendi; profil
   düzenleme ve insan doğrulaması gereken fazlar tamamlanmış sayılmadı.
 
+### 018 — Kalite kapısının gerçek durumu ve panel bağlantısı
+
+- PR #1 üzerinde `quality` çalışırken GitHub `mergeStateStatus: BLOCKED`
+  döndürdü; zorunlu kalite kapısının bekleyen kontrolde birleştirmeyi engellediği görüldü.
+- Main koruması yeniden API'den okundu; `quality`, yönetici kuralları ve PR
+  zorunluluğu hâlâ etkin. Git çalışma ağacı kontrolde temizdi.
+- İşlem günlüğünü Codex dosya panelinde açma isteği de `queued` olarak alındı.
+- Onaylı altın veri ve motor aşamaları hâlâ tamamlanmadı; mevcut test sayısı
+  yalnızca başlangıç altyapısını kapsıyor.
+
 ### 011 — Bağımlılık kurulumu ve ilk statik doğrulama
 
 - Python 3.13.14 ortamına 23 çalışma/geliştirme paketi kuruldu; Django 5.2.17,
