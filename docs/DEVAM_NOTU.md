@@ -7,8 +7,9 @@ sonrası bu not/günlük/Git durumundan devam et; tamamlanan işleri tekrarlama.
 ## Son durum
 
 İşlevsel finans demosu tamamlandı. Repo https://github.com/nowackk-cp/karkontrol.
-PR1/2/3 merged; main fc27163. v0.2.0 release yayımlandı. Şu an docs/release-v1
-dalında v1.0.0 sürüm/son kanıt belgeleri hazırlanıyor; son log061.
+PR1/2/3/5 merged; uzak main c65cc65. v0.2.0 ve v1.0.0 demo release yayımlandı.
+Son yerel günlük/bağlam kayıtları main üzerindeki bookkeeping commit'lerinde
+korunur; ürünün test edilmiş public kaynakları origin/main ve v1.0.0 etiketindedir.
 PR4 kasıtlı kırmızı CI demosu kapatıldı, birleştirilmedi. Stopaj normal motorda%1.
 
 261 core test;12 desktop E2E; aynı12 iPhone13 E2E. 40/40 araç asistanı soru
@@ -37,18 +38,14 @@ data/draft 30TRY+10Amazon sadecegirdi; manual_review.csv beklenenlerBOŞ.
 Reserved10 soruyu geliştirenAI gördü. Kullanıcının600TL örneği ayrı kaynak anchor.
 İşlevsel demo kabulü bu bağımsız insan kabulünden ayrıdır. docs/PROJE_DURUMU.md.
 
-## Sonraki sonlandırma işleri — durmadan tamamla
+## Kalan doğrulama ve gelecekteki kabul
 
-1. docs/release-v1 son belgeleri/READMEspacing/DevamNotu/log, pyproject1.0.0
-   uv.lock güncel; lint/format/Django/migration temiz. PR5 oluştur, attach,
-   remote quality yeşil exacthead squashmerge. README kanıtlinklerini güncelle.
-2. v1.0.0 demo release oluştur; README/CHANGELOG demo sınırlarıyla hazır.
-3. Son main CI ve Pages yeni çıktı200 doğrula. Remote main mutation engine/test
-   değişmedi;342/369 kanıtı geçerli. Tekrarlama sadece yeni kaygı varsa.
-4. Root günlüğe tamamlanan release/PR/CI sonuçlarını kaydet; Git'te koru.
-   Son derece küçük yerel bookkeeping commit yayınlanmadıysa açıkça ayırt et.
-5. Final: çalışan demo,261+12test,%100dal,%92,68mutasyon, repo/rapor/günlük
-   linkleri ve insan golden/gerçekLLM kabul sınırı. Erken kısmi final verme.
+1. Son main CI37172029658 ve takip Pages sonucu kontrol ediliyor; başarılı
+   sonuç root günlüğe kaydedilince işlevsel demo işi tamamdır.
+2. İnsan golden hesapları, gerçek LLM/judge kalibrasyonu ve kör hold-out ayrı
+   kabul işleridir; kullanıcıyı soruyla durdurmadan bunların yokluğu açık belirtildi.
+3. Bu sürümde yeni kod gerekmiyor. Yeni istek olmadıkça test/özellik işini baştan
+   çalıştırma. Son yerel bookkeeping commit'i public kaynak değişikliği değildir.
 
 ## Yerel ortam/tarayıcı
 

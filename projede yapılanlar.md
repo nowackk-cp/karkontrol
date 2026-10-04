@@ -631,3 +631,13 @@ Tarihler Europe/Istanbul saat dilimine göredir.
   34,74 TL hakediş korunuyor; sekme çıktı olarak açık bırakıldı.
 - Git diff whitespace kontrolü temizdi. Son PR başlığı44d7f45 quality
   run37171941860 üzerinde sürüyor; tamamlanma sonrası v1 release yapılacak.
+
+### 065 — v1.0.0 demo sürümünün yayımlanması
+
+- PR #5'in tam44d7f45 başlığı quality SUCCESS (run37171941860,53 saniye)
+  sonrası squash birleştirildi. Uzak main c65cc65 fast-forward yerelde alındı.
+- v1.0.0 demo release bu uzak commit'e bağlı yayımlandı:
+  https://github.com/nowackk-cp/karkontrol/releases/tag/v1.0.0.
+- Son yerel kontrol kaydı c0ceed5 main'e cherry-pick ile korundu. Günlük ve
+  final bağlam notu yerel bookkeeping olarak ayrıca commitlenecek; yayımlanan
+  uygulama kaynakları ve test edilmiş sürüm origin/main'dedir.
