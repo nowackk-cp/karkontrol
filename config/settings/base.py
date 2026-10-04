@@ -1,5 +1,6 @@
 """Ortak ayarlar; geliştirme ve üretim davranışları ayrı modüllerdedir."""
 
+import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -60,3 +61,4 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
+ASSISTANT_BACKEND = os.getenv("KARKONTROL_ASSISTANT_BACKEND", "offline")

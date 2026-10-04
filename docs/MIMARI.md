@@ -10,6 +10,7 @@ flowchart LR
     F --> G[Filtreli ekran / CSV]
     F --> H[Parametreli aylık SQL ve window]
     F --> I[Asistan araçları]
+    L[Qwen JSON araç seçimi] --> I
     I --> J[Sayısal beyaz liste]
     J --> K[Deterministik yanıt]
 ```
@@ -36,3 +37,9 @@ Geliştirme/test/üretim ayarları ayrıdır. E2E async istisnası yalnız test 
 Tek aritmetik oracle alan kuralını bağımsız doğrulamaz: Fraction referansı,
 property testleri, mutasyon ve E2E farklı teknik riskleri kontrol eder;
 insan denetimli sözleşme/altın set kabulünün yerine geçmez.
+
+Gerçek model yalnız read-only rapor/kural aracını seçer. JSON şeması tarihleri
+kullanıcının yazdığı ay/yıla sabitler; model oturum kimliği/SQL/para hesabı
+üretmez. Bozuk yanıt veya model kesintisi unavailable olarak görünür.
+Offline ve gerçek model ölçümleri ayrı saklanır. Eval fixture her durumda
+rollback edilir. Hakem puanları insan kalibrasyonu olmadan güven ölçütü sayılmaz.

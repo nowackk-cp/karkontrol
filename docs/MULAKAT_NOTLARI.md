@@ -16,11 +16,18 @@ asistana net kârı sor → sahte failed/timeout/success ödeme sonucunu göster
 - İade kargo giderini koruyabilir; tam iadenin kârı negatif olabilir.
 - Satış fiyatı barem eşiğini bir kuruş aşınca kargo artışı kârı azaltabilir:
   bu belgelenmiş politika sonucu, uydurulmuş yazılım hatası değildir.
-- Gerçek APP-001 ve APP-002 hata kayıtları test kanıtıyla anlatılabilir.
+- Gerçek APP-001, APP-002 ve APP-003 hata kayıtları test/model kanıtıyla anlatılabilir.
 - Kullanılan araç Codex'tir. Claude Code ile izolasyon yapıldığı veya insan
   tarafından 40 altın sipariş hesaplandığı söylenmez.
-- Araç asistanı canlı LLM değildir; 40/40 sonucu yalnız deterministik niyet/SQL
-  doğrulaması olarak anlatılır. İnsan judge ve kör hold-out kanıtı yoktur.
+- Varsayılan offline asistanın 40/40 sonucu deterministik niyet/SQL kontrolüdür.
+  Ayrı Qwen3-1.7B-Q8_0 ölçümünde v1 19/40 → v2 40/40; 21 iyileşme ve 0 gerileme
+  vardır. Model araç seçer; finans tutarını sunucu üretir. Windows native runtime
+  güvenlik politikasıyla engellendi; gerçek model Linux CI'da çalıştı.
+- 20 gerçek model hakem puanı vardır; insan puanları boş olduğundan bağımsız
+  kalibrasyon iddiası yoktur. Yeni 10 soru prompt sabitlenince üretilip ilk
+  çalıştırmada değerlendirilir; AI yazarlı set bağımsız insan hold-out sayılmaz.
+
+CV proje bölümü ve gönderilmemiş ön yazı [başvuru materyalinde](BASVURU_MATERYALI.md).
 
 ## Sonraki ürün ölçeği
 

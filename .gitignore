@@ -17,6 +17,8 @@ htmlcov/
 /test-results/
 /playwright-report/
 /mutants/
+/.local/
+/outputs/
 *.egg-info/
 # Başvuruya yönelik özel notlar yerelde tutulur.
 /KarKontrol_Proje_Plani.md

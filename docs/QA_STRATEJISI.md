@@ -30,8 +30,9 @@ formülünü tekrarlaması tek başına bağımsız doğrulama sayılmaz.
 ## Şimdilik kapsam dışında
 
 Gerçek ödeme, canlı kur API'si, pazaryeri bağlantısı, reklam/taksit gideri ve
-gerçek müşteri verisi yok. 40 soruluk ölçüm deterministik araç asistanına aittir;
-LLM/judge/kör hold-out değildir. Yer tutucu metrik yayımlanmaz.
+gerçek müşteri verisi yok. Offline araç ölçümü ve gerçek Qwen ölçümü ayrı
+raporlanır. Bağımsız insan golden ve hakem kabulü eksiktir. Yeni set protokolü
+AI yazarlıdır; bağımsız insan hold-out kabulü değildir. Yer tutucu metrik yayımlanmaz.
 
 ## Başlangıç kalite kapısı
 
@@ -76,3 +77,20 @@ Güçlendirilmiş mutasyon 342/369=%92,68, yaşayan 27. Main fc27163 üzerinde
 [Canlı HTML raporlar](https://nowackk-cp.github.io/karkontrol/) HTTP200 doğrulandı.
 [Kırmızı kapı kanıtı](CI_KAPISI_KANITI.md) dört testi başarısız olan PR'ın
 birleştirilmeden kapatıldığını gösterir. Bilinçli hata gerçek motor bug sayılmaz.
+
+## v1.1 gerçek model ve kabul araçları
+
+316 core test ve 12 bağımsız E2E geçti; aynı 12 akış mobilde de geçti.
+Motor değişmediği için 44/44 dal ve 342/369 mutasyon kanıtı geçerlidir.
+Qwen3-1.7B-Q8_0 Linux CPU üzerinde v1 19/40, v2 40/40;
+her prompt 36 model çağrısı ve 4 güvenlik ön reddi içerir. Sayısal beklenti
+bağımsız SQL sorgusundan doğrulanır. Model yalnız aracı seçer; cevap tutarını
+sunucu oluşturur. [Gerçek ölçüm](https://github.com/nowackk-cp/karkontrol/actions/runs/37174071378).
+
+İlk başarısız model raporu saklanır; Eylül→Kasım seçimi APP-003 olarak kayıtlıdır.
+20 gerçek hakem puanı vardır; insan puanları olmadan %85 kalibrasyon iddia edilmez.
+Prompt SHA256 sabitken 10 yeni soruluk set üreten manual workflow tek ölçüm içindir;
+ilk sonuç korunur ve sonuç görüldükten sonra prompt bu sete göre ayarlanmaz.
+40 finans senaryosunun insan beklenenlerini ve kaynaklarını doldurmadan
+`scripts/check_golden.py` başarısız olur. [Kabul komutları](KABUL_CALISTIRMA.md).
+Main için quality ve model-eval zorunludur; yöneticiler de kurala tabidir.

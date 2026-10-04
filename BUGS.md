@@ -1,6 +1,6 @@
 # Kanıtlanmış hatalar
 
-Henüz kâr motoru uygulanmadı; doğrulanmış motor hatası **0**.
+Kâr motoru uygulandı; doğrulanmış motor hatası **0**.
 Kurulum sorunları motor hatası veya satıcıya parasal etkisi olan hata sayılmaz.
 
 Her kayıt: kimlik, önem, kırılan test, beklenen değerin bağımsız kaynağı,
@@ -31,3 +31,17 @@ Kasıtlı mutasyonlar AI hatası diye kaydedilmez.
 - Düzeltme: dönüşüm öncesi 10 basamak, ardından taşınabilir 32 bit tamsayı sınırı.
   Sistem sınırı yükseltilmedi, regresyon beklentisi değiştirilmedi.
 - TL etkisi: yok; veritabanına yazma öncesinde ortaya çıkar, motor hatası sayılmaz.
+
+## APP-003 — LLM yanlış ayı seçip yanlış aralık için veri yok diyor
+
+- Önem: orta; rapor tutarları değiştirilmez fakat asistan yanlış dönemi gösterir.
+- Kanıt: gerçek Qwen eval run37173824046, v2 E-01/E-02/E-10.
+- Kullanıcı sorusu: “2026 Eylül net kârım ne?”; beklenen ay9, SQL net kâr-60,00 TL.
+- Gerçekleşen: model month11 seçti; Kasım verisi boş olduğu için “veri yok”.
+  Bu eksik cevap için bir parasal fark sayısı uydurulmaz; rapor ledger'i doğrudur.
+- Kök neden: AI araç seçimine tarih sayısı dönüşümü de bırakılmıştı.
+- Düzeltme: JSON şeması kullanıcının açık Türkçe ayına/yılına sabitlenir;
+  geçerli aralıkta olsa bile farklı model tarihi uygulama tarafından reddedilir.
+- Regresyon: test_turkish_month_is_constrained_before_model ve
+  test_valid_but_wrong_month_is_rejected. Gerçek model yeniden ölçümü ayrıca kaydedilir.
+- Bu kayıt finans motor hatası sayısına dahil değildir.

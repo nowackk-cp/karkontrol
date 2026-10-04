@@ -15,3 +15,10 @@ Normal [PR #3](https://github.com/nowackk-cp/karkontrol/pull/3) bütün kontroll
 geçtikten sonra başlık711d329 şartıyla birleştirilmiştir. Main motoru %1
 stopaj kullanır. Bu kayıt yayın kapısının işlediğini gösterir; insan code review
 ve bağımsız finans golden kabulünün yerine geçmez.
+
+![API kayıtlarından hazırlanan animasyon](assets/ci-kapisi.gif)
+
+[Ham PR kaydı](../data/evidence/ci-gate.json) 2026-10-04 tarihinde tekrar alındı:
+quality FAILURE, CLOSED, mergedAt=null. Animasyon canlı ekran kaydı değildir;
+bu doğrulanmış durumların açıklayıcı gösterimidir. Güncel main policy'sinde
+quality ve model-eval required, strict=true, enforce_admins=true.

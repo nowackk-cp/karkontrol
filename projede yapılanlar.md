@@ -622,3 +622,239 @@ Tarihler Europe/Istanbul saat dilimine göredir.
   incelemeye hazır; required quality sonucu bekleniyor.
 - README ve üç kanıt belgesindeki sayı/kelime boşlukları düzeltildi.
   Kod veya beklentiler değişmedi. Bu kayıt son sürüm paketine dahil edildi.
+
+### 064 — Son yerel çalıştırma kontrolü
+
+- Kilitli dev/e2e bağımlılıkları sync edildi. Seed mevcut parolayı/iade
+  durumunu korudu; rebuild_reports üç siparişi atomik yeniden hesapladı.
+- /health/ status ok. Güncel tarayıcı raporunda kısmi iade, -20,01 TL kâr ve
+  34,74 TL hakediş korunuyor; sekme çıktı olarak açık bırakıldı.
+- Git diff whitespace kontrolü temizdi. Son PR başlığı44d7f45 quality
+  run37171941860 üzerinde sürüyor; tamamlanma sonrası v1 release yapılacak.
+
+### 065 — v1.0.0 demo sürümünün yayımlanması
+
+- PR #5'in tam44d7f45 başlığı quality SUCCESS (run37171941860,53 saniye)
+  sonrası squash birleştirildi. Uzak main c65cc65 fast-forward yerelde alındı.
+- v1.0.0 demo release bu uzak commit'e bağlı yayımlandı:
+  https://github.com/nowackk-cp/karkontrol/releases/tag/v1.0.0.
+- Son yerel kontrol kaydı c0ceed5 main'e cherry-pick ile korundu. Günlük ve
+  final bağlam notu yerel bookkeeping olarak ayrıca commitlenecek; yayımlanan
+  uygulama kaynakları ve test edilmiş sürüm origin/main'dedir.
+
+### 066 — Son yayın kabulü ve kayıtların korunması
+
+- v1.0.0 uzak commit c65cc65 için CI37172029658 SUCCESS; takip Pages37172079601
+  SUCCESS. Canlı rapor indeksi HTTP200 ve tam bu release commit'ini gösteriyor.
+- Açık PR kalmadı; v1 release public/draft değil. /health/ yeniden status ok.
+  Çalışma ağacının yalnız son günlük/bağlam kayıtları uzak main'den farklı;
+  kaynak kod, testler ve paket sürümü aynı. Bu yerel bookkeeping commit'lerinde korunur.
+- Son envanter261 core test,12 desktop ve aynı12 mobile E2E; motor44/44dal;
+  ham mutasyon342/369=%92,68; araç asistanı40/40. Demo yazılım işi tamamlandı.
+- İnsan golden doğrulaması, gerçek LLM/judge/kör hold-out ve gerçek tarife
+  kabulü yapılmadı; ayrı kabul sınırı belgelerde açık. Bu kanıtlar uydurulmadı.
+
+### 067 — Tam plan isteği sonrası eksik kabul işlerinin taranması
+
+- AGENTS, ana plan, faz durumları, asistan ve eval uygulaması incelendi.
+  Kullanıcı tüm planı tamamlama ve computer use yetkisini açıkça verdi.
+- Ortamda OPENAI/ANTHROPIC/GEMINI/GOOGLE API anahtarı ve yerel .env yok;
+  anahtar değerleri okunmadı veya çıktıya yazılmadı. RAM yaklaşık 16 GB.
+- Gerçek model çalıştırması için anahtarsız yerel Qwen/llama.cpp yolu seçildi.
+  Resmî OpenAI function calling/structured outputs belgeleri ve Qwen kaynağı
+  araştırıldı. İnsan golden/hakem/körlük kanıtı AI tarafından üretilemez;
+  bu eksikler için çalıştırılabilir kabul araçları hazırlanacak.
+
+### 068 — Gerçek yerel LLM adaptörü ve güvenlik doğrulaması
+
+- Qwen3 için loopback-only JSON şemalı araç seçimi, prompt v1/v2 ve UI backend
+  seçeneği eklendi. Para hesapları/mağaza kimliği modele verilmez; model yalnız
+  rapor türü ve tarih seçer, sunucu erişimi ve rakamları doğrular.
+- 26 yeni model-adaptörü testi eklendi. Owner sınırı, uzak URL engeli, bozuk/
+  büyük yanıt, uydurulmuş yıl, sunucu kesintisi ve UI kontrol edildi.
+  Mevcut 46 eval kontrolüyle toplam 72 test geçti; lint/format temiz.
+- İlk test çalıştırmasında büyük parametrik test kimliği Windows geçici
+  dosya yolunu bozdu; kısa test kimlikleriyle düzeltildi. Ürün hatası değildir.
+- Portable llama.cpp b11382 zip SHA256 doğrulandı; resmî Qwen ağırlığının
+  indirilmesi sürüyor. Henüz gerçek model başarısı iddiası yok.
+
+### 069 — İnsan mutabakatı, eval ve hakem kabul kapıları
+
+- 40 senaryoyu bağımsız insan beklentileriyle kuruş bazında karşılaştıran
+  check_golden komutu, satır/kalem fark raporu ve kaynak SHA256 kaydı eklendi.
+  Eksik, yinelenen veya AI incelemeli kayıtlar kabul edilmez.
+- Eval için baseline'dan en fazla 3 puan düşüş ve sıfır kritik hata kapısı;
+  20 gerçek insan/hakem puanı için %85 mutabakat hesaplayıcısı eklendi.
+- 20 kabul testiyle birlikte ilgili 92 test geçti. Gerçek boş inceleme dosyası
+  çalıştırıldığında komut exit1 ve SIP-01 insan kanıtı eksik sonucu verdi;
+  reports/golden-acceptance.json bu açık eksikliği korur.
+
+### 070 — 40 siparişlik insan inceleme çalışma kitabı
+
+- Spreadsheets becerisiyle iki sekmeli insan_inceleme.xlsx oluşturuldu:
+  40 sabit senaryo girdisi, boş 7 beklenen tutar, inceleyen/tarih/kaynak alanları.
+  Finans beklenenleri veya insan imzası AI tarafından doldurulmadı.
+- Eksik alan durum formülleri, koşullu renkler, sütun/başlık sabitleme eklendi.
+  Deneme alanı doldurulduğunda sayaç1, kaynak silindiğinde0 oldu; tüm deneme
+  değerleri çıktıdan kaldırıldı. Formül hatası taramasında0 hata; iki sekme
+  görsel olarak incelendi ve kırpılan sayaç etiketi düzeltildi.
+- Çalışma kitabından yalnız doldurulmuş değerleri CSV'ye aktaran komut eklendi.
+  Export tek başına insan onayı veya finans kabulü sayılmaz.
+
+### 071 — SQL eval çalıştırıcısı ve gerçek tarife fark incelemesi
+
+- evaluate_assistant komutu 40 soruyu iki prompt sürümüyle çalıştırır;
+  ham yanıt/seçim/usage ve prompt/dataset hash'leri saklanır. SQL değerleri
+  bağımsız parametrik sorguyla karşılaştırılır. Fixture transaction rollback.
+- Offline kontrol40/40 geçti. Geniş yerel suite307 test geçti; motor44/44dal.
+  Yeni management komutunun test kapsamı henüz artırılmadığı için genel
+  kapsam%92 olarak raporlandı; eski%98 iddiası yeni koda taşınmadı.
+- Amazon resmî ücret sayfası ve16 Nisan2026 FBA PDF'si incelendi. Ürün başına
+  lojistik, kategori oranı, iade kesintisi ve bitmiş promosyon farkları yazıldı.
+  300TL tam eşik belirsizliği ve hesap/sözleşme gereği açık tutuldu.
+
+### 072 — Windows model çalışma engeli ve Linux doğrulama yolu
+
+- Portable llama-server çalıştırması0xC0E90002 koduyla durdu. Windows Code
+  Integrity3077/3033 günlüğü ggml.dll Enterprise signing policy engelini
+  doğruladı. Sistem güvenlik ayarları değiştirilmedi, engel aşılmadı.
+- Gerçek LLM testinin Linux GitHub runner üzerinde çalışması için SHA256
+  sabit Ubuntu runtime, model cache, loopback sunucu, health bekleme ve
+  ham yanıt artifact workflow'u eklendi. PR/prompt değişimi ve haftalık run.
+- Yerel12 Chromium E2E yeniden geçti. Windows'ta gerçek model çalıştı
+  iddiası yapılmaz; yerel UI offline backend ile çalışır.
+
+### 073 — LLM/kabul PR'ı ve rollback kanıtı
+
+- PR#6 taslak olarak oluşturuldu ve sohbete bağlandı:
+  https://github.com/nowackk-cp/karkontrol/pull/6. Ubuntu gerçek model workflow'u
+  PR üzerinde çalışacak; sonuç alınmadan model başarısı yazılmaz.
+- Eval komutunun başarı ve başarısızlıkta fixture kullanıcı/siparişleri
+  kaldırdığı iki entegrasyon testiyle doğrulandı. İlgili2 test geçti;
+  ruff/124 dosya formatı/Django check temiz. Son kaynak başlığıa293f20.
+
+### 074 — Gerçek hakem çalıştırıcısı ve insan puanı ayrımı
+
+- Üç boyutlu grounded/answers_question/clear JSON rubriği ve20 gerçek model
+  puanını insan alanları boş halde kaydeden evaluate_judge komutu eklendi.
+  Kalibrasyon modu insan puanı olmadan başarısız olur; AI inceleyen adı ve
+  gelecekteki tarih kabul edilmez. Aynı modelin hakem olarak yanlılığı açıklanır.
+- İki yeni hakem testiyle tests/eval76 test geçti. Linux model run37173824046
+  SHA256 kurulum ve health adımlarını geçti; gerçek v1/v2 soru ölçümü sürüyor.
+
+### 075 — İlk gerçek LLM ölçümü ve tarih hatasının düzeltilmesi
+
+- Linux run37173824046 gerçek Qwen çağrılarıyla v1%32,5, v2%85 verdi;
+  v2 E-01/02/10/16/28 kritik başarısızlıkları nedeniyle workflow FAILURE.
+  Ham yanıt ve sunucu logları reports/llm-first içine indirildi. Sonuç gizlenmedi.
+- Modelin Eylül'ü11 seçtiği ve ürün/iade niyetlerini karıştırdığı saptandı.
+  Tarih JSON şeması kullanıcının açık ay/yılına sabitlendi; ay hesabı modele
+  bırakılmaz. v2 araç açıklamaları ürün ve iade konuları için netleştirildi.
+- Yerel model ağırlığı1.834.426.016 byte SHA256 doğrulandı; Windows çalışma
+  engeli devam eder. Geniş suite312 test geçti; son hakem/sınırlama testleri ekleniyor.
+
+### 076 — İlk model hatasının belge ve devam kayıtları
+
+- APP-003 gerçek yanlış ay cevabı BUGS'e eklendi; kullanıcı sorusu, SQL oracle,
+  model seçimi, test ve finans motorundan farkı açıkça yazıldı. Motor bug sayısı0.
+- AI çalışma kaydı ve eval raporuna gerçek başarısız run/v1-v2 oranları eklendi;
+  başlangıçtaki offline ölçümün gerçek LLM olmadığı ayrımı korundu.
+- İnceleme XLSX'i Codex paneline açıldı. Son format128 dosyada temiz;
+  yeni source için Linux run37174071378 model ölçümü sürüyor.
+
+### 077 — Prompt sabitleme ve yeni soru protokolü
+
+- Prompt SHA256'sı sabitlenmeden soru üretmeyen, önceden soruları konsola
+  basmayan ve mevcut dosyayı yeniden üretmeyen10 soru protokolü eklendi.
+  Tek eval ve hash artifact'leri için manual-only holdout workflow hazırlandı.
+- Bu sorular Qwen tarafından üretilir; bağımsız insan yazarlığı iddiası yok.
+  İlk run sonucu korunur, hatalar sonrası aynı setle prompt ayarı yapılmaz.
+- Linux37174071378 v1/v2 SQL gate adımını geçti;20 gerçek hakem çağrısı sürüyor.
+
+### 078 — Düzeltilmiş gerçek modelin tam kabulü
+
+- Linux37174071378 SUCCESS: aynı koşullarda v1%47,5(19/40), v2%100(40/40);
+  kritik hata0. Prompt başına36 gerçek çağrı ve4 model öncesi güvenlik reddi.
+  v2'de21 iyileşme,0 gerileme. İlk başarısız rapor da kalıcı olarak saklandı.
+-20 gerçek hakem puanı12pass/8fail; insan puanlarınull, kalibrasyon oranı
+  bilinmiyor. Ham raporlar data/evidence, insan hakem şablonu data/draft'a alındı.
+-316 core test geçti; motor44/44dal. Sonuçlar eval/faz durum belgelerine
+  işlendi. Model kontrolü tüm PR'larda çalışacak biçime getirildi; manifest
+  artifact'i için yalnız açıkça belirtilen hidden dosyaya izin verildi.
+
+### 079 — v1.1 dokümantasyonu ve sürüm paketi
+
+- README, CHANGELOG, mimari ve faz tablosu gerçek Qwen/316 test/insan kabul
+  araçlarıyla güncellendi. İlk başarısız ölçümün ve Windows engelinin kanıtı
+  korunur. Paket1.1.0 olarak hazırlanır; release henüz yayımlanmadı.
+- İnsanın puanladığı20 cevap yok;40 finans bekleneninin ve gerçek satıcı
+  sözleşmesinin kabulü hâlâ açık. Full computer use bu kanıtların yerine geçmez.
+
+### 080 — Gerçek model gate'inin zorunlu hale getirilmesi
+
+- main branch protection API güncellendi ve geri okunarak doğrulandı:
+  strict=true, required contexts quality ve model-eval. Tüm PR'larda model
+  workflow çalışır; modelin kritik hatası birleştirme için zorunlu engeldir.
+- PR#6 başlığı/açıklaması son uygulama ve gerçek kanıtlarla güncellendi.
+  4fe480f için CI/model/eval çalışıyor; henüz birleştirme yapılmadı.
+- 8001'de kendi manage.py --noreload PID17048 doğrulanarak durduruldu;
+  güncel ürün sunucusu session24306 ile yeniden başlatıldı.
+
+### 081 — Yerel ürün ve bağımsız kabul sınırlarının son kontrolü
+
+- Güncel sunucu/health ve gerçek tarayıcı store2 raporu doğrulandı:
+  -20,01TL kâr /34,74TL hakediş, iade durumu korundu. XLSX son render etiketi
+  artık kırpılmıyor; beklenenler boş ve tamamlanan inceleme sayısı0.
+- Gerçek20 hakem dosyası kalibrasyon komutunda exit1/J-01human scoring missing
+  verdi. Bu eksik kabul gerçek model SUCCESS ile karıştırılmaz.
+- Devam notu aktifPR/source/run/server ve sıradaki tek holdout ölçümüyle
+  yenilendi; README required quality+model-eval ve kalıcı evidence kaynakları yazıldı.
+
+### 082 — Güncel asistanın canlı yerel kontrolü
+
+- Tarayıcıda güncel asistan ekranına gidilip2026 Eylül sorusu gönderildi.
+  Raporla aynı -20,01TL kâr /34,74TL hakediş /124,99TL net satış gösterildi.
+  Windows'taki aktif backend'in offline olduğu kullanıcıya açıkça yazılıyor.
+- Son kaynak4fe480f quality54s PASS ve gerçek model SQL gate PASS;
+ 20hakem çağrısının tamamlanması beklenir. İnsan kabulündeki iki boş alan
+  kontrolü hâlâbeklenen şekilde başarısız; başarı iddiası yapılmaz.
+
+### 083 — v1.1 mobil regresyonu ve son golden kontrolü
+
+- Aynı12 Chromium E2E akışı iPhone13 emülasyonunda yeniden geçti(7,42s).
+  Yeni bağımsız12test diye sayılmaz; cihaz tekrarıdır. Ekranlar reports altında.
+- Son golden kabul komutu yine SIP-01human expected/reviewer/date/source
+  eksikliğiyle exit1 verdi; raporu golden-acceptance-final.json olarak saklandı.
+  Whitespace ve131dosya formatı temiz.
+
+### 084 — Son ürün kaynak başlığında gerçek model onayı
+
+- 4fe480f için run37174580104 SUCCESS tamamlandı. İndirilen ham artifact
+  v2%100/40soru/0kritik hata kapısını doğruladı. Required quality+model-eval
+  strict policy tekrar API'den okundu; ikisi de zorunlu.
+- Son belge/yerel kontroller cab45eb commit'inde korundu. Faz/eval belgeleri
+  yeni setin ilk kanıtının ayrı manual artifact olacağını açıklayacak şekilde
+  güncellendi; holdout sonrası aynı prompt üzerinde ayar yapılmaz.
+
+### 085 — Son PR başlığı ve kırmızı kapı kayıtlarının doğrulanması
+
+- efd464e başlığında quality, offline eval ve gerçek model-eval SUCCESS;
+  model run37174900112 tamamlandı. PR#6 ready ve mergeable.
+- PR#4 API kaydı data/evidence/ci-gate.json dosyasına alındı: quality FAILURE,
+  CLOSED, mergedAt=null. Güncel main quality+model-eval, strict ve yöneticiler
+  için zorunlu kapı tekrar doğrulandı. Bu kayıt kontrollü demo hatasıdır.
+
+### 086 — Kalite kapısı animasyonu
+
+- Doğrulanmış PR#4 API kaydından dört karelik docs/assets/ci-kapisi.gif
+  üretildi; görsel kontrolü ve 1060x420/4 kare dosya kontrolü geçti.
+  Açık etiketi canlı ekran kaydı olmadığını ve hatanın kontrollü demo olduğunu
+  belirtir. FAILURE → zorunlu kapı → CLOSED/mergedAt=null akışı gösterilir.
+
+### 087 — Son QA ve başvuru materyali
+
+- QA/mülakat notlarındaki v1 tarihî offline açıklamaları güncel316 test ve gerçek
+  Qwen kanıtından ayrıldı. README'ye gerçek kayıt animasyonu eklendi.
+- Mevcut CV dosyası olmadığı için doğrulanmış proje bölümü ve ön yazı
+  docs/BASVURU_MATERYALI.md içinde hazırlandı. Kişisel geçmiş/insan kabulü
+  uydurulmadı; kimseye başvuru veya mesaj gönderilmedi.

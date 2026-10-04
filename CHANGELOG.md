@@ -1,5 +1,16 @@
 # Sürüm geçmişi
 
+## 1.1.0 — gerçek model ve bağımsız kabul araçları
+
+Qwen3-1.7B yerel JSON araç seçimi, sunucu tarih/owner sınırı, gerçek v1/v2
+SQL eval ve LLM hakem çalıştırıcısı eklendi. Gerçek Linux ölçümünde v1%47,5
+→ v2%100; kritik hata0, gerileyen soru0. İlk başarısız%85 ölçüm korunur;
+APP-003 yanlış ay hatası düzeltildi.316 core test ve12 E2E geçti.
+40 sipariş XLSX/CSV insan inceleme akışı ve kuruş mutabakat kapısı hazır;
+20 insan/hakem puanı için%85 kalibrasyon kapısı vardır. İnsan alanları boş.
+Yeni10 soru prompt sabitleme workflow'u ve resmî Amazon tarife farkları
+belgelendi. Windows native LLM çalışması Code Integrity engeline tabidir.
+
 ## 1.0.0 — çalışan portföy demosu
 
 Demo ürün ve otomatik kalite katmanları tamamlandı: 261 test, 12 Chromium

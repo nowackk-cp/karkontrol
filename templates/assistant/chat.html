@@ -6,5 +6,5 @@
 <section class="card"><p>Finans araçlarıyla doğrulanan yanıtlar. Örneğin “2026 Eylül net kârım ne?”, “En kârlı ürünlerim?” veya “Stopaj kârımı nasıl etkiler?”</p>
 <form method="post">{% csrf_token %}{{ form.as_p }}<button data-testid="assistant-submit" type="submit">Sor</button></form>
 {% if result %}<div class="section-gap" role="status" data-testid="assistant-answer">{{ result.answer }}</div>{% endif %}
-<p class="note">Anahtarsız demo asistanı sabit niyet kurallarıyla çalışır; dış LLM kullanmaz. Yanıtlar seçili mağazanın verisine dayanır.</p></section>
+<p class="note">{% if llm_enabled %}Yerel dil modeli finans aracını seçer. Tutarlar sunucuda doğrulanır ve seçili mağazanın verisinden gelir.{% else %}Anahtarsız demo asistanı sabit niyet kurallarıyla çalışır; dış LLM kullanmaz. Yanıtlar seçili mağazanın verisine dayanır.{% endif %}</p></section>
 {% endblock %}
