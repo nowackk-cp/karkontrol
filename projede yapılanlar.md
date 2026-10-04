@@ -493,3 +493,12 @@ Tarihler Europe/Istanbul saat dilimine göredir.
   nihai workflow'da hard-coded mutant kimlikleri bırakılmayacak.
 - QA stratejisi yeni gerçek kanıtlarla güncellendi. İki belge patch'i yanlış
   bağlam yüzünden reddedildi; doğru bağlamla uygulandı, veri kaybı yok.
+
+### 049 — Yayın raporu hazırlığı ve kapsam durumu
+
+- Başarılı main CI artifact'ını GitHub Pages'e taşıyan rapor workflow'u
+  hazırlandı; canlı yayın sonucu henüz alınmadı. Rapor giriş sayfası gerçek
+  coverage JSON'unu ve kaynak commit/run bilgisini gösterir.
+- Paket sürümü 0.2.0'a çıkarıldı; proje fazları çalışan çıktı ve insan/harici
+  hizmet kabul sınırlarıyla PROJE_DURUMU.md içinde açıklandı.
+- HTML/JSON/YAML/INI satır sonları Git'te LF olacak şekilde tanımlandı.
