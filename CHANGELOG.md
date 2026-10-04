@@ -7,9 +7,12 @@ SQL eval ve LLM hakem çalıştırıcısı eklendi. Gerçek Linux ölçümünde 
 → v2%100; kritik hata0, gerileyen soru0. İlk başarısız%85 ölçüm korunur;
 APP-003 yanlış ay hatası düzeltildi.316 core test ve12 E2E geçti.
 40 sipariş XLSX/CSV insan inceleme akışı ve kuruş mutabakat kapısı hazır;
-20 insan/hakem puanı için%85 kalibrasyon kapısı vardır. İnsan alanları boş.
-Yeni10 soru prompt sabitleme workflow'u ve resmî Amazon tarife farkları
-belgelendi. Windows native LLM çalışması Code Integrity engeline tabidir.
+20 model hakem puanı ve%85 insan kalibrasyonu kapısı vardır. İnsan alanları boş.
+Sabit prompt üzerinde ilk yeni10 sentetik soru10/10 geçti;9model çağrısı+1önred.
+Aynı modelin şablon dili bağımsız insan holdout sayılmaz; ilk ham rapor korunur.
+Resmî Amazon tarife farkları, gerçek hata Issue#7/8/9 kayıtları, CV proje bölümü
+ve gerçek PR kayıtlarından GIF belgelendi. Windows native LLM çalışması
+Code Integrity engeline tabidir.
 
 ## 1.0.0 — çalışan portföy demosu
 

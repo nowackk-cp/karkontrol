@@ -13,9 +13,9 @@ harici hizmet gerektiren kanıtların yokluğu gizlenmez.
 | 4 QA | Unit/boundary/Fraction/property/SQL/integration/mutmut | Teknik doğrulama; insan golden kabulü ayrı |
 | 5 CI | Protected PR, test/coverage/E2E gate, artifact/Pages | Uzak kanıtlar günlüğe kaydedilir |
 | 6 UI | Auth, stores, import, report, return, fake subscription | 12 bağımsız E2E çalışır |
-| 7 Asistan | Gerçek Qwen, v1/v2 SQL eval, hakem ve yeni set protokolü | İnsan kalibrasyonu yok; yeni setin ilk kanıtı ayrı workflow artifact'idir |
+| 7 Asistan | Gerçek Qwen, v1/v2 SQL eval, hakem ve ilk yeni set10/10 | İnsan kalibrasyonu yok; aynı model yazarlı sentetik set bağımsız insan hold-out değildir |
 | 8 Amazon | Sabit USD/EUR/TRY, 10 girdi, eski TRY regresyonu | Sentetik ücretler ve vergi sözleşmesi |
-| 9 Cilalama | Mimari, kullanım, QA/eval/mülakat notları, sürüm | Başvuru/mesaj gönderimi yapılmaz |
+| 9 Cilalama | Mimari, QA/eval/mülakat/CV notları, gerçek kayıt GIF'i, sürüm | Başvuru/mesaj gönderimi yapılmaz |
 
 Bu tablo “bütün insan onaylı plan bitti” iddiası taşımaz. Yazılım demo kabulü
 ile bağımsız finans kabulü farklıdır. Eksik insan kanıtları için sahte Excel,
@@ -26,6 +26,11 @@ Son yerel kabul:316 test,12 E2E, motor44/44dal. Motor değişmediği için
 v1%47,5, v2%100, kritik hata0.20 gerçek hakem puanı mevcut; insanla uyumu
 bilinmiyor. Windows native model çalışması Code Integrity tarafından engellendi;
 model Linux CI'da çalışır, yerel ürün offline backend ile kullanılabilir.
+
+İlk ve tek yeni set run37175718839 SUCCESS/10/10;9 model çağrısı ve1 ön red.
+Prompt/question SHA256 doğrulandı ve prompt değiştirilmedi. Soruların bir kısmı
+şablon dili olduğundan bu sonuç bağımsız insan hold-out başarısı sayılmaz.
+Ham sorular/cevaplar/hash'ler data/evidence/holdout-first altında korunur.
 
 Gerçek Amazon/FBA tarifeleri incelendi ve demo farkları belgelenmiştir.
 Satıcıya özel sözleşme, insan golden/hakem puanları ve geçmişe dönük Claude

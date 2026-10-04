@@ -892,3 +892,42 @@ Tarihler Europe/Istanbul saat dilimine göredir.
 - Workflow geçmişi boşken holdout.yml main üzerinde BİR KEZ tetiklendi.
   Yeni soru içerikleri eval tamamlanmadan okunmayacak. Prompt değiştirilmeyecek;
   ilk sonuç korunacak. Bu model yazarlı set, bağımsız insan kabulü değildir.
+
+### 093 — İlk ölçüm kanıtı için temiz kaynak dalı
+
+- Birleştirme/dispatch kayıtları c6fc5fa commit'inde korundu. Güncel origin/main
+  26a174a üzerinden feat/holdout-evidence açıldı ve yalnız bu günlük commit'i
+  taşındı. Eski local main/feature geçmişi silinmedi veya resetlenmedi.
+  Ölçüm sırasında prompt ve motor değiştirilmedi.
+
+### 094 — Main raporlarının ve ilk yeni setin tamamlanması
+
+- Main26a174a CI37175715954 SUCCESS; Pages37175771165 SUCCESS. Canlı indeks
+  HTTP200, güncel26a174a kaynak hash'i ve %96 toplam kapsamla doğrulandı.
+- İlk ve tek holdout run37175718839 SUCCESS/1m46s tamamlandı; artifact indirildi.
+  Soru içeriği ancak workflow bitince okunabildi. Ham rapor/manifest saklanıyor;
+  prompt bu set için değiştirilmedi ve ölçüm tekrar çalıştırılmadı.
+
+### 095 — Gerçek hata Issue kayıtları
+
+- APP001/002/003 için GitHub Issue#7/#8/#9 açıldı; gerçek test, kök neden,
+  bağımsız beklenen davranış, TL etkisi ve önceden uygulanmış fix commit/PR
+  bağlantılarıyla kapatıldı. CLOSED durumları API'den doğrulandı.
+- Kayıtlar açıkça geriye dönük belgelemedir; keşif/commit tarihleri değiştirilmez.
+  Finans motorunun gerçek bug sayısı0 olarak kalır.
+
+### 096 — İlk yeni setin kalıcı ham kanıtı
+
+- İlk10 soruluk eval, questions ve manifest data/evidence/holdout-first altına
+  değişmeden alındı. v2 gate10/10=%100,0kritik hata;9model çağrısı+1önred.
+  Prompt SHA89ab8fb2 ve soru SHA6c96312a yerel dosyalarla tekrar doğrulandı.
+- README/eval/faz raporları gerçek sonuçla güncellendi. Aynı modelin ürettiği
+  soruların bir kısmının niyet şablonu/doğal olmayan dil olduğu açıklandı;
+  bağımsız insan holdout veya genellenmiş doğruluk başarısı denmedi.
+
+### 097 — Main'de gerçek model tekrarı ve sürüm kanıtlarının hazırlanması
+
+- Main26a174a run37175716006 SUCCESS artifact'i indirildi: v1 yine19/40,
+  v2 40/40/0kritik; her prompt36model isteği. Linux runtime manifest'i de var.
+- Son evidence/docs değişiminde lint,132 dosya formatı ve whitespace temiz.
+  Changelog/release taslağı ilk sentetik10/10 ve insan kabul sınırıyla güncellendi.
