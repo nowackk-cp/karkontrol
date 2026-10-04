@@ -101,6 +101,14 @@ Tarihler Europe/Istanbul saat dilimine göredir.
 - uv kurulan Python 3.13.14'ü son kontrolde tanıdı; sürüm bağlantısı sorunu
   kalıcı yorumlayıcı kaybı oluşturmadı.
 
+### 011 — Bağımlılık kurulumu ve ilk statik doğrulama
+
+- Python 3.13.14 ortamına 23 çalışma/geliştirme paketi kuruldu; Django 5.2.17,
+  pytest 9.1.1 ve ruff 0.16.10 kilit dosyasıyla sabitlendi.
+- Python dosyaları derleme kontrolünden geçti; `git diff --check` hata vermedi.
+- İlk ruff kontrolü bir uzun satır ve iki biçim farkı bildirdi. Formatter
+  uygulandı; lint ve format kontrolleri tekrar çalıştırıldı.
+- Bu biçim bulguları finansal motor hatası olarak sayılmadı.
 ### 012 — Çalıştırma ve test sonuçları
 
 - Ruff lint ve format kontrolleri temiz; Django sistem kontrolü sorun bulmadı,
@@ -179,11 +187,149 @@ Tarihler Europe/Istanbul saat dilimine göredir.
 - README ve günlük kanıtlarını içeren PR #1 açık; kayıtlar bu PR dalındadır.
   İlk main CI başarılıdır; son belge commit'inin CI sonucu ayrıca kontrol edilir.
 
-### 011 — Bağımlılık kurulumu ve ilk statik doğrulama
+### 020 — Çalışmaya devam ve başlangıç belgelerinin birleştirilmesi
 
-- Python 3.13.14 ortamına 23 çalışma/geliştirme paketi kuruldu; Django 5.2.17,
-  pytest 9.1.1 ve ruff 0.16.10 kilit dosyasıyla sabitlendi.
-- Python dosyaları derleme kontrolünden geçti; `git diff --check` hata vermedi.
-- İlk ruff kontrolü bir uzun satır ve iki biçim farkı bildirdi. Formatter
-  uygulandı; lint ve format kontrolleri tekrar çalıştırıldı.
-- Bu biçim bulguları finansal motor hatası olarak sayılmadı.
+- Talimatlar, devam notu, günlük, Git durumu ve mevcut kod tekrar incelendi.
+- `uv sync --locked --extra dev` başarılı; mevcut ortamda 23 paket doğrulandı.
+- PR #1'in doğru commit'indeki `quality: SUCCESS` kontrol edilerek korumalar
+  aşılmadan squash merge yapıldı; main güncellendi ve `feat/store-order-import`
+  çalışma dalı açıldı.
+- Günlükte 011 numaralı kaydın sona kaydığı fark edildi; 19 kaydın tamamı
+  içerikleri korunarak numara sırasına alındı.
+- Sıradaki çalışma: mağaza sahipliği, komisyon doğrulama ve atomik/mükerrersiz
+  sipariş aktarımı. Bağımsız altın veri ve motorun tamamlandığı iddia edilmeyecek.
+
+### 021 — Mağaza ve sipariş veri sözleşmesi
+
+- Mağaza sahipliği, demo TRY pazaryeri ve %0…100 komisyon doğrulaması eklendi.
+- Sipariş satırı, fiyat/maliyet/indirim/KDV/komisyon Decimal alanları, iade adedi
+  ve mağaza-sipariş-satır benzersizliği tanımlandı. Kâr motoru oluşturulmadı.
+- İçe aktarma partisi için mağaza + dosya özeti benzersizliği tanımlandı.
+- Mağaza oluşturma ve oturuma göre mağaza listesi; yükleme, filtre ve iade
+  formları yazıldı. Sahiplik alanı kullanıcıdan alınmıyor.
+- Excel desteği için openpyxl 3.1.5 ve XML ayrıştırma koruması için defusedxml
+  0.7.1 kuruldu; uv kilidi güncellendi. Resmî openpyxl ve Django transaction
+  belgeleri incelendi. Uygulama kontrolleri ilgili akış tamamlanınca çalıştırılacak.
+
+### 022 — Atomik CSV/Excel sipariş aktarımı
+
+- UTF-8/BOM CSV (virgül/noktalı virgül ayraç), tek sayfalı XLSX, iki tarih
+  biçimi, Türkçe ürün adı ve boş satır desteği yazıldı.
+- Sütun/satır/tutar/adet/iade/para birimi doğrulamaları; 5 MB dosya,
+  25 MB açılmış Excel ve 5000 satır sınırları eklendi. Formüllü hücreler reddedilir.
+- Tüm satırlar önce doğrulanır; kayıtlar tek transaction içinde yazılır.
+  Aynı dosya veya başka dosyadaki aynı sipariş satırı mükerrer kayda yol açmaz.
+  Mevcut satırla çelişki tüm yeni kayıtları ve import partisini geri alır.
+- Liste/ürün-tarih filtresi, dosya yükleme, sentetik CSV şablonu ve iade adedi
+  güncelleme uç noktaları eklendi. Her uç noktada oturumdan mağaza sahipliği kontrol edilir.
+- Finansal girişler doğrulama ve kayıt öncesinde Decimal'e çevrilir; binlik
+  ayraç ve ikiden fazla ondalık reddedilir. Motor kâr sonucu hesaplamaz.
+- Doğrulama: davranış testleri ve ekran kontrolleri sonraki kayıtlarda raporlanacak.
+
+### 023 — Mağaza, yükleme ve iade ekranları
+
+- Mağaza listesi/oluşturma, sipariş listesi, tarih-ürün filtresi, dosya yükleme
+  ve iade düzenleme şablonları eklendi; kritik öğeler data-testid taşıyor.
+- Sipariş fiyatı Türkçe iki ondalık/binlik biçimiyle gösterilir; açıklamalar ve
+  dosya hataları kullanıcıya görünür. Hazır olmayan kâr/hakediş raporu rakam üretmez.
+- Yalnızca DEBUG ortamında çalışan, mevcut hesabın parolasını değiştirmeyen
+  tekrar çalıştırılabilir `seed_demo` komutu yazıldı; tüm veriler sentetik.
+- Doğrulama: migration, sunucu ve kullanıcı akışı testleri henüz çalıştırılmadı.
+
+### 024 — Migration ve veri güvenliği testleri
+
+- Store, OrderLine ve ImportBatch başlangıç migration'ları üretildi.
+- Liste 50 satırlık sayfalama kazandı; filtre parametreleri sayfa geçişinde korunur.
+  Yerel tarih alanlarının HTML date değeri ISO biçimine düzeltildi.
+- CSV/XLSX, 30 satır, Türkçe ve Decimal koruma, tekrar aktarım, çelişkide rollback,
+  geçersiz girdiler, kaynak sınırları, mağaza izolasyonu, iade, filtre/sayfalama
+  ve demo hesabı korumalarını denetleyen entegrasyon testleri yazıldı.
+- İlk lintte iki uzun metin ve migration import sırası bulundu; düzenlendi.
+  Sayısal beklenen değerler kaynak dosyanın girişlerini denetler; altın kâr verisi değildir.
+
+### 025 — İlk test turu ve APP-001 düzeltmesi
+
+- Django kontrolü ve migration farkı kontrolü başarılı; ilk test turu
+  **70 geçti, 2 başarısız** (72 test, pytest süresi 3,28 saniye).
+- Başarısızlık: yabancı mağazanın liste/şablon uç noktasına POST, 404 yerine
+  405 dönüyordu. Veri sızıntısı veya parasal hata değil, yanıt tutarlılığı sorunu.
+- Test beklentileri korunarak oturum → sahiplik → HTTP metodu kontrol sırası
+  ortak decorator ile düzeltildi. `BUGS.md` içine APP-001 olarak gerçek kanıt yazıldı.
+- Formatter uzun test imzasını düzenledi; bütün kontroller tekrar çalıştırılacak.
+
+### 026 — Başarılı test turu ve yerel veri kurulumu
+
+- Test beklentileri değiştirilmeden **72 test geçti** (iki worker, 3,07 saniye).
+- Ruff lint temiz; 58 Python dosyası format kontrolünden geçti.
+- Uygulama toplam dal dahil kapsamı %96; kâr motoru kapsamı değildir.
+  HTML/XML/JUnit raporları güncellendi.
+- Store ve OrderLine/ImportBatch migration'ları yerel veritabanına başarıyla uygulandı.
+- DEBUG ortamında `seed_demo` çalıştırıldı; sentetik mağaza ve iki sipariş
+  satırı kuruldu. Hesap: demo-satici; yalnızca demo parolası: demo-only-pass-2026.
+- Sonraki doğrulama: gerçek tarayıcıda giriş, mağaza, filtre ve aktarım ekranları.
+
+### 027 — Gerçek tarayıcı akışları ve ekran kanıtı
+
+- Browser becerisiyle 127.0.0.1:8001 üzerinde giriş, demo mağaza listesi,
+  ürün filtresi ve 1.234,56 ₺ biçimi gerçek tarayıcıda doğrulandı.
+- Sentetik `Tarayıcı Demo Mağazası` kuruldu; %150 komisyonla formda kalındığı,
+  %20 ile kaydın oluşturulduğu görüldü. Yerel veri dışında dış etkisi yok.
+- Ekrandan örnek CSV indirildi ve dosya seçiciyle yüklendi: 1 satır aktarıldı.
+  Aynı dosya tekrar yüklendi: 0 eklendi, 1 atlandı; satır sayısı 1 kaldı.
+- 2 adetlik satıra 3 iade reddedildi; 1 iade kabul edilip listede gösterildi.
+- Ekran kanıtı `reports/screens/store-orders.png` olarak kaydedildi; demo
+  sekmesi kullanıcıya bırakıldı. Bu kontroller, repo içindeki bir Playwright
+  E2E test paketi tamamlanmış gibi sayılmadı.
+- Git diff kontrolündeki günlük sonu boş satırı temizlendi; kayıtlar korunuyor.
+
+### 028 — Adet sınırı regresyonu (APP-002)
+
+- Son girdi incelemesinde çok uzun adet için kontrol eksikliği görüldü.
+  Eklenen regresyon testi 5000 basamaklı girdide gerçekten başarısız oldu:
+  ImportValidationError yerine Python'un 4300 basamak sınırından ValueError çıkıyordu.
+- Parser, dönüşümden önce 10 basamak ve ardından 2147483647 sınırıyla
+  düzeltildi. Python güvenlik sınırı değiştirilmedi; test beklentisi korundu.
+- BUGS.md'ye APP-002 gerçek çıktıyla eklendi. Finansal motor hatası değildir.
+- Son tam test/lint/format turu yeniden çalıştırılacak.
+
+### 029 — Son kalite turu ve güncel kullanım belgeleri
+
+- Adet sınırında izin verilen 2147483647 ve reddedilen 2147483648 de test edildi.
+- **75 test geçti**, pytest süresi **3,09 saniye**, uygulama toplam kapsamı **%96**.
+  Ruff temiz; Django/migration kontrolleri temiz. Raporlar güncellendi.
+- Bu oturumda başlatılan 8001 sunucusu port/PID/komutuyla doğrulanarak
+  durduruldu ve son parser koduyla aynı portta yeniden başlatıldı.
+- README, dosya sözleşmesi, QA stratejisi ve AI karar kaydı güncellendi.
+- Önceki %91/22 test başlangıç kanıtı tarihiyle korundu; yeni %96/75 test
+  motor doğruluğu veya altın mutabakat sonucu gibi sunulmadı.
+- İlk belge patch'i bir satır eşleşmediği için uygulanmadı; dosya tekrar
+  okunup doğru bağlamla patch uygulandı. Hiçbir kullanıcı dosyası silinmedi.
+
+### 030 — Küçük commit'ler ve devam notu
+
+- Veri modelleri/bağımlılıklar, aktarım/ekranlar/testler, APP-002 düzeltmesi ve
+  kullanım belgeleri dört anlamlı commit'e ayrıldı.
+- Yeniden başlatılan güncel sunucuda sekme reload edildi; 1 satır ve 1 iade
+  durumu korunuyor. Tarayıcı sekmesi çıktı olarak bırakıldı.
+- Devam notu gerçek 75 test/%96 kapsam, demo akışı, sunucu portu ve kalan
+  altın veri/motor/E2E/SQL/billing/asistan işleriyle güncellendi.
+- Başlangıç PR #1'in birleştirildiği kayıtlar güncellendi; yeni PR/CI kontrolü sırada.
+
+### 031 — Sipariş akışları PR'ı
+
+- `feat/store-order-import` dalı GitHub'a gönderildi; PR #2 oluşturuldu ve
+  Codex sohbetine bağlandı: https://github.com/nowackk-cp/karkontrol/pull/2.
+- PR açıklaması somut önce/sonra davranışı, atomiklik/izolasyon, 75 test,
+  kapsam, gerçek tarayıcı kontrolleri ve kalan kapsam sınırlarıyla yazıldı.
+- Devam notuna PR bağlantısı eklendi. Son commit'in CI sonucu bekleniyor;
+  yerel test başarısı uzak CI başarısıyla karıştırılmıyor.
+
+### 032 — Uzak kalite kapısının doğrulanması
+
+- PR #2'nin son kod/belge commit'i 72398004020000623b10443af31ff55ee39faffe
+  için GitHub run **37165639061** başarıyla tamamlandı.
+- PR kontrolü `quality: SUCCESS`, durum OPEN/CLEAN; birleştirme engeli kalktı.
+  PR henüz birleştirilmedi ve yönetici korumaları aşılmadı.
+- Kanıt: https://github.com/nowackk-cp/karkontrol/actions/runs/37165639061.
+- Git çalışma ağacı kontrol sırasında temiz; bütün tamamlanan işler günlüğe
+  ve devam notuna kaydedildi. Kodun bağımsız altın mutabakatı iddia edilmez.

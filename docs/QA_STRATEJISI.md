@@ -38,3 +38,14 @@ Lint → format → Django sistem kontrolü → migration farkı → birim ve
 entegrasyon testleri. Raporlar artifact olarak saklanır. Motor geliştirilince
 dal kapsamı ≥ %90 ve Linux mutasyon skoru ≥ %85 hedefleri eklenir; bunlar
 başlangıç uygulaması için ölçülmüş sonuç değildir.
+
+## Uygulanan veri akışı testleri
+
+2026-10-04: toplam 75 test; CSV ve XLSX, 30 satırlık sentetik girdi,
+DB benzersizlikleri, çelişkide transaction rollback, aynı dosya/farklı biçimde
+mükerrerlik, kullanıcı izolasyonu, komisyon ve iade sınırları, tarih/ürün
+filtreleri ve sayfalama doğrulandı. Genel uygulama kapsamı %96.
+
+Beklenen fiyatlar yalnızca dosyadaki girdinin veritabanında korunmasını
+doğrular; bağımsız altın kâr bekleneni değildir. Gerçek tarayıcı kontrolleri
+ayrıca işlem günlüğünde kayıtlı; CI Playwright paketi henüz uygulanmadı.

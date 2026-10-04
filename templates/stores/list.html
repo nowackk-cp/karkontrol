@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Mağazalar · KârKontrol{% endblock %}
+{% block content %}
+<section class="card">
+  <div class="heading"><h1>Mağazalarım</h1><a class="button" data-testid="new-store" href="{% url 'stores:create' %}">Mağaza ekle</a></div>
+  <p>Siparişlerini mağaza bazında yönet. Her mağazanın verileri kendi hesabına bağlıdır.</p>
+  <ul class="store-list" data-testid="store-list">
+  {% for store in stores %}
+    <li><a data-testid="store-link" href="{% url 'orders:list' store.pk %}">{{ store.name }}</a><span>{{ store.get_marketplace_display }} · Komisyon %{{ store.commission_percent }}</span></li>
+  {% empty %}
+    <li>Henüz mağazan yok. İlk mağazanı ekleyerek başlayabilirsin.</li>
+  {% endfor %}
+  </ul>
+</section>
+{% endblock %}

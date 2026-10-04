@@ -11,8 +11,17 @@
     a { color: #136454; } h1 { font-size: clamp(2rem, 6vw, 3rem); line-height: 1.15; }
     p, li { line-height: 1.7; } .card { background: #fff; padding: 28px; border: 1px solid #d9e2e7; border-radius: 12px; }
     button { background: #136454; color: white; border: 0; border-radius: 6px; padding: 10px 16px; cursor: pointer; }
-    input { display: block; padding: 10px; max-width: 100%; margin-top: 6px; box-sizing: border-box; }
+    input, select { display: block; padding: 10px; max-width: 100%; margin-top: 6px; box-sizing: border-box; border: 1px solid #9bafb9; border-radius: 6px; font: inherit; }
     .errorlist { color: #9a281f; } footer { font-size: .85rem; color: #506673; }
+    nav { display: flex; gap: 16px; align-items: center; } .heading { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+    .button { display: inline-block; background: #136454; color: #fff; padding: 10px 16px; border-radius: 6px; text-decoration: none; }
+    .store-list { padding: 0; list-style: none; } .store-list li { display: grid; gap: 4px; padding: 16px 0; border-bottom: 1px solid #e1e8ec; }
+    .store-list span, small, .note { color: #506673; } small { display: block; } details { margin-top: 24px; overflow-wrap: anywhere; }
+    .filters { display: flex; gap: 16px; align-items: end; flex-wrap: wrap; } .filters p { margin-bottom: 0; }
+    .table-scroll { overflow-x: auto; } table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+    th, td { text-align: left; padding: 12px 10px; border-bottom: 1px solid #e1e8ec; white-space: nowrap; }
+    .messages { list-style: none; padding: 16px; background: #e4f3eb; border-radius: 8px; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
   </style>
 </head>
 <body>
@@ -20,13 +29,14 @@
     <a href="{% url 'home' %}"><strong>KârKontrol</strong></a>
     <nav aria-label="Hesap">
     {% if user.is_authenticated %}
+      <a data-testid="stores-nav" href="{% url 'stores:list' %}">Mağazalarım</a>
       <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button data-testid="logout" type="submit">Çıkış yap</button></form>
     {% else %}
       <a data-testid="login-link" href="{% url 'login' %}">Giriş yap</a>
     {% endif %}
     </nav>
   </header>
-  <main>{% block content %}{% endblock %}</main>
+  <main>{% if messages %}<ul class="messages" role="status" data-testid="messages">{% for message in messages %}<li>{{ message }}</li>{% endfor %}</ul>{% endif %}{% block content %}{% endblock %}</main>
   <footer>Bağımsız eğitim projesidir, hiçbir pazaryeriyle ilişkisi yoktur; oranlar örnektir.</footer>
 </body>
 </html>
