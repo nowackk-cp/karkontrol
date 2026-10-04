@@ -835,3 +835,26 @@ Tarihler Europe/Istanbul saat dilimine göredir.
 - Son belge/yerel kontroller cab45eb commit'inde korundu. Faz/eval belgeleri
   yeni setin ilk kanıtının ayrı manual artifact olacağını açıklayacak şekilde
   güncellendi; holdout sonrası aynı prompt üzerinde ayar yapılmaz.
+
+### 085 — Son PR başlığı ve kırmızı kapı kayıtlarının doğrulanması
+
+- efd464e başlığında quality, offline eval ve gerçek model-eval SUCCESS;
+  model run37174900112 tamamlandı. PR#6 ready ve mergeable.
+- PR#4 API kaydı data/evidence/ci-gate.json dosyasına alındı: quality FAILURE,
+  CLOSED, mergedAt=null. Güncel main quality+model-eval, strict ve yöneticiler
+  için zorunlu kapı tekrar doğrulandı. Bu kayıt kontrollü demo hatasıdır.
+
+### 086 — Kalite kapısı animasyonu
+
+- Doğrulanmış PR#4 API kaydından dört karelik docs/assets/ci-kapisi.gif
+  üretildi; görsel kontrolü ve 1060x420/4 kare dosya kontrolü geçti.
+  Açık etiketi canlı ekran kaydı olmadığını ve hatanın kontrollü demo olduğunu
+  belirtir. FAILURE → zorunlu kapı → CLOSED/mergedAt=null akışı gösterilir.
+
+### 087 — Son QA ve başvuru materyali
+
+- QA/mülakat notlarındaki v1 tarihî offline açıklamaları güncel316 test ve gerçek
+  Qwen kanıtından ayrıldı. README'ye gerçek kayıt animasyonu eklendi.
+- Mevcut CV dosyası olmadığı için doğrulanmış proje bölümü ve ön yazı
+  docs/BASVURU_MATERYALI.md içinde hazırlandı. Kişisel geçmiş/insan kabulü
+  uydurulmadı; kimseye başvuru veya mesaj gönderilmedi.

@@ -57,6 +57,11 @@ hata bile bütün aktarımı geri alır. Ücretsiz hesap toplam 100 satır; saht
 [Eval raporu](docs/EVAL_RAPORU.md) · [QA stratejisi](docs/QA_STRATEJISI.md) ·
 [HTML rapor yayını](https://nowackk-cp.github.io/karkontrol/).
 
+![Gerçek GitHub kayıtlarından kalite kapısı gösterimi](docs/assets/ci-kapisi.gif)
+
+[PR#4 kanıtı](docs/CI_KAPISI_KANITI.md): kontrollü hata, başarısız CI ve
+birleştirilmeden kapanış. GIF API kayıtlarının animasyonudur; canlı ekran kaydı değildir.
+
 Kapsam tek başına kalite değildir. Motor Decimal/HALF_UP, ikinci aritmetik yol
 Fraction/tamsayıdır; Hypothesis nakit/kâr eşitliğini ve kuruş dağıtımını kontrol
 eder. SQL tamsayı kuruş toplar. Mutasyonun kalan kuruş sırası ve maliyet KDV'sinde
@@ -113,4 +118,5 @@ geliştirme sunucusudur; üretim dağıtımı yapılmadı.
 
 Her tamamlanan işlem [günlüğe](projede%20yapılanlar.md) hemen yazılır.
 [AI kararları](docs/AI_ILE_CALISMA.md) · [Mülakat notları](docs/MULAKAT_NOTLARI.md) ·
+[CV proje bölümü ve ön yazı](docs/BASVURU_MATERYALI.md) ·
 [Devam notu](docs/DEVAM_NOTU.md). Bağımsız eğitim projesidir; pazaryerleriyle ilişkisi yoktur.

@@ -1,76 +1,68 @@
-# Bağlam devri — 2026-10-04 / v1.1 kabul işleri
+# Bağlam devri — 2026-10-04 / v1.1 son kabul
 
 Kullanıcı bütün planı tamamla, soru sorma, full computer use yetkisi verdi.
-Her tamamlanan mantıksal işi projede yapılanlar.md'ye hemen yaz. AGENTS geçerli.
-Otomatik compact sonrası bu not/Git/günlükten devam et. Subagent yetkisi yok.
+Her tamamlanan işlem kökteki projede yapılanlar.md dosyasına hemen yazılır.
+AGENTS.md geçerli. Subagent yetkisi yok. Otomatik compact sonrası bu not,
+günlük ve Git durumundan devam et; tamamlanan işleri yeniden yapma.
 
-## Şu anda aktif iş
+## Aktif iş
 
-Branch feat/remaining-acceptance, remote source4fe480f. PR#6 DRAFT, attached.
-Repo github.com/nowackk-cp/karkontrol. v1.1.0 paket/lock hazır, release yok.
-Main hâlâc65cc65/v1.0.0; bu branch eski local3 bookkeeping commit'ini de taşır.
-PR son source4fe480f quality37174580100SUCCESS, offline eval37174580073SUCCESS;
-required model-eval37174580104 çalışıyor. GitHub main required contexts artık
-quality + model-eval, strict=true, admins policy korunur. Tüm PR'larda LLM çalışır.
-Son local log080 + mevcut belge değişimleri henüzcommitlenmedi.
+Branch feat/remaining-acceptance, PR#6 ready ve attached.
+https://github.com/nowackk-cp/karkontrol/pull/6
+Efd464e quality, offline eval ve gerçek model run37174900112 SUCCESS.
+Son QA/CV/GIF belgeleri ve günlük085–087 henüz commit/push bekliyor.
+Son belge commit'ini push et; zorunlu quality + model-eval geçince PR'ı
+normal squash ve --match-head-commit ile birleştir. Admin bypass yapma.
+Paket ve uv.lock v1.1.0 hazır; release/tag henüz yok. Main c65cc65/v1.0.0.
 
-## Yapılanlar ve gerçek kanıt
+## Kalan otomatik teslim
 
-316 core test,12 E2E geçti; engine44/44dal100%. Motor hiç değişmedi;
-önceki mutmut342/369=%92,68 kanıtı geçerli. Yeni toplam coverage yaklaşık96%.
-Gerçek Qwen3-1.7B-Q8_0 + llama.cppb11382 Linux CPU temperature0:
-- İlk run37173824046FAILED: v1%32,5, v2%85,5kritikfail; rapor korunur.
-- Düzeltilmiş run37174071378SUCCESS: v1%47,5(19/40),v2%100(40/40),
-  21iyileşme0gerileme. Herprompt36gerçekçağrı4uygulamaöncesirefusal.
--20gerçekjudge12pass8fail. İnsan puanlar NULL; kalibrasyon yapılmadı.
-Raw data/evidence/llm-first.json,llm-corrected.json; data/draft/judge_review.json.
-APP003 modelEylül11 seçimi gerçek hata; JSONdates kullanıcının month/yıl enum'una
-bağlandı. Model sadece araçseçer; rakamlarıserverrender. SerbestLLMfinans cevabı değil.
+1. Son belgeler lint/format/diff temiz. Yeni kaynak başlığında required CI geçsin.
+2. PR#6 merge sonrası holdout.yml --ref main yalnız BİR KEZ çalıştır.
+   Prompt v2 SHA256 sabit; yeni10 soruyu eval bitmeden root görmez.
+   İlk sonuç başarı/başarısızlık fark etmeksizin korunur. Prompt ayarı/rerun yok.
+   AI yazarlı aynı Qwen seti bağımsız insan hold-out diye sunulmaz.
+3. Artifact'i indir, kalıcı evidence ve doküman/günlük kaydı ekle.
+4. v1.1.0 release doğru main commit'inde yayımla; human workbook/judge ve gerçek
+   eval/ilk holdout kanıtı release assets olarak verilebilir. Main CI ve Pages
+   güncel kaynakta SUCCESS/HTTP200 doğrula. Başvuru/mesaj gönderme.
+5. Son DEVAM/günlük yerel bookkeeping commit'iyle temiz Git bırak; her günlük
+   için yeni PR ve model run döngüsüne girme. Eski local main üç bookkeeping
+   commit ileride: squash sonrası diverge olursa eski branch'i silme/resetleme;
+   arşiv adıyla koruyup origin/main'den yeni main aç.
 
-40senaryo XLSX hazırdata/draft/insan_inceleme.xlsx; expected7/reviewer/date/source
-BOŞ. outputs/remaining-acceptance/insan_inceleme.xlsx finalexport/renderverified.
-check_golden CLI exit1SIP01missinghuman; evaluate_judge--human-review exit1J01missing.
-Bu insan verisini AI ile doldurupgolden/puan diyemezsin.
-Amazon resmîsayfa+16Nisan2026FBA PDF tarihlerleincelendi; demo perorder80TRY
-ile gerçekperunit/kategori/iadefarkları docs/GERCEK_TARIFE_INCELEMESI.md.
-Gerçek satıcı sözleşmesi/humanfinanskabulü/geriye dönükClaudeizolasyonu eksik.
+## Kanıt ve sınırlar
 
-## Kalan otomatik iş / sıradaki adımlar
+316 core +12 bağımsız E2E geçti; aynı12 akış iPhone13 tekrarında da geçti.
+Motor değişmedi:44/44 dal, mutmut342/369=%92,68 önceki Linux kanıtı geçerli.
+Gerçek Qwen3-1.7B-Q8_0 + llama.cpp b11382, temperature0 Linux CPU:
+- İlk run37173824046 FAILED: v1 13/40, v2 34/40,5 kritik hata; rapor saklanır.
+- Düzeltilmiş run37174071378 SUCCESS: v1 19/40, v2 40/40,0 kritik hata;
+  21 iyileşme,0 gerileme. Her prompt36 model çağrısı +4 güvenlik ön reddi.
+-20 gerçek model hakem puanı12 pass/8 fail; insan puanları NULL.
+- APP003 yanlış Eylül→Kasım seçimi: literal yıl/ay JSON enum'a bağlandı.
+- Model araç seçer; finans rakamlarını sunucu oluşturur. Serbest LLM finans hesabı değil.
+Raw data/evidence/llm-first.json, llm-corrected.json; judge data/draft'ta.
+40 XLSX senaryosunda7 expected +reviewer/date/source BOŞ; counter0/40.
+Golden CLI exit1 SIP01, human judge CLI exit1 J01: insan kabulü eksik.
+İnsan expected/puanlarını AI ile doldurmak yasak. Gerçek satıcı sözleşmesi yok.
+Resmî Amazon/FBA incelemesi ve demo farkları docs/GERCEK_TARIFE_INCELEMESI.md.
+CV proje bölümü/ön yazı docs/BASVURU_MATERYALI.md; kişisel geçmiş uydurulmadı.
+PR#4 gerçek API kaydı data/evidence/ci-gate.json ve4 kare GIF docs/assets'te;
+GIF kayıt animasyonudur, canlı ekran kaydı değildir. Gerçek motor bug sayısı0.
 
-1.37174580104 tam4fe480fmodelCI sonuç/artefact verify. Başarısonra PRreadymerge.
-2.Son log/docREADMErequiredcontexts kayıtlarıfinalsmallcommitpushgerekiyor;
-   modelCI tümPRhercommit yenidençalışır. Bitene kadar kullanıcıyı soruyla durdurma.
-3.Holdoutworkflow .github/workflows/holdout.yml yalnızmanual, main'e girince
-   ghworkflowrun holdout.yml --ref main BİR KEZ. Yeni10Qwen soru promptv2hash
-   sabitkenüretilir ve soru içerikrootagösterilmeden eval çalışır. Sonuç ister
-   başarısızolsun korunur; holdoutsonrasıpromptdeğiştirme, başarıavlamak içinrerun yok.
-   SetAIauthoredsameQwen; bağımsızhumanholdoutdiye sunma. Orijinalreserved10seen.
-4.Holdoutilkbaşarılı/başarısızartifact indir, evidencecopydocs/logkayıtlarıkoru.
-5.v1.1.0 releasecorrectmaincommit, CI/PagesHTTP200currenthead, localcleanGit.
-   Finaldegerçekkazanımlarveinsanverisieksikleri açık. Bütüninsanplanbitti iddiası yok.
-6.Son log/DEVAM bookkeepinginlocalcommitolmasıkorumalimainPRdöngüsünüönler;
-   öncekiprojedetümkaynakpublicdurumuyayımlandıktanlocalfinalkayıtlarayrıcommit.
+## Ortam
 
-## Ortam / sunucu / tarayıcı
-
-WindowsPowerShell uv0.11.26Python3.13.14Django5.2.17. approvalnever;
-sandbox_permissions verme. pytestmodülçağrısı, nativeconsolelauncherkullanma.
-Qwen1.834.426.016byte SHA256verified .local/llm;Windowsllama-server.exe
-0xC0E90002ileggml.dllCodeIntegrityEnterprise3077/3033engeli. Güvenliği değiştirme,
-DLLload/renameileengeli aşma. GerçekLLMLinuxrunnerdaçalıştı. LocalUIoffline.
-8001sunucusession24306 --noreload, ownPID17048stoprestartverified. Healthok.
-Browsernodepersistenttabstore2reports, ownerdemo-satici/passworddemo-only-pass-2026,
-profit-20.01payout34.74. tab.reloadverified. Browser skillpreviouslyread.
-Nodeimageoutputsimage(c)forward, rawbase64 text()yok. tab.markDeliverablefinal.
-Latestreportimage reports/screens/profit-report.png fromprevious v1 samefinance.
-Workbookpreview verified noerrorsclippedcounterfixed. Spreadsheet skillalreadyread;
-artifactbundleJSbuilder.local/artifacts/build_review.mjs ignore;markeroncecompleted.
-NoactualCUappautomationneeded;computer-useSKILL+guidance/API/confirmationsread.
-
-## Tool/edit notes
-
-apply_patch allhunksatomic. NEVER addbogusplaceholderhunks; 2patchesfailed
-completelydueto docs# / logfileanchorincorrect; rerunvalidthirdsucceeded.
-Forlongwholerewrite readGetContentoutputJSnormalizeCRLF andapplyminus/plusfull.
-PRbodyfilesreports/acceptance-pr-final.md;noJSON.stringify shellescaping.
-Loglatest080butrunfurtheractionsimmediatelyrecord081+. Keep progressupdates60sec.
+Windows PowerShell, uv0.11.26/Python3.13.14/Django5.2.17. approval never;
+sandbox_permissions verme. pytest python -m ile çağrılır.
+Qwen weights SHA256 doğrulandı .local/llm; Windows native llama-server ggml.dll
+CodeIntegrity3077/3033, exit0xC0E90002 ile engelli. Güvenliği değiştirme/bypass yok.
+Gerçek LLM Linux CI'da çalışır. 8001 kendi server session24306 --noreload;
+local UI offline backend. Browser NodeREPL agent/browser/tab/fs mevcut;
+tab store2 assistant ekranında. Demo-satici/demo-only-pass-2026 sentetik hesap.
+Kâr-20.01/hakediş34.74/netsatış124.99 rapor ve asistan eşitliği doğrulandı.
+Workbook output outputs/remaining-acceptance/insan_inceleme.xlsx, render/doğrulama
+geçti, human fields boş. Spreadsheet marker yalnız1 kez yapıldı; tekrar etme.
+OpenAI Docs, Computer Use, Spreadsheet ve Browser skill/guidance zaten okundu.
+CU uygulama otomasyonu gerekmedi. Node görsellerinde image(c), base64 text yok.
+apply_patch aynı dosyaya tek operasyon kabul eder; tüm patch atomiktir.
