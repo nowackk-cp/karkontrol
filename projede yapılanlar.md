@@ -563,3 +563,62 @@ Tarihler Europe/Istanbul saat dilimine göredir.
   yalnız kendi sunucu süreci yeniden başlatılıp reload sonrası1160px görünüm
   ve güncel ekran görüntüsü doğrulandı. Son sunucu session58801, port8001.
 - Rapor sekmesi çıktı olarak bırakıldı. Bu işlem yeni finans hesabı değiştirmedi.
+
+### 057 — Finans sürümünün ana dala alınması
+
+- PR #3 açıklaması son261/12/%92,68 kanıtıyla güncellendi. Son başlık711d329
+  için quality SUCCESS (run37171519874,59 saniye), eval SUCCESS (run37171519963).
+- PR #3 tam bu başlık şartıyla squash birleştirildi. main fast-forward alındı;
+  sürüm/kanıt belgeleri için docs/release-v1 dalı açıldı. Korumalar aşılmadı.
+
+### 058 — İlk finans sürümü ve main ölçümü
+
+- main fc27163 için v0.2.0 release yayımlandı:
+  https://github.com/nowackk-cp/karkontrol/releases/tag/v0.2.0.
+- Nightly main üzerinde elle başlatıldı (run37171615550); main CI ve eval
+  otomatik başladı. Pages ilk başarılı main CI sonucu sonrası çalışacak.
+- Ayrı, birleştirilmeyecek CI demo dalında stopajı bilinçli iki katına çıkarıp
+  quality/branch protection engeli gösterilecek; gerçek bug diye sayılmayacak.
+
+### 059 — Kırmızı kalite kapısı örnek PR'ı
+
+- test/ci-gate-demo dalında yalnız stopaj çarpanı bilinçli değiştirildi,
+  beklenenler korunarak commit2aa69c9 gönderildi. PR #4 oluşturulup sohbete
+  bağlandı: https://github.com/nowackk-cp/karkontrol/pull/4.
+- Çalışma docs/release-v1 dalına geri döndü; normal motor %1 stopaj kullanır.
+  Örnek dalın kendi günlüğünde de niyet/işlem kayıtlıdır. CI sonucu beklenir.
+
+### 060 — Gerçek kırmızı PR ve ana dal kalite kanıtı
+
+- Örnek PR #4 quality FAILURE (run37171652470), API mergeStateStatus BLOCKED.
+  Branch protection required quality/strict/enforce_admins=true doğrulandı;
+  hatalı değişiklik birleştirilmeden PR kapatıldı, bypass/merge denemesi yapılmadı.
+- CI_KAPISI_KANITI.md gerçek PR/run bağlantılarını ve gösterim sınırını kaydeder.
+- Main fc27163 CI37171612643, eval37171612606 ve mutation37171615550 SUCCESS.
+  Mutasyon main artifact'ı indirildi. Pages37171673012 sonucu kontrol ediliyor.
+
+### 061 — Canlı raporlar ve demo v1 hazırlığı
+
+- Pages run37171673012 SUCCESS. Kök indeks, pytest HTML, kapsam HTML ve
+  E2E XML adreslerinin tamamı HTTP200 döndürdü. Canlı adres:
+  https://nowackk-cp.github.io/karkontrol/.
+- Main mutasyon artifact'ı yine342/369=%92,68;27 survived; diğer0.
+  Kırmızı PR gerçek sonucu4 failed/257 passed; kullanıcı örneği ve Fraction
+  testi de değişikliği yakaladı. Branch protection engeli somut olarak kaydedildi.
+- Paket v1.0.0 demo; CHANGELOG, README ve kabul/QA durumu güncel gerçek
+  kanıtlarla yazıldı. Son sürüm PR/CI/release adımları sırada.
+
+### 062 — Son devam notu ve sürüm inceleme paketi
+
+- Devam notu eski ara durumlar kaldırılarak güncel261/12/%92,68/main/Pages
+  kanıtı, sunucu58801 ve yalnız kalan sürüm işlemleriyle yeniden yazıldı.
+- v1.0.0 PR ve release açıklamaları hazırlandı. Lint/107 dosya formatı,
+  Django ve migrasyon farkı temiz; uv.lock1.0.0 paket metadatasıyla güncellendi.
+
+### 063 — Son sürüm PR'ı
+
+- docs/release-v1 GitHub'a gönderildi; PR #5 oluşturulup sohbete bağlandı:
+  https://github.com/nowackk-cp/karkontrol/pull/5. Sürüm ve gerçek kanıtlar
+  incelemeye hazır; required quality sonucu bekleniyor.
+- README ve üç kanıt belgesindeki sayı/kelime boşlukları düzeltildi.
+  Kod veya beklentiler değişmedi. Bu kayıt son sürüm paketine dahil edildi.

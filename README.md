@@ -2,6 +2,9 @@
 
 Pazaryeri satışının kârını ve hakedişini görünür kılan, doğruluğunu testlerle kanıtlayan bağımsız demo.
 
+**v1.0.0 demo sürümü** — işlevsel ürün ve otomatik QA tamamlandı;
+bağımsız insan finans kabulünün durumu aşağıda açıkça belirtilir.
+
 [![CI](https://github.com/nowackk-cp/karkontrol/actions/workflows/ci.yml/badge.svg)](https://github.com/nowackk-cp/karkontrol/actions/workflows/ci.yml)
 [![Araç asistanı eval](https://github.com/nowackk-cp/karkontrol/actions/workflows/eval.yml/badge.svg)](https://github.com/nowackk-cp/karkontrol/actions/workflows/eval.yml)
 [![Mutasyon](https://github.com/nowackk-cp/karkontrol/actions/workflows/nightly.yml/badge.svg)](https://github.com/nowackk-cp/karkontrol/actions/workflows/nightly.yml)
@@ -30,7 +33,7 @@ oluşturabilirsiniz. Seed yalnız DEBUG açıkken çalışır, mevcut parolayı/
 durumunu değiştirmez; KARKONTROL_DEMO_PASSWORD ile demo parolasını belirleyin.
 
 Mağazada örnek CSV indirilebilir. Aynı dosya yeni kayıt yaratmaz; son satırdaki
-hata bile bütün aktarımı geri alır. Ücretsiz hesap toplam100 satır; sahte
+hata bile bütün aktarımı geri alır. Ücretsiz hesap toplam 100 satır; sahte
 ödeme Demo Pro'yu etkinleştirir. Kart veya gerçek tahsilat yoktur.
 [Dosya sözleşmesi ve sınırlar](docs/VERI_AKTARIMI.md).
 
@@ -78,7 +81,7 @@ Mutmut fork gerektirir: Linux/WSL'de `uv sync --extra dev --extra mutation`,
 
 CI lint/format/migration/test/coverage/E2E kapılarını uygular; main protected,
 quality kontrolü zorunludur ve yöneticiler de kurallara tabidir. İnsan PR onayı
-sayısı0; bu insan review kanıtı değildir. Raporlar14 gün artifact olarak
+sayısı 0; bu insan review kanıtı değildir. Raporlar 14 gün artifact olarak
 saklanır. Pages yalnız başarılı ana dal push CI çıktısını yayımlar.
 
 ## Kabul sınırları
@@ -87,11 +90,11 @@ saklanır. Pages yalnız başarılı ana dal push CI çıktısını yayımlar.
 30 TRY +10 Amazon [sentetik girdi](data/draft/inputs.json) ve
 [boş insan inceleme şablonu](data/draft/manual_review.csv) hazırdır. İnsan
 doğrulamalı altın beklenenler yoktur; bağımsız finans kabulü tamamlanmış sayılmaz.
-Kullanıcının600 TL örneği kaynaklı kontrol ayrıca test edilir.
+Kullanıcının 600 TL örneği kaynaklı kontrol ayrıca test edilir.
 
 Asistan dış LLM kullanmaz; sabit niyet seçimi ve finans araçlarıyla yanıt verir.
 İnsan judge kalibrasyonu, prompt v1/v2 karşılaştırması ve kör hold-out yapılmadı.
-Reserved10 soru geliştirici AI tarafından görüldü. Kullanılan araç Codex'tir;
+Reserved 10 soru geliştirici AI tarafından görüldü. Kullanılan araç Codex'tir;
 Claude izolasyonu iddia edilmez. İşlevsel demo ile bu insan kanıtları ayrıdır.
 
 Üretim ayarları DJANGO_SETTINGS_MODULE=config.settings.production,

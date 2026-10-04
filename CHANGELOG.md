@@ -1,5 +1,13 @@
 # Sürüm geçmişi
 
+## 1.0.0 — çalışan portföy demosu
+
+Demo ürün ve otomatik kalite katmanları tamamlandı: 261 test, 12 Chromium
+E2E, mobilde aynı 12 akış, %100 motor dal kapsamı ve %92,68 ham mutasyon.
+Ana dal raporları Pages'te yayımlanır; kasıtlı hatalı PR kalite kapısıyla
+engellenip birleştirilmeden kapatıldı. Mimari/QA/eval/alan/mülakat belgeleri hazır.
+Bağımsız insan golden kabulü ve gerçek LLM/judge kanıtları ayrı kabul işidir.
+
 ## 0.2.0 — finans demo sürümü
 
 Decimal motoru, sipariş başına ücret dağıtımı, kısmi/tam iade, integer-cents
