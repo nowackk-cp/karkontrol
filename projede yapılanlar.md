@@ -554,3 +554,12 @@ Tarihler Europe/Istanbul saat dilimine göredir.
   (6,70 saniye); JSON/HTML/JUnit raporları gerçek sonuçlarla yeniden üretildi.
 - Yeni DB sınır testleri ve güçlendirilmiş iki motor testi toplam envantere
   eklendi. Son motor dal ölçümü44/44; eski252 sayısı tarihî CI kanıtı olarak korunur.
+
+### 056 — Mobil kabul ve son demo görünümü
+
+- Aynı12 E2E iPhone13 emülasyonunda da geçti (7,32 saniye); ekran görüntüleri
+  reports/mobile-e2e içinde. Mobil kartlar tek sütun, menü satıra yayılıyor.
+- --noreload sunucunun şablon önbelleği eski860px CSS'i tuttuğu görüldü;
+  yalnız kendi sunucu süreci yeniden başlatılıp reload sonrası1160px görünüm
+  ve güncel ekran görüntüsü doğrulandı. Son sunucu session58801, port8001.
+- Rapor sekmesi çıktı olarak bırakıldı. Bu işlem yeni finans hesabı değiştirmedi.
