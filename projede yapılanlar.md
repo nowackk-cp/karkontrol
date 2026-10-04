@@ -304,3 +304,13 @@ Tarihler Europe/Istanbul saat dilimine göredir.
   motor doğruluğu veya altın mutabakat sonucu gibi sunulmadı.
 - İlk belge patch'i bir satır eşleşmediği için uygulanmadı; dosya tekrar
   okunup doğru bağlamla patch uygulandı. Hiçbir kullanıcı dosyası silinmedi.
+
+### 030 — Küçük commit'ler ve devam notu
+
+- Veri modelleri/bağımlılıklar, aktarım/ekranlar/testler, APP-002 düzeltmesi ve
+  kullanım belgeleri dört anlamlı commit'e ayrıldı.
+- Yeniden başlatılan güncel sunucuda sekme reload edildi; 1 satır ve 1 iade
+  durumu korunuyor. Tarayıcı sekmesi çıktı olarak bırakıldı.
+- Devam notu gerçek 75 test/%96 kapsam, demo akışı, sunucu portu ve kalan
+  altın veri/motor/E2E/SQL/billing/asistan işleriyle güncellendi.
+- Başlangıç PR #1'in birleştirildiği kayıtlar güncellendi; yeni PR/CI kontrolü sırada.

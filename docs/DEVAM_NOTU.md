@@ -22,15 +22,20 @@ Bağlam dolduğunda otomatik compact sonrasında dosyalardan devam et.
 - Oturum/CSRF/admin/sağlık testleri; üretim güvenlik testi.
 - CI dosyası, Issue/PR şablonları, dürüst BUGS başlangıcı.
 - QA stratejisi, kaynak araştırma özeti, kural ve 30 senaryo taslağı.
+- Store/OrderLine/ImportBatch modelleri ve migration'ları.
+- Mağaza oluşturma, kullanıcı izolasyonu, atomik CSV/XLSX aktarımı, mükerrer
+  önleme, tarih/ürün filtresi, sayfalama ve iade adedi ekranları.
+- Yalnızca DEBUG ortamında çalışan, tekrar kullanılabilir sentetik demo komutu.
 
 ## Aktif doğrulama
 
 Python 3.13.14 ve Django 5.2.17 kuruldu; `uv.lock` hazır. Başlangıçta indirme,
 sürüm bağlantısı ve kilit sorunu yaşandı; yorumlayıcı ve ortam sonradan doğrulandı.
 
-Yerelde 22 test geçti (3,67 saniye pytest süresi, iki worker); altyapı kapsamı
-%91. Motor kapsamı ölçülmedi. Ruff lint/format, Django check, migration drift
-ve yerel migrate başarılı. Windows console launcher engeli nedeniyle
+İlk kurulumda 22 test/%91 kapsam vardı. Son turda **75 test geçti** (3,09 saniye,
+iki worker); uygulama toplam kapsamı **%96**. Motor kapsamı ölçülmedi.
+Ruff lint/format, Django check, migration drift ve yerel migrate başarılı.
+Windows console launcher engeli nedeniyle
 `uv run python -m pytest` kullan; sistem güvenlik politikasını değiştirme.
 Raporlar `reports/tests.html`, `reports/junit.xml`, `reports/coverage.xml`,
 `htmlcov/index.html` içinde ve Git dışında.
@@ -57,12 +62,25 @@ ana plan `.gitignore` ile yerelde tutulur.
 - `main` korumalı: güncel dal, `quality`, PR zorunlu; yönetici muafiyeti yok.
   İnsan onay sayısı 0; force push ve dal silme kapalı.
 - Bu nedenle sonraki kod değişikliklerini ayrı dal ve PR üzerinden gönder.
-- Yerel sunucu http://127.0.0.1:8000/ adresinde başlatıldı. Ana sayfa, health
-  ve login gerçek HTTP üzerinden 200 verdi. Sonraki oturumda sunucu durumunu kontrol et.
+- Güncel sunucu http://127.0.0.1:8001/ adresinde. Demo hesabı `demo-satici` /
+  `demo-only-pass-2026`. Seed yalnızca DEBUG altında çalışır.
+- Browser becerisiyle giriş, mağaza, filtre, dosya yükleme/tekrar yükleme ve
+  iade doğrulandı; ekran kanıtı `reports/screens/store-orders.png` (Git dışında).
+  Sonraki oturumda sunucu durumunu kontrol et; eski 8000 bootstrap sürecine güvenme.
 - Başlangıç altyapısı tamamlandı; sıradaki asıl faz, kesin kurallar ve bağımsız
   insan doğrulamalı altın veri. Motorun önce yazılmaması kuralını koru.
 
-Başlangıç kanıtları için PR: https://github.com/nowackk-cp/karkontrol/pull/1.
-PR'ın en son durumunu GitHub'dan kontrol et; tamamlanmamış bir merge'i varsayma.
+Başlangıç PR #1, başarılı CI'nin doğru commit'i doğrulandıktan sonra squash merge edildi.
+Güncel çalışma dalı: `feat/store-order-import`; bunun PR/CI durumunu GitHub'dan kontrol et.
 Son üretim kontrolü `check --deploy --settings config.settings.production`
 geçici test ortam değişkenleriyle 0 sorun verdi. Dış sunucuya dağıtım yapılmadı.
+
+## Veri akışı sınırları ve kanıtlar
+
+- Dosya sözleşmesi: `docs/VERI_AKTARIMI.md`. CSV UTF-8, tek sayfalı XLSX,
+  TRY, Decimal, 5 MB dosya / 25 MB açılmış XLSX / 5000 satır.
+- Kimlik mağaza+numara+satır; farklı içerikte çelişki tüm transaction'ı geri alır.
+- APP-001 (sahiplik/HTTP kontrol sırası) ve APP-002 (çok uzun adet ValueError)
+  gerçek testlerle bulundu ve beklentiler değiştirilmeden düzeltildi.
+  Bunlar motor hatası/finansal doğruluk kanıtı değildir.
+- Otomatik Playwright suite, SQL kâr raporu, billing ve asistan hâlâ bekliyor.
