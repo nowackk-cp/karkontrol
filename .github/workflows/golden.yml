@@ -1,20 +1,17 @@
-name: Assistant eval
+name: Human golden reconciliation
 on:
-  pull_request:
-    paths: ['apps/assistant/**', 'tests/eval/**', '.github/workflows/eval.yml']
   push:
     branches: [main]
-    paths: ['apps/assistant/**', 'tests/eval/**']
-  schedule:
-    - cron: '0 4 * * 1'
+  pull_request:
   workflow_dispatch:
 permissions:
   contents: read
 concurrency:
-  group: eval-${{ github.ref }}
+  group: golden-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
-  eval:
+  human-golden:
+    name: human-golden
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -23,10 +20,11 @@ jobs:
         with:
           version: '0.11.26'
       - run: uv sync --locked --extra dev
-      - run: uv run python -m pytest tests/eval --junitxml=reports/eval.xml --html=reports/eval.html --self-contained-html
+      - name: Human approved golden rows
+        run: uv run python -m pytest tests/reconciliation -m reconciliation --junitxml=reports/golden.xml --html=reports/golden.html --self-contained-html
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: assistant-eval
-          path: reports/eval.*
+          name: human-golden-reconciliation
+          path: reports/golden.*
           retention-days: 90

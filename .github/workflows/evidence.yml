@@ -1,0 +1,20 @@
+name: Verify frozen historical evidence
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Preserve first synthetic set hashes without generating or rerunning
+        run: |
+          python - <<'PY'
+          import hashlib, json, pathlib
+          root = pathlib.Path('data/evidence/holdout-first')
+          m = json.loads((root / 'questions.manifest.json').read_text())
+          assert hashlib.sha256((root / 'questions.jsonl').read_bytes()).hexdigest() == m['questions_sha256']
+          assert hashlib.sha256(pathlib.Path('apps/assistant/prompts/v2.txt').read_bytes()).hexdigest() == m['prompt_sha256']
+          print('Frozen first synthetic evidence verified; no new model score.')
+          PY

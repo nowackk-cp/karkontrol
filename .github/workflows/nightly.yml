@@ -5,18 +5,25 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: mutation-${{ github.ref }}
+  cancel-in-progress: false
 jobs:
   mutation:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v6
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: astral-sh/setup-uv@d0d8abe699bfb85fec6de9f7adb5ae17292296ff
         with:
           version: '0.11.26'
       - run: uv sync --locked --extra dev --extra mutation
-      - run: uv run mutmut run --max-children 2
-      - name: Mutation score gate
+      - name: Run all engine mutations
+        shell: bash
+        run: |
+          mkdir -p reports
+          uv run mutmut run --max-children 2 2>&1 | tee reports/mutmut-run.log
+      - name: Full mutation score gate without source exclusions
         run: uv run python scripts/check_mutation.py mutants/engine
       - name: Export mutation evidence
         if: always()
@@ -24,12 +31,46 @@ jobs:
           mkdir -p reports
           uv run mutmut results > reports/mutation.txt
           uv run mutmut --help > reports/mutmut-help.txt
-      - uses: actions/upload-artifact@v4
+          uv run python - <<'PY'
+          import hashlib
+          import json
+          import os
+          import subprocess
+          import tomllib
+          from datetime import datetime, timezone
+          from importlib.metadata import version
+          from pathlib import Path
+          out = Path('reports/mutation-diffs')
+          out.mkdir(parents=True, exist_ok=True)
+          configuration = tomllib.loads(Path('pyproject.toml').read_text())['tool']['mutmut']
+          records = []
+          metadata = []
+          for source in sorted(Path('mutants/engine').rglob('*.meta')):
+              content = source.read_bytes()
+              metadata.append({'path': str(source), 'sha256': hashlib.sha256(content).hexdigest()})
+              for name, code in sorted(json.loads(content)['exit_code_by_key'].items()):
+                  if code == 1:
+                      continue
+                  target = out / (hashlib.sha256(name.encode()).hexdigest()[:16] + '.diff')
+                  result = subprocess.run(['uv', 'run', 'mutmut', 'show', name], capture_output=True, text=True)
+                  target.write_text(result.stdout + result.stderr, encoding='utf-8')
+                  records.append({'mutant': name, 'exit_code': code, 'status': 'survived' if code == 0 else 'other', 'diff': str(target), 'show_exit_code': result.returncode, 'classification': 'unreviewed'})
+          report = {'commit': os.environ['GITHUB_SHA'], 'created_at': datetime.now(timezone.utc).isoformat(), 'generator': 'mutmut ' + version('mutmut'), 'source_sha256': hashlib.sha256(Path('engine/profit.py').read_bytes()).hexdigest(), 'source_exclusions': configuration.get('do_not_mutate_patterns', []), 'test_selection': configuration['pytest_add_cli_args_test_selection'], 'metadata': metadata, 'mutants': records}
+          Path('reports/mutation-review-index.json').write_text(json.dumps(report, indent=2) + '\n', encoding='utf-8')
+          if not metadata or report['source_exclusions'] or any(row['show_exit_code'] for row in records):
+              raise SystemExit('Mutation exclusions or failed diff exports require attention.')
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: mutation-evidence
           path: |
             reports/mutation.txt
             reports/mutmut-help.txt
+            reports/mutmut-run.log
             reports/mutation-summary.json
+            reports/mutation-review-index.json
+            reports/mutation-diffs/
             mutants/engine/*.meta
+            mutants/engine/*.py
+          retention-days: 90

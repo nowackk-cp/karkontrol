@@ -3,7 +3,6 @@ on:
   pull_request:
   push:
     branches: [main]
-    paths: ['apps/assistant/**', 'qa/**', 'scripts/setup_local_llm.py', 'tests/eval/**', '.github/workflows/llm.yml']
   schedule:
     - cron: '30 4 * * 1'
   workflow_dispatch:
@@ -11,18 +10,57 @@ permissions:
   contents: read
 concurrency:
   group: llm-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
-  model-eval:
+  changes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    outputs:
+      required: ${{ steps.diff.outputs.required }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          fetch-depth: 0
+      - name: Detect model related changes
+        id: diff
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          python - <<'PY'
+          import os
+          import re
+          import subprocess
+          needed = os.environ['EVENT_NAME'] in {'schedule', 'workflow_dispatch'}
+          base, head = os.environ['BASE_SHA'], os.environ['HEAD_SHA']
+          if not needed:
+              if not base or set(base) == {'0'}:
+                  needed = True
+              else:
+                  revision = f'{base}...{head}' if os.environ['EVENT_NAME'] == 'pull_request' else f'{base}..{head}'
+                  result = subprocess.run(['git', 'diff', '--name-only', '-z', revision], capture_output=True)
+                  if result.returncode:
+                      needed = True  # Missing history must never bypass model evaluation.
+                  else:
+                      pattern = re.compile(rb'^(apps/assistant/|qa/|tests/eval/|scripts/(setup_local_llm|wait_local_llm)\.py$|\.github/workflows/llm\.yml$)')
+                      needed = any(pattern.search(path) for path in result.stdout.split(b'\0') if path)
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as output:
+              output.write(f'required={str(needed).lower()}\n')
+          print(f'Real model evaluation required: {needed}')
+          PY
+  real-model:
+    needs: changes
+    if: needs.changes.outputs.required == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v6
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: astral-sh/setup-uv@d0d8abe699bfb85fec6de9f7adb5ae17292296ff
         with:
           version: '0.11.26'
       - run: uv sync --locked --extra dev
-      - uses: actions/cache@v4
+      - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: .local/llm
           key: qwen3-1.7b-q8-b11382-linux-v1
@@ -37,23 +75,43 @@ jobs:
           echo "$!" > reports/model-server.pid
           uv run python scripts/wait_local_llm.py
       - run: uv run python manage.py migrate --noinput
-      - name: Compare real v1 and v2 answers to SQL
-        run: uv run python manage.py evaluate_assistant --backend local --versions v1,v2
-      - name: Prepare real judge scores for independent human calibration
-        if: success() || failure()
-        run: uv run python manage.py evaluate_judge
-      - uses: actions/upload-artifact@v4
+      - name: Compare v2 and v3 routing on the development cases
+        run: uv run python manage.py evaluate_assistant --backend local --versions v2,v3 --cases tests/eval/questions_v3.jsonl --baseline-file data/evidence/llm-corrected.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: real-llm-eval
           path: |
             reports/llm-eval.json
             reports/model-server.log
-            reports/judge-review.json
             .local/llm/manifest.json
-          retention-days: 14
+          retention-days: 90
           include-hidden-files: true
       - name: Stop own model process
         if: always()
         run: |
           if [ -f reports/model-server.pid ]; then kill "$(cat reports/model-server.pid)" 2>/dev/null || true; fi
+  model-eval:
+    name: model-eval
+    needs: [changes, real-model]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Require success or a verified unchanged skip
+        env:
+          CHANGES_RESULT: ${{ needs.changes.result }}
+          MODEL_REQUIRED: ${{ needs.changes.outputs.required }}
+          MODEL_RESULT: ${{ needs.real-model.result }}
+        run: |
+          python - <<'PY'
+          import os
+          status = os.environ
+          valid = status['CHANGES_RESULT'] == 'success' and (
+              (status['MODEL_REQUIRED'] == 'true' and status['MODEL_RESULT'] == 'success') or
+              (status['MODEL_REQUIRED'] == 'false' and status['MODEL_RESULT'] == 'skipped')
+          )
+          print(f"changes={status['CHANGES_RESULT']}, required={status['MODEL_REQUIRED']}, model={status['MODEL_RESULT']}")
+          if not valid:
+              raise SystemExit('Required model evaluation did not succeed.')
+          PY

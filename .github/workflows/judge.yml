@@ -1,0 +1,46 @@
+name: Separate model judge (non-gating)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  judge:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      KARKONTROL_JUDGE_URL: http://127.0.0.1:8081
+      KARKONTROL_JUDGE_MODEL: Qwen3-0.6B-Q8_0
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: astral-sh/setup-uv@d0d8abe699bfb85fec6de9f7adb5ae17292296ff
+        with:
+          version: '0.11.26'
+      - run: uv sync --locked --extra dev
+      - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        with:
+          path: .local/llm
+          key: qwen3-0.6b-q8-b11382-linux-v1
+      - run: uv run python scripts/setup_local_llm.py --judge
+      - name: Start separate weights
+        run: |
+          mkdir -p reports
+          runtime=$(find .local/llm/runtime -type f -name llama-server -print -quit)
+          test -n "$runtime"
+          "$runtime" -m .local/llm/Qwen3-0.6B-Q8_0.gguf --host 127.0.0.1 --port 8081 -c 4096 -t 4 --parallel 1 --jinja > reports/judge-server.log 2>&1 &
+          echo "$!" > reports/judge-server.pid
+          uv run python scripts/wait_local_llm.py
+      - run: uv run python manage.py evaluate_judge --score data/draft/judge_candidates30.json --output reports/judge-scores.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: separate-judge-uncalibrated
+          path: |
+            reports/judge-scores.json
+            reports/judge-server.log
+            .local/llm/judge-manifest.json
+          include-hidden-files: true
+          retention-days: 30
+      - name: Stop own model process
+        if: always()
+        run: |
+          if [ -f reports/judge-server.pid ]; then kill "$(cat reports/judge-server.pid)" 2>/dev/null || true; fi
