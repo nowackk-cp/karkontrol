@@ -11,4 +11,15 @@ Tutarlar model tarafından hesaplanmaz; araç seçimi ve SQL eşitliği ölçül
 Her rapor prompt ve soru SHA256'sı,36 gerçek istek+4uygulama reddi, ham araç
 seçimi ve yanıtı içerir. İlk başarısız rapor silinmez. Hakem puan şablonu
 data/draft/judge_review.json; insan puanları boştur,20 model puanı insan
-kalibrasyonu yerine geçmez. Yeni holdout raporu ilk çalıştırma sonrası eklenir.
+kalibrasyonu yerine geçmez.
+
+- holdout-first/: [ilk ve tek37175718839](https://github.com/nowackk-cp/karkontrol/actions/runs/37175718839),
+  source26a174a, v2 10/10, kritik hata0;9 gerçek model çağrısı +1 ön red.
+  Prompt sabitlenerek soru üretildi; soru içerikleri ancak eval bitince okundu.
+  Prompt ve soru hash'leri tekrar doğrulandı; bu set için prompt ayarı/rerun yok.
+
+Yeni set aynı Qwen'in sentetik niyet tanımlarından ürettiği sorulardır;
+bir kısmı doğal kullanıcı dili değildir. İnsan yazarlı bağımsız hold-out kabulü
+ve genel kullanıcı doğruluğu iddia edilmez. İlk ham sonuç/manifest korunur.
+
+ci-gate.json kontrollü PR#4'ün gerçek FAILURE/CLOSED/mergedAt=null API kaydıdır.

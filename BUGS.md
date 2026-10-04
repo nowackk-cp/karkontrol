@@ -19,6 +19,8 @@ Kasıtlı mutasyonlar AI hatası diye kaydedilmez.
 - Düzeltme: oturum kontrolünden sonra, metodun önünde ortak sahiplik decorator'ı.
   Test beklentileri değiştirilmedi. Sonuçlar işlem günlüğünde kaydedilir.
 - TL etkisi: yok; bu kayıt motor hatası sayısına dahil değildir.
+- [Issue#7](https://github.com/nowackk-cp/karkontrol/issues/7): düzeltme sonrası
+  geriye dönük kanıt kaydı, CLOSED. Fix766a433, PR#2.
 
 ## APP-002 — Çok uzun adet girdisi doğrulama yerine istisna üretiyor
 
@@ -31,6 +33,8 @@ Kasıtlı mutasyonlar AI hatası diye kaydedilmez.
 - Düzeltme: dönüşüm öncesi 10 basamak, ardından taşınabilir 32 bit tamsayı sınırı.
   Sistem sınırı yükseltilmedi, regresyon beklentisi değiştirilmedi.
 - TL etkisi: yok; veritabanına yazma öncesinde ortaya çıkar, motor hatası sayılmaz.
+- [Issue#8](https://github.com/nowackk-cp/karkontrol/issues/8): düzeltme sonrası
+  geriye dönük kanıt kaydı, CLOSED. Fixab1dc62, PR#2.
 
 ## APP-003 — LLM yanlış ayı seçip yanlış aralık için veri yok diyor
 
@@ -45,3 +49,5 @@ Kasıtlı mutasyonlar AI hatası diye kaydedilmez.
 - Regresyon: test_turkish_month_is_constrained_before_model ve
   test_valid_but_wrong_month_is_rejected. Gerçek model yeniden ölçümü ayrıca kaydedilir.
 - Bu kayıt finans motor hatası sayısına dahil değildir.
+- [Issue#9](https://github.com/nowackk-cp/karkontrol/issues/9): düzeltme sonrası
+  geriye dönük kanıt kaydı, CLOSED. Fix1ac5699, PR#6.

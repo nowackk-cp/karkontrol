@@ -48,6 +48,7 @@ hata bile bütün aktarımı geri alır. Ücretsiz hesap toplam 100 satır; saht
 | Mutasyon | 342/369 = %92,68; 27 survivor, gecelik alt sınır %85 |
 | Araç asistanı | 40/40 soru; SQL eşitliği ve sayısal guardrail; LLM skoru değildir |
 | Gerçek Qwen asistanı | v1 19/40 → v2 40/40; 0 kritik hata, 21 iyileşme, 0 gerileme |
+| Sabit prompt, yeni sentetik set | İlk çalıştırmada 10/10; 9 model çağrısı +1 ön red, insan hold-out kabulü değildir |
 | Hakem | 20 gerçek model puanı; bağımsız insan kalibrasyonu beklenir |
 
 [CI kanıtı](https://github.com/nowackk-cp/karkontrol/actions/runs/37170676379) ·
@@ -108,7 +109,9 @@ runtime'ı engellediği için gerçek model ölçümü Linux CI üzerinde yapıl
 [40 siparişlik XLSX](data/draft/insan_inceleme.xlsx) ve
 [20 cevaplık insan hakem dosyası](data/draft/judge_review.json) hazırdır.
 İnsan hakem puanları/altın beklentiler boş kalır. Reserved 10 soru geliştirici
-AI tarafından görüldü; yeni set yalnız prompt sabitken üretilir. Kullanılan
+AI tarafından görüldü. Yeni10 sentetik soru prompt sabitken üretilip ilk
+çalıştırmada10/10 geçti; aynı modelin şablon dili bağımsız insan hold-out değildir.
+[İlk yeni set kanıtı](docs/EVAL_RAPORU.md#sabit-prompt-ile-ilk-yeni-sentetik-set). Kullanılan
 araç Codex'tir; Claude izolasyonu iddia edilmez.
 [Gerçek Amazon tarifesi ile demo farkları](docs/GERCEK_TARIFE_INCELEMESI.md).
 

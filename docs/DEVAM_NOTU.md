@@ -7,6 +7,16 @@ günlük ve Git durumundan devam et; tamamlanan işleri yeniden yapma.
 
 ## Aktif iş
 
+GÜNCEL EK: PR#6 ca995a6 required kontrolleri geçti ve26a174a olarak main'e
+birleştirildi. Branch artık feat/holdout-evidence (origin/main26a174a tabanlı).
+İlk ve tek holdout37175718839 SUCCESS/10/10/9model+1önred; prompt sabit,
+SHA89ab8fb2, sorularSHA6c96312a. data/evidence/holdout-first kalıcı kopya hazır.
+Günlük096'ya kadar. Issue#7/8/9 gerçek geçmiş bug kayıtları kapatıldı.
+Main CI37175715954/LLM37175716006/Pages37175771165 SUCCESS, liveHTTP200 doğru26a.
+Son evidence/docs commit'ini PR olarak gönder, required checks sonrası merge;
+v1.1.0 release+assets ve final kaynak CI/Pages doğrula. HOLDOUT RERUN YOK.
+Aşağıdaki eski Aktif iş satırları önceki checkpoint'tir; bu güncel ek önceliklidir.
+
 Branch feat/remaining-acceptance, PR#6 ready ve attached.
 https://github.com/nowackk-cp/karkontrol/pull/6
 Efd464e quality, offline eval ve gerçek model run37174900112 SUCCESS.

@@ -858,3 +858,76 @@ Tarihler Europe/Istanbul saat dilimine göredir.
 - Mevcut CV dosyası olmadığı için doğrulanmış proje bölümü ve ön yazı
   docs/BASVURU_MATERYALI.md içinde hazırlandı. Kişisel geçmiş/insan kabulü
   uydurulmadı; kimseye başvuru veya mesaj gönderilmedi.
+
+### 088 — Son portföy belgelerinin uzak kayda alınması
+
+- QA/mülakat/CV/GIF ve devam notu ca995a6 commit'iyle PR#6'ya gönderildi.
+  Whitespace, lint ve132 dosyanın format kontrolü temiz. Bu değişim belgedir;
+  finans motoru/prompt sabit kaldı. Yeni başlığın required CI sonuçları beklenir.
+
+### 089 — Son yerel teslim ekranı
+
+- Gerçek tarayıcı store2 kâr raporuna döndürüldü ve teslim sekmesi olarak
+  işaretlendi. Güncel ekran reports/screens/profit-report-v1.1.png dosyasında;
+  kart/satır/ay toplamları -20,01TL kâr ve34,74TL hakediş ile eşleşir.
+  İade durumu ve kabul sınırı metni yerinde; görsel kontrolü geçti.
+
+### 090 — Sürüm hazırlığı ve son kapsam açıklaması
+
+- v1.1 release notu taslağı hazırlandı; henüz yayımlanmadı. PR#6 açıklaması
+  gerçek tarih hatası, son kabul araçları ve CV/GIF dahil final kapsama göre
+  yeniden yazıldı. GIF'in dört karesinin tamamı görsel kontrolden geçti.
+- Son yerel kapsam JSON'u %95,881 satır+dal, motor %100. Eski v1 kapsamı
+  tarihî kayıttır; yeni modüllerle güncel genel oran aynı iddia edilmez.
+
+### 091 — v1.1 uygulama PR'ının kurallı birleştirilmesi
+
+- ca995a6 için required quality57s ve gerçek model-eval3m55s SUCCESS;
+  offline eval17s PASS. Başlık ve CLEAN durumu ayrıca API'den doğrulandı.
+- PR#6 normal squash/--match-head-commit ile birleştirildi. Yönetici bypass
+  kullanılmadı. Main'e yeni holdout workflow ve tüm uygulama/kabul araçları girdi.
+
+### 092 — Sabit prompt üzerinde tek yeni set ölçümünün başlatılması
+
+- Workflow geçmişi boşken holdout.yml main üzerinde BİR KEZ tetiklendi.
+  Yeni soru içerikleri eval tamamlanmadan okunmayacak. Prompt değiştirilmeyecek;
+  ilk sonuç korunacak. Bu model yazarlı set, bağımsız insan kabulü değildir.
+
+### 093 — İlk ölçüm kanıtı için temiz kaynak dalı
+
+- Birleştirme/dispatch kayıtları c6fc5fa commit'inde korundu. Güncel origin/main
+  26a174a üzerinden feat/holdout-evidence açıldı ve yalnız bu günlük commit'i
+  taşındı. Eski local main/feature geçmişi silinmedi veya resetlenmedi.
+  Ölçüm sırasında prompt ve motor değiştirilmedi.
+
+### 094 — Main raporlarının ve ilk yeni setin tamamlanması
+
+- Main26a174a CI37175715954 SUCCESS; Pages37175771165 SUCCESS. Canlı indeks
+  HTTP200, güncel26a174a kaynak hash'i ve %96 toplam kapsamla doğrulandı.
+- İlk ve tek holdout run37175718839 SUCCESS/1m46s tamamlandı; artifact indirildi.
+  Soru içeriği ancak workflow bitince okunabildi. Ham rapor/manifest saklanıyor;
+  prompt bu set için değiştirilmedi ve ölçüm tekrar çalıştırılmadı.
+
+### 095 — Gerçek hata Issue kayıtları
+
+- APP001/002/003 için GitHub Issue#7/#8/#9 açıldı; gerçek test, kök neden,
+  bağımsız beklenen davranış, TL etkisi ve önceden uygulanmış fix commit/PR
+  bağlantılarıyla kapatıldı. CLOSED durumları API'den doğrulandı.
+- Kayıtlar açıkça geriye dönük belgelemedir; keşif/commit tarihleri değiştirilmez.
+  Finans motorunun gerçek bug sayısı0 olarak kalır.
+
+### 096 — İlk yeni setin kalıcı ham kanıtı
+
+- İlk10 soruluk eval, questions ve manifest data/evidence/holdout-first altına
+  değişmeden alındı. v2 gate10/10=%100,0kritik hata;9model çağrısı+1önred.
+  Prompt SHA89ab8fb2 ve soru SHA6c96312a yerel dosyalarla tekrar doğrulandı.
+- README/eval/faz raporları gerçek sonuçla güncellendi. Aynı modelin ürettiği
+  soruların bir kısmının niyet şablonu/doğal olmayan dil olduğu açıklandı;
+  bağımsız insan holdout veya genellenmiş doğruluk başarısı denmedi.
+
+### 097 — Main'de gerçek model tekrarı ve sürüm kanıtlarının hazırlanması
+
+- Main26a174a run37175716006 SUCCESS artifact'i indirildi: v1 yine19/40,
+  v2 40/40/0kritik; her prompt36model isteği. Linux runtime manifest'i de var.
+- Son evidence/docs değişiminde lint,132 dosya formatı ve whitespace temiz.
+  Changelog/release taslağı ilk sentetik10/10 ve insan kabul sınırıyla güncellendi.

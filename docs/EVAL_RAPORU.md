@@ -39,7 +39,7 @@ serbest metin finans hesabı başarısını ölçmez. Model çağrısı hatası 
 v1%32,5 (13/40), v2%85 (34/40). v2 E-01/02/10/16/28 kritik hatalarıyla CI
 FAILURE. Raw JSON raporu ve server logu artifact olarak korundu. Eylül ayı
 yanlış seçimi APP-003 olarak kaydedildi; tarih şeması ve v2 niyet açıklamaları
-düzeltildi. Yeni ölçümün sonucu ayrıca eklenecek; başarı peşinen yazılmaz.
+düzeltildi. Düzeltme sonrası ölçüm aşağıda ayrı kayıt olarak bulunur.
 
 LLM hakemi grounded/answers_question/clear boyutlarını puanlar.20 AI adayı
 gerçek modele verilir fakat insan puanı/reviewer/tarih boş kalır. İnsan
@@ -61,3 +61,23 @@ sabitken oluşturulur ve önceden geliştiriciye gösterilmeden bir kez çalış
 İlk run'ın soru/cevap/hash artifact'i sürüm kanıtına eklenir; ilk başarısız
 sonuç da korunur. Bu modelin ürettiği sentetik set, insan yazımı/onayı değildir.
 Orijinal reserved10 bu yeni protokolün körlük kanıtı olarak kullanılmaz.
+
+## Sabit prompt ile ilk yeni sentetik set
+
+[İlk ve tek run37175718839](https://github.com/nowackk-cp/karkontrol/actions/runs/37175718839),
+source26a174a, SUCCESS/1m46s: v2 **10/10**, kritik hata0. Dokuz soru gerçek
+model çağrısı yaptı; güvenlik sorusu uygulama sınırında model öncesi reddedildi.
+Soru içerikleri geliştirici tarafından ancak run tamamlandıktan sonra okundu.
+Prompt bu sete göre değiştirilmedi; yeni set/tekrar çalıştırma ile başarı aranmadı.
+
+- Prompt SHA256: `89ab8fb2b790d66641a398fba9ea2aadcc13bf293d80e54be66ef6a1abc93ff5`
+- Soru SHA256: `6c96312a4ca8517e5f1277f6215b80017c60d4178404c9367ec14314b55c346d`
+- [Ham cevaplar](../data/evidence/holdout-first/eval.json),
+  [ilk sorular](../data/evidence/holdout-first/questions.jsonl),
+  [manifest](../data/evidence/holdout-first/questions.manifest.json).
+
+Bu seti aynı Qwen modeli sentetik niyet/tarih tanımlarından üretti. Bazı sorular
+niyet tanımını kopyalar, bazıları doğal Türkçe kullanıcı sorusu değildir.
+10/10 sonucu bu sınırlı sentetik sette araç/SQL davranışını gösterir;
+görülmemiş insan sorularına genellenmiş doğruluk veya bağımsız insan hold-out
+başarısı değildir. Bağımsız insan seti ve20 insan hakem puanı hâlâ gereklidir.
