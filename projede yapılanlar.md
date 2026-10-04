@@ -314,3 +314,12 @@ Tarihler Europe/Istanbul saat dilimine göredir.
 - Devam notu gerçek 75 test/%96 kapsam, demo akışı, sunucu portu ve kalan
   altın veri/motor/E2E/SQL/billing/asistan işleriyle güncellendi.
 - Başlangıç PR #1'in birleştirildiği kayıtlar güncellendi; yeni PR/CI kontrolü sırada.
+
+### 031 — Sipariş akışları PR'ı
+
+- `feat/store-order-import` dalı GitHub'a gönderildi; PR #2 oluşturuldu ve
+  Codex sohbetine bağlandı: https://github.com/nowackk-cp/karkontrol/pull/2.
+- PR açıklaması somut önce/sonra davranışı, atomiklik/izolasyon, 75 test,
+  kapsam, gerçek tarayıcı kontrolleri ve kalan kapsam sınırlarıyla yazıldı.
+- Devam notuna PR bağlantısı eklendi. Son commit'in CI sonucu bekleniyor;
+  yerel test başarısı uzak CI başarısıyla karıştırılmıyor.

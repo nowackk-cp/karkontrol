@@ -72,6 +72,8 @@ ana plan `.gitignore` ile yerelde tutulur.
 
 Başlangıç PR #1, başarılı CI'nin doğru commit'i doğrulandıktan sonra squash merge edildi.
 Güncel çalışma dalı: `feat/store-order-import`; bunun PR/CI durumunu GitHub'dan kontrol et.
+PR #2: https://github.com/nowackk-cp/karkontrol/pull/2. Oluşturulduğunda açık;
+merge varsayma. Başarılı kontrolün PR'ın en son commit'ine ait olduğunu doğrula.
 Son üretim kontrolü `check --deploy --settings config.settings.production`
 geçici test ortam değişkenleriyle 0 sorun verdi. Dış sunucuya dağıtım yapılmadı.
 
