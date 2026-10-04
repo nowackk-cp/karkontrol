@@ -523,3 +523,11 @@ Tarihler Europe/Istanbul saat dilimine göredir.
   kullanıcı kaynaklı örneğin KDV kalemleri için anlamlı kontroller eklendi.
 - shipping validate(gross,None) mutantı yalnız hata alan adını değiştirir;
   eşdeğer finans davranışı olarak raporlanır, yapay skor için gizlenmez.
+
+### 052 — Kullanım ve sürüm dokümantasyonu
+
+- Yeni mutant kontrolleri dahil65 motor birim/property testi geçti (0,68 saniye).
+- README artık çalışan ürün, kurulum, 12 E2E, gerçek CI/mutasyon/eval kanıtları,
+  demo hesabı, insan kabul sınırları ve üretim ayrımını anlatıyor.
+- CHANGELOG başlangıç ve0.2.0 finans demo kapsamıyla eklendi. Pages bağlantısı
+  hazırlanmış yayın adresidir; canlı yayın doğrulaması henüz sonraki adımdadır.
