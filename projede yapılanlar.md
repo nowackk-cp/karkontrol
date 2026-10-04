@@ -641,3 +641,15 @@ Tarihler Europe/Istanbul saat dilimine göredir.
 - Son yerel kontrol kaydı c0ceed5 main'e cherry-pick ile korundu. Günlük ve
   final bağlam notu yerel bookkeeping olarak ayrıca commitlenecek; yayımlanan
   uygulama kaynakları ve test edilmiş sürüm origin/main'dedir.
+
+### 066 — Son yayın kabulü ve kayıtların korunması
+
+- v1.0.0 uzak commit c65cc65 için CI37172029658 SUCCESS; takip Pages37172079601
+  SUCCESS. Canlı rapor indeksi HTTP200 ve tam bu release commit'ini gösteriyor.
+- Açık PR kalmadı; v1 release public/draft değil. /health/ yeniden status ok.
+  Çalışma ağacının yalnız son günlük/bağlam kayıtları uzak main'den farklı;
+  kaynak kod, testler ve paket sürümü aynı. Bu yerel bookkeeping commit'lerinde korunur.
+- Son envanter261 core test,12 desktop ve aynı12 mobile E2E; motor44/44dal;
+  ham mutasyon342/369=%92,68; araç asistanı40/40. Demo yazılım işi tamamlandı.
+- İnsan golden doğrulaması, gerçek LLM/judge/kör hold-out ve gerçek tarife
+  kabulü yapılmadı; ayrı kabul sınırı belgelerde açık. Bu kanıtlar uydurulmadı.

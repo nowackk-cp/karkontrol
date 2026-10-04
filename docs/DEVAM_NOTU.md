@@ -40,8 +40,8 @@ Reserved10 soruyu geliştirenAI gördü. Kullanıcının600TL örneği ayrı kay
 
 ## Kalan doğrulama ve gelecekteki kabul
 
-1. Son main CI37172029658 ve takip Pages sonucu kontrol ediliyor; başarılı
-   sonuç root günlüğe kaydedilince işlevsel demo işi tamamdır.
+1. Son main CI37172029658 ve Pages37172079601 SUCCESS; canlı indeks HTTP200
+   ve release c65cc65 commit'ini doğruluyor. Son log066; işlevsel demo işi tamamlandı.
 2. İnsan golden hesapları, gerçek LLM/judge kalibrasyonu ve kör hold-out ayrı
    kabul işleridir; kullanıcıyı soruyla durdurmadan bunların yokluğu açık belirtildi.
 3. Bu sürümde yeni kod gerekmiyor. Yeni istek olmadıkça test/özellik işini baştan
