@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}İade düzenle · {{ store.name }}{% endblock %}
+{% block content %}
+<section class="card">
+  <a href="{% url 'orders:list' store.pk %}">← Siparişler</a>
+  <h1>İade adedi</h1>
+  <p>{{ line.order_number }} / {{ line.line_number }} · {{ line.product_name }} · Sipariş adedi: {{ line.quantity }}</p>
+  <form method="post" data-testid="return-form">
+    {% csrf_token %}{{ form.as_p }}<button type="submit" data-testid="return-save">Kaydet</button>
+  </form>
+</section>
+{% endblock %}

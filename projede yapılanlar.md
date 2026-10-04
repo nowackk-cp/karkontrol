@@ -101,6 +101,14 @@ Tarihler Europe/Istanbul saat dilimine göredir.
 - uv kurulan Python 3.13.14'ü son kontrolde tanıdı; sürüm bağlantısı sorunu
   kalıcı yorumlayıcı kaybı oluşturmadı.
 
+### 011 — Bağımlılık kurulumu ve ilk statik doğrulama
+
+- Python 3.13.14 ortamına 23 çalışma/geliştirme paketi kuruldu; Django 5.2.17,
+  pytest 9.1.1 ve ruff 0.16.10 kilit dosyasıyla sabitlendi.
+- Python dosyaları derleme kontrolünden geçti; `git diff --check` hata vermedi.
+- İlk ruff kontrolü bir uzun satır ve iki biçim farkı bildirdi. Formatter
+  uygulandı; lint ve format kontrolleri tekrar çalıştırıldı.
+- Bu biçim bulguları finansal motor hatası olarak sayılmadı.
 ### 012 — Çalıştırma ve test sonuçları
 
 - Ruff lint ve format kontrolleri temiz; Django sistem kontrolü sorun bulmadı,
@@ -179,11 +187,84 @@ Tarihler Europe/Istanbul saat dilimine göredir.
 - README ve günlük kanıtlarını içeren PR #1 açık; kayıtlar bu PR dalındadır.
   İlk main CI başarılıdır; son belge commit'inin CI sonucu ayrıca kontrol edilir.
 
-### 011 — Bağımlılık kurulumu ve ilk statik doğrulama
+### 020 — Çalışmaya devam ve başlangıç belgelerinin birleştirilmesi
 
-- Python 3.13.14 ortamına 23 çalışma/geliştirme paketi kuruldu; Django 5.2.17,
-  pytest 9.1.1 ve ruff 0.16.10 kilit dosyasıyla sabitlendi.
-- Python dosyaları derleme kontrolünden geçti; `git diff --check` hata vermedi.
-- İlk ruff kontrolü bir uzun satır ve iki biçim farkı bildirdi. Formatter
-  uygulandı; lint ve format kontrolleri tekrar çalıştırıldı.
-- Bu biçim bulguları finansal motor hatası olarak sayılmadı.
+- Talimatlar, devam notu, günlük, Git durumu ve mevcut kod tekrar incelendi.
+- `uv sync --locked --extra dev` başarılı; mevcut ortamda 23 paket doğrulandı.
+- PR #1'in doğru commit'indeki `quality: SUCCESS` kontrol edilerek korumalar
+  aşılmadan squash merge yapıldı; main güncellendi ve `feat/store-order-import`
+  çalışma dalı açıldı.
+- Günlükte 011 numaralı kaydın sona kaydığı fark edildi; 19 kaydın tamamı
+  içerikleri korunarak numara sırasına alındı.
+- Sıradaki çalışma: mağaza sahipliği, komisyon doğrulama ve atomik/mükerrersiz
+  sipariş aktarımı. Bağımsız altın veri ve motorun tamamlandığı iddia edilmeyecek.
+
+### 021 — Mağaza ve sipariş veri sözleşmesi
+
+- Mağaza sahipliği, demo TRY pazaryeri ve %0…100 komisyon doğrulaması eklendi.
+- Sipariş satırı, fiyat/maliyet/indirim/KDV/komisyon Decimal alanları, iade adedi
+  ve mağaza-sipariş-satır benzersizliği tanımlandı. Kâr motoru oluşturulmadı.
+- İçe aktarma partisi için mağaza + dosya özeti benzersizliği tanımlandı.
+- Mağaza oluşturma ve oturuma göre mağaza listesi; yükleme, filtre ve iade
+  formları yazıldı. Sahiplik alanı kullanıcıdan alınmıyor.
+- Excel desteği için openpyxl 3.1.5 ve XML ayrıştırma koruması için defusedxml
+  0.7.1 kuruldu; uv kilidi güncellendi. Resmî openpyxl ve Django transaction
+  belgeleri incelendi. Uygulama kontrolleri ilgili akış tamamlanınca çalıştırılacak.
+
+### 022 — Atomik CSV/Excel sipariş aktarımı
+
+- UTF-8/BOM CSV (virgül/noktalı virgül ayraç), tek sayfalı XLSX, iki tarih
+  biçimi, Türkçe ürün adı ve boş satır desteği yazıldı.
+- Sütun/satır/tutar/adet/iade/para birimi doğrulamaları; 5 MB dosya,
+  25 MB açılmış Excel ve 5000 satır sınırları eklendi. Formüllü hücreler reddedilir.
+- Tüm satırlar önce doğrulanır; kayıtlar tek transaction içinde yazılır.
+  Aynı dosya veya başka dosyadaki aynı sipariş satırı mükerrer kayda yol açmaz.
+  Mevcut satırla çelişki tüm yeni kayıtları ve import partisini geri alır.
+- Liste/ürün-tarih filtresi, dosya yükleme, sentetik CSV şablonu ve iade adedi
+  güncelleme uç noktaları eklendi. Her uç noktada oturumdan mağaza sahipliği kontrol edilir.
+- Finansal girişler doğrulama ve kayıt öncesinde Decimal'e çevrilir; binlik
+  ayraç ve ikiden fazla ondalık reddedilir. Motor kâr sonucu hesaplamaz.
+- Doğrulama: davranış testleri ve ekran kontrolleri sonraki kayıtlarda raporlanacak.
+
+### 023 — Mağaza, yükleme ve iade ekranları
+
+- Mağaza listesi/oluşturma, sipariş listesi, tarih-ürün filtresi, dosya yükleme
+  ve iade düzenleme şablonları eklendi; kritik öğeler data-testid taşıyor.
+- Sipariş fiyatı Türkçe iki ondalık/binlik biçimiyle gösterilir; açıklamalar ve
+  dosya hataları kullanıcıya görünür. Hazır olmayan kâr/hakediş raporu rakam üretmez.
+- Yalnızca DEBUG ortamında çalışan, mevcut hesabın parolasını değiştirmeyen
+  tekrar çalıştırılabilir `seed_demo` komutu yazıldı; tüm veriler sentetik.
+- Doğrulama: migration, sunucu ve kullanıcı akışı testleri henüz çalıştırılmadı.
+
+### 024 — Migration ve veri güvenliği testleri
+
+- Store, OrderLine ve ImportBatch başlangıç migration'ları üretildi.
+- Liste 50 satırlık sayfalama kazandı; filtre parametreleri sayfa geçişinde korunur.
+  Yerel tarih alanlarının HTML date değeri ISO biçimine düzeltildi.
+- CSV/XLSX, 30 satır, Türkçe ve Decimal koruma, tekrar aktarım, çelişkide rollback,
+  geçersiz girdiler, kaynak sınırları, mağaza izolasyonu, iade, filtre/sayfalama
+  ve demo hesabı korumalarını denetleyen entegrasyon testleri yazıldı.
+- İlk lintte iki uzun metin ve migration import sırası bulundu; düzenlendi.
+  Sayısal beklenen değerler kaynak dosyanın girişlerini denetler; altın kâr verisi değildir.
+
+### 025 — İlk test turu ve APP-001 düzeltmesi
+
+- Django kontrolü ve migration farkı kontrolü başarılı; ilk test turu
+  **70 geçti, 2 başarısız** (72 test, pytest süresi 3,28 saniye).
+- Başarısızlık: yabancı mağazanın liste/şablon uç noktasına POST, 404 yerine
+  405 dönüyordu. Veri sızıntısı veya parasal hata değil, yanıt tutarlılığı sorunu.
+- Test beklentileri korunarak oturum → sahiplik → HTTP metodu kontrol sırası
+  ortak decorator ile düzeltildi. `BUGS.md` içine APP-001 olarak gerçek kanıt yazıldı.
+- Formatter uzun test imzasını düzenledi; bütün kontroller tekrar çalıştırılacak.
+
+### 026 — Başarılı test turu ve yerel veri kurulumu
+
+- Test beklentileri değiştirilmeden **72 test geçti** (iki worker, 3,07 saniye).
+- Ruff lint temiz; 58 Python dosyası format kontrolünden geçti.
+- Uygulama toplam dal dahil kapsamı %96; kâr motoru kapsamı değildir.
+  HTML/XML/JUnit raporları güncellendi.
+- Store ve OrderLine/ImportBatch migration'ları yerel veritabanına başarıyla uygulandı.
+- DEBUG ortamında `seed_demo` çalıştırıldı; sentetik mağaza ve iki sipariş
+  satırı kuruldu. Hesap: demo-satici; yalnızca demo parolası: demo-only-pass-2026.
+- Sonraki doğrulama: gerçek tarayıcıda giriş, mağaza, filtre ve aktarım ekranları.
+

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}{{ store.name }} · Siparişler{% endblock %}
+{% block content %}
+<section class="card">
+  <a href="{% url 'stores:list' %}">← Mağazalarım</a>
+  <div class="heading"><h1>{{ store.name }}</h1><a class="button" data-testid="upload-link" href="{% url 'orders:upload' store.pk %}">Sipariş yükle</a></div>
+  <p>Komisyon %{{ store.commission_percent }} · {{ store.get_marketplace_display }}</p>
+  <form method="get" class="filters" data-testid="order-filters">
+    {{ filter_form.as_p }}<button type="submit" data-testid="filter-submit">Filtrele</button>
+    <a href="{% url 'orders:list' store.pk %}">Filtreyi temizle</a>
+  </form>
+  <p data-testid="line-count">{{ filtered_count }} sipariş satırı</p>
+  <div class="table-scroll"><table data-testid="order-table">
+    <caption class="sr-only">Mağaza sipariş satırları</caption>
+    <thead><tr><th>Sipariş / satır</th><th>Tarih</th><th>Ürün</th><th>Adet</th><th>Birim fiyat</th><th>İade</th><th>İşlem</th></tr></thead>
+    <tbody>{% for line in lines %}
+      <tr data-testid="order-row"><td>{{ line.order_number }} / {{ line.line_number }}</td><td>{{ line.order_date|date:"d.m.Y" }}</td><td>{{ line.product_name }}<small>{{ line.sku }}</small></td><td>{{ line.quantity }}</td><td>{{ line.unit_price_gross|floatformat:"2g" }} ₺</td><td>{{ line.returned_quantity }}</td><td><a data-testid="return-link" href="{% url 'orders:return' store.pk line.pk %}">İadeyi düzenle</a></td></tr>
+    {% empty %}<tr><td colspan="7">Bu filtrede sipariş yok. Bir dosya yükleyebilir veya filtreyi temizleyebilirsin.</td></tr>{% endfor %}</tbody>
+  </table></div>
+  {% if page_obj.has_other_pages %}<nav aria-label="Sipariş sayfaları" data-testid="pagination">
+    {% if page_obj.has_previous %}<a href="?{{ filter_query }}&amp;page={{ page_obj.previous_page_number }}">Önceki</a>{% endif %}
+    <span>{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}<a href="?{{ filter_query }}&amp;page={{ page_obj.next_page_number }}">Sonraki</a>{% endif %}
+  </nav>{% endif %}
+  <p class="note">Fiyatlar KDV dahildir. Kâr ve hakediş raporları henüz kullanıma açılmadı.</p>
+</section>
+{% endblock %}
