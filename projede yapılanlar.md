@@ -463,3 +463,13 @@ Tarihler Europe/Istanbul saat dilimine göredir.
 - Nightly workflow'una yalnız geliştirme dalı için geçici push tetikleyicisi
   eklendi; Linux mutmut ölçümü ana dala almadan önce alınacak ve tetikleyici
   ölçümden sonra kaldırılacak. PR açıklaması somut sonuç/sınırlarla hazırlandı.
+
+### 046 — Uzak CI ve eval kanıtı, mutasyon çıktı düzeltmesi
+
+- PR #3 oluşturuldu ve sohbete bağlandı. Başlık0554ab2 için CI run37170676379
+  SUCCESS; 252 test, 12 E2E ve kapsam kapısı Linux üzerinde geçti.
+- Assistant eval run37170676353 SUCCESS. Mutasyon run37170671098 hesaplamayı
+  bitirdi ancak mutmut3.8'de bulunmayan junitxml export komutunda başarısız oldu.
+  Unsupported komut kaldırıldı; results ve .meta artifact'ı alınacak.
+- Yeni devam notu çalışan kapsam, testler, sunucu/tarayıcı ve gerekli kalan
+  işleri içeriyor. Eski PR2 sonrası notlar tarihî olarak işaretlendi.

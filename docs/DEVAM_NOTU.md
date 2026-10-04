@@ -1,4 +1,62 @@
-# Sonraki oturum için devam notu
+# Güncel bağlam devri — 2026-10-04
+
+Kullanıcı: soru sorma, bitene kadar devam et; her biten işi günlüğe hemen yaz.
+Compact sonrası bu üst bölümü esas al; aşağıdaki eski notlar tarihî başlangıçtır.
+
+## En son durum
+
+- Public repo github.com/nowackk-cp/karkontrol. PR1/2 merged; main189b09b.
+- Dal feat/profit-quality-mvp; PR3 açık/sohbete bağlı, son commit0554ab2.
+- CI37170676379 SUCCESS: 252 birim/entegrasyon/eval +12 Chromium E2E,
+  motor dalları44/44 (%100), toplam yaklaşık%98. Eval37170676353 SUCCESS.
+- Mutation37170671098 motor çalışması tamamlandı; export adımı mutmut3.8'de
+  olmayan junitxml komutu nedeniyle FAILED. Workflow o komuttan arındırıldı,
+  gerçek .meta verisi ve results artifact'ı toplanacak; skor henüz raporlanmadı.
+- Geçici nightly push tetikleyicisi yalnız bu geliştirme dalında; ölçüm sonrası kaldır.
+- İşlem günlüğü044/045 sonrası yeni uzak kanıtlar sırada. No subagents.
+
+Çalışan: kayıt/giriş; owner mağaza; atomic CSV/XLSX; iade; Decimal saf motor;
+integer-cents ledger; SQL/window monthly; filtre/sayfalama/export; Demo Pro100
+satır limiti/sahte ödeme3sonuç/idempotence; owner tools/guardrail asistan;
+Amazon demoTRYUSD EUR sabit kur. Dış LLM/gerçek ödeme/canlıkur yok.
+40 draftinput=30TRY+10Amazon; manual_review.csv beklenenlerBOŞ. İnsan golden,
+Claude izolasyonu, kör holdout ve insan judge kalibrasyonu iddia edilmez.
+40eval(12/8/6/6/4/4), reserved10 geliştiriciAI tarafından görüldü.
+Kullanıcı plandaki600TL example anchor; finansmotor gerçekhata0, APP001/002 önceki.
+
+Yerel server8001 --noreload session66831; Python değişince kendi PID/CommandLine
+doğrulanarak restart. Eskiserver8000kullanma. demo-satici/demo-only-pass-2026;
+store2 1kısmi iade, profit-20,01 payout34,74. Browser agent/browser/tab/fs zaten
+bağlı ve belgeleri okunmuş. tools.mcp__node_repl__js reuse; selectedtab store2
+assistant answered same amounts. Screenshot reports/screens/profit-report.png
+1160px değişikliğinden önce; finalfresh screenshot/markDeliverable gerekli.
+Browser plugin sadece tab kontrolü; pytest headless E2E ayrı repo testpaketi.
+E2E session fixture yalnız test için DJANGO_ALLOW_ASYNC_UNSAFE açıp geri alır.
+
+## Bitirilmesi gerekenler — erken durma
+
+1. Mutation exportfix commit/push; gerçek metadata artifactından>=85%ölç;
+   eksik anlamlı testleri survivor üzerinden ekle, eşdeğerleri dürüstbelgele.
+2. FinansSQLabsolute-totalguard veFXDBconstraints testi; current252+12.
+3. README/QA/veri/EVAL_RAPORU/AIçalışma/mimari/mülakat/CHANGELOG/status belgeleri
+   güncelle (READMEhâlâ75testmotor yok diyor). İnsan kabul sınırları açık.
+4. IntentionalCIblocked ayrıdemoPR oluştur, requiredquality kırmızıdoğrula,
+   mergeengelini oku, kapat; AIhatası sayma. HercreatedPR attach.
+5. PagesHTMLreports başarılımain CIartifactıyla yayın workflow/ghapiPages enable;
+   gerçekURLkontrol, consent tekraristeyen gereksizduraklama yok userauthorizedall.
+6. PR3exactfinalhead green kaliteolunca squashmerge mainpull; v0.2.0 ve
+   demo v1.0.0release. Mutasyon/eval gerçeksayılarıetkiketlendir.
+7. Finalbrowserdesktopmobile düzenkontrol screenshotdeliverable; bütün mantıksal
+   işlemlerlog+DevamNotu; sonworkspaceclean/sunucuaçık; nihaiözetkanıtlar/limitation.
+
+Mutmut3.8 source_paths engine/, tests unit/test_profit; -c mutmut_pytest.ini
+-p no:django, errorraise-wording only excluded; all conditionsarithmeticincluded.
+Linux2worker25min. Modülpytestlauncher kullan; WindowsAppControls değiştirme.
+PowerShell multi-command errors must not be hidden by lastsuccessfulexitcode.
+
+---
+
+# Tarihî başlangıç notu (PR2 sonrası)
 
 Tarih: 2026-10-04 (Europe/Istanbul). Proje: KârKontrol.
 

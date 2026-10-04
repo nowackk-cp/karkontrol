@@ -24,9 +24,12 @@ jobs:
         run: |
           mkdir -p reports
           uv run mutmut results > reports/mutation.txt
-          uv run mutmut junitxml > reports/mutation.xml
+          uv run mutmut --help > reports/mutmut-help.txt
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: mutation-evidence
-          path: reports/mutation.*
+          path: |
+            reports/mutation.txt
+            reports/mutmut-help.txt
+            mutants/engine/*.meta
