@@ -56,6 +56,14 @@ Mevcut reserved10 geliştirici AI tarafından görüldü; kör set değildir.
 Yeni set yalnız prompt sürümleri sabitlendikten sonra hazırlanıp bir kez
 çalıştırılmalı; set görüldükten sonra aynı prompt üzerinde ayar yapılmamalı.
 
+`Frozen prompt holdout` workflow'u yalnız elle tetiklenir. Prompt hash'ini
+sabitler, Qwen ile10 yeni soru üretir, soruları önceden konsola basmadan
+tek v2 eval çalıştırır; soru/prompt hash'leri ve cevaplar artifact'e girer.
+Mevcut dosyanın yeniden üretilmesi engellenir. Bu set prompt yazarının ilk
+gördüğü ana kadar ayrılır; aynı modelin ürettiği sentetik sorulardır, bağımsız
+insan seti diye sunulmaz. Yeni workflow run yeni set yaratabileceğinden
+ilk run sonucu kabul kanıtı olarak korunmalı; yalnız başarılı run seçilmemeli.
+
 Bu bilgisayarda Windows Code Integrity, portable runtime'ın ggml.dll
 dosyasını engelledi (0xC0E90002, olay3077/3033). Güvenlik ayarı değiştirilmez.
 Gerçek model ölçümü `.github/workflows/llm.yml` Linux runner üzerinde yapılır;

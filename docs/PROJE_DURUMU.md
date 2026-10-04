@@ -1,6 +1,6 @@
 # Kapsam ve kabul durumu
 
-2026-10-04, v1.0.0 demo sürümü. Kullanıcının kesintisiz tamamlama talimatıyla
+2026-10-04, v1.1.0 kabul araçları geliştirmesi. Kullanıcının kesintisiz tamamlama talimatıyla
 işlevsel ürün ve otomatik kalite katmanları tamamlandı; bağımsız insan veya
 harici hizmet gerektiren kanıtların yokluğu gizlenmez.
 
@@ -8,12 +8,12 @@ harici hizmet gerektiren kanıtların yokluğu gizlenmez.
 |---|---|---|
 | 0 Kurulum | Python/Django/SQLite/uv, lint/test/CI, protected main | Çalışıyor |
 | 1 Kurallar | Tarihli resmî kaynak özeti ve demo-v1/v2 sözleşmesi | AI yazımı; gerçek sözleşme/insan onayı yok |
-| 2 Altın veri | 30 TRY +10 Amazon sentetik girdi, boş inceleme şablonu | İnsan hesaplı golden beklenenler yok |
+| 2 Altın veri | 40 siparişlik XLSX, CSV aktarımı, kuruş mutabakat komutu | İnsan hesaplı golden beklenenler yok |
 | 3 Motor | Django bağımsız Decimal motoru | Codex tarafından yazıldı; Claude/ayrı agent izolasyonu yok |
 | 4 QA | Unit/boundary/Fraction/property/SQL/integration/mutmut | Teknik doğrulama; insan golden kabulü ayrı |
 | 5 CI | Protected PR, test/coverage/E2E gate, artifact/Pages | Uzak kanıtlar günlüğe kaydedilir |
 | 6 UI | Auth, stores, import, report, return, fake subscription | 12 bağımsız E2E çalışır |
-| 7 Asistan | Owner tools, sayı guardrail, 40 soru/SQL eval | Deterministik; LLM/judge/kör hold-out değil |
+| 7 Asistan | Gerçek Qwen, v1/v2 SQL eval, hakem ve yeni set protokolü | İnsan kalibrasyonu yok; ilk yeni set ölçümü bekleniyor |
 | 8 Amazon | Sabit USD/EUR/TRY, 10 girdi, eski TRY regresyonu | Sentetik ücretler ve vergi sözleşmesi |
 | 9 Cilalama | Mimari, kullanım, QA/eval/mülakat notları, sürüm | Başvuru/mesaj gönderimi yapılmaz |
 
@@ -21,6 +21,13 @@ Bu tablo “bütün insan onaylı plan bitti” iddiası taşımaz. Yazılım de
 ile bağımsız finans kabulü farklıdır. Eksik insan kanıtları için sahte Excel,
 hakem puanı, bug veya metrik oluşturulmaz.
 
-İşlevsel kabul: 261 test, 12 E2E, mobilde aynı 12 akış, motor 44/44 dal,
-mutasyon 342/369=%92,68 ve 40/40 deterministik asistan sorusu. Pages raporları
-canlı ve HTTP200. Kırmızı PR engeli doğrulandı. Detaylar günlüktedir.
+Son yerel kabul:316 test,12 E2E, motor44/44dal. Motor değişmediği için
+önceki mutasyon342/369=%92,68 kanıtı geçerlidir. Gerçek Qwen run37174071378:
+v1%47,5, v2%100, kritik hata0.20 gerçek hakem puanı mevcut; insanla uyumu
+bilinmiyor. Windows native model çalışması Code Integrity tarafından engellendi;
+model Linux CI'da çalışır, yerel ürün offline backend ile kullanılabilir.
+
+Gerçek Amazon/FBA tarifeleri incelendi ve demo farkları belgelenmiştir.
+Satıcıya özel sözleşme, insan golden/hakem puanları ve geçmişe dönük Claude
+izolasyonu full computer use yetkisinden doğmaz. Eksikler kabul araçlarınca
+raporlanır; otomatik olarak insan onayı verilmiş sayılmaz.

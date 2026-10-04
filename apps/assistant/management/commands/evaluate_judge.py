@@ -34,6 +34,11 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         if options["human_review"]:
             rows = json.loads(options["human_review"].read_text(encoding="utf-8"))["cases"]
+            if any(
+                hashlib.sha256(row["answer"].encode()).hexdigest() != row["answer_sha256"]
+                for row in rows
+            ):
+                raise CommandError("Calibration answer changed after judge scoring")
             try:
                 result = calibrate(rows)
             except ValueError as error:

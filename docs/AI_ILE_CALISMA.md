@@ -1,5 +1,25 @@
 # AI ile çalışma kaydı
 
+## 2026-10-04 — Gerçek LLM değerlendirmesi
+
+Kullanıcı bütün planın tamamlanmasını ve computer use yetkisini istedi.
+API anahtarı bulunmadığı için resmî Qwen modelinin anahtarsız CPU yolu seçildi.
+Windows Code Integrity engeli sonrası model Linux GitHub runner'da çalıştırıldı.
+İlk gerçek ölçüm v1%32,5 / v2%85; kritik hatalar kapıyı kırmızı yaptı.
+APP-003 yanlış ay sorununu kaydeder. Promptlar apps/assistant/prompts altında
+aynen sürümlenir; değişen tarih doğrulaması motor/golden beklentilerini değiştirmez.
+
+| Karar | Sonuç | Gerekçe |
+|---|---|---|
+| Gerçek model çalıştırma yerine offline sonucu LLM diye yazmak | Ret | Ayrı backend ve ham çağrı kanıtı gerekir |
+| Windows güvenlik politikasını kapatmak | Ret | Linux runner mevcut, sistem ayarı değiştirmeye gerek yok |
+| Modelin Eylül sayısını tahmin etmesi | Ret | Kullanıcı tarihini JSON şemasına bağlamak güvenilir |
+| İnsan beklentilerini/puanlarını AI doldursun | Ret | Bağımsız kabul koşulunu bozardı |
+| Gerçek hatayı kapıdan geçirmek için baseline düşürmek | Ret | Kritik hata kapısı korunur |
+
+Aşağıdaki başlangıç kayıtları o tarihteki ara durumları anlatır; güncel kabul
+durumu PROJE_DURUMU ve EVAL_RAPORU belgelerindedir.
+
 ## 2026-10-04 — Kesintisiz demo tamamlama
 
 Kullanıcının “bitene kadar durma” talimatı, bağımsız insan onayı yokken bütün

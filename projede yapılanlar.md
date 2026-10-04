@@ -752,3 +752,40 @@ Tarihler Europe/Istanbul saat dilimine göredir.
   bırakılmaz. v2 araç açıklamaları ürün ve iade konuları için netleştirildi.
 - Yerel model ağırlığı1.834.426.016 byte SHA256 doğrulandı; Windows çalışma
   engeli devam eder. Geniş suite312 test geçti; son hakem/sınırlama testleri ekleniyor.
+
+### 076 — İlk model hatasının belge ve devam kayıtları
+
+- APP-003 gerçek yanlış ay cevabı BUGS'e eklendi; kullanıcı sorusu, SQL oracle,
+  model seçimi, test ve finans motorundan farkı açıkça yazıldı. Motor bug sayısı0.
+- AI çalışma kaydı ve eval raporuna gerçek başarısız run/v1-v2 oranları eklendi;
+  başlangıçtaki offline ölçümün gerçek LLM olmadığı ayrımı korundu.
+- İnceleme XLSX'i Codex paneline açıldı. Son format128 dosyada temiz;
+  yeni source için Linux run37174071378 model ölçümü sürüyor.
+
+### 077 — Prompt sabitleme ve yeni soru protokolü
+
+- Prompt SHA256'sı sabitlenmeden soru üretmeyen, önceden soruları konsola
+  basmayan ve mevcut dosyayı yeniden üretmeyen10 soru protokolü eklendi.
+  Tek eval ve hash artifact'leri için manual-only holdout workflow hazırlandı.
+- Bu sorular Qwen tarafından üretilir; bağımsız insan yazarlığı iddiası yok.
+  İlk run sonucu korunur, hatalar sonrası aynı setle prompt ayarı yapılmaz.
+- Linux37174071378 v1/v2 SQL gate adımını geçti;20 gerçek hakem çağrısı sürüyor.
+
+### 078 — Düzeltilmiş gerçek modelin tam kabulü
+
+- Linux37174071378 SUCCESS: aynı koşullarda v1%47,5(19/40), v2%100(40/40);
+  kritik hata0. Prompt başına36 gerçek çağrı ve4 model öncesi güvenlik reddi.
+  v2'de21 iyileşme,0 gerileme. İlk başarısız rapor da kalıcı olarak saklandı.
+-20 gerçek hakem puanı12pass/8fail; insan puanlarınull, kalibrasyon oranı
+  bilinmiyor. Ham raporlar data/evidence, insan hakem şablonu data/draft'a alındı.
+-316 core test geçti; motor44/44dal. Sonuçlar eval/faz durum belgelerine
+  işlendi. Model kontrolü tüm PR'larda çalışacak biçime getirildi; manifest
+  artifact'i için yalnız açıkça belirtilen hidden dosyaya izin verildi.
+
+### 079 — v1.1 dokümantasyonu ve sürüm paketi
+
+- README, CHANGELOG, mimari ve faz tablosu gerçek Qwen/316 test/insan kabul
+  araçlarıyla güncellendi. İlk başarısız ölçümün ve Windows engelinin kanıtı
+  korunur. Paket1.1.0 olarak hazırlanır; release henüz yayımlanmadı.
+- İnsanın puanladığı20 cevap yok;40 finans bekleneninin ve gerçek satıcı
+  sözleşmesinin kabulü hâlâ açık. Full computer use bu kanıtların yerine geçmez.

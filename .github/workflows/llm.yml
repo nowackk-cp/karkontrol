@@ -1,7 +1,6 @@
 name: Real LLM eval
 on:
   pull_request:
-    paths: ['apps/assistant/**', 'qa/**', 'scripts/setup_local_llm.py', 'tests/eval/**', '.github/workflows/llm.yml']
   push:
     branches: [main]
     paths: ['apps/assistant/**', 'qa/**', 'scripts/setup_local_llm.py', 'tests/eval/**', '.github/workflows/llm.yml']
@@ -53,6 +52,7 @@ jobs:
             reports/judge-review.json
             .local/llm/manifest.json
           retention-days: 14
+          include-hidden-files: true
       - name: Stop own model process
         if: always()
         run: |
