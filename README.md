@@ -1,11 +1,19 @@
 # KârKontrol
 
+[![CI](https://github.com/nowackk-cp/karkontrol/actions/workflows/ci.yml/badge.svg)](https://github.com/nowackk-cp/karkontrol/actions/workflows/ci.yml)
+
 Pazaryeri kâr hesaplarının doğruluğunu bağımsız testlerle denetlemek için
 geliştirilen Python/Django kalite güvence projesi.
 
 İlk aşamada çalışma altyapısı kurulmaktadır. Kâr motoru, insan doğrulamalı altın
 veri, mutasyon sonuçları ve LLM değerlendirmesi henüz tamamlanmamıştır.
 Tamamlanmamış özellikler ve ölçülmemiş kalite değerleri başarı olarak sunulmaz.
+
+GitHub'da [ilk CI çalışması](https://github.com/nowackk-cp/karkontrol/actions/runs/37163642871)
+başarılı tamamlandı; `test-reports` artifact'ı oluşturuldu. `main` dalında
+`quality` kontrolü ve PR zorunlu; kurallar yöneticilere de uygulanır.
+Tek geliştiricili başlangıç için insan onayı sayısı 0'dır; bu insan code review
+kanıtı sayılmaz. Zorunlu kontrol, güncel dal ve PR olmadan değişiklik birleştirilemez.
 
 ## Çalıştırma
 

@@ -113,6 +113,72 @@ Tarihler Europe/Istanbul saat dilimine göredir.
   henüz motor olmadığı için motor kapsamı veya finansal doğruluk iddia edilmedi.
 - README, CI komutu ve devam talimatları Python modül çağrısıyla güncellendi.
 
+### 013 — GitHub deposu
+
+- Ana planda istenen `nowackk-cp/karkontrol` public deposu oluşturuldu.
+- Depo açıklaması yazıldı; yerel `origin` bu depoya bağlandı.
+- Doğrulama: GitHub CLI oluşturma komutu depo URL'sini başarıyla döndürdü:
+  https://github.com/nowackk-cp/karkontrol.
+- Başlangıç kontrolleri ve kilit dosyası ayrı `build:` commit'iyle kaydedildi.
+
+### 014 — İlk yayın ve repo konuları
+
+- `qa`, `test-automation`, `playwright`, `pytest`, `llm-eval`, `django` konuları eklendi.
+  Konular yol haritasını tanımlar; tamamlanan özellik iddiası değildir.
+- Dört küçük commit `origin/main` dalına gönderildi ve upstream kuruldu.
+- Doğrulama: Git push başarılı; hemen sonraki sorguda workflow henüz listelenmedi.
+  CI başarı iddiası eklenmedi; gerçek çalışma sonucu ayrıca izleniyor.
+
+### 015 — Gerçek CI ve yerel HTTP doğrulaması
+
+- GitHub run **37163642871** başarıyla tamamlandı. Lint, format, Django,
+  migration farkı, testler ve artifact yükleme adımları başarılı.
+- `quality` işi 15 saniye; run başlangıç/bitiş farkı 16 saniye. Bu ölçüm
+  başlangıç altyapısına ait; sonraki finansal/E2E testlerin süresi değildir.
+- 67.448 baytlık, süresi dolmamış `test-reports` artifact'ı API'den doğrulandı.
+- Yerel Django sunucusu 127.0.0.1:8000 üzerinde başlatıldı. Gerçek HTTP ile
+  ana sayfa, `/health/` ve giriş sayfası 200; health sonucu `status: ok`.
+- Doğrulama bağlantısı: https://github.com/nowackk-cp/karkontrol/actions/runs/37163642871.
+
+### 016 — Main kalite kapısı
+
+- `main` dalı için güncel dal + başarılı `quality` kontrolü ve PR zorunlu kılındı.
+- Kurallar yöneticilere de uygulanıyor; force push ve dal silme kapalı.
+- Tek geliştiricili proje için insan onay sayısı 0; insan code review yapılmış
+  gibi gösterilmedi. Sohbet çözümleme ve doğrusal geçmiş de zorunlu.
+- Doğrulama: GitHub protection API başarıyla döndü; `admins: true`,
+  `checks: [quality]`, `strict: true`, `force_push: false` doğrulandı.
+- README'ye gerçek CI rozeti ve kanıt bağlantısı eklendi; devam notu güncellendi.
+
+### 017 — Korumalı dal üzerinden belge güncellemesi
+
+- Kanıt belgeleri `docs/bootstrap-evidence` dalına commit edilip gönderildi.
+- PR #1 oluşturuldu ve Codex sohbetine bağlandı:
+  https://github.com/nowackk-cp/karkontrol/pull/1.
+- Yerel uygulamanın Codex tarayıcı panelinde açılması istendi; araç `queued`
+  döndürdü. HTTP doğrulaması ayrı yapıldı; panelin görünür açıldığı varsayılmadı.
+- Yereldeki ana planda biten teknik kurulum maddeleri işaretlendi; profil
+  düzenleme ve insan doğrulaması gereken fazlar tamamlanmış sayılmadı.
+
+### 018 — Kalite kapısının gerçek durumu ve panel bağlantısı
+
+- PR #1 üzerinde `quality` çalışırken GitHub `mergeStateStatus: BLOCKED`
+  döndürdü; zorunlu kalite kapısının bekleyen kontrolde birleştirmeyi engellediği görüldü.
+- Main koruması yeniden API'den okundu; `quality`, yönetici kuralları ve PR
+  zorunluluğu hâlâ etkin. Git çalışma ağacı kontrolde temizdi.
+- İşlem günlüğünü Codex dosya panelinde açma isteği de `queued` olarak alındı.
+- Onaylı altın veri ve motor aşamaları hâlâ tamamlanmadı; mevcut test sayısı
+  yalnızca başlangıç altyapısını kapsıyor.
+
+### 019 — Üretim ayarlarının sistem kontrolü
+
+- Gerçek anahtar kullanılmadan geçici test değerleriyle üretim ayarları için
+  `manage.py check --deploy --settings config.settings.production` çalıştırıldı.
+- Sonuç: **0 sorun, 0 susturulmuş kontrol**. Yerel sunucu ayarı değiştirilmedi;
+  herhangi bir dış sunucuya uygulama dağıtılmadı.
+- README ve günlük kanıtlarını içeren PR #1 açık; kayıtlar bu PR dalındadır.
+  İlk main CI başarılıdır; son belge commit'inin CI sonucu ayrıca kontrol edilir.
+
 ### 011 — Bağımlılık kurulumu ve ilk statik doğrulama
 
 - Python 3.13.14 ortamına 23 çalışma/geliştirme paketi kuruldu; Django 5.2.17,

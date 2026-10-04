@@ -37,12 +37,10 @@ Raporlar `reports/tests.html`, `reports/junit.xml`, `reports/coverage.xml`,
 
 ## Sıra
 
-1. Altyapıyı yerelde doğrula ve küçük commit'lerle kaydet.
-2. Ana plandaki `nowackk-cp/karkontrol` public depo ve gerçek CI durumunu kur/doğrula.
-   GitHub CLI oturumu hazır; ilk kontrolde hedef depo bulunmadı.
-3. Nihai alan kurallarını ve insan doğrulamalı altın veriyi tamamla.
-4. Yalnızca kuralları gören ayrı motor oturumu ve gerçek `ai-v1` etiketi.
-5. Mutabakat/property/entegrasyon testleri; gerçek hatalar ve kalite kapısı.
+1. Nihai alan kurallarını ve insan doğrulamalı altın veriyi tamamla.
+2. Yalnızca kuralları gören ayrı motor oturumu ve gerçek `ai-v1` etiketi.
+3. Mutabakat/property/entegrasyon testleri; gerçek hatalar ve motor kalite kapısı.
+4. E2E, asistan eval ve yeni pazaryeri modülü.
 
 ## Kanıt sınırları
 
@@ -50,3 +48,21 @@ Henüz onaylı `KURALLAR_v1.md`, `altin_set.csv/xlsx`, motor, mutasyon sonucu,
 LLM eval, ödeme entegrasyonu veya E2E paketi yok. İnsan kontrolü yapılmamış AI
 hesaplarını elle doğrulanmış altın veri diye sunma. Başvuru notlarını içeren
 ana plan `.gitignore` ile yerelde tutulur.
+
+## Güncel GitHub / servis kanıtı
+
+- Public depo: https://github.com/nowackk-cp/karkontrol.
+- İlk CI başarılı: https://github.com/nowackk-cp/karkontrol/actions/runs/37163642871.
+  `quality` işi 15 saniye, toplam run 16 saniye; rapor artifact'ı doğrulandı.
+- `main` korumalı: güncel dal, `quality`, PR zorunlu; yönetici muafiyeti yok.
+  İnsan onay sayısı 0; force push ve dal silme kapalı.
+- Bu nedenle sonraki kod değişikliklerini ayrı dal ve PR üzerinden gönder.
+- Yerel sunucu http://127.0.0.1:8000/ adresinde başlatıldı. Ana sayfa, health
+  ve login gerçek HTTP üzerinden 200 verdi. Sonraki oturumda sunucu durumunu kontrol et.
+- Başlangıç altyapısı tamamlandı; sıradaki asıl faz, kesin kurallar ve bağımsız
+  insan doğrulamalı altın veri. Motorun önce yazılmaması kuralını koru.
+
+Başlangıç kanıtları için PR: https://github.com/nowackk-cp/karkontrol/pull/1.
+PR'ın en son durumunu GitHub'dan kontrol et; tamamlanmamış bir merge'i varsayma.
+Son üretim kontrolü `check --deploy --settings config.settings.production`
+geçici test ortam değişkenleriyle 0 sorun verdi. Dış sunucuya dağıtım yapılmadı.
