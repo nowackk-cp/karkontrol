@@ -6,6 +6,6 @@
 <h2 data-testid="active-plan">{{ subscription.get_plan_display }}</h2>
 <p>Ücretsiz plan hesap genelinde 100 sipariş satırı içerir. Demo Pro bu limiti kaldırır; dosya başına 5.000 satır sınırı sürer.</p>
 <p class="note">Bu bir ödeme simülasyonudur. Para tahsil edilmez, kart bilgisi istenmez.</p>
-<form method="post">{% csrf_token %}{{ form.as_p }}<button data-testid="demo-pay" type="submit">Sahte ödemeyi çalıştır</button></form>
+<form method="post" data-testid="subscription-form">{% csrf_token %}{{ form.as_p }}<button data-testid="demo-pay" type="submit">Sahte ödemeyi çalıştır</button></form>
 </section>
 {% endblock %}
