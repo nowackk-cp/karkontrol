@@ -622,3 +622,12 @@ Tarihler Europe/Istanbul saat dilimine göredir.
   incelemeye hazır; required quality sonucu bekleniyor.
 - README ve üç kanıt belgesindeki sayı/kelime boşlukları düzeltildi.
   Kod veya beklentiler değişmedi. Bu kayıt son sürüm paketine dahil edildi.
+
+### 064 — Son yerel çalıştırma kontrolü
+
+- Kilitli dev/e2e bağımlılıkları sync edildi. Seed mevcut parolayı/iade
+  durumunu korudu; rebuild_reports üç siparişi atomik yeniden hesapladı.
+- /health/ status ok. Güncel tarayıcı raporunda kısmi iade, -20,01 TL kâr ve
+  34,74 TL hakediş korunuyor; sekme çıktı olarak açık bırakıldı.
+- Git diff whitespace kontrolü temizdi. Son PR başlığı44d7f45 quality
+  run37171941860 üzerinde sürüyor; tamamlanma sonrası v1 release yapılacak.
