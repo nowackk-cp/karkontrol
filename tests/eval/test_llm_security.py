@@ -115,6 +115,24 @@ def test_http_protocol_zero_temperature_and_no_thinking(monkeypatch):
     assert llm.local_completion(messages=[], schema=llm.SCHEMA)[0] == selection()
 
 
+def test_turkish_month_is_constrained_before_model(monkeypatch):
+    def complete(**kwargs):
+        assert kwargs["schema"]["properties"]["year"] == {"enum": [2026]}
+        assert kwargs["schema"]["properties"]["month"] == {"enum": [9]}
+        return selection(year=2026, month=9), {}
+
+    monkeypatch.setattr(llm, "local_completion", complete)
+    assert llm.select_tool("2026 Eylül kârı")[0]["month"] == 9
+
+
+def test_valid_but_wrong_month_is_rejected(monkeypatch):
+    monkeypatch.setattr(
+        llm, "local_completion", lambda **kwargs: (selection(year=2026, month=11), {})
+    )
+    with pytest.raises(llm.ModelUnavailable, match="eşleşmiyor"):
+        llm.select_tool("2026 Eylül kârı")
+
+
 def test_unavailable_is_visible_and_does_not_fallback(evaluation, monkeypatch):
     owner, store = evaluation
 

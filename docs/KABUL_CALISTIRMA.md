@@ -46,6 +46,17 @@ kanıtı sayılmaz.
 
 20 hakem cevabı için bağımsız insan puanı, inceleyen ve tarih gerekir.
 AI bu alanları dolduramaz. qa.acceptance.calibrate en az%85 uyum ister.
+`uv run python manage.py evaluate_judge` gerçek modelden20 rubrik puanı ve
+boş insan alanlarını reports/judge-review.json dosyasına yazar. Bu20 aday
+AI tarafından hazırlanmış olumlu/olumsuz örneklerdir; insan puanı değildir.
+İnsan incelemesi sonrası `evaluate_judge --human-review DOSYA` ile mutabakat
+kapısı çalıştırılır. Aynı Qwen modeli asistan ve hakem olarak kullanıldığı
+için öz değerlendirme yanlılığı bağımsız insan kalibrasyonuyla ölçülmelidir.
 Mevcut reserved10 geliştirici AI tarafından görüldü; kör set değildir.
 Yeni set yalnız prompt sürümleri sabitlendikten sonra hazırlanıp bir kez
 çalıştırılmalı; set görüldükten sonra aynı prompt üzerinde ayar yapılmamalı.
+
+Bu bilgisayarda Windows Code Integrity, portable runtime'ın ggml.dll
+dosyasını engelledi (0xC0E90002, olay3077/3033). Güvenlik ayarı değiştirilmez.
+Gerçek model ölçümü `.github/workflows/llm.yml` Linux runner üzerinde yapılır;
+Windows kurulum dosyasının varlığı başarılı model çalıştırması sayılmaz.

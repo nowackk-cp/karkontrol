@@ -3,6 +3,7 @@
 import calendar
 import json
 import os
+import re
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -13,7 +14,7 @@ from django.shortcuts import get_object_or_404
 
 from apps.stores.models import Store
 
-from .service import _render, guardrail
+from .service import MONTHS, _render, guardrail
 from .tools import RULES, explain_rule, product_profit, profit_summary, return_statistics
 
 PROMPTS = Path(__file__).with_name("prompts")
@@ -98,9 +99,22 @@ def select_tool(question, version="v2"):
     if version not in {"v1", "v2"}:
         raise ValueError("Unknown prompt version")
     prompt = (PROMPTS / f"{version}.txt").read_text(encoding="utf-8")
+    text = question.casefold().replace("i̇", "i")
+    year_match = re.search(r"\b(19\d{2}|20\d{2}|21\d{2})\b", text)
+    year = int(year_match.group()) if year_match else None
+    month = next((number for name, number in MONTHS.items() if name in text), None)
+    # Dates are exact user input, not model arithmetic. Constrain generation at its source.
+    schema = {
+        **SCHEMA,
+        "properties": {
+            **SCHEMA["properties"],
+            "year": {"enum": [year]},
+            "month": {"enum": [month]},
+        },
+    }
     selected, usage = local_completion(
         messages=[{"role": "system", "content": prompt}, {"role": "user", "content": question}],
-        schema=SCHEMA,
+        schema=schema,
     )
     if set(selected) != set(SCHEMA["required"]):
         raise ModelUnavailable("Araç parametreleri doğrulanamadı.")
@@ -112,6 +126,8 @@ def select_tool(question, version="v2"):
         value = selected[field]
         if value is not None and (type(value) is not int or not minimum <= value <= maximum):
             raise ModelUnavailable("Geçersiz tarih.")
+    if selected["year"] != year or selected["month"] != month:
+        raise ModelUnavailable("Tarih kullanıcı sorusuyla eşleşmiyor.")
     return selected, usage
 
 

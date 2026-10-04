@@ -723,3 +723,32 @@ Tarihler Europe/Istanbul saat dilimine göredir.
   ham yanıt artifact workflow'u eklendi. PR/prompt değişimi ve haftalık run.
 - Yerel12 Chromium E2E yeniden geçti. Windows'ta gerçek model çalıştı
   iddiası yapılmaz; yerel UI offline backend ile çalışır.
+
+### 073 — LLM/kabul PR'ı ve rollback kanıtı
+
+- PR#6 taslak olarak oluşturuldu ve sohbete bağlandı:
+  https://github.com/nowackk-cp/karkontrol/pull/6. Ubuntu gerçek model workflow'u
+  PR üzerinde çalışacak; sonuç alınmadan model başarısı yazılmaz.
+- Eval komutunun başarı ve başarısızlıkta fixture kullanıcı/siparişleri
+  kaldırdığı iki entegrasyon testiyle doğrulandı. İlgili2 test geçti;
+  ruff/124 dosya formatı/Django check temiz. Son kaynak başlığıa293f20.
+
+### 074 — Gerçek hakem çalıştırıcısı ve insan puanı ayrımı
+
+- Üç boyutlu grounded/answers_question/clear JSON rubriği ve20 gerçek model
+  puanını insan alanları boş halde kaydeden evaluate_judge komutu eklendi.
+  Kalibrasyon modu insan puanı olmadan başarısız olur; AI inceleyen adı ve
+  gelecekteki tarih kabul edilmez. Aynı modelin hakem olarak yanlılığı açıklanır.
+- İki yeni hakem testiyle tests/eval76 test geçti. Linux model run37173824046
+  SHA256 kurulum ve health adımlarını geçti; gerçek v1/v2 soru ölçümü sürüyor.
+
+### 075 — İlk gerçek LLM ölçümü ve tarih hatasının düzeltilmesi
+
+- Linux run37173824046 gerçek Qwen çağrılarıyla v1%32,5, v2%85 verdi;
+  v2 E-01/02/10/16/28 kritik başarısızlıkları nedeniyle workflow FAILURE.
+  Ham yanıt ve sunucu logları reports/llm-first içine indirildi. Sonuç gizlenmedi.
+- Modelin Eylül'ü11 seçtiği ve ürün/iade niyetlerini karıştırdığı saptandı.
+  Tarih JSON şeması kullanıcının açık ay/yılına sabitlendi; ay hesabı modele
+  bırakılmaz. v2 araç açıklamaları ürün ve iade konuları için netleştirildi.
+- Yerel model ağırlığı1.834.426.016 byte SHA256 doğrulandı; Windows çalışma
+  engeli devam eder. Geniş suite312 test geçti; son hakem/sınırlama testleri ekleniyor.

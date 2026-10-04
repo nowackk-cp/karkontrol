@@ -40,6 +40,9 @@ jobs:
       - run: uv run python manage.py migrate --noinput
       - name: Compare real v1 and v2 answers to SQL
         run: uv run python manage.py evaluate_assistant --backend local --versions v1,v2
+      - name: Prepare real judge scores for independent human calibration
+        if: success() || failure()
+        run: uv run python manage.py evaluate_judge
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -47,6 +50,7 @@ jobs:
           path: |
             reports/llm-eval.json
             reports/model-server.log
+            reports/judge-review.json
             .local/llm/manifest.json
           retention-days: 14
       - name: Stop own model process

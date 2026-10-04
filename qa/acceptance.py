@@ -86,6 +86,10 @@ def calibrate(rows):
             or not row.get("reviewed_at")
         ):
             raise ValueError(f"{row['id']}: human scoring is missing")
+        if row["reviewer"].casefold().strip() in {"ai", "codex", "claude", "gemini", "chatgpt"}:
+            raise ValueError(f"{row['id']}: human reviewer required")
+        if date.fromisoformat(row["reviewed_at"]) > date.today():
+            raise ValueError(f"{row['id']}: future human review date")
     disagreement = [row["id"] for row in rows if row["human_pass"] != row["judge_pass"]]
     agreement = (20 - len(disagreement)) * 5
     return {
