@@ -64,3 +64,5 @@ ana plan `.gitignore` ile yerelde tutulur.
 
 Başlangıç kanıtları için PR: https://github.com/nowackk-cp/karkontrol/pull/1.
 PR'ın en son durumunu GitHub'dan kontrol et; tamamlanmamış bir merge'i varsayma.
+Son üretim kontrolü `check --deploy --settings config.settings.production`
+geçici test ortam değişkenleriyle 0 sorun verdi. Dış sunucuya dağıtım yapılmadı.
