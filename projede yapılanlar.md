@@ -858,3 +858,37 @@ Tarihler Europe/Istanbul saat dilimine göredir.
 - Mevcut CV dosyası olmadığı için doğrulanmış proje bölümü ve ön yazı
   docs/BASVURU_MATERYALI.md içinde hazırlandı. Kişisel geçmiş/insan kabulü
   uydurulmadı; kimseye başvuru veya mesaj gönderilmedi.
+
+### 088 — Son portföy belgelerinin uzak kayda alınması
+
+- QA/mülakat/CV/GIF ve devam notu ca995a6 commit'iyle PR#6'ya gönderildi.
+  Whitespace, lint ve132 dosyanın format kontrolü temiz. Bu değişim belgedir;
+  finans motoru/prompt sabit kaldı. Yeni başlığın required CI sonuçları beklenir.
+
+### 089 — Son yerel teslim ekranı
+
+- Gerçek tarayıcı store2 kâr raporuna döndürüldü ve teslim sekmesi olarak
+  işaretlendi. Güncel ekran reports/screens/profit-report-v1.1.png dosyasında;
+  kart/satır/ay toplamları -20,01TL kâr ve34,74TL hakediş ile eşleşir.
+  İade durumu ve kabul sınırı metni yerinde; görsel kontrolü geçti.
+
+### 090 — Sürüm hazırlığı ve son kapsam açıklaması
+
+- v1.1 release notu taslağı hazırlandı; henüz yayımlanmadı. PR#6 açıklaması
+  gerçek tarih hatası, son kabul araçları ve CV/GIF dahil final kapsama göre
+  yeniden yazıldı. GIF'in dört karesinin tamamı görsel kontrolden geçti.
+- Son yerel kapsam JSON'u %95,881 satır+dal, motor %100. Eski v1 kapsamı
+  tarihî kayıttır; yeni modüllerle güncel genel oran aynı iddia edilmez.
+
+### 091 — v1.1 uygulama PR'ının kurallı birleştirilmesi
+
+- ca995a6 için required quality57s ve gerçek model-eval3m55s SUCCESS;
+  offline eval17s PASS. Başlık ve CLEAN durumu ayrıca API'den doğrulandı.
+- PR#6 normal squash/--match-head-commit ile birleştirildi. Yönetici bypass
+  kullanılmadı. Main'e yeni holdout workflow ve tüm uygulama/kabul araçları girdi.
+
+### 092 — Sabit prompt üzerinde tek yeni set ölçümünün başlatılması
+
+- Workflow geçmişi boşken holdout.yml main üzerinde BİR KEZ tetiklendi.
+  Yeni soru içerikleri eval tamamlanmadan okunmayacak. Prompt değiştirilmeyecek;
+  ilk sonuç korunacak. Bu model yazarlı set, bağımsız insan kabulü değildir.
