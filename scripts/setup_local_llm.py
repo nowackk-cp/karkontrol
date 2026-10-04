@@ -1,5 +1,6 @@
 """Download a pinned, hash-verified portable CPU runtime and official Qwen weights."""
 
+import argparse
 import hashlib
 import json
 import sys
@@ -27,6 +28,12 @@ MODEL = (
     "90862c4b9d2787eaed51d12237eafdfe7c5f6077/Qwen3-1.7B-Q8_0.gguf",
     "061b54daade076b5d3362dac252678d17da8c68f07560be70818cace6590cb1a",
 )
+JUDGE_MODEL = (
+    "Qwen3-0.6B-Q8_0.gguf",
+    "https://huggingface.co/Qwen/Qwen3-0.6B-GGUF/resolve/"
+    "23749fefcc72300e3a2ad315e1317431b06b590a/Qwen3-0.6B-Q8_0.gguf",
+    "9465e63a22add5354d9bb4b99e90117043c7124007664907259bd16d043bb031",
+)
 
 
 def sha256(path):
@@ -35,11 +42,17 @@ def sha256(path):
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--judge", action="store_true")
+    options = parser.parse_args()
     ROOT.mkdir(parents=True, exist_ok=True)
     manifest = []
     if sys.platform not in {"win32", "linux"}:
         raise ValueError("Portable setup supports Windows/Linux x64")
-    for name, url, expected in (WINDOWS if sys.platform == "win32" else LINUX, MODEL):
+    for name, url, expected in (
+        WINDOWS if sys.platform == "win32" else LINUX,
+        JUDGE_MODEL if options.judge else MODEL,
+    ):
         target = ROOT / name
         if not target.exists() or sha256(target) != expected:
             pending = target.with_suffix(target.suffix + ".partial")
@@ -77,7 +90,9 @@ def main():
             destination.mkdir(exist_ok=True)
             with tarfile.open(target) as archive:
                 archive.extractall(destination, filter="data")
-    (ROOT / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+    (ROOT / ("judge-manifest.json" if options.judge else "manifest.json")).write_text(
+        json.dumps(manifest, indent=2), encoding="utf-8"
+    )
     print("Portable runtime ready; start it on 127.0.0.1 only.")
 
 

@@ -40,4 +40,4 @@ RULES = {
 
 
 def explain_rule(topic):
-    return {"kind": "rule", "text": RULES[topic], "source": "KURALLAR_v1.md / KURALLAR_v2.md"}
+    return {"kind": "rule", "text": RULES[topic], "source": "docs/KURALLAR.md"}

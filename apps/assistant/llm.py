@@ -1,20 +1,18 @@
 """Real local LLM selects read-only tools; money is always rendered by server code."""
 
-import calendar
 import json
 import os
-import re
 import urllib.error
 import urllib.parse
 import urllib.request
-from datetime import date
 from pathlib import Path
 
 from django.shortcuts import get_object_or_404
 
 from apps.stores.models import Store
 
-from .service import MONTHS, _render, guardrail
+from .dates import resolve_period
+from .service import _render, guardrail, unsafe_question, unsupported_amount_filter
 from .tools import RULES, explain_rule, product_profit, profit_summary, return_statistics
 
 PROMPTS = Path(__file__).with_name("prompts")
@@ -47,8 +45,8 @@ class ModelUnavailable(Exception):
     """Safe public failure; raw server errors and configuration never reach the UI."""
 
 
-def local_completion(*, messages, schema, max_tokens=128):
-    base = os.getenv("KARKONTROL_LLM_URL", "http://127.0.0.1:8081")
+def local_completion(*, messages, schema, max_tokens=128, base_url=None, model=None):
+    base = base_url or os.getenv("KARKONTROL_LLM_URL", "http://127.0.0.1:8081")
     parsed = urllib.parse.urlsplit(base)
     # This adapter deliberately supports loopback only: no financial data leaves the computer.
     if (
@@ -62,7 +60,7 @@ def local_completion(*, messages, schema, max_tokens=128):
     ):
         raise ModelUnavailable("Yerel model adresi geçersiz.")
     body = {
-        "model": os.getenv("KARKONTROL_LLM_MODEL", "Qwen3-1.7B-Q8_0"),
+        "model": model or os.getenv("KARKONTROL_LLM_MODEL", "Qwen3-1.7B-Q8_0"),
         "messages": messages,
         "temperature": 0,
         "max_tokens": max_tokens,
@@ -95,14 +93,16 @@ def local_completion(*, messages, schema, max_tokens=128):
         ) from error
 
 
-def select_tool(question, version="v2"):
-    if version not in {"v1", "v2"}:
+def select_tool(question, version="v3", *, completion=None):
+    if version not in {"v1", "v2", "v3"}:
         raise ValueError("Unknown prompt version")
     prompt = (PROMPTS / f"{version}.txt").read_text(encoding="utf-8")
-    text = question.casefold().replace("i̇", "i")
-    year_match = re.search(r"\b(19\d{2}|20\d{2}|21\d{2})\b", text)
-    year = int(year_match.group()) if year_match else None
-    month = next((number for name, number in MONTHS.items() if name in text), None)
+    period = resolve_period(question)
+    if period.error:
+        raise ModelUnavailable(period.error)
+    year, month = period.year, period.month
+    if version == "v3":
+        prompt += f"\nSunucunun çözdüğü dönem: year={year}, month={month}. Bu değerleri kullan."
     # Dates are exact user input, not model arithmetic. Constrain generation at its source.
     schema = {
         **SCHEMA,
@@ -112,11 +112,14 @@ def select_tool(question, version="v2"):
             "month": {"enum": [month]},
         },
     }
-    selected, usage = local_completion(
-        messages=[{"role": "system", "content": prompt}, {"role": "user", "content": question}],
-        schema=schema,
-    )
-    if set(selected) != set(SCHEMA["required"]):
+    try:
+        selected, usage = (completion or local_completion)(
+            messages=[{"role": "system", "content": prompt}, {"role": "user", "content": question}],
+            schema=schema,
+        )
+    except (TypeError, ValueError) as error:
+        raise ModelUnavailable("Araç parametreleri doğrulanamadı.") from error
+    if not isinstance(selected, dict) or set(selected) != set(SCHEMA["required"]):
         raise ModelUnavailable("Araç parametreleri doğrulanamadı.")
     if selected["action"] not in SCHEMA["properties"]["action"]["enum"]:
         raise ModelUnavailable("Geçersiz araç.")
@@ -131,29 +134,23 @@ def select_tool(question, version="v2"):
     return selected, usage
 
 
-def ask_llm(*, user, store_pk, question, version="v2"):
+def ask_llm(*, user, store_pk, question, version="v3", completion=None, backend="local"):
     store = get_object_or_404(Store, pk=store_pk, owner=user)
     if not isinstance(question, str) or not question.strip() or len(question) > 1000:
         return {"status": "clarify", "answer": "Kısa bir soru yazın.", "tool": None}
-    text = question.casefold().replace("i̇", "i")
-    if any(
-        word in text
-        for word in (
-            "başka",
-            "diğer satıcı",
-            "ignore",
-            "talimat",
-            "sistem prompt",
-            "şifre",
-            "secret",
-            "sql",
-            "drop",
-            "api anahtar",
-        )
-    ):
+    if unsafe_question(question):
         return {"status": "refused", "answer": MESSAGES["refuse"], "tool": None}
+    period = resolve_period(question)
+    if period.error:
+        return {"status": "clarify", "answer": period.error, "tool": None}
+    if unsupported_amount_filter(question):
+        return {"status": "unsupported", "answer": MESSAGES["unsupported"], "tool": None}
     try:
-        selected, usage = select_tool(question, version)
+        selected, usage = (
+            select_tool(question, version, completion=completion)
+            if completion
+            else select_tool(question, version)
+        )
     except ModelUnavailable:
         return {
             "status": "unavailable",
@@ -161,13 +158,17 @@ def ask_llm(*, user, store_pk, question, version="v2"):
                 "Dil modeli şu anda kullanılamıyor. Kâr raporunu açarak tutarları görebilirsiniz."
             ),
             "tool": None,
+            "backend": backend,
+            "prompt_version": version,
+            "model_attempted": True,
         }
     action = selected["action"]
     metadata = {
         "selection": selected,
         "usage": usage,
         "prompt_version": version,
-        "backend": "local",
+        "backend": backend,
+        "model_attempted": True,
     }
     if action in MESSAGES:
         return {
@@ -180,22 +181,17 @@ def ask_llm(*, user, store_pk, question, version="v2"):
     if month and not year:
         return {"status": "clarify", "answer": MESSAGES["clarify"], "tool": None, **metadata}
     # A model may not manufacture the year. Dates are authorized by the user question.
-    if year and str(year) not in question:
+    if (year, month) != (period.year, period.month):
         return {"status": "clarify", "answer": MESSAGES["clarify"], "tool": None, **metadata}
-    filters = {}
-    if year:
-        filters = {
-            "start": date(year, month or 1, 1),
-            "end": date(year, month, calendar.monthrange(year, month)[1])
-            if month
-            else date(year, 12, 31),
-        }
+    filters = period.filters
     if action == "rule":
         if not selected["topic"]:
             return {"status": "clarify", "answer": MESSAGES["clarify"], "tool": None, **metadata}
         data = explain_rule(selected["topic"])
     else:
         data = TOOLS[action](store, filters)
+    if data["kind"] != "rule":
+        data["period"] = {**{k: v.isoformat() for k, v in filters.items()}, "label": period.label}
     answer, allowed = _render(data)
     if not guardrail(answer, allowed):
         return {"status": "blocked", "answer": "Yanıt doğrulanamadı.", "tool": data, **metadata}
