@@ -563,3 +563,10 @@ Tarihler Europe/Istanbul saat dilimine göredir.
   yalnız kendi sunucu süreci yeniden başlatılıp reload sonrası1160px görünüm
   ve güncel ekran görüntüsü doğrulandı. Son sunucu session58801, port8001.
 - Rapor sekmesi çıktı olarak bırakıldı. Bu işlem yeni finans hesabı değiştirmedi.
+
+### 057 — Finans sürümünün ana dala alınması
+
+- PR #3 açıklaması son261/12/%92,68 kanıtıyla güncellendi. Son başlık711d329
+  için quality SUCCESS (run37171519874,59 saniye), eval SUCCESS (run37171519963).
+- PR #3 tam bu başlık şartıyla squash birleştirildi. main fast-forward alındı;
+  sürüm/kanıt belgeleri için docs/release-v1 dalı açıldı. Korumalar aşılmadı.
