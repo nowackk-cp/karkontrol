@@ -19,12 +19,18 @@ jobs:
           version: '0.11.26'
       - run: uv sync --locked --extra dev --extra mutation
       - run: uv run mutmut run --max-children 2
+      - name: Mutation score gate
+        run: uv run python scripts/check_mutation.py mutants/engine
       - name: Export mutation evidence
         if: always()
         run: |
           mkdir -p reports
           uv run mutmut results > reports/mutation.txt
           uv run mutmut --help > reports/mutmut-help.txt
+          uv run mutmut show engine.profit.x_allocate__mutmut_36 > reports/survivor-allocation.txt
+          uv run mutmut show engine.profit.x__calculate__mutmut_151 > reports/survivor-calculation.txt
+          uv run mutmut show engine.profit.xǁLineInputǁvalidate__mutmut_16 > reports/survivor-validation.txt
+          uv run mutmut show engine.profit.x_shipping_fee__mutmut_4 > reports/survivor-shipping.txt
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -32,4 +38,6 @@ jobs:
           path: |
             reports/mutation.txt
             reports/mutmut-help.txt
+            reports/mutation-summary.json
+            reports/survivor-*.txt
             mutants/engine/*.meta

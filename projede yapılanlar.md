@@ -473,3 +473,23 @@ Tarihler Europe/Istanbul saat dilimine göredir.
   Unsupported komut kaldırıldı; results ve .meta artifact'ı alınacak.
 - Yeni devam notu çalışan kapsam, testler, sunucu/tarayıcı ve gerekli kalan
   işleri içeriyor. Eski PR2 sonrası notlar tarihî olarak işaretlendi.
+
+### 047 — Mutasyon ilk sayımı ve teknik belgeler
+
+- İlk mutmut logu: 369/369 mutant tamamlandı, 335 öldürüldü ve 34 yaşadı;
+  ham skor 335/369 = %90,79. Export başarısızlığı ölçüm başarısı gibi sunulmadı.
+- Kur/ücret DB kısıtları ve zıt işaretli toplamda SQL taşma koruması için
+  anlamlı entegrasyon testleri eklendi; sonuçları bir sonraki koşuda alınacak.
+- Mimari, 40 soruluk gerçek eval kapsamı/sınırları ve dürüst mülakat demo
+  notları yazıldı. LLM/judge/kör hold-out eksikliği açıkça belirtildi.
+
+### 048 — Doğrulanmış mutasyon artifact'ı ve eşik kapısı
+
+- Mutation run37170823038 SUCCESS. Artifact indirildi; .meta exit kodları
+  gerçekten 335 killed/34 survived, 369 toplamı doğruluyor (%90,79).
+- SQL/DB yeni 7 testi geçti. Gecelik ölçüme boş seti ve <%85 skoru reddeden
+  metadata kapısı eklendi; timeout/hata öldürülen sayılmaz.
+- Dört survivor örneğini incelemek için geçici diff export'u eklendi;
+  nihai workflow'da hard-coded mutant kimlikleri bırakılmayacak.
+- QA stratejisi yeni gerçek kanıtlarla güncellendi. İki belge patch'i yanlış
+  bağlam yüzünden reddedildi; doğru bağlamla uygulandı, veri kaybı yok.
