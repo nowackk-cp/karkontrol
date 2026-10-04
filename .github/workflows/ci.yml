@@ -35,7 +35,7 @@ jobs:
       - name: Migration drift
         run: uv run python manage.py makemigrations --check --dry-run
       - name: Tests and reports
-        run: uv run pytest -n 2 --cov --cov-report=term-missing --cov-report=html --cov-report=xml:reports/coverage.xml --html=reports/tests.html --self-contained-html --junitxml=reports/junit.xml
+        run: uv run python -m pytest -n 2 --cov --cov-report=term-missing --cov-report=html --cov-report=xml:reports/coverage.xml --html=reports/tests.html --self-contained-html --junitxml=reports/junit.xml
       - name: Test artifacts
         if: always()
         uses: actions/upload-artifact@v4

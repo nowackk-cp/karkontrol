@@ -25,13 +25,15 @@ Bağlam dolduğunda otomatik compact sonrasında dosyalardan devam et.
 
 ## Aktif doğrulama
 
-Python 3.13 kurulumu sürüyor. İlk indirme uzadı; paralel `uv sync` Python
-kurulum kilidinde zaman aşımına uğradı. Yeniden başlatılan kurulumun sonucu
-alınmadan başarılı kurulum veya test iddiası yazma. Çalışan süreçleri kontrol et;
-başka oturumların süreçlerine müdahale etme.
+Python 3.13.14 ve Django 5.2.17 kuruldu; `uv.lock` hazır. Başlangıçta indirme,
+sürüm bağlantısı ve kilit sorunu yaşandı; yorumlayıcı ve ortam sonradan doğrulandı.
 
-Kurulum sonrası: `uv sync --extra dev` → `ruff check`/`format` → Django
-check/migrate/migration drift → pytest ve raporlar. `uv.lock` depoya girmeli.
+Yerelde 22 test geçti (3,67 saniye pytest süresi, iki worker); altyapı kapsamı
+%91. Motor kapsamı ölçülmedi. Ruff lint/format, Django check, migration drift
+ve yerel migrate başarılı. Windows console launcher engeli nedeniyle
+`uv run python -m pytest` kullan; sistem güvenlik politikasını değiştirme.
+Raporlar `reports/tests.html`, `reports/junit.xml`, `reports/coverage.xml`,
+`htmlcov/index.html` içinde ve Git dışında.
 
 ## Sıra
 

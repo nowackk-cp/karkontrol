@@ -32,11 +32,16 @@ uv run ruff check .
 uv run ruff format --check .
 uv run python manage.py check
 uv run python manage.py makemigrations --check --dry-run
-uv run pytest -n auto --cov --cov-report=term-missing --cov-report=html --html=reports/tests.html --self-contained-html
+uv run python -m pytest -n 2 --cov --cov-report=term-missing --cov-report=html --html=reports/tests.html --self-contained-html
 ```
 
 HTML raporları yerelde `reports/tests.html` ve `htmlcov/index.html` içindedir.
 GitHub Actions raporları workflow artifact'ı olarak saklar.
+
+2026-10-04 yerel başlangıç doğrulaması: **22 test geçti**; lint, format,
+Django sistem kontrolü ve migration farkı kontrolü temiz. Windows'ta pytest
+başlatıcısı uygulama denetimine takıldığı için `python -m pytest` kullanılır.
+Başlangıç altyapısı toplam kapsamı %91; bu değer kâr motorunun kapsamı değildir.
 
 ## Çalışma ilkeleri
 

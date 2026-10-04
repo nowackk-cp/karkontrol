@@ -27,4 +27,6 @@ oturumlar için geçerlidir.
 ## Başlangıç kontrolleri
 
 `uv sync --locked --extra dev`, `uv run ruff check .`,
-`uv run ruff format --check .`, `uv run python manage.py check`, `uv run pytest`.
+`uv run ruff format --check .`, `uv run python manage.py check`,
+`uv run python -m pytest`. Windows'ta console launcher engellenirse standart
+Python modül çağrısını kullan; sistem güvenlik ayarlarını değiştirme.

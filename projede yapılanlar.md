@@ -81,3 +81,43 @@ Tarihler Europe/Istanbul saat dilimine göredir.
 - `docs/DEVAM_NOTU.md` oluşturuldu; kullanıcı tercihi, gerçek ilerleme,
   aktif kurulum sorunu ve sonraki kontroller kaydedildi.
 - Doğrulama: commit çıktıları kontrol edildi. Commit'ler henüz dış depoya gönderilmedi.
+
+### 009 — Python yorumlayıcısını doğrulama
+
+- Python indirmesi tamamlandı; uv sürüm bağlantısı oluştururken hata verdi.
+- Kurulan Python'un doğrudan yolu incelendi ve `--version` ile **3.13.14**
+  doğrulandı. Kayıp yorumlayıcı sanılarak yeniden indirme yapılmadı.
+- Doğrudan yorumlayıcı yoluyla `.venv` oluşturuldu; geliştirme bağımlılıklarının
+  kurulumu yeniden başlatıldı. Windows sertifika bayrağının yeni adı `--system-certs`.
+- GitHub release sorgusu ağ zaman aşımı verdi; bu hata GitHub erişiminin tümü
+  için genellenmedi (hesap API sorgusu başarıyla çalışmıştı).
+
+### 010 — Kilit dosyası ve altın veri kabul koşulları
+
+- uv bağımlılık çözümlemesi 49 paket için tamamlandı; `uv.lock` üretildi.
+  Paket kurulumu ayrıca doğrulanacak.
+- `.env`, veritabanı ve özel planın Git dışında kaldığı `git check-ignore` ile doğrulandı.
+- `data/golden/README.md` ile bağımsız veri kabul koşulları ve beklenen sütunlar kaydedildi.
+- uv kurulan Python 3.13.14'ü son kontrolde tanıdı; sürüm bağlantısı sorunu
+  kalıcı yorumlayıcı kaybı oluşturmadı.
+
+### 012 — Çalıştırma ve test sonuçları
+
+- Ruff lint ve format kontrolleri temiz; Django sistem kontrolü sorun bulmadı,
+  migration farkı yok. Yerel SQLite migration'ları başarıyla uygulandı.
+- Windows uygulama denetimi `pytest` console launcher dosyasını engelledi
+  (4551). Güvenlik ayarı değiştirilmeden standart `python -m pytest` kullanıldı.
+- **22 test geçti**, iki worker ile pytest süresi **3,67 saniye**.
+- HTML test raporu, JUnit XML, kapsam XML ve HTML kapsam raporu üretildi.
+- Başlangıç altyapısı kapsamı **%91** (82/90 statement, 4/4 branch);
+  henüz motor olmadığı için motor kapsamı veya finansal doğruluk iddia edilmedi.
+- README, CI komutu ve devam talimatları Python modül çağrısıyla güncellendi.
+
+### 011 — Bağımlılık kurulumu ve ilk statik doğrulama
+
+- Python 3.13.14 ortamına 23 çalışma/geliştirme paketi kuruldu; Django 5.2.17,
+  pytest 9.1.1 ve ruff 0.16.10 kilit dosyasıyla sabitlendi.
+- Python dosyaları derleme kontrolünden geçti; `git diff --check` hata vermedi.
+- İlk ruff kontrolü bir uzun satır ve iki biçim farkı bildirdi. Formatter
+  uygulandı; lint ve format kontrolleri tekrar çalıştırıldı.
+- Bu biçim bulguları finansal motor hatası olarak sayılmadı.

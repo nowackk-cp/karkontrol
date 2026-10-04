@@ -54,7 +54,11 @@ def test_invalid_credentials_do_not_create_session(client, account):
 def test_login_rejects_external_redirect(client, account):
     response = client.post(
         reverse("login"),
-        {"username": account.username, "password": "test-only-password", "next": "https://evil.test"},
+        {
+            "username": account.username,
+            "password": "test-only-password",
+            "next": "https://evil.test",
+        },
     )
     assert response.status_code == 302
     assert response.url == reverse("home")

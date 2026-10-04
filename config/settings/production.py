@@ -14,7 +14,9 @@ ALLOWED_HOSTS = [
     host.strip() for host in os.getenv("DJANGO_ALLOWED_HOSTS", "").split(",") if host.strip()
 ]
 if not ALLOWED_HOSTS or "*" in ALLOWED_HOSTS:
-    raise ImproperlyConfigured("DJANGO_ALLOWED_HOSTS açıkça tanımlanmalı; joker alan adı kullanılamaz.")
+    raise ImproperlyConfigured(
+        "DJANGO_ALLOWED_HOSTS açıkça tanımlanmalı; joker alan adı kullanılamaz."
+    )
 
 SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
