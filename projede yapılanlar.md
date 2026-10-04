@@ -323,3 +323,13 @@ Tarihler Europe/Istanbul saat dilimine göredir.
   kapsam, gerçek tarayıcı kontrolleri ve kalan kapsam sınırlarıyla yazıldı.
 - Devam notuna PR bağlantısı eklendi. Son commit'in CI sonucu bekleniyor;
   yerel test başarısı uzak CI başarısıyla karıştırılmıyor.
+
+### 032 — Uzak kalite kapısının doğrulanması
+
+- PR #2'nin son kod/belge commit'i 72398004020000623b10443af31ff55ee39faffe
+  için GitHub run **37165639061** başarıyla tamamlandı.
+- PR kontrolü `quality: SUCCESS`, durum OPEN/CLEAN; birleştirme engeli kalktı.
+  PR henüz birleştirilmedi ve yönetici korumaları aşılmadı.
+- Kanıt: https://github.com/nowackk-cp/karkontrol/actions/runs/37165639061.
+- Git çalışma ağacı kontrol sırasında temiz; bütün tamamlanan işler günlüğe
+  ve devam notuna kaydedildi. Kodun bağımsız altın mutabakatı iddia edilmez.

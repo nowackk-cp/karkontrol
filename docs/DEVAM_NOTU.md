@@ -74,6 +74,8 @@ Başlangıç PR #1, başarılı CI'nin doğru commit'i doğrulandıktan sonra sq
 Güncel çalışma dalı: `feat/store-order-import`; bunun PR/CI durumunu GitHub'dan kontrol et.
 PR #2: https://github.com/nowackk-cp/karkontrol/pull/2. Oluşturulduğunda açık;
 merge varsayma. Başarılı kontrolün PR'ın en son commit'ine ait olduğunu doğrula.
+Uzak CI kanıtı: run 37165639061, commit 72398004020000623b10443af31ff55ee39faffe,
+`quality: SUCCESS`. Sonraki sadece belge commit'lerinde de son kontrolü yeniden doğrula.
 Son üretim kontrolü `check --deploy --settings config.settings.production`
 geçici test ortam değişkenleriyle 0 sorun verdi. Dış sunucuya dağıtım yapılmadı.
 
