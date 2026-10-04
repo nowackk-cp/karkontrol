@@ -531,3 +531,26 @@ Tarihler Europe/Istanbul saat dilimine göredir.
   demo hesabı, insan kabul sınırları ve üretim ayrımını anlatıyor.
 - CHANGELOG başlangıç ve0.2.0 finans demo kapsamıyla eklendi. Pages bağlantısı
   hazırlanmış yayın adresidir; canlı yayın doğrulaması henüz sonraki adımdadır.
+
+### 053 — Mutasyon inceleme raporu ve geçici işlerin kaldırılması
+
+- Yeni testlerle Linux run37171192788 SUCCESS; sonuç artifact'ı indirildi.
+  Güncel sayım raporun sonuç alanından alınarak aşağıdaki kayıtta kesinleştirilecek.
+- İncelenen gerçek test boşlukları ve metrik sınırlamaları MUTASYON_RAPORU.md'ye
+  yazıldı. Yaşayan mutantlar gerçek AI bug sayılmadı.
+- Geçici geliştirme dalı push tetikleyicisi ve hard-coded survivor export
+  kimlikleri kaldırıldı; nightly yalnız schedule/elle tetikleme ve genel metadata
+  >=%85 kapısıyla çalışacak. Sürüm sonrası main'de bir kez daha ölçülecek.
+
+### 054 — Güncel mutasyon sonucunun kesinleştirilmesi
+
+- Artifact commit40c5442: **342 killed /369 toplam = %92,68**, 27 survived,
+  diğer durum0. Ek kontroller yedi mutantı daha yakaladı; yaşayanları çıkarmadan
+  ham skor raporlandı. README ve mutasyon raporu bu gerçek sayımla güncellendi.
+
+### 055 — Güncel tam yerel kalite sonucu
+
+- Lint ve106 Python dosyasının format kontrolü temiz. **261 test geçti**
+  (6,70 saniye); JSON/HTML/JUnit raporları gerçek sonuçlarla yeniden üretildi.
+- Yeni DB sınır testleri ve güçlendirilmiş iki motor testi toplam envantere
+  eklendi. Son motor dal ölçümü44/44; eski252 sayısı tarihî CI kanıtı olarak korunur.

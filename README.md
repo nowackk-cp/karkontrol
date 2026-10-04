@@ -38,14 +38,15 @@ hata bile bütün aktarımı geri alır. Ücretsiz hesap toplam100 satır; sahte
 
 | Katman | Kanıt |
 |---|---|
-| Unit, sınır, property, entegrasyon, SQL ve eval | 252 testlik sürüm Linux CI'de geçti; takip testleri günlüğe kaydedilir |
+| Unit, sınır, property, entegrasyon, SQL ve eval | 261 test; sonuçlar CI ve işlem günlüğünde |
 | E2E | 12 bağımsız Chromium senaryosu: import, iade, rapor, ödeme, izolasyon |
 | Motor dal kapsamı | 44/44 = %100; CI alt sınırı %90 |
-| Mutasyon başlangıcı | 335/369 = %90,79; 34 survivor, gecelik alt sınır %85 |
+| Mutasyon | 342/369 = %92,68; 27 survivor, gecelik alt sınır %85 |
 | Araç asistanı | 40/40 soru; SQL eşitliği ve sayısal guardrail; LLM skoru değildir |
 
 [CI kanıtı](https://github.com/nowackk-cp/karkontrol/actions/runs/37170676379) ·
-[Mutasyon kanıtı](https://github.com/nowackk-cp/karkontrol/actions/runs/37170823038) ·
+[Mutasyon kanıtı](https://github.com/nowackk-cp/karkontrol/actions/runs/37171192788) ·
+[Mutasyon incelemesi](docs/MUTASYON_RAPORU.md) ·
 [Eval raporu](docs/EVAL_RAPORU.md) · [QA stratejisi](docs/QA_STRATEJISI.md) ·
 [HTML rapor yayını](https://nowackk-cp.github.io/karkontrol/).
 

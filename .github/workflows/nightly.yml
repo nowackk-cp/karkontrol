@@ -1,8 +1,5 @@
 name: Engine mutation
 on:
-  push:
-    branches: ['feat/profit-quality-mvp']
-    paths: ['engine/**', 'tests/unit/test_profit.py', 'mutmut_pytest.ini', '.github/workflows/nightly.yml']
   schedule:
     - cron: '0 2 * * *'
   workflow_dispatch:
@@ -27,10 +24,6 @@ jobs:
           mkdir -p reports
           uv run mutmut results > reports/mutation.txt
           uv run mutmut --help > reports/mutmut-help.txt
-          uv run mutmut show engine.profit.x_allocate__mutmut_36 > reports/survivor-allocation.txt
-          uv run mutmut show engine.profit.x__calculate__mutmut_151 > reports/survivor-calculation.txt
-          uv run mutmut show engine.profit.xǁLineInputǁvalidate__mutmut_16 > reports/survivor-validation.txt
-          uv run mutmut show engine.profit.x_shipping_fee__mutmut_4 > reports/survivor-shipping.txt
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -39,5 +32,4 @@ jobs:
             reports/mutation.txt
             reports/mutmut-help.txt
             reports/mutation-summary.json
-            reports/survivor-*.txt
             mutants/engine/*.meta
