@@ -502,3 +502,13 @@ Tarihler Europe/Istanbul saat dilimine göredir.
 - Paket sürümü 0.2.0'a çıkarıldı; proje fazları çalışan çıktı ve insan/harici
   hizmet kabul sınırlarıyla PROJE_DURUMU.md içinde açıklandı.
 - HTML/JSON/YAML/INI satır sonları Git'te LF olacak şekilde tanımlandı.
+
+### 050 — Pages yapılandırması ve güncel veri/provenans belgeleri
+
+- GitHub Pages için workflow tabanlı yayın kaynağı yapılandırıldı. İlk yayın
+  main'deki başarılı CI sonrası yapılacak; hazırlık canlı site başarısı sayılmaz.
+- Yayın yalnız bu reponun main push CI sonucunu kullanır; PR/fork artifact'ı
+  yayımlanmaz. İşlevsiz manual dispatch kaldırıldı.
+- Aktarım sözleşmesi kur/desi/kota/hesap atomikliğiyle; AI karar kaydı yeni
+  yaklaşım ve gerçek metriklerle güncellendi. Golden README boş beklenen
+  şablona yönlendirir, motordan önce insan veri commit'i koşulunun sağlanmadığını açıklar.
