@@ -37,12 +37,10 @@ Raporlar `reports/tests.html`, `reports/junit.xml`, `reports/coverage.xml`,
 
 ## Sıra
 
-1. Altyapıyı yerelde doğrula ve küçük commit'lerle kaydet.
-2. Ana plandaki `nowackk-cp/karkontrol` public depo ve gerçek CI durumunu kur/doğrula.
-   GitHub CLI oturumu hazır; ilk kontrolde hedef depo bulunmadı.
-3. Nihai alan kurallarını ve insan doğrulamalı altın veriyi tamamla.
-4. Yalnızca kuralları gören ayrı motor oturumu ve gerçek `ai-v1` etiketi.
-5. Mutabakat/property/entegrasyon testleri; gerçek hatalar ve kalite kapısı.
+1. Nihai alan kurallarını ve insan doğrulamalı altın veriyi tamamla.
+2. Yalnızca kuralları gören ayrı motor oturumu ve gerçek `ai-v1` etiketi.
+3. Mutabakat/property/entegrasyon testleri; gerçek hatalar ve motor kalite kapısı.
+4. E2E, asistan eval ve yeni pazaryeri modülü.
 
 ## Kanıt sınırları
 
@@ -63,3 +61,6 @@ ana plan `.gitignore` ile yerelde tutulur.
   ve login gerçek HTTP üzerinden 200 verdi. Sonraki oturumda sunucu durumunu kontrol et.
 - Başlangıç altyapısı tamamlandı; sıradaki asıl faz, kesin kurallar ve bağımsız
   insan doğrulamalı altın veri. Motorun önce yazılmaması kuralını koru.
+
+Başlangıç kanıtları için PR: https://github.com/nowackk-cp/karkontrol/pull/1.
+PR'ın en son durumunu GitHub'dan kontrol et; tamamlanmamış bir merge'i varsayma.

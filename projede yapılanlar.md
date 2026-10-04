@@ -150,6 +150,16 @@ Tarihler Europe/Istanbul saat dilimine göredir.
   `checks: [quality]`, `strict: true`, `force_push: false` doğrulandı.
 - README'ye gerçek CI rozeti ve kanıt bağlantısı eklendi; devam notu güncellendi.
 
+### 017 — Korumalı dal üzerinden belge güncellemesi
+
+- Kanıt belgeleri `docs/bootstrap-evidence` dalına commit edilip gönderildi.
+- PR #1 oluşturuldu ve Codex sohbetine bağlandı:
+  https://github.com/nowackk-cp/karkontrol/pull/1.
+- Yerel uygulamanın Codex tarayıcı panelinde açılması istendi; araç `queued`
+  döndürdü. HTTP doğrulaması ayrı yapıldı; panelin görünür açıldığı varsayılmadı.
+- Yereldeki ana planda biten teknik kurulum maddeleri işaretlendi; profil
+  düzenleme ve insan doğrulaması gereken fazlar tamamlanmış sayılmadı.
+
 ### 011 — Bağımlılık kurulumu ve ilk statik doğrulama
 
 - Python 3.13.14 ortamına 23 çalışma/geliştirme paketi kuruldu; Django 5.2.17,
