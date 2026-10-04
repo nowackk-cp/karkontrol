@@ -8,6 +8,7 @@ from django.db import models
 class Store(models.Model):
     class Marketplace(models.TextChoices):
         DEMO = "demo_tr", "Pazaryeri demo · TRY"
+        AMAZON = "amazon_demo", "Amazon demo · TRY / USD / EUR"
 
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField("Mağaza adı", max_length=100)

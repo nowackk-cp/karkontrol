@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Asistan · KârKontrol{% endblock %}
+{% block content %}
+<h1>Mağaza asistanı</h1><p>{{ store.name }}</p>
+<nav class="store-nav"><a href="{% url 'orders:list' store.pk %}">Siparişler</a><a href="{% url 'reports:profit' store.pk %}">Kâr raporu</a></nav>
+<section class="card"><p>Finans araçlarıyla doğrulanan yanıtlar. Örneğin “2026 Eylül net kârım ne?”, “En kârlı ürünlerim?” veya “Stopaj kârımı nasıl etkiler?”</p>
+<form method="post">{% csrf_token %}{{ form.as_p }}<button data-testid="assistant-submit" type="submit">Sor</button></form>
+{% if result %}<div class="section-gap" role="status" data-testid="assistant-answer">{{ result.answer }}</div>{% endif %}
+<p class="note">Anahtarsız demo asistanı sabit niyet kurallarıyla çalışır; dış LLM kullanmaz. Yanıtlar seçili mağazanın verisine dayanır.</p></section>
+{% endblock %}

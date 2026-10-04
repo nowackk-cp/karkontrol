@@ -1,5 +1,29 @@
 # AI ile çalışma kaydı
 
+## 2026-10-04 — Kesintisiz demo tamamlama
+
+Kullanıcının “bitene kadar durma” talimatı, bağımsız insan onayı yokken bütün
+geliştirmeyi durdurma yaklaşımını değiştirdi. Demo sözleşmesi açık varsayımlarla
+uygulandı; golden sonuç hücreleri boş kaldı. Motor `demo-v1`, asistan `tools-v1`;
+AI hesabı insan kanıtı olarak sunulmadı.
+
+| Öneri/karar | Sonuç | Gerekçe |
+|---|---|---|
+| Atomik import ve siparişin tamamını yeniden hesaplama | Kabul | Yarım kayıt ve çok satırlı ücret hatalarını önler |
+| SQL'de integer cents | Kabul | SQLite Decimal toplamasında float riskini kaldırır |
+| Kalan kuruşu rastgele dağıtma | Ret | Tekrar hesaplamada aynı sonuç gereklidir |
+| Platform kuponunu satıcı indirimiyle birleştirme | Ret | Finansmanı farklıdır, gelir/komisyon farklı davranır |
+| 12 kritik E2E + geniş unit/property katmanı | Kabul | Para ve sahiplik riskine odaklanır |
+| Logo rengi için otomasyon | Ret | Kritik akış kabulünü güçlendirmez |
+| Motor çıktısından golden beklenti üretme | Ret | Aynı hata iki tarafta görünmez olur |
+| Bir hatalı testte bekleneni değiştirme | Ret | Envanterde9 reserved hata olduğunda veri10'a tamamlandı |
+| Anahtarsız araç asistanı | Kabul | Kullanıcı verisi/kâr hesapları yerelde ve doğrulanabilir kalır |
+| Bu sonucu LLM/judge/kör holdout diye sunma | Ret | Bu ölçümler yapılmadı |
+| Kasıtlı CI demo hatasını gerçek AI bug sayma | Ret | Gate kanıtı ile bug kaydı farklıdır |
+
+İlk mutasyon ölçümü 335/369=%90,79; yaşayan mutantlar raporda korunur.
+Şeffaf araç/kapsam/kanıt sınırı projenin kabul kuralıdır.
+
 ## 2026-10-04 — Başlangıç
 
 Araç: Codex. Bu çalışmanın Claude Code ile yapıldığı iddia edilmez.

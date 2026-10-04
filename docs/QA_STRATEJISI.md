@@ -1,6 +1,6 @@
 # QA stratejisi
 
-Durum: başlangıç taslağı, 2026-10-04.
+Durum: çalışan demo kalite kapıları, 2026-10-04.
 
 ## Öncelik
 
@@ -18,8 +18,9 @@ Durum: başlangıç taslağı, 2026-10-04.
 ## Doğrulama katmanları
 
 Altyapıda giriş/çıkış, güvenlik ayarları ve servis kontrolü test edilir.
-Motor aşamasında kurallara dayanan birim/sınır testleri, Hypothesis değişmezleri
-ve insan doğrulamalı 30 sipariş mutabakatı gelir. Entegrasyonda dosya → DB →
+Motor aşamasında kurallara dayanan birim/sınır testleri, Fraction referansı ve
+Hypothesis değişmezleri çalışır. İnsan doğrulamalı 30+10 sipariş mutabakatı henüz
+kabul edilmemiştir. Entegrasyonda dosya → DB →
 rapor zinciri, E2E'de yalnızca kritik kullanıcı akışları test edilir.
 
 Altın beklenenler motor çıktısından alınmaz. Hesaplama testleri finansal
@@ -29,15 +30,15 @@ formülünü tekrarlaması tek başına bağımsız doğrulama sayılmaz.
 ## Şimdilik kapsam dışında
 
 Gerçek ödeme, canlı kur API'si, pazaryeri bağlantısı, reklam/taksit gideri ve
-gerçek müşteri verisi yok. LLM eval ve mutasyon skoru motor tamamlandıktan
-sonra ölçülecek; yer tutucu sayılar veya ölçülmemiş başarı yüzdeleri yayımlanmaz.
+gerçek müşteri verisi yok. 40 soruluk ölçüm deterministik araç asistanına aittir;
+LLM/judge/kör hold-out değildir. Yer tutucu metrik yayımlanmaz.
 
 ## Başlangıç kalite kapısı
 
 Lint → format → Django sistem kontrolü → migration farkı → birim ve
-entegrasyon testleri. Raporlar artifact olarak saklanır. Motor geliştirilince
-dal kapsamı ≥ %90 ve Linux mutasyon skoru ≥ %85 hedefleri eklenir; bunlar
-başlangıç uygulaması için ölçülmüş sonuç değildir.
+entegrasyon/eval → motor dal kapsamı ≥ %90 → 12 Chromium E2E.
+Raporlar artifact olarak saklanır. Linux gecelik mutasyon kapısı ≥ %85'tir;
+yalnız exit1 gerçekten öldürülen sayılır. Hatalı/boş ölçüm başarılı sayılmaz.
 
 ## Uygulanan veri akışı testleri
 
@@ -48,4 +49,18 @@ filtreleri ve sayfalama doğrulandı. Genel uygulama kapsamı %96.
 
 Beklenen fiyatlar yalnızca dosyadaki girdinin veritabanında korunmasını
 doğrular; bağımsız altın kâr bekleneni değildir. Gerçek tarayıcı kontrolleri
-ayrıca işlem günlüğünde kayıtlı; CI Playwright paketi henüz uygulanmadı.
+ayrıca işlem günlüğünde kayıtlıdır. Bu paragraf PR2 sonrası tarihî başlangıç kanıtıdır.
+
+## Finans demo sürümü kanıtları
+
+252 test ve 12 E2E Linux CI'de geçti:
+[run37170676379](https://github.com/nowackk-cp/karkontrol/actions/runs/37170676379).
+Motor dal kapsamı 44/44 (%100); genel satır+dal kapsamı yaklaşık %98.
+Mutmut3.8 ilk tamamlanmış ve artifact'ı alınmış ölçüm 335/369=%90,79:
+[run37170823038](https://github.com/nowackk-cp/karkontrol/actions/runs/37170823038).
+34 survivor saklanır, gizlenmez. Exception raise satırlarının mesajları mutasyondan
+hariçtir; bütün koşullar/hesaplar dahil. Mutmut3 globals ve dataclass varsayılanlarını
+mutate etmez; bu sınır metrikle birlikte değerlendirilir. Detaylar ayrı mutasyon raporunda.
+
+Katmanlar teknik riskleri tamamlar. Aynı AI'ın sözleşme ve test yazması alan
+hatasının iki tarafa da taşınmasını engellemez; insan inceleme seti boş kalır.

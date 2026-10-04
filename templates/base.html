@@ -6,7 +6,7 @@
   <title>{% block title %}KârKontrol{% endblock %}</title>
   <style>
     :root { color-scheme: light; font-family: system-ui, sans-serif; color: #182a35; background: #f3f6f8; }
-    body { margin: 0; } header, main, footer { max-width: 860px; margin: auto; padding: 24px; }
+    body { margin: 0; } header, main, footer { max-width: 1160px; margin: auto; padding: 24px; }
     header { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
     a { color: #136454; } h1 { font-size: clamp(2rem, 6vw, 3rem); line-height: 1.15; }
     p, li { line-height: 1.7; } .card { background: #fff; padding: 28px; border: 1px solid #d9e2e7; border-radius: 12px; }
@@ -22,6 +22,12 @@
     th, td { text-align: left; padding: 12px 10px; border-bottom: 1px solid #e1e8ec; white-space: nowrap; }
     .messages { list-style: none; padding: 16px; background: #e4f3eb; border-radius: 8px; }
     .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+    .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 24px 0; }
+    .stats strong { display: block; font-size: clamp(1.2rem, 3vw, 1.8rem); margin-top: 12px; }
+    .store-nav { margin: 12px 0 24px; flex-wrap: wrap; } .section-gap { margin-top: 24px; }
+    .eyebrow { font-size: .85rem; color: #506673; letter-spacing: .03em; }
+    textarea { display: block; width: 100%; box-sizing: border-box; padding: 12px; font: inherit; }
+    @media (max-width: 620px) { .stats { grid-template-columns: 1fr; } header { flex-wrap: wrap; } nav { flex-wrap: wrap; } }
   </style>
 </head>
 <body>
@@ -30,9 +36,11 @@
     <nav aria-label="Hesap">
     {% if user.is_authenticated %}
       <a data-testid="stores-nav" href="{% url 'stores:list' %}">Mağazalarım</a>
+      <a href="{% url 'billing:subscription' %}">Abonelik</a>
       <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button data-testid="logout" type="submit">Çıkış yap</button></form>
     {% else %}
       <a data-testid="login-link" href="{% url 'login' %}">Giriş yap</a>
+      <a href="{% url 'signup' %}">Hesap oluştur</a>
     {% endif %}
     </nav>
   </header>

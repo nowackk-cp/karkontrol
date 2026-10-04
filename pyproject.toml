@@ -1,6 +1,6 @@
 [project]
 name = "karkontrol"
-version = "0.1.0"
+version = "0.2.0"
 description = "Pazaryeri kâr hesapları için bağımsız kalite güvence projesi"
 readme = "README.md"
 requires-python = ">=3.13,<3.14"
@@ -39,7 +39,7 @@ select = ["E", "F", "I", "UP", "B"]
 DJANGO_SETTINGS_MODULE = "config.settings.test"
 pythonpath = ["."]
 testpaths = ["tests"]
-addopts = "--strict-markers --strict-config"
+addopts = "--strict-markers --strict-config -m 'not e2e'"
 markers = [
     "unit: Saf Python birim testleri",
     "integration: Django ve veritabanı entegrasyon testleri",
@@ -51,8 +51,16 @@ markers = [
 
 [tool.coverage.run]
 branch = true
-source = ["config", "apps"]
+source = ["config", "apps", "engine"]
 omit = ["*/migrations/*", "config/asgi.py", "config/wsgi.py", "config/settings/test.py"]
 
 [tool.coverage.report]
 show_missing = true
+
+[tool.mutmut]
+source_paths = ["engine/"]
+pytest_add_cli_args_test_selection = ["tests/unit/test_profit.py"]
+pytest_add_cli_args = ["-c", "mutmut_pytest.ini", "-p", "no:django"]
+also_copy = ["mutmut_pytest.ini"]
+# Error wording is not a financial contract. Conditions and arithmetic remain mutated.
+do_not_mutate_patterns = ["raise ValueError"]

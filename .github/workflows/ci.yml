@@ -25,7 +25,7 @@ jobs:
           version: "0.11.26"
           enable-cache: true
       - name: Install locked dependencies
-        run: uv sync --locked --extra dev
+        run: uv sync --locked --extra dev --extra e2e
       - name: Lint
         run: uv run ruff check .
       - name: Format
@@ -35,7 +35,13 @@ jobs:
       - name: Migration drift
         run: uv run python manage.py makemigrations --check --dry-run
       - name: Tests and reports
-        run: uv run python -m pytest -n 2 --cov --cov-report=term-missing --cov-report=html --cov-report=xml:reports/coverage.xml --html=reports/tests.html --self-contained-html --junitxml=reports/junit.xml
+        run: uv run python -m pytest -n 2 --cov --cov-report=term-missing --cov-report=html --cov-report=json:reports/coverage.json --cov-report=xml:reports/coverage.xml --html=reports/tests.html --self-contained-html --junitxml=reports/junit.xml
+      - name: Engine branch coverage gate
+        run: uv run python scripts/check_coverage.py reports/coverage.json
+      - name: Install Chromium
+        run: uv run python -m playwright install --with-deps chromium
+      - name: Critical browser workflows
+        run: uv run python -m pytest tests/e2e -m e2e --browser chromium --tracing retain-on-failure --screenshot only-on-failure --junitxml=reports/e2e.xml
       - name: Test artifacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -44,5 +50,6 @@ jobs:
           path: |
             reports/
             htmlcov/
+            test-results/
           if-no-files-found: ignore
           retention-days: 14

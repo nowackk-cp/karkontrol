@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.db import transaction
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -81,7 +82,11 @@ def order_return(request, store_pk, pk):
     line = get_object_or_404(OrderLine, pk=pk, store=store)
     form = ReturnForm(request.POST if request.method == "POST" else None, instance=line)
     if request.method == "POST" and form.is_valid():
-        form.save()
+        from apps.reports.services import recalculate_order
+
+        with transaction.atomic():
+            form.save()
+            recalculate_order(store, line.order_number)
         messages.success(request, "İade adedi güncellendi.")
         return redirect("orders:list", store_pk=store.pk)
     return render(request, "orders/return.html", {"form": form, "line": line, "store": store})

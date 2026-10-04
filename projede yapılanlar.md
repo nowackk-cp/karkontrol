@@ -333,3 +333,233 @@ Tarihler Europe/Istanbul saat dilimine göredir.
 - Kanıt: https://github.com/nowackk-cp/karkontrol/actions/runs/37165639061.
 - Git çalışma ağacı kontrol sırasında temiz; bütün tamamlanan işler günlüğe
   ve devam notuna kaydedildi. Kodun bağımsız altın mutabakatı iddia edilmez.
+
+### 033 — Sipariş akışının ana dala alınması
+
+- PR #2, son başlığı 8611d7a ve başarılı quality kontrolü doğrulandıktan sonra
+  squash ile birleştirildi. Ana dal fast-forward güncellendi;
+  `feat/profit-quality-mvp` dalında kalan uygulama işlerine başlandı.
+- Kullanıcının bitene kadar devam et talimatıyla demo finans politikaları
+  açık varsayımlarla uygulanacak. İnsan denetimli altın veri veya gerçek LLM
+  değerlendirmesi yapılmadan bu kanıtların elde edildiği iddia edilmeyecek.
+
+### 034 — Demo finans sözleşmesi ve saf motor
+
+- Kargo eşikleri, desi, satır ücret dağıtımı, kupon finansmanı, kısmi/tam iade,
+  KDV ve stopaj politikaları KURALLAR_v1.md içinde açıkça belirlendi.
+- Django'dan bağımsız Decimal motoru eklendi; en büyük kalan dağıtımı,
+  sipariş başına ücret ve nakit/kâr çapraz kontrolü uygulandı.
+- Bu aşamada motor testleri henüz çalıştırılmadı; insan doğrulamalı altın set
+  üretilmedi. Tarihî taslak yeni sözleşmeye yönlendirildi.
+
+### 035 — Finans kayıtları, döviz girdileri ve sahte abonelik
+
+- Finans sonuçlarını SQL'de tamsayı kuruş olarak saklayan model, atomik sipariş
+  yeniden hesabı, aylık/window SQL raporu ve yeniden oluşturma komutu eklendi.
+- Amazon demo, sabit USD/EUR kuru ve desi/ağırlık/maliyet KDV girdileri eklendi.
+  Aktarım ve iade akışına hesaplama bağlandı; migrasyon ve testler sırada.
+- Ücretsiz 100 satır limiti, Demo Pro ve başarılı/reddedilen/zaman aşımı
+  simülasyonu eklendi. Ödeme tekrarları kullanıcı+UUID ile tekilleşir;
+  gerçek ödeme veya dış API çağrısı yoktur.
+
+### 036 — Kâr ekranı, dışa aktarım ve araç asistanı
+
+- Filtrelenmiş kâr/hakediş/net satış kartları, satır kalemleri, aylık SQL
+  raporu, sayfalama ve CSV dışa aktarım eklendi. CSV kimlik alanlarında
+  elektronik tablo formül enjeksiyonuna karşı metin öneki kullanılır.
+- Oturum sahibine bağlı özet, ürün sıralaması, iade ve kural araçlarıyla
+  anahtarsız asistan eklendi. Sayılar araç beyaz listesiyle doğrulanır;
+  dış LLM başarısı veya judge kalibrasyonu iddia edilmez.
+- İlk migrasyonlar yerelde başarıyla uygulandı; mevcut üç siparişin
+  finans kayıtları rebuild_reports ile oluşturuldu. Ekran/test doğrulaması sırada.
+
+### 037 — İlk regresyon ve finans testlerinin eklenmesi
+
+- Yeni modeller/aktarımı takiben mevcut 75 test yeniden geçti (2,39 saniye).
+- Kullanıcının 600 TL örneği, eşik ±1 kuruş, desi, iade, satır dağıtımı,
+  para türü/sonluluk doğrulaması ve sabit döviz birim testleri eklendi.
+- Fraction/tamsayı aritmetiğiyle ikinci hesap yolu ve Hypothesis nakit eşitliği,
+  kuruş koruma testleri eklendi. Bu testler insan altın veri yerine sunulmaz.
+- Formatlama ilk lint hatalarının çoğunu giderdi; kalan uzun metinler bölündü.
+  Yeni testlerin sonucu sonraki doğrulamada kaydedilecek.
+
+### 038 — Motor doğrulaması ve uygulama kalite kapsamı
+
+- 138 test geçti; motorun ölçülen satır ve dal kapsamı %100. Yeni uygulama
+  ekranlarının testleri henüz eklenmediği anda toplam kapsam %78 idi.
+- SQL/window toplamları, filtre/sayfalama, döviz, tekrar ödeme, ücretsiz limit
+  geri alma, iade hesabı ve asistan izolasyonu için entegrasyon testleri eklendi.
+- Playwright bağımlılığı ve Chromium kurulumu başlatıldı. Mutmut 3.8.0 için
+  resmî yapılandırma/fork gereksinimi incelendi; Linux CI üzerinde çalışacak.
+
+### 039 — Finans entegrasyonu ve tarayıcı otomasyonunun hazırlanması
+
+- 165 birim/entegrasyon testi geçti (3,10 saniye); iade, sabit kur, izolasyon,
+  SQL/window, abonelik tekilleştirme ve limitte atomik geri alma doğrulandı.
+- Hesap oluşturma eklendi; ana sayfa çalışan raporlara göre güncellendi.
+- Page Object Model ile 12 bağımsız Playwright senaryosu yazıldı. Beş rapor
+  satırının kontrolü kullanıcı kaynaklı 600 TL örneğine dayanır; altın veri
+  E2E'si gibi sunulmaz. Chromium kurulumu bitince otomasyon çalıştırılacak.
+
+### 040 — İnsan inceleme girdileri ve E2E kurulum kontrolü
+
+- İlk E2E çağrısı Chromium indirmesi sürerken başlatıldığı için üç kurulum
+  hatası verdi; uygulama testi sonucu sayılmadı. Kurulumun tamamlanması beklenecek.
+- E2E fixture'ları için Django async kontrol istisnası yalnız test kapsamına
+  eklendi; uygulama/üretim ayarlarına taşınmadı. Lint ve format temiz.
+- 30 TRY + 10 Amazon sentetik girdi ve sonuçları BOŞ insan inceleme CSV'si
+  üreten script eklendi. Bu girdiler nakit eşitliği regresyonunda kullanılır;
+  insan altın mutabakatı iddia edilmez. Hesap oluşturma testleri de eklendi.
+
+### 041 — Gerçek E2E sonucu ve asistan değerlendirme kapısı
+
+- Kurulum tamamlandıktan sonra E2E session fixture sırası düzeltildi;
+  Django async istisnası test DB kurulumu öncesinde yalnız test oturumunda açıldı.
+  İki yanlış test seçicisi mevcut store-save/return-save adlarına düzeltildi.
+- **12 Playwright testi geçti (7,91 saniye).** Uygulama beklentileri değiştirilmedi.
+- 40 soruluk (12 sayısal, 8 sıralama, 6 kural, 6 veri yok/kapsam dışı,
+  4 belirsiz, 4 güvenlik) set ve bağımsız SQL/guardrail kontrolleri eklendi.
+  Ayrılmış 10 soru geliştiren AI tarafından görülmüştür; kör hold-out değildir.
+- CI'ye E2E ve motor dal kapsamı >=%90 kapısı; haftalık eval ve gecelik
+  Linux mutmut workflow'u eklendi. Uzak sonuçları henüz alınmadı.
+
+### 042 — Eval envanter kontrolü ve veritabanı sınırları
+
+- 40 sorunun tamamı yanıt/SQL kontrolünden geçti; envanter testi ayrılmış soru
+  sayısının 10 yerine 9 olduğunu yakaladı (251 geçti, 1 başarısız). E-40 etiketi
+  reserved yapılarak veri hatası düzeltildi; beklenen sayı gevşetilmedi.
+- Ölçülen toplam satır+dal kapsamı %98, motor dalları 44/44; başarılı tam
+  test çalışması henüz bu düzeltmeden sonra alınacak.
+- Desi/kur/maliyet KDV için DB kısıtları; toplam mutlak kuruş sınırı eklenerek
+  filtre ve SQL window toplamlarında tamsayı taşması önlendi.
+- Yeni pazaryeri kabul kontrol listesi yazıldı.
+
+### 043 — Tam test sonucu ve kullanım metinleri
+
+- **252 test geçti (6,76 saniye)**; motor dal kapısı 44/44 = %100.
+  Migrasyonlar ve Django sistem kontrolü temiz. 40 soru doğru niyet/araç/SQL
+  sonucunu verdi; bu deterministik asistan ölçümüdür, LLM skoru değildir.
+- 40 sentetik girdi ve boş inceleme şablonu diske üretildi. Sipariş para birimi,
+  rapor bağlantıları ve yeni aktarım alanları kullanıcı ekranlarına yansıtıldı.
+- Bir patch tablo satırı eşleşmediğinden reddedildi; satır tam bağlamıyla
+  yeniden düzenlendi. Toplam sınır kontrolünün büyük dosyalarda bir kez yapılması
+  için hesap servisinde enforce_totals seçeneği uygulandı.
+
+### 044 — Güncel ekranların gerçek tarayıcı kontrolü
+
+- Yerel 8001 sunucusu yalnız kendi manage.py süreci doğrulanarak güncel
+  kodla yeniden başlatıldı. 252 test tekrar geçti; lint/migrasyon farkı temiz.
+- Tarayıcıda mevcut kısmi iadeli siparişin satır/kart/aylık sonuçları eşleşti:
+  net kâr -20,01 TL, hakediş 34,74 TL. Asistan aynı rapor tutarlarını döndürdü.
+- Tam sayfa ekran görüntüsü reports/screens/profit-report.png kaydedildi.
+  Desktop rapor tablosunun görünürlüğü için içerik genişliği 1160px'e çıkarıldı;
+  dar ekranda yatay tablo kaydırması ve tek sütun kartlar korunur.
+
+### 045 — Uzak inceleme ve ilk mutasyon çalışmasının hazırlanması
+
+- Çalışan finans/abonelik/asistan/E2E kodu 42e8f9e commit'iyle GitHub dalına
+  gönderildi. Commit öncesi format kontrolü yeni migrasyonda bir biçim farkı
+  gösterdi; bu fark takip commit'inde gideriliyor, temiz format iddia edilmiyor.
+- Nightly workflow'una yalnız geliştirme dalı için geçici push tetikleyicisi
+  eklendi; Linux mutmut ölçümü ana dala almadan önce alınacak ve tetikleyici
+  ölçümden sonra kaldırılacak. PR açıklaması somut sonuç/sınırlarla hazırlandı.
+
+### 046 — Uzak CI ve eval kanıtı, mutasyon çıktı düzeltmesi
+
+- PR #3 oluşturuldu ve sohbete bağlandı. Başlık0554ab2 için CI run37170676379
+  SUCCESS; 252 test, 12 E2E ve kapsam kapısı Linux üzerinde geçti.
+- Assistant eval run37170676353 SUCCESS. Mutasyon run37170671098 hesaplamayı
+  bitirdi ancak mutmut3.8'de bulunmayan junitxml export komutunda başarısız oldu.
+  Unsupported komut kaldırıldı; results ve .meta artifact'ı alınacak.
+- Yeni devam notu çalışan kapsam, testler, sunucu/tarayıcı ve gerekli kalan
+  işleri içeriyor. Eski PR2 sonrası notlar tarihî olarak işaretlendi.
+
+### 047 — Mutasyon ilk sayımı ve teknik belgeler
+
+- İlk mutmut logu: 369/369 mutant tamamlandı, 335 öldürüldü ve 34 yaşadı;
+  ham skor 335/369 = %90,79. Export başarısızlığı ölçüm başarısı gibi sunulmadı.
+- Kur/ücret DB kısıtları ve zıt işaretli toplamda SQL taşma koruması için
+  anlamlı entegrasyon testleri eklendi; sonuçları bir sonraki koşuda alınacak.
+- Mimari, 40 soruluk gerçek eval kapsamı/sınırları ve dürüst mülakat demo
+  notları yazıldı. LLM/judge/kör hold-out eksikliği açıkça belirtildi.
+
+### 048 — Doğrulanmış mutasyon artifact'ı ve eşik kapısı
+
+- Mutation run37170823038 SUCCESS. Artifact indirildi; .meta exit kodları
+  gerçekten 335 killed/34 survived, 369 toplamı doğruluyor (%90,79).
+- SQL/DB yeni 7 testi geçti. Gecelik ölçüme boş seti ve <%85 skoru reddeden
+  metadata kapısı eklendi; timeout/hata öldürülen sayılmaz.
+- Dört survivor örneğini incelemek için geçici diff export'u eklendi;
+  nihai workflow'da hard-coded mutant kimlikleri bırakılmayacak.
+- QA stratejisi yeni gerçek kanıtlarla güncellendi. İki belge patch'i yanlış
+  bağlam yüzünden reddedildi; doğru bağlamla uygulandı, veri kaybı yok.
+
+### 049 — Yayın raporu hazırlığı ve kapsam durumu
+
+- Başarılı main CI artifact'ını GitHub Pages'e taşıyan rapor workflow'u
+  hazırlandı; canlı yayın sonucu henüz alınmadı. Rapor giriş sayfası gerçek
+  coverage JSON'unu ve kaynak commit/run bilgisini gösterir.
+- Paket sürümü 0.2.0'a çıkarıldı; proje fazları çalışan çıktı ve insan/harici
+  hizmet kabul sınırlarıyla PROJE_DURUMU.md içinde açıklandı.
+- HTML/JSON/YAML/INI satır sonları Git'te LF olacak şekilde tanımlandı.
+
+### 050 — Pages yapılandırması ve güncel veri/provenans belgeleri
+
+- GitHub Pages için workflow tabanlı yayın kaynağı yapılandırıldı. İlk yayın
+  main'deki başarılı CI sonrası yapılacak; hazırlık canlı site başarısı sayılmaz.
+- Yayın yalnız bu reponun main push CI sonucunu kullanır; PR/fork artifact'ı
+  yayımlanmaz. İşlevsiz manual dispatch kaldırıldı.
+- Aktarım sözleşmesi kur/desi/kota/hesap atomikliğiyle; AI karar kaydı yeni
+  yaklaşım ve gerçek metriklerle güncellendi. Golden README boş beklenen
+  şablona yönlendirir, motordan önce insan veri commit'i koşulunun sağlanmadığını açıklar.
+
+### 051 — Yaşayan mutantların anlamlı incelenmesi
+
+- Run37171024566 artifact'ı aynı369/335/34 sayımını ve dört örnek diff'i verdi.
+- En büyük kalan sıralamasını kaldıran mutant ve maliyet KDV'sinde bölmeyi
+  çarpmaya çeviren mutant mevcut testlerden kaçıyordu: bu test boşluğu olarak
+  kaydedildi, çalışan motor hatası diye sayılmadı.
+- Ağırlığa göre kalan kuruş, sıfır ağırlık tie, maksimum adet/satır sınırı ve
+  kullanıcı kaynaklı örneğin KDV kalemleri için anlamlı kontroller eklendi.
+- shipping validate(gross,None) mutantı yalnız hata alan adını değiştirir;
+  eşdeğer finans davranışı olarak raporlanır, yapay skor için gizlenmez.
+
+### 052 — Kullanım ve sürüm dokümantasyonu
+
+- Yeni mutant kontrolleri dahil65 motor birim/property testi geçti (0,68 saniye).
+- README artık çalışan ürün, kurulum, 12 E2E, gerçek CI/mutasyon/eval kanıtları,
+  demo hesabı, insan kabul sınırları ve üretim ayrımını anlatıyor.
+- CHANGELOG başlangıç ve0.2.0 finans demo kapsamıyla eklendi. Pages bağlantısı
+  hazırlanmış yayın adresidir; canlı yayın doğrulaması henüz sonraki adımdadır.
+
+### 053 — Mutasyon inceleme raporu ve geçici işlerin kaldırılması
+
+- Yeni testlerle Linux run37171192788 SUCCESS; sonuç artifact'ı indirildi.
+  Güncel sayım raporun sonuç alanından alınarak aşağıdaki kayıtta kesinleştirilecek.
+- İncelenen gerçek test boşlukları ve metrik sınırlamaları MUTASYON_RAPORU.md'ye
+  yazıldı. Yaşayan mutantlar gerçek AI bug sayılmadı.
+- Geçici geliştirme dalı push tetikleyicisi ve hard-coded survivor export
+  kimlikleri kaldırıldı; nightly yalnız schedule/elle tetikleme ve genel metadata
+  >=%85 kapısıyla çalışacak. Sürüm sonrası main'de bir kez daha ölçülecek.
+
+### 054 — Güncel mutasyon sonucunun kesinleştirilmesi
+
+- Artifact commit40c5442: **342 killed /369 toplam = %92,68**, 27 survived,
+  diğer durum0. Ek kontroller yedi mutantı daha yakaladı; yaşayanları çıkarmadan
+  ham skor raporlandı. README ve mutasyon raporu bu gerçek sayımla güncellendi.
+
+### 055 — Güncel tam yerel kalite sonucu
+
+- Lint ve106 Python dosyasının format kontrolü temiz. **261 test geçti**
+  (6,70 saniye); JSON/HTML/JUnit raporları gerçek sonuçlarla yeniden üretildi.
+- Yeni DB sınır testleri ve güçlendirilmiş iki motor testi toplam envantere
+  eklendi. Son motor dal ölçümü44/44; eski252 sayısı tarihî CI kanıtı olarak korunur.
+
+### 056 — Mobil kabul ve son demo görünümü
+
+- Aynı12 E2E iPhone13 emülasyonunda da geçti (7,32 saniye); ekran görüntüleri
+  reports/mobile-e2e içinde. Mobil kartlar tek sütun, menü satıra yayılıyor.
+- --noreload sunucunun şablon önbelleği eski860px CSS'i tuttuğu görüldü;
+  yalnız kendi sunucu süreci yeniden başlatılıp reload sonrası1160px görünüm
+  ve güncel ekran görüntüsü doğrulandı. Son sunucu session58801, port8001.
+- Rapor sekmesi çıktı olarak bırakıldı. Bu işlem yeni finans hesabı değiştirmedi.

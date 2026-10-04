@@ -42,10 +42,51 @@ class OrderLine(models.Model):
     seller_discount = money_field("Satıcı indirimi (satır toplamı)")
     platform_coupon = money_field("Pazaryeri kuponu (satır toplamı)")
     returned_quantity = models.PositiveIntegerField("İade adedi", default=0)
+    desi = money_field("Birim desi")
+    weight_kg = money_field("Birim ağırlık (kg)")
+    cost_vat_percent = models.DecimalField(
+        "Maliyet KDV (%)",
+        max_digits=5,
+        decimal_places=2,
+        default=Decimal("20"),
+        validators=[MinValueValidator(Decimal("0")), MaxValueValidator(Decimal("100"))],
+    )
+    currency = models.CharField(
+        "Para birimi",
+        max_length=3,
+        default="TRY",
+        choices=[
+            ("TRY", "TRY"),
+            ("USD", "USD"),
+            ("EUR", "EUR"),
+        ],
+    )
+    exchange_rate = models.DecimalField(
+        "Sipariş kuru (TRY)",
+        max_digits=12,
+        decimal_places=6,
+        default=Decimal("1"),
+        validators=[MinValueValidator(Decimal("0.000001"))],
+    )
 
     class Meta:
         ordering = ["-order_date", "order_number", "line_number"]
         constraints = [
+            models.CheckConstraint(
+                condition=models.Q(
+                    desi__gte=0,
+                    weight_kg__gte=0,
+                    cost_vat_percent__gte=0,
+                    cost_vat_percent__lte=100,
+                    exchange_rate__gt=0,
+                    currency__in=["TRY", "USD", "EUR"],
+                ),
+                name="order_shipping_fx_ranges",
+            ),
+            models.CheckConstraint(
+                condition=~models.Q(currency="TRY") | models.Q(exchange_rate=1),
+                name="order_try_exchange_one",
+            ),
             models.UniqueConstraint(
                 fields=["store", "order_number", "line_number"], name="order_store_line_unique"
             ),
@@ -86,6 +127,29 @@ class OrderLine(models.Model):
         if self.unit_price_gross is not None and self.quantity is not None:
             if self.seller_discount + self.platform_coupon > self.unit_price_gross * self.quantity:
                 raise ValidationError("İndirim ve kupon toplamı brüt satır tutarını aşamaz.")
+        if self.currency == "TRY" and self.exchange_rate != Decimal("1"):
+            raise ValidationError("TRY kuru 1 olmalı.")
+        if self.currency != "TRY" and self.store.marketplace != Store.Marketplace.AMAZON:
+            raise ValidationError("Yabancı para yalnız Amazon demo mağazasında desteklenir.")
+
+
+class FinancialLine(models.Model):
+    """SQL toplamlarında kayan nokta yerine tamsayı kuruş saklayan hesap kaydı."""
+
+    line = models.OneToOneField(OrderLine, on_delete=models.CASCADE, related_name="financial")
+    rule_version = models.CharField(max_length=30, default="demo-v1")
+    gross_sales = models.BigIntegerField()
+    net_sales = models.BigIntegerField()
+    commission = models.BigIntegerField()
+    shipping = models.BigIntegerField()
+    service = models.BigIntegerField()
+    cost = models.BigIntegerField()
+    withholding = models.BigIntegerField()
+    profit = models.BigIntegerField()
+    payout = models.BigIntegerField()
+    sales_vat = models.BigIntegerField()
+    fee_vat = models.BigIntegerField()
+    cost_vat = models.BigIntegerField()
 
 
 class ImportBatch(models.Model):

@@ -1,0 +1,805 @@
+{
+  "status": "AI-authored synthetic inputs; no human-reviewed expected results",
+  "scenarios": [
+    {
+      "id": "SIP-01",
+      "marketplace": "demo_tr",
+      "input": {
+        "line_number": 1,
+        "quantity": 1,
+        "unit_price_gross": "600",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 0,
+        "currency": "TRY",
+        "exchange_rate": "1"
+      }
+    },
+    {
+      "id": "SIP-02",
+      "marketplace": "demo_tr",
+      "input": {
+        "line_number": 1,
+        "quantity": 1,
+        "unit_price_gross": "0",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 0,
+        "currency": "TRY",
+        "exchange_rate": "1"
+      }
+    },
+    {
+      "id": "SIP-03",
+      "marketplace": "demo_tr",
+      "input": {
+        "line_number": 1,
+        "quantity": 1,
+        "unit_price_gross": "600",
+        "unit_cost_net": "250",
+        "vat_percent": "0",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 0,
+        "currency": "TRY",
+        "exchange_rate": "1"
+      }
+    },
+    {
+      "id": "SIP-04",
+      "marketplace": "demo_tr",
+      "input": {
+        "line_number": 1,
+        "quantity": 1,
+        "unit_price_gross": "600",
+        "unit_cost_net": "250",
+        "vat_percent": "1",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 0,
+        "currency": "TRY",
+        "exchange_rate": "1"
+      }
+    },
+    {
+      "id": "SIP-05",
+      "marketplace": "demo_tr",
+      "input": {
+        "line_number": 1,
+        "quantity": 1,
+        "unit_price_gross": "600",
+        "unit_cost_net": "250",
+        "vat_percent": "10",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 0,
+        "currency": "TRY",
+        "exchange_rate": "1"
+      }
+    },
+    {
+      "id": "SIP-06",
+      "marketplace": "demo_tr",
+      "input": {
+        "line_number": 1,
+        "quantity": 2,
+        "unit_price_gross": "600",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 0,
+        "currency": "TRY",
+        "exchange_rate": "1"
+      }
+    },
+    {
+      "id": "SIP-07",
+      "marketplace": "demo_tr",
+      "input": {
+        "line_number": 1,
+        "quantity": 3,
+        "unit_price_gross": "600",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 0,
+        "currency": "TRY",
+        "exchange_rate": "1"
+      }
+    },
+    {
+      "id": "SIP-08",
+      "marketplace": "demo_tr",
+      "input": {
+        "line_number": 1,
+        "quantity": 1,
+        "unit_price_gross": "600",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "0",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 0,
+        "currency": "TRY",
+        "exchange_rate": "1"
+      }
+    },
+    {
+      "id": "SIP-09",
+      "marketplace": "demo_tr",
+      "input": {
+        "line_number": 1,
+        "quantity": 1,
+        "unit_price_gross": "299.99",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 0,
+        "currency": "TRY",
+        "exchange_rate": "1"
+      }
+    },
+    {
+      "id": "SIP-10",
+      "marketplace": "demo_tr",
+      "input": {
+        "line_number": 1,
+        "quantity": 1,
+        "unit_price_gross": "300",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 0,
+        "currency": "TRY",
+        "exchange_rate": "1"
+      }
+    },
+    {
+      "id": "SIP-11",
+      "marketplace": "demo_tr",
+      "input": {
+        "line_number": 1,
+        "quantity": 1,
+        "unit_price_gross": "300.01",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 0,
+        "currency": "TRY",
+        "exchange_rate": "1"
+      }
+    },
+    {
+      "id": "SIP-12",
+      "marketplace": "demo_tr",
+      "input": {
+        "line_number": 1,
+        "quantity": 1,
+        "unit_price_gross": "600.01",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 0,
+        "currency": "TRY",
+        "exchange_rate": "1"
+      }
+    },
+    {
+      "id": "SIP-13",
+      "marketplace": "demo_tr",
+      "input": {
+        "line_number": 1,
+        "quantity": 1,
+        "unit_price_gross": "600",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "3.01",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 0,
+        "currency": "TRY",
+        "exchange_rate": "1"
+      }
+    },
+    {
+      "id": "SIP-14",
+      "marketplace": "demo_tr",
+      "input": {
+        "line_number": 1,
+        "quantity": 1,
+        "unit_price_gross": "600",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "3",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 0,
+        "currency": "TRY",
+        "exchange_rate": "1"
+      }
+    },
+    {
+      "id": "SIP-15",
+      "marketplace": "demo_tr",
+      "input": {
+        "line_number": 1,
+        "quantity": 1,
+        "unit_price_gross": "600",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "4.01",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 0,
+        "currency": "TRY",
+        "exchange_rate": "1"
+      }
+    },
+    {
+      "id": "SIP-16",
+      "marketplace": "demo_tr",
+      "input": {
+        "line_number": 1,
+        "quantity": 1,
+        "unit_price_gross": "600",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "100",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 0,
+        "currency": "TRY",
+        "exchange_rate": "1"
+      }
+    },
+    {
+      "id": "SIP-17",
+      "marketplace": "demo_tr",
+      "input": {
+        "line_number": 1,
+        "quantity": 1,
+        "unit_price_gross": "600",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "100",
+        "cost_vat_percent": "20",
+        "returned_quantity": 0,
+        "currency": "TRY",
+        "exchange_rate": "1"
+      }
+    },
+    {
+      "id": "SIP-18",
+      "marketplace": "demo_tr",
+      "input": {
+        "line_number": 1,
+        "quantity": 1,
+        "unit_price_gross": "600",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "50",
+        "platform_coupon": "50",
+        "cost_vat_percent": "20",
+        "returned_quantity": 0,
+        "currency": "TRY",
+        "exchange_rate": "1"
+      }
+    },
+    {
+      "id": "SIP-19",
+      "marketplace": "demo_tr",
+      "input": {
+        "line_number": 1,
+        "quantity": 1,
+        "unit_price_gross": "600",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 1,
+        "currency": "TRY",
+        "exchange_rate": "1"
+      }
+    },
+    {
+      "id": "SIP-20",
+      "marketplace": "demo_tr",
+      "input": {
+        "line_number": 1,
+        "quantity": 3,
+        "unit_price_gross": "600",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 1,
+        "currency": "TRY",
+        "exchange_rate": "1"
+      }
+    },
+    {
+      "id": "SIP-21",
+      "marketplace": "demo_tr",
+      "input": {
+        "line_number": 1,
+        "quantity": 3,
+        "unit_price_gross": "600",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 2,
+        "currency": "TRY",
+        "exchange_rate": "1"
+      }
+    },
+    {
+      "id": "SIP-22",
+      "marketplace": "demo_tr",
+      "input": {
+        "line_number": 1,
+        "quantity": 3,
+        "unit_price_gross": "600",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 3,
+        "currency": "TRY",
+        "exchange_rate": "1"
+      }
+    },
+    {
+      "id": "SIP-23",
+      "marketplace": "demo_tr",
+      "input": {
+        "line_number": 1,
+        "quantity": 1,
+        "unit_price_gross": "0.01",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 0,
+        "currency": "TRY",
+        "exchange_rate": "1"
+      }
+    },
+    {
+      "id": "SIP-24",
+      "marketplace": "demo_tr",
+      "input": {
+        "line_number": 1,
+        "quantity": 1,
+        "unit_price_gross": "0.05",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 0,
+        "currency": "TRY",
+        "exchange_rate": "1"
+      }
+    },
+    {
+      "id": "SIP-25",
+      "marketplace": "demo_tr",
+      "input": {
+        "line_number": 1,
+        "quantity": 1,
+        "unit_price_gross": "600",
+        "unit_cost_net": "0",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 0,
+        "currency": "TRY",
+        "exchange_rate": "1"
+      }
+    },
+    {
+      "id": "SIP-26",
+      "marketplace": "demo_tr",
+      "input": {
+        "line_number": 1,
+        "quantity": 1,
+        "unit_price_gross": "600",
+        "unit_cost_net": "1000",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 0,
+        "currency": "TRY",
+        "exchange_rate": "1"
+      }
+    },
+    {
+      "id": "SIP-27",
+      "marketplace": "demo_tr",
+      "input": {
+        "line_number": 1,
+        "quantity": 1,
+        "unit_price_gross": "9999999.99",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 0,
+        "currency": "TRY",
+        "exchange_rate": "1"
+      }
+    },
+    {
+      "id": "SIP-28",
+      "marketplace": "demo_tr",
+      "input": {
+        "line_number": 1,
+        "quantity": 1,
+        "unit_price_gross": "600",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "100",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 0,
+        "currency": "TRY",
+        "exchange_rate": "1"
+      }
+    },
+    {
+      "id": "SIP-29",
+      "marketplace": "demo_tr",
+      "input": {
+        "line_number": 1,
+        "quantity": 1,
+        "unit_price_gross": "600",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "0",
+        "returned_quantity": 0,
+        "currency": "TRY",
+        "exchange_rate": "1"
+      }
+    },
+    {
+      "id": "SIP-30",
+      "marketplace": "demo_tr",
+      "input": {
+        "line_number": 1,
+        "quantity": 7,
+        "unit_price_gross": "1.01",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 0,
+        "currency": "TRY",
+        "exchange_rate": "1"
+      }
+    },
+    {
+      "id": "SIP-31",
+      "marketplace": "amazon_demo",
+      "input": {
+        "line_number": 1,
+        "quantity": 1,
+        "unit_price_gross": "600",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 0,
+        "currency": "EUR",
+        "exchange_rate": "40.123456"
+      }
+    },
+    {
+      "id": "SIP-32",
+      "marketplace": "amazon_demo",
+      "input": {
+        "line_number": 1,
+        "quantity": 2,
+        "unit_price_gross": "600",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 1,
+        "currency": "USD",
+        "exchange_rate": "40.123456"
+      }
+    },
+    {
+      "id": "SIP-33",
+      "marketplace": "amazon_demo",
+      "input": {
+        "line_number": 1,
+        "quantity": 3,
+        "unit_price_gross": "600",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 2,
+        "currency": "EUR",
+        "exchange_rate": "40.123456"
+      }
+    },
+    {
+      "id": "SIP-34",
+      "marketplace": "amazon_demo",
+      "input": {
+        "line_number": 1,
+        "quantity": 4,
+        "unit_price_gross": "600",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 0,
+        "currency": "USD",
+        "exchange_rate": "40.123456"
+      }
+    },
+    {
+      "id": "SIP-35",
+      "marketplace": "amazon_demo",
+      "input": {
+        "line_number": 1,
+        "quantity": 5,
+        "unit_price_gross": "600",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 1,
+        "currency": "EUR",
+        "exchange_rate": "40.123456"
+      }
+    },
+    {
+      "id": "SIP-36",
+      "marketplace": "amazon_demo",
+      "input": {
+        "line_number": 1,
+        "quantity": 6,
+        "unit_price_gross": "600",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 2,
+        "currency": "USD",
+        "exchange_rate": "40.123456"
+      }
+    },
+    {
+      "id": "SIP-37",
+      "marketplace": "amazon_demo",
+      "input": {
+        "line_number": 1,
+        "quantity": 7,
+        "unit_price_gross": "600",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 0,
+        "currency": "EUR",
+        "exchange_rate": "40.123456"
+      }
+    },
+    {
+      "id": "SIP-38",
+      "marketplace": "amazon_demo",
+      "input": {
+        "line_number": 1,
+        "quantity": 8,
+        "unit_price_gross": "600",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 1,
+        "currency": "USD",
+        "exchange_rate": "40.123456"
+      }
+    },
+    {
+      "id": "SIP-39",
+      "marketplace": "amazon_demo",
+      "input": {
+        "line_number": 1,
+        "quantity": 9,
+        "unit_price_gross": "600",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 2,
+        "currency": "EUR",
+        "exchange_rate": "40.123456"
+      }
+    },
+    {
+      "id": "SIP-40",
+      "marketplace": "amazon_demo",
+      "input": {
+        "line_number": 1,
+        "quantity": 10,
+        "unit_price_gross": "600",
+        "unit_cost_net": "250",
+        "vat_percent": "20",
+        "commission_percent": "20",
+        "desi": "1",
+        "weight_kg": "0",
+        "seller_discount": "0",
+        "platform_coupon": "0",
+        "cost_vat_percent": "20",
+        "returned_quantity": 0,
+        "currency": "USD",
+        "exchange_rate": "40.123456"
+      }
+    }
+  ]
+}

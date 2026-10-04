@@ -1,0 +1,24 @@
+{% extends 'base.html' %}{% load money %}
+{% block title %}Kâr raporu · {{ store.name }}{% endblock %}
+{% block content %}
+<div class="heading"><div><p class="eyebrow">{{ store.get_marketplace_display }} · demo-v1</p><h1>{{ store.name }}</h1></div><a class="button" href="{% url 'orders:upload' store.pk %}">Sipariş yükle</a></div>
+<nav class="store-nav" aria-label="Mağaza"><a href="{% url 'orders:list' store.pk %}">Siparişler</a><a aria-current="page" href="{% url 'reports:profit' store.pk %}">Kâr raporu</a><a href="{% url 'assistant:chat' store.pk %}">Asistan</a></nav>
+<div class="stats">
+<section class="card"><small>Net kâr</small><strong data-testid="total-profit" data-cents="{{ total.profit }}">{{ total.profit|tl }}</strong></section>
+<section class="card"><small>Hakediş</small><strong data-testid="total-payout" data-cents="{{ total.payout }}">{{ total.payout|tl }}</strong></section>
+<section class="card"><small>Net satış</small><strong data-testid="total-sales">{{ total.net_sales|tl }}</strong></section>
+</div>
+<section class="card">
+<h2>Sipariş bazında sonuçlar</h2>
+<form class="filters" method="get">{{ filter_form.as_p }}<button data-testid="report-filter" type="submit">Filtrele</button><a href="{% url 'reports:profit' store.pk %}">Temizle</a></form>
+<p data-testid="report-count">{{ filtered_count }} satır · TRY</p>
+<p class="note">Kartlar filtrelenen tüm satırları toplar. Kargo sipariş başına dağıtılır; iade satış tarihini düzeltir.</p>
+<div class="table-scroll"><table data-testid="profit-table"><thead><tr><th>Sipariş</th><th>Ürün</th><th>Net satış</th><th>Komisyon</th><th>Kargo</th><th>Hizmet</th><th>Maliyet</th><th>Stopaj</th><th>Net kâr</th><th>Hakediş</th></tr></thead><tbody>
+{% for line in lines %}<tr data-testid="profit-row"><td>{{ line.order_number }} / {{ line.line_number }}<small>{{ line.order_date|date:'d.m.Y' }} · {{ line.quantity }} adet / {{ line.returned_quantity }} iade</small></td><td>{{ line.product_name }}<small>{{ line.sku }} · {{ line.currency }} × {{ line.exchange_rate }}</small></td><td>{{ line.financial.net_sales|tl }}</td><td>{{ line.financial.commission|tl }}</td><td>{{ line.financial.shipping|tl }}</td><td>{{ line.financial.service|tl }}</td><td>{{ line.financial.cost|tl }}</td><td>{{ line.financial.withholding|tl }}</td><td data-testid="line-profit" data-cents="{{ line.financial.profit }}">{{ line.financial.profit|tl }}</td><td>{{ line.financial.payout|tl }}</td></tr>{% empty %}<tr><td colspan="10">Bu filtrede sipariş yok. Bir dosya yükleyerek başlayın.</td></tr>{% endfor %}
+</tbody></table></div>
+<p>{% if lines.has_previous %}<a href="?{{ filter_query }}&page={{ lines.previous_page_number }}">Önceki</a>{% endif %} Sayfa {{ lines.number }} / {{ lines.paginator.num_pages }} {% if lines.has_next %}<a href="?{{ filter_query }}&page={{ lines.next_page_number }}">Sonraki</a>{% endif %}</p>
+<a data-testid="export-csv" href="{% url 'reports:export' store.pk %}?{{ filter_query }}">Filtrelenen raporu CSV indir</a>
+</section>
+<section class="card section-gap"><h2>Aylık görünüm</h2><p class="note">Mağazanın tüm verisi; yukarıdaki filtrelerden bağımsızdır.</p><div class="table-scroll"><table data-testid="monthly-table"><thead><tr><th>Ay</th><th>Satır</th><th>Net kâr</th><th>Hakediş</th><th>Birikimli kâr</th></tr></thead><tbody>{% for month in months %}<tr><td>{{ month.month }}</td><td>{{ month.lines }}</td><td>{{ month.profit|tl }}</td><td>{{ month.payout|tl }}</td><td>{{ month.cumulative|tl }}</td></tr>{% empty %}<tr><td colspan="5">Henüz veri yok.</td></tr>{% endfor %}</tbody></table></div></section>
+<p class="note">Sentetik ücret sözleşmesi uygulanır. Bağımsız insan doğrulamalı altın veri kabulü tamamlanmamıştır.</p>
+{% endblock %}

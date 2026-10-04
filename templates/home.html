@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
 <section class="card">
-  <p>KârKontrol · Geliştirme aşamasında</p>
+  <p>KârKontrol · Demo finans çalışma alanı</p>
   <h1>Pazaryeri kârını<br>kanıtlarla doğrula.</h1>
   <p>Satış, kesintiler ve hakediş arasındaki farkı görünür kılan bağımsız kalite güvence projesi.</p>
-  <p data-testid="project-status">Mağazanı oluştur, siparişlerini yükle ve iadelerini takip et. Kâr ve hakediş raporları hazırlanıyor.</p>
+  <p data-testid="project-status">Mağazanı oluştur, siparişlerini yükle; kârını, hakedişini ve iadelerini tek raporda takip et.</p>
   {% if user.is_authenticated %}<p data-testid="welcome">Hoş geldin, {{ user.username }}.</p><a class="button" href="{% url 'stores:list' %}">Mağazalarıma git</a>{% else %}<a class="button" href="{% url 'login' %}">Giriş yap ve başla</a>{% endif %}
 </section>
 {% endblock %}
