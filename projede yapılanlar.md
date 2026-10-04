@@ -268,3 +268,39 @@ Tarihler Europe/Istanbul saat dilimine göredir.
   satırı kuruldu. Hesap: demo-satici; yalnızca demo parolası: demo-only-pass-2026.
 - Sonraki doğrulama: gerçek tarayıcıda giriş, mağaza, filtre ve aktarım ekranları.
 
+### 027 — Gerçek tarayıcı akışları ve ekran kanıtı
+
+- Browser becerisiyle 127.0.0.1:8001 üzerinde giriş, demo mağaza listesi,
+  ürün filtresi ve 1.234,56 ₺ biçimi gerçek tarayıcıda doğrulandı.
+- Sentetik `Tarayıcı Demo Mağazası` kuruldu; %150 komisyonla formda kalındığı,
+  %20 ile kaydın oluşturulduğu görüldü. Yerel veri dışında dış etkisi yok.
+- Ekrandan örnek CSV indirildi ve dosya seçiciyle yüklendi: 1 satır aktarıldı.
+  Aynı dosya tekrar yüklendi: 0 eklendi, 1 atlandı; satır sayısı 1 kaldı.
+- 2 adetlik satıra 3 iade reddedildi; 1 iade kabul edilip listede gösterildi.
+- Ekran kanıtı `reports/screens/store-orders.png` olarak kaydedildi; demo
+  sekmesi kullanıcıya bırakıldı. Bu kontroller, repo içindeki bir Playwright
+  E2E test paketi tamamlanmış gibi sayılmadı.
+- Git diff kontrolündeki günlük sonu boş satırı temizlendi; kayıtlar korunuyor.
+
+### 028 — Adet sınırı regresyonu (APP-002)
+
+- Son girdi incelemesinde çok uzun adet için kontrol eksikliği görüldü.
+  Eklenen regresyon testi 5000 basamaklı girdide gerçekten başarısız oldu:
+  ImportValidationError yerine Python'un 4300 basamak sınırından ValueError çıkıyordu.
+- Parser, dönüşümden önce 10 basamak ve ardından 2147483647 sınırıyla
+  düzeltildi. Python güvenlik sınırı değiştirilmedi; test beklentisi korundu.
+- BUGS.md'ye APP-002 gerçek çıktıyla eklendi. Finansal motor hatası değildir.
+- Son tam test/lint/format turu yeniden çalıştırılacak.
+
+### 029 — Son kalite turu ve güncel kullanım belgeleri
+
+- Adet sınırında izin verilen 2147483647 ve reddedilen 2147483648 de test edildi.
+- **75 test geçti**, pytest süresi **3,09 saniye**, uygulama toplam kapsamı **%96**.
+  Ruff temiz; Django/migration kontrolleri temiz. Raporlar güncellendi.
+- Bu oturumda başlatılan 8001 sunucusu port/PID/komutuyla doğrulanarak
+  durduruldu ve son parser koduyla aynı portta yeniden başlatıldı.
+- README, dosya sözleşmesi, QA stratejisi ve AI karar kaydı güncellendi.
+- Önceki %91/22 test başlangıç kanıtı tarihiyle korundu; yeni %96/75 test
+  motor doğruluğu veya altın mutabakat sonucu gibi sunulmadı.
+- İlk belge patch'i bir satır eşleşmediği için uygulanmadı; dosya tekrar
+  okunup doğru bağlamla patch uygulandı. Hiçbir kullanıcı dosyası silinmedi.

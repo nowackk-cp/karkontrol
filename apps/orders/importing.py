@@ -71,9 +71,14 @@ def _decimal(value, label):
 
 def _integer(value, label):
     text = _text(value)
-    if not re.fullmatch(r"[0-9]+", text):
-        raise ImportValidationError(f"{label}: negatif olmayan tam sayı girin.")
-    return int(text)
+    if len(text) > 10 or not re.fullmatch(r"[0-9]+", text):
+        raise ImportValidationError(
+            f"{label}: en fazla 10 basamaklı negatif olmayan tam sayı girin."
+        )
+    value = int(text)
+    if value > 2_147_483_647:
+        raise ImportValidationError(f"{label}: en fazla 2147483647 olabilir.")
+    return value
 
 
 def _date(value):

@@ -372,3 +372,26 @@ def test_demo_seed_is_local_only_idempotent_and_preserves_existing_users(
         call_command("seed_demo", stdout=StringIO())
     user.refresh_from_db()
     assert user.password == original_hash
+
+
+@pytest.mark.parametrize("quantity", ["9" * 5000, "2147483648"])
+def test_very_long_quantity_returns_validation_error_without_partial_records(
+    owner, store, quantity
+):
+    with pytest.raises(ImportValidationError, match="Satır 3"):
+        load(
+            owner,
+            store,
+            csv_upload(
+                [
+                    row(siparis_no="OK"),
+                    row(adet=quantity),
+                ]
+            ),
+        )
+    assert OrderLine.objects.count() == ImportBatch.objects.count() == 0
+
+
+def test_largest_supported_quantity_is_preserved(owner, store):
+    assert load(owner, store, csv_upload([row(adet="2147483647")])).created == 1
+    assert OrderLine.objects.get().quantity == 2147483647
