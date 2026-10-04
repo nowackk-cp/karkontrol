@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("orders", "0002_orderline_cost_vat_percent_orderline_currency_and_more"),
         ("stores", "0002_alter_store_marketplace"),

@@ -1,5 +1,8 @@
 name: Engine mutation
 on:
+  push:
+    branches: ['feat/profit-quality-mvp']
+    paths: ['engine/**', 'tests/unit/test_profit.py', 'mutmut_pytest.ini', '.github/workflows/nightly.yml']
   schedule:
     - cron: '0 2 * * *'
   workflow_dispatch:

@@ -454,3 +454,12 @@ Tarihler Europe/Istanbul saat dilimine göredir.
 - Tam sayfa ekran görüntüsü reports/screens/profit-report.png kaydedildi.
   Desktop rapor tablosunun görünürlüğü için içerik genişliği 1160px'e çıkarıldı;
   dar ekranda yatay tablo kaydırması ve tek sütun kartlar korunur.
+
+### 045 — Uzak inceleme ve ilk mutasyon çalışmasının hazırlanması
+
+- Çalışan finans/abonelik/asistan/E2E kodu 42e8f9e commit'iyle GitHub dalına
+  gönderildi. Commit öncesi format kontrolü yeni migrasyonda bir biçim farkı
+  gösterdi; bu fark takip commit'inde gideriliyor, temiz format iddia edilmiyor.
+- Nightly workflow'una yalnız geliştirme dalı için geçici push tetikleyicisi
+  eklendi; Linux mutmut ölçümü ana dala almadan önce alınacak ve tetikleyici
+  ölçümden sonra kaldırılacak. PR açıklaması somut sonuç/sınırlarla hazırlandı.
