@@ -4,7 +4,7 @@ import time
 import urllib.error
 import urllib.request
 
-for attempt in range(60):
+for _attempt in range(60):
     try:
         with urllib.request.urlopen("http://127.0.0.1:8081/health", timeout=2) as response:
             if response.status == 200:
