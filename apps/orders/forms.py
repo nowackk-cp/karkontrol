@@ -16,14 +16,23 @@ class OrderFilterForm(forms.Form):
     start = forms.DateField(
         required=False,
         label="Başlangıç",
-        widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}),
+        widget=forms.DateInput(
+            format="%Y-%m-%d", attrs={"type": "date", "data-testid": "filter-start"}
+        ),
     )
     end = forms.DateField(
         required=False,
         label="Bitiş",
-        widget=forms.DateInput(format="%Y-%m-%d", attrs={"type": "date"}),
+        widget=forms.DateInput(
+            format="%Y-%m-%d", attrs={"type": "date", "data-testid": "filter-end"}
+        ),
     )
-    product = forms.CharField(required=False, max_length=200, label="Ürün veya kod")
+    product = forms.CharField(
+        required=False,
+        max_length=200,
+        label="Ürün veya kod",
+        widget=forms.TextInput(attrs={"data-testid": "filter-product"}),
+    )
 
     def clean(self):
         data = super().clean()

@@ -6,6 +6,8 @@ from django.db import models
 
 from apps.stores.models import Store
 
+from .search import product_search_text
+
 
 def money_field(label):
     return models.DecimalField(
@@ -19,11 +21,15 @@ def money_field(label):
 
 class OrderLine(models.Model):
     store = models.ForeignKey(Store, on_delete=models.CASCADE, related_name="order_lines")
+    import_batch = models.ForeignKey(
+        "ImportBatch", on_delete=models.RESTRICT, related_name="lines", null=True, blank=True
+    )
     order_number = models.CharField("Sipariş no", max_length=64)
     line_number = models.PositiveIntegerField("Satır no", validators=[MinValueValidator(1)])
     order_date = models.DateField("Sipariş tarihi")
     product_name = models.CharField("Ürün", max_length=200)
     sku = models.CharField("Ürün kodu", max_length=64)
+    search_text = models.TextField(editable=False, default="", blank=True)
     quantity = models.PositiveIntegerField("Adet", validators=[MinValueValidator(1)])
     unit_price_gross = money_field("Birim fiyat (KDV dahil)")
     unit_cost_net = money_field("Birim maliyet (KDV hariç)")
@@ -42,6 +48,9 @@ class OrderLine(models.Model):
     seller_discount = money_field("Satıcı indirimi (satır toplamı)")
     platform_coupon = money_field("Pazaryeri kuponu (satır toplamı)")
     returned_quantity = models.PositiveIntegerField("İade adedi", default=0)
+    imported_returned_quantity = models.PositiveIntegerField(
+        default=None, null=True, blank=True, editable=False
+    )
     desi = money_field("Birim desi")
     weight_kg = money_field("Birim ağırlık (kg)")
     cost_vat_percent = models.DecimalField(
@@ -131,6 +140,12 @@ class OrderLine(models.Model):
             raise ValidationError("TRY kuru 1 olmalı.")
         if self.currency != "TRY" and self.store.marketplace != Store.Marketplace.AMAZON:
             raise ValidationError("Yabancı para yalnız Amazon demo mağazasında desteklenir.")
+
+    def save(self, *args, **kwargs):
+        self.search_text = product_search_text(self.product_name, self.sku)
+        if kwargs.get("update_fields") is not None:
+            kwargs["update_fields"] = set(kwargs["update_fields"]) | {"search_text"}
+        return super().save(*args, **kwargs)
 
 
 class FinancialLine(models.Model):

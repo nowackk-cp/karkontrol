@@ -1,5 +1,6 @@
 from django.db import transaction
 
+from apps.orders.exceptions import ImportValidationError
 from apps.orders.models import OrderLine
 
 from .models import PaymentAttempt, Subscription
@@ -8,8 +9,6 @@ FREE_LIMIT = 100
 
 
 def check_import_limit(user):
-    from apps.orders.importing import ImportValidationError
-
     sub, _ = Subscription.objects.get_or_create(user=user)
     sub = Subscription.objects.select_for_update().get(pk=sub.pk)
     if sub.plan == "free" and OrderLine.objects.filter(store__owner=user).count() > FREE_LIMIT:
