@@ -931,3 +931,25 @@ Tarihler Europe/Istanbul saat dilimine göredir.
   v2 40/40/0kritik; her prompt36model isteği. Linux runtime manifest'i de var.
 - Son evidence/docs değişiminde lint,132 dosya formatı ve whitespace temiz.
   Changelog/release taslağı ilk sentetik10/10 ve insan kabul sınırıyla güncellendi.
+
+### 098 — İlk ölçüm kanıt PR'ı
+
+- Ham ilk set ve güncel belgeler f6c1da3 commit'iyle PR#10'a gönderildi ve
+  bu sohbete bağlandı. Required quality/model-eval çalışıyor. Bu değişim
+  belge/kanıttır; prompt veya motor değiştirilmedi, holdout tekrar çalıştırılmadı.
+
+### 099 — GitHub profil README'si
+
+- Hesabın gerçek adı/biyografisi API'den doğrulandı. Planın profil README işi
+  için nowackk-cp/nowackk-cp public repo oluşturulup doğrulanmış KârKontrol
+  kanıtlarıyla README yayımlandı; commitbbb43a3. Kişisel geçmiş uydurulmadı.
+  Profil fotoğrafı değiştirilmedi; pin/diğer repo gizli anahtar incelemesi yapılmış
+  gibi gösterilmez. Bu kayıt proje dışındaki hesap profil değişimini açıkça belirtir.
+
+### 100 — İlk yeni set kanıtının birleştirilmesi
+
+- f6c1da3 başlığında required quality55s ve gerçek model-eval4m43s PASS;
+  başlık/run SHA ve güncel CLEAN durumu doğrulandı. PR#10 normal squash ve
+  --match-head-commit ile birleştirildi; yönetici bypass kullanılmadı.
+- Profil README'sinin herkese açık gerçek tarayıcı görünümü doğrulandı.
+  In-app GitHub oturumu açık değil; pin yapılmış iddiası yok.
