@@ -614,3 +614,11 @@ Tarihler Europe/Istanbul saat dilimine göredir.
   kanıtı, sunucu58801 ve yalnız kalan sürüm işlemleriyle yeniden yazıldı.
 - v1.0.0 PR ve release açıklamaları hazırlandı. Lint/107 dosya formatı,
   Django ve migrasyon farkı temiz; uv.lock1.0.0 paket metadatasıyla güncellendi.
+
+### 063 — Son sürüm PR'ı
+
+- docs/release-v1 GitHub'a gönderildi; PR #5 oluşturulup sohbete bağlandı:
+  https://github.com/nowackk-cp/karkontrol/pull/5. Sürüm ve gerçek kanıtlar
+  incelemeye hazır; required quality sonucu bekleniyor.
+- README ve üç kanıt belgesindeki sayı/kelime boşlukları düzeltildi.
+  Kod veya beklentiler değişmedi. Bu kayıt son sürüm paketine dahil edildi.

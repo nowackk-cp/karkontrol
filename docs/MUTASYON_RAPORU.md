@@ -1,11 +1,11 @@
 # Mutasyon ölçümü
 
-Güçlendirilmiş testlerle güncel sonuç: **342/369 = %92,68**, 27 survived,
-diğer durum 0. Kaynak commit40c5442:
+Güçlendirilmiş testlerle güncel sonuç: **342 / 369 = %92,68**, 27 survived,
+diğer durum 0. Kaynak commit 40c5442:
 [run37171192788](https://github.com/nowackk-cp/karkontrol/actions/runs/37171192788).
-Yedi ek mutant yakalandı; yaşayan27 oran hesabından çıkarılmadı.
+Yedi ek mutant yakalandı; yaşayan 27 oran hesabından çıkarılmadı.
 
-İlk Linux mutmut3.8 ölçümü: **335 killed /369 toplam =%90,79**, 34 survived,
+İlk Linux mutmut 3.8 ölçümü: **335 killed  / 369 toplam  = %90,79**, 34 survived,
 timeout/suspicious yok. Export için geçersiz junitxml komutu ilk workflow'u
 kırdı; desteklenen metadata/results çıktılarına geçilince ölçüm doğrulandı:
 [başarılı run37170823038](https://github.com/nowackk-cp/karkontrol/actions/runs/37170823038).
@@ -16,7 +16,7 @@ kırdı; desteklenen metadata/results çıktılarına geçilince ölçüm doğru
 |---|---|---|
 | allocate36 | Kalan kuruş sıralamasında key=None | Kuruş korunur ama yanlış satıra gider; ağırlık/sıra testi eklendi |
 | calculate151 | Maliyet KDV'sinde /100 yerine ×100 | Nakit eşitliğinde karşılıklı iptal nedeniyle kaçıyordu; KDV kalemleri test edildi |
-| validate16 | Maksimum adet/satır <2147483647 | Geçerli sınırı reddeder; tam sınır ve+1 testi eklendi |
+| validate16 | Maksimum adet/satır <2147483647 | Geçerli sınırı reddeder; tam sınır ve +1 testi eklendi |
 | shipping4 | Hata alan adı gross yerine None | Finans davranışı aynı; raporda yaşayan olarak korunur |
 
 Bu değişiklikler mutasyon aracının geçici kopyasında çalışır. Gerçek motor bu

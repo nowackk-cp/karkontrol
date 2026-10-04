@@ -21,6 +21,6 @@ Bu tablo “bütün insan onaylı plan bitti” iddiası taşımaz. Yazılım de
 ile bağımsız finans kabulü farklıdır. Eksik insan kanıtları için sahte Excel,
 hakem puanı, bug veya metrik oluşturulmaz.
 
-İşlevsel kabul: 261 test, 12 E2E, mobilde aynı12 akış, motor44/44dal,
-mutasyon342/369=%92,68 ve40/40 deterministik asistan sorusu. Pages raporları
+İşlevsel kabul: 261 test, 12 E2E, mobilde aynı 12 akış, motor 44/44 dal,
+mutasyon 342/369=%92,68 ve 40/40 deterministik asistan sorusu. Pages raporları
 canlı ve HTTP200. Kırmızı PR engeli doğrulandı. Detaylar günlüktedir.

@@ -67,9 +67,9 @@ hatasının iki tarafa da taşınmasını engellemez; insan inceleme seti boş k
 
 ## v1 demo son kabulü
 
-261 unit/integration/property/eval +12 E2E; mobilde aynı12 akış da geçti.
-Toplam satır+dal kapsamı %97,67 (raporda yuvarlanmış %98), motor44/44.
-Güçlendirilmiş mutasyon342/369=%92,68, yaşayan27. Main fc27163 üzerinde
+261 unit/integration/property/eval +12 E2E; mobilde aynı 12 akış da geçti.
+Toplam satır+dal kapsamı %97,67 (raporda yuvarlanmış %98), motor 44/44.
+Güçlendirilmiş mutasyon 342/369=%92,68, yaşayan 27. Main fc27163 üzerinde
 [CI](https://github.com/nowackk-cp/karkontrol/actions/runs/37171612643),
 [eval](https://github.com/nowackk-cp/karkontrol/actions/runs/37171612606) ve
 [mutation](https://github.com/nowackk-cp/karkontrol/actions/runs/37171615550) geçti.
