@@ -50,3 +50,16 @@ Henüz onaylı `KURALLAR_v1.md`, `altin_set.csv/xlsx`, motor, mutasyon sonucu,
 LLM eval, ödeme entegrasyonu veya E2E paketi yok. İnsan kontrolü yapılmamış AI
 hesaplarını elle doğrulanmış altın veri diye sunma. Başvuru notlarını içeren
 ana plan `.gitignore` ile yerelde tutulur.
+
+## Güncel GitHub / servis kanıtı
+
+- Public depo: https://github.com/nowackk-cp/karkontrol.
+- İlk CI başarılı: https://github.com/nowackk-cp/karkontrol/actions/runs/37163642871.
+  `quality` işi 15 saniye, toplam run 16 saniye; rapor artifact'ı doğrulandı.
+- `main` korumalı: güncel dal, `quality`, PR zorunlu; yönetici muafiyeti yok.
+  İnsan onay sayısı 0; force push ve dal silme kapalı.
+- Bu nedenle sonraki kod değişikliklerini ayrı dal ve PR üzerinden gönder.
+- Yerel sunucu http://127.0.0.1:8000/ adresinde başlatıldı. Ana sayfa, health
+  ve login gerçek HTTP üzerinden 200 verdi. Sonraki oturumda sunucu durumunu kontrol et.
+- Başlangıç altyapısı tamamlandı; sıradaki asıl faz, kesin kurallar ve bağımsız
+  insan doğrulamalı altın veri. Motorun önce yazılmaması kuralını koru.

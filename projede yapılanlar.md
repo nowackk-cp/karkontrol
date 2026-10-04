@@ -113,6 +113,43 @@ Tarihler Europe/Istanbul saat dilimine göredir.
   henüz motor olmadığı için motor kapsamı veya finansal doğruluk iddia edilmedi.
 - README, CI komutu ve devam talimatları Python modül çağrısıyla güncellendi.
 
+### 013 — GitHub deposu
+
+- Ana planda istenen `nowackk-cp/karkontrol` public deposu oluşturuldu.
+- Depo açıklaması yazıldı; yerel `origin` bu depoya bağlandı.
+- Doğrulama: GitHub CLI oluşturma komutu depo URL'sini başarıyla döndürdü:
+  https://github.com/nowackk-cp/karkontrol.
+- Başlangıç kontrolleri ve kilit dosyası ayrı `build:` commit'iyle kaydedildi.
+
+### 014 — İlk yayın ve repo konuları
+
+- `qa`, `test-automation`, `playwright`, `pytest`, `llm-eval`, `django` konuları eklendi.
+  Konular yol haritasını tanımlar; tamamlanan özellik iddiası değildir.
+- Dört küçük commit `origin/main` dalına gönderildi ve upstream kuruldu.
+- Doğrulama: Git push başarılı; hemen sonraki sorguda workflow henüz listelenmedi.
+  CI başarı iddiası eklenmedi; gerçek çalışma sonucu ayrıca izleniyor.
+
+### 015 — Gerçek CI ve yerel HTTP doğrulaması
+
+- GitHub run **37163642871** başarıyla tamamlandı. Lint, format, Django,
+  migration farkı, testler ve artifact yükleme adımları başarılı.
+- `quality` işi 15 saniye; run başlangıç/bitiş farkı 16 saniye. Bu ölçüm
+  başlangıç altyapısına ait; sonraki finansal/E2E testlerin süresi değildir.
+- 67.448 baytlık, süresi dolmamış `test-reports` artifact'ı API'den doğrulandı.
+- Yerel Django sunucusu 127.0.0.1:8000 üzerinde başlatıldı. Gerçek HTTP ile
+  ana sayfa, `/health/` ve giriş sayfası 200; health sonucu `status: ok`.
+- Doğrulama bağlantısı: https://github.com/nowackk-cp/karkontrol/actions/runs/37163642871.
+
+### 016 — Main kalite kapısı
+
+- `main` dalı için güncel dal + başarılı `quality` kontrolü ve PR zorunlu kılındı.
+- Kurallar yöneticilere de uygulanıyor; force push ve dal silme kapalı.
+- Tek geliştiricili proje için insan onay sayısı 0; insan code review yapılmış
+  gibi gösterilmedi. Sohbet çözümleme ve doğrusal geçmiş de zorunlu.
+- Doğrulama: GitHub protection API başarıyla döndü; `admins: true`,
+  `checks: [quality]`, `strict: true`, `force_push: false` doğrulandı.
+- README'ye gerçek CI rozeti ve kanıt bağlantısı eklendi; devam notu güncellendi.
+
 ### 011 — Bağımlılık kurulumu ve ilk statik doğrulama
 
 - Python 3.13.14 ortamına 23 çalışma/geliştirme paketi kuruldu; Django 5.2.17,
