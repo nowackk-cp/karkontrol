@@ -512,3 +512,14 @@ Tarihler Europe/Istanbul saat dilimine göredir.
 - Aktarım sözleşmesi kur/desi/kota/hesap atomikliğiyle; AI karar kaydı yeni
   yaklaşım ve gerçek metriklerle güncellendi. Golden README boş beklenen
   şablona yönlendirir, motordan önce insan veri commit'i koşulunun sağlanmadığını açıklar.
+
+### 051 — Yaşayan mutantların anlamlı incelenmesi
+
+- Run37171024566 artifact'ı aynı369/335/34 sayımını ve dört örnek diff'i verdi.
+- En büyük kalan sıralamasını kaldıran mutant ve maliyet KDV'sinde bölmeyi
+  çarpmaya çeviren mutant mevcut testlerden kaçıyordu: bu test boşluğu olarak
+  kaydedildi, çalışan motor hatası diye sayılmadı.
+- Ağırlığa göre kalan kuruş, sıfır ağırlık tie, maksimum adet/satır sınırı ve
+  kullanıcı kaynaklı örneğin KDV kalemleri için anlamlı kontroller eklendi.
+- shipping validate(gross,None) mutantı yalnız hata alan adını değiştirir;
+  eşdeğer finans davranışı olarak raporlanır, yapay skor için gizlenmez.

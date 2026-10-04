@@ -32,6 +32,9 @@ def test_user_supplied_600_tl_example():
     )
     assert r.profit == D("60")
     assert r.payout == D("367")
+    assert r.sales_vat == D("100")
+    assert r.fee_vat == D("38")
+    assert r.cost_vat == D("50")
     assert r.cash_profit == r.profit
 
 
@@ -174,6 +177,31 @@ def test_amazon_fixed_rate_and_fee(currency, rate):
 def test_bad_allocation(total, weights):
     with pytest.raises(ValueError):
         allocate(total, weights)
+
+
+def test_largest_remainder_follows_weight_not_input_position():
+    assert allocate(D("0.01"), [D("1"), D("3")]) == [D("0"), D("0.01")]
+    assert allocate(D("0.01"), [D("3"), D("1")]) == [D("0.01"), D("0")]
+    assert allocate(D("1.01"), [D("0"), D("0")]) == [D("0.51"), D("0.50")]
+    with pytest.raises(ValueError):
+        allocate(D("1"), [1.5])
+
+
+def test_maximum_quantity_boundary_and_nondefault_cost_vat():
+    zero = line(
+        quantity=2_147_483_647,
+        line_number=2_147_483_647,
+        unit_price_gross=D("0"),
+        unit_cost_net=D("0"),
+        desi=D("0"),
+    )
+    assert calculate_order([zero])[0].gross_sales == D("0")
+    for name in ("quantity", "line_number"):
+        with pytest.raises(ValueError):
+            calculate_order([replace(zero, **{name: 2_147_483_648})])
+    assert result(cost_vat_percent=D("10")).cost_vat == D("25")
+    assert result(cost_vat_percent=D("0")).cost_vat == D("0")
+    assert result(quantity=2, returned_quantity=1, cost_vat_percent=D("10")).cost_vat == D("25")
 
 
 def integer_round(value: Fraction) -> int:
