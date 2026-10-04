@@ -2,6 +2,9 @@
 
 Pazaryeri satışının kârını ve hakedişini görünür kılan, doğruluğunu testlerle kanıtlayan bağımsız demo.
 
+**v1.0.0 demo sürümü** — işlevsel ürün ve otomatik QA tamamlandı;
+bağımsız insan finans kabulünün durumu aşağıda açıkça belirtilir.
+
 [![CI](https://github.com/nowackk-cp/karkontrol/actions/workflows/ci.yml/badge.svg)](https://github.com/nowackk-cp/karkontrol/actions/workflows/ci.yml)
 [![Araç asistanı eval](https://github.com/nowackk-cp/karkontrol/actions/workflows/eval.yml/badge.svg)](https://github.com/nowackk-cp/karkontrol/actions/workflows/eval.yml)
 [![Mutasyon](https://github.com/nowackk-cp/karkontrol/actions/workflows/nightly.yml/badge.svg)](https://github.com/nowackk-cp/karkontrol/actions/workflows/nightly.yml)

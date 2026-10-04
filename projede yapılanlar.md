@@ -579,3 +579,38 @@ Tarihler Europe/Istanbul saat dilimine göredir.
   otomatik başladı. Pages ilk başarılı main CI sonucu sonrası çalışacak.
 - Ayrı, birleştirilmeyecek CI demo dalında stopajı bilinçli iki katına çıkarıp
   quality/branch protection engeli gösterilecek; gerçek bug diye sayılmayacak.
+
+### 059 — Kırmızı kalite kapısı örnek PR'ı
+
+- test/ci-gate-demo dalında yalnız stopaj çarpanı bilinçli değiştirildi,
+  beklenenler korunarak commit2aa69c9 gönderildi. PR #4 oluşturulup sohbete
+  bağlandı: https://github.com/nowackk-cp/karkontrol/pull/4.
+- Çalışma docs/release-v1 dalına geri döndü; normal motor %1 stopaj kullanır.
+  Örnek dalın kendi günlüğünde de niyet/işlem kayıtlıdır. CI sonucu beklenir.
+
+### 060 — Gerçek kırmızı PR ve ana dal kalite kanıtı
+
+- Örnek PR #4 quality FAILURE (run37171652470), API mergeStateStatus BLOCKED.
+  Branch protection required quality/strict/enforce_admins=true doğrulandı;
+  hatalı değişiklik birleştirilmeden PR kapatıldı, bypass/merge denemesi yapılmadı.
+- CI_KAPISI_KANITI.md gerçek PR/run bağlantılarını ve gösterim sınırını kaydeder.
+- Main fc27163 CI37171612643, eval37171612606 ve mutation37171615550 SUCCESS.
+  Mutasyon main artifact'ı indirildi. Pages37171673012 sonucu kontrol ediliyor.
+
+### 061 — Canlı raporlar ve demo v1 hazırlığı
+
+- Pages run37171673012 SUCCESS. Kök indeks, pytest HTML, kapsam HTML ve
+  E2E XML adreslerinin tamamı HTTP200 döndürdü. Canlı adres:
+  https://nowackk-cp.github.io/karkontrol/.
+- Main mutasyon artifact'ı yine342/369=%92,68;27 survived; diğer0.
+  Kırmızı PR gerçek sonucu4 failed/257 passed; kullanıcı örneği ve Fraction
+  testi de değişikliği yakaladı. Branch protection engeli somut olarak kaydedildi.
+- Paket v1.0.0 demo; CHANGELOG, README ve kabul/QA durumu güncel gerçek
+  kanıtlarla yazıldı. Son sürüm PR/CI/release adımları sırada.
+
+### 062 — Son devam notu ve sürüm inceleme paketi
+
+- Devam notu eski ara durumlar kaldırılarak güncel261/12/%92,68/main/Pages
+  kanıtı, sunucu58801 ve yalnız kalan sürüm işlemleriyle yeniden yazıldı.
+- v1.0.0 PR ve release açıklamaları hazırlandı. Lint/107 dosya formatı,
+  Django ve migrasyon farkı temiz; uv.lock1.0.0 paket metadatasıyla güncellendi.
