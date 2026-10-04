@@ -1,0 +1,55 @@
+name: Real LLM eval
+on:
+  pull_request:
+    paths: ['apps/assistant/**', 'qa/**', 'scripts/setup_local_llm.py', 'tests/eval/**', '.github/workflows/llm.yml']
+  push:
+    branches: [main]
+    paths: ['apps/assistant/**', 'qa/**', 'scripts/setup_local_llm.py', 'tests/eval/**', '.github/workflows/llm.yml']
+  schedule:
+    - cron: '30 4 * * 1'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: llm-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  model-eval:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: '0.11.26'
+      - run: uv sync --locked --extra dev
+      - uses: actions/cache@v4
+        with:
+          path: .local/llm
+          key: qwen3-1.7b-q8-b11382-linux-v1
+      - name: Verify pinned runtime and weights
+        run: uv run python scripts/setup_local_llm.py
+      - name: Start loopback-only CPU server
+        run: |
+          mkdir -p reports
+          runtime=$(find .local/llm/runtime -type f -name llama-server -print -quit)
+          test -n "$runtime"
+          "$runtime" -m .local/llm/Qwen3-1.7B-Q8_0.gguf --host 127.0.0.1 --port 8081 -c 4096 -t 4 --parallel 1 --jinja > reports/model-server.log 2>&1 &
+          echo "$!" > reports/model-server.pid
+          uv run python scripts/wait_local_llm.py
+      - run: uv run python manage.py migrate --noinput
+      - name: Compare real v1 and v2 answers to SQL
+        run: uv run python manage.py evaluate_assistant --backend local --versions v1,v2
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: real-llm-eval
+          path: |
+            reports/llm-eval.json
+            reports/model-server.log
+            .local/llm/manifest.json
+          retention-days: 14
+      - name: Stop own model process
+        if: always()
+        run: |
+          if [ -f reports/model-server.pid ]; then kill "$(cat reports/model-server.pid)" 2>/dev/null || true; fi

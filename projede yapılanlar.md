@@ -653,3 +653,73 @@ Tarihler Europe/Istanbul saat dilimine göredir.
   ham mutasyon342/369=%92,68; araç asistanı40/40. Demo yazılım işi tamamlandı.
 - İnsan golden doğrulaması, gerçek LLM/judge/kör hold-out ve gerçek tarife
   kabulü yapılmadı; ayrı kabul sınırı belgelerde açık. Bu kanıtlar uydurulmadı.
+
+### 067 — Tam plan isteği sonrası eksik kabul işlerinin taranması
+
+- AGENTS, ana plan, faz durumları, asistan ve eval uygulaması incelendi.
+  Kullanıcı tüm planı tamamlama ve computer use yetkisini açıkça verdi.
+- Ortamda OPENAI/ANTHROPIC/GEMINI/GOOGLE API anahtarı ve yerel .env yok;
+  anahtar değerleri okunmadı veya çıktıya yazılmadı. RAM yaklaşık 16 GB.
+- Gerçek model çalıştırması için anahtarsız yerel Qwen/llama.cpp yolu seçildi.
+  Resmî OpenAI function calling/structured outputs belgeleri ve Qwen kaynağı
+  araştırıldı. İnsan golden/hakem/körlük kanıtı AI tarafından üretilemez;
+  bu eksikler için çalıştırılabilir kabul araçları hazırlanacak.
+
+### 068 — Gerçek yerel LLM adaptörü ve güvenlik doğrulaması
+
+- Qwen3 için loopback-only JSON şemalı araç seçimi, prompt v1/v2 ve UI backend
+  seçeneği eklendi. Para hesapları/mağaza kimliği modele verilmez; model yalnız
+  rapor türü ve tarih seçer, sunucu erişimi ve rakamları doğrular.
+- 26 yeni model-adaptörü testi eklendi. Owner sınırı, uzak URL engeli, bozuk/
+  büyük yanıt, uydurulmuş yıl, sunucu kesintisi ve UI kontrol edildi.
+  Mevcut 46 eval kontrolüyle toplam 72 test geçti; lint/format temiz.
+- İlk test çalıştırmasında büyük parametrik test kimliği Windows geçici
+  dosya yolunu bozdu; kısa test kimlikleriyle düzeltildi. Ürün hatası değildir.
+- Portable llama.cpp b11382 zip SHA256 doğrulandı; resmî Qwen ağırlığının
+  indirilmesi sürüyor. Henüz gerçek model başarısı iddiası yok.
+
+### 069 — İnsan mutabakatı, eval ve hakem kabul kapıları
+
+- 40 senaryoyu bağımsız insan beklentileriyle kuruş bazında karşılaştıran
+  check_golden komutu, satır/kalem fark raporu ve kaynak SHA256 kaydı eklendi.
+  Eksik, yinelenen veya AI incelemeli kayıtlar kabul edilmez.
+- Eval için baseline'dan en fazla 3 puan düşüş ve sıfır kritik hata kapısı;
+  20 gerçek insan/hakem puanı için %85 mutabakat hesaplayıcısı eklendi.
+- 20 kabul testiyle birlikte ilgili 92 test geçti. Gerçek boş inceleme dosyası
+  çalıştırıldığında komut exit1 ve SIP-01 insan kanıtı eksik sonucu verdi;
+  reports/golden-acceptance.json bu açık eksikliği korur.
+
+### 070 — 40 siparişlik insan inceleme çalışma kitabı
+
+- Spreadsheets becerisiyle iki sekmeli insan_inceleme.xlsx oluşturuldu:
+  40 sabit senaryo girdisi, boş 7 beklenen tutar, inceleyen/tarih/kaynak alanları.
+  Finans beklenenleri veya insan imzası AI tarafından doldurulmadı.
+- Eksik alan durum formülleri, koşullu renkler, sütun/başlık sabitleme eklendi.
+  Deneme alanı doldurulduğunda sayaç1, kaynak silindiğinde0 oldu; tüm deneme
+  değerleri çıktıdan kaldırıldı. Formül hatası taramasında0 hata; iki sekme
+  görsel olarak incelendi ve kırpılan sayaç etiketi düzeltildi.
+- Çalışma kitabından yalnız doldurulmuş değerleri CSV'ye aktaran komut eklendi.
+  Export tek başına insan onayı veya finans kabulü sayılmaz.
+
+### 071 — SQL eval çalıştırıcısı ve gerçek tarife fark incelemesi
+
+- evaluate_assistant komutu 40 soruyu iki prompt sürümüyle çalıştırır;
+  ham yanıt/seçim/usage ve prompt/dataset hash'leri saklanır. SQL değerleri
+  bağımsız parametrik sorguyla karşılaştırılır. Fixture transaction rollback.
+- Offline kontrol40/40 geçti. Geniş yerel suite307 test geçti; motor44/44dal.
+  Yeni management komutunun test kapsamı henüz artırılmadığı için genel
+  kapsam%92 olarak raporlandı; eski%98 iddiası yeni koda taşınmadı.
+- Amazon resmî ücret sayfası ve16 Nisan2026 FBA PDF'si incelendi. Ürün başına
+  lojistik, kategori oranı, iade kesintisi ve bitmiş promosyon farkları yazıldı.
+  300TL tam eşik belirsizliği ve hesap/sözleşme gereği açık tutuldu.
+
+### 072 — Windows model çalışma engeli ve Linux doğrulama yolu
+
+- Portable llama-server çalıştırması0xC0E90002 koduyla durdu. Windows Code
+  Integrity3077/3033 günlüğü ggml.dll Enterprise signing policy engelini
+  doğruladı. Sistem güvenlik ayarları değiştirilmedi, engel aşılmadı.
+- Gerçek LLM testinin Linux GitHub runner üzerinde çalışması için SHA256
+  sabit Ubuntu runtime, model cache, loopback sunucu, health bekleme ve
+  ham yanıt artifact workflow'u eklendi. PR/prompt değişimi ve haftalık run.
+- Yerel12 Chromium E2E yeniden geçti. Windows'ta gerçek model çalıştı
+  iddiası yapılmaz; yerel UI offline backend ile çalışır.
