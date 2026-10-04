@@ -1,7 +1,8 @@
 # Kâr kuralları v1 — karar taslağı
 
-**Durum: onaylanmış kurallar değildir.** Plan gereği alan kuralları ve
-altın beklenenler bağımsız insan denetiminden geçmeden `ai-v1` motoru üretilmez.
+**Tarihî karar taslağıdır.** Kullanıcının kesintisiz tamamlama talimatıyla
+[demo sözleşmesi](KURALLAR_v1.md) uygulanmaktadır. Motor `demo-v1` olarak
+etiketlenir; bağımsız insan denetimli altın doğrulama hâlâ ayrı bir kabul koşuludur.
 
 ## Önerilen hesap sözleşmesi
 

@@ -6,7 +6,7 @@
   <p>Siparişlerini mağaza bazında yönet. Her mağazanın verileri kendi hesabına bağlıdır.</p>
   <ul class="store-list" data-testid="store-list">
   {% for store in stores %}
-    <li><a data-testid="store-link" href="{% url 'orders:list' store.pk %}">{{ store.name }}</a><span>{{ store.get_marketplace_display }} · Komisyon %{{ store.commission_percent }}</span></li>
+    <li><a data-testid="store-link" href="{% url 'orders:list' store.pk %}">{{ store.name }}</a><span>{{ store.get_marketplace_display }} · Komisyon %{{ store.commission_percent }}</span><a href="{% url 'reports:profit' store.pk %}">Kâr raporunu aç</a></li>
   {% empty %}
     <li>Henüz mağazan yok. İlk mağazanı ekleyerek başlayabilirsin.</li>
   {% endfor %}

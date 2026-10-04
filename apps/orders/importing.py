@@ -42,6 +42,10 @@ OPTIONAL_COLUMNS = (
     "pazaryeri_kuponu",
     "iade_adet",
     "para_birimi",
+    "desi",
+    "agirlik_kg",
+    "maliyet_kdv_orani",
+    "doviz_kuru",
 )
 
 
@@ -177,8 +181,18 @@ def _parse(content, extension, store):
         values = list(values) + [None] * (len(headers) - len(values))
         row = dict(zip(headers, values, strict=True))
         try:
-            if _text(row.get("para_birimi")) not in ("", "TRY"):
-                raise ImportValidationError("Yalnızca TRY para birimi destekleniyor.")
+            currency = _text(row.get("para_birimi")) or "TRY"
+            rate = _text(row.get("doviz_kuru")) or "1"
+            if currency not in ("TRY", "USD", "EUR") or (
+                currency != "TRY" and store.marketplace != Store.Marketplace.AMAZON
+            ):
+                raise ImportValidationError("Bu mağazada para birimi desteklenmiyor.")
+            if currency != "TRY" and not _text(row.get("doviz_kuru")):
+                raise ImportValidationError("Yabancı para siparişlerinde doviz_kuru zorunlu.")
+            if not re.fullmatch(r"[0-9]{1,6}(?:[.,][0-9]{1,6})?", rate):
+                raise ImportValidationError(
+                    "doviz_kuru: en fazla altı ondalıklı pozitif sayı girin."
+                )
             line = OrderLine(
                 store=store,
                 order_number=_text(row["siparis_no"]),
@@ -198,6 +212,13 @@ def _parse(content, extension, store):
                 seller_discount=_decimal(row.get("satici_indirimi") or "0", "satici_indirimi"),
                 platform_coupon=_decimal(row.get("pazaryeri_kuponu") or "0", "pazaryeri_kuponu"),
                 returned_quantity=_integer(row.get("iade_adet") or "0", "iade_adet"),
+                currency=currency,
+                exchange_rate=Decimal(rate.replace(",", ".")),
+                desi=_decimal(row.get("desi") or "0", "desi"),
+                weight_kg=_decimal(row.get("agirlik_kg") or "0", "agirlik_kg"),
+                cost_vat_percent=_decimal(
+                    row.get("maliyet_kdv_orani") or "20", "maliyet_kdv_orani"
+                ),
             )
             line.full_clean(validate_unique=False, validate_constraints=False)
             identity = (line.order_number, line.line_number)
@@ -230,6 +251,7 @@ def import_orders(*, user, store_pk, upload):
         if not created:
             return ImportResult(0, len(lines), repeated_file=True)
         created_count = skipped_count = 0
+        new_orders = set()
         for line in lines:
             defaults = {
                 field.name: getattr(line, field.name)
@@ -244,6 +266,7 @@ def import_orders(*, user, store_pk, upload):
             )
             if is_new:
                 created_count += 1
+                new_orders.add(line.order_number)
             elif any(getattr(existing, name) != value for name, value in defaults.items()):
                 raise ImportValidationError(
                     f"{line.order_number} / {line.line_number}: "
@@ -251,6 +274,16 @@ def import_orders(*, user, store_pk, upload):
                 )
             else:
                 skipped_count += 1
+        from apps.billing.services import check_import_limit
+        from apps.reports.services import check_report_bounds, recalculate_order
+
+        check_import_limit(user)
+        try:
+            for number in new_orders:
+                recalculate_order(store, number, enforce_totals=False)
+            check_report_bounds(store)
+        except ValueError as exc:
+            raise ImportValidationError(str(exc)) from exc
         batch.created_lines = created_count
         batch.skipped_lines = skipped_count
         batch.save(update_fields=["created_lines", "skipped_lines"])

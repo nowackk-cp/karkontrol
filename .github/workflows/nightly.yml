@@ -1,0 +1,29 @@
+name: Engine mutation
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  mutation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: '0.11.26'
+      - run: uv sync --locked --extra dev --extra mutation
+      - run: uv run mutmut run --max-children 2
+      - name: Export mutation evidence
+        if: always()
+        run: |
+          mkdir -p reports
+          uv run mutmut results > reports/mutation.txt
+          uv run mutmut junitxml > reports/mutation.xml
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mutation-evidence
+          path: reports/mutation.*

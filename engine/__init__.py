@@ -1,1 +1,1 @@
-"""Kâr motoru için ayrılan paket. Bağımsız altın veri onayı sonrasında uygulanacak."""
+"""Django'dan bağımsız, Decimal tabanlı demo kâr motoru."""
