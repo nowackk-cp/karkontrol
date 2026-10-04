@@ -563,3 +563,10 @@ Tarihler Europe/Istanbul saat dilimine göredir.
   yalnız kendi sunucu süreci yeniden başlatılıp reload sonrası1160px görünüm
   ve güncel ekran görüntüsü doğrulandı. Son sunucu session58801, port8001.
 - Rapor sekmesi çıktı olarak bırakıldı. Bu işlem yeni finans hesabı değiştirmedi.
+
+### CI-DEMO — Bilinçli hatalı değişiklik
+
+- Yalnız test/ci-gate-demo dalında stopaj %1 yerine %2 yapıldı; beklenen
+  değer/test değiştirilmedi. Bu kalite kapısı gösterimidir, gerçek AI bug değildir.
+- Dal hiçbir zaman birleştirilmeyecek; kırmızı required quality ve merge
+  engeli doğrulanınca PR kapatılacak. Normal main motoru korunur.

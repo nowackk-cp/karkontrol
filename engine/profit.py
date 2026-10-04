@@ -168,7 +168,7 @@ def _calculate(lines, marketplace):
         shipping = outbound[index] + inbound[index]
         fee = money(service[index] * remaining / line.quantity)
         cost = money(line.unit_cost_net * remaining * line.exchange_rate)
-        withholding = money(net / HUNDRED)
+        withholding = money(net * Decimal("2") / HUNDRED)
         fee_vat = sum(money(item * Decimal("0.20")) for item in (commission, shipping, fee))
         results.append(
             LineResult(
