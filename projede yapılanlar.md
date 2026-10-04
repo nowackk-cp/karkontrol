@@ -570,3 +570,12 @@ Tarihler Europe/Istanbul saat dilimine göredir.
   için quality SUCCESS (run37171519874,59 saniye), eval SUCCESS (run37171519963).
 - PR #3 tam bu başlık şartıyla squash birleştirildi. main fast-forward alındı;
   sürüm/kanıt belgeleri için docs/release-v1 dalı açıldı. Korumalar aşılmadı.
+
+### 058 — İlk finans sürümü ve main ölçümü
+
+- main fc27163 için v0.2.0 release yayımlandı:
+  https://github.com/nowackk-cp/karkontrol/releases/tag/v0.2.0.
+- Nightly main üzerinde elle başlatıldı (run37171615550); main CI ve eval
+  otomatik başladı. Pages ilk başarılı main CI sonucu sonrası çalışacak.
+- Ayrı, birleştirilmeyecek CI demo dalında stopajı bilinçli iki katına çıkarıp
+  quality/branch protection engeli gösterilecek; gerçek bug diye sayılmayacak.
