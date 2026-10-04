@@ -953,3 +953,42 @@ Tarihler Europe/Istanbul saat dilimine göredir.
   --match-head-commit ile birleştirildi; yönetici bypass kullanılmadı.
 - Profil README'sinin herkese açık gerçek tarayıcı görünümü doğrulandı.
   In-app GitHub oturumu açık değil; pin yapılmış iddiası yok.
+
+### 101 — Korunan geçmiş ve güncel yerel main
+
+- Kaynak/kanıt PR'ı mainae5297f; son günlük f18ba98 commit'inde korundu.
+  Eski local main14ea542 archive/main-v1-bookkeeping olarak silinmeden saklandı.
+  Yeni main origin/main'den açılıp yalnız günlük commit'i taşındı.
+- Profil README metni c3a5ea4 commit'inde düzenlendi. Diğer repolarda gizli
+  anahtar taraması yapılmadı; profil pin ve fotoğraf kabulü iddia edilmez.
+
+### 102 — v1.1.0 sürümünün gerçek yayını
+
+- v1.1.0 public release ae5297f commit'inde yayımlandı. Tag API'si aynı commit'i
+  doğruladı.10 ek: XLSX/CSV insan şablonu,20 hakem dosyası, ilk/son/main LLM
+  raporları, ilk yeni set soru/cevap/manifest ve Linux runtime manifest'i.
+- Son kaynak CI37176425935 ve Pages37176484284 SUCCESS; canlı indeks HTTP200
+  ve ae5297f hash'i ile doğrulandı. Holdout geçmişi yalnız tek37175718839 run'ını
+  gösterir. Başarısız ilk model ölçümü release içinde de korunur.
+
+### 103 — Özgün planın gerçek tamamlanma işaretleri
+
+- Git dışında tutulan özel ana plana v1.1 release/316+12/40+10 kanıtı ve gerçek
+  açık kabuller yazıldı.16 doğrulanmış teknik teslim kutusu işaretlendi.
+  Bağımsız insan, tarihsel Claude izolasyonu ve kişisel başvuru/profil görevleri
+  tamamlanmış gösterilmedi; orijinal hedef ve altın kurallar korundu.
+
+### 104 — Son yayın dosyalarının uçtan uca doğrulanması
+
+- GitHub release API'sindeki10 uzak asset size/SHA256 değeri yerel dosyayla
+  10/10 eşleşti. Teslim XLSX'i release/data kopyasıyla aynı bytes.
+  Yerel /health OK ve açık PR listesi boş olarak doğrulandı.
+
+### 105 — Son bağlam ve kabul sınırlarının kaydı
+
+- Devam notu tamamlanan v1.1 teslimi, kesin kaynak/run/hash'ler, tek yeni set,
+  protected main, yerel sunucu ve açık bağımsız kabullerle baştan yenilendi.
+  Otomatik compact sonrası teknik işin tekrar başlatılmaması açıkça yazıldı.
+-40 bağımsız insan finans bekleneni,20 insan hakem puanı ve gerçek satıcı
+  sözleşmesi kabulü yoktur. Teknik teslim tamamlandı; özgün insan onaylı plan
+  bütünü tamamlanmış veya üretim dağıtılmış sayılmaz.

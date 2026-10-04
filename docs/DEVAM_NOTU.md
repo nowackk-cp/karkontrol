@@ -1,78 +1,77 @@
-# Bağlam devri — 2026-10-04 / v1.1 son kabul
+# Bağlam devri — 2026-10-04 / v1.1.0 teslimi
 
 Kullanıcı bütün planı tamamla, soru sorma, full computer use yetkisi verdi.
-Her tamamlanan işlem kökteki projede yapılanlar.md dosyasına hemen yazılır.
-AGENTS.md geçerli. Subagent yetkisi yok. Otomatik compact sonrası bu not,
-günlük ve Git durumundan devam et; tamamlanan işleri yeniden yapma.
+Her tamamlanan işlem projede yapılanlar.md'ye hemen yazılır; AGENTS.md geçerli.
+Otomatik compact sonrası bu not, günlük ve Git durumundan devam edilir.
 
-## Aktif iş
+## Teknik teslim durumu
 
-GÜNCEL EK: PR#6 ca995a6 required kontrolleri geçti ve26a174a olarak main'e
-birleştirildi. Branch artık feat/holdout-evidence (origin/main26a174a tabanlı).
-İlk ve tek holdout37175718839 SUCCESS/10/10/9model+1önred; prompt sabit,
-SHA89ab8fb2, sorularSHA6c96312a. data/evidence/holdout-first kalıcı kopya hazır.
-Günlük096'ya kadar. Issue#7/8/9 gerçek geçmiş bug kayıtları kapatıldı.
-Main CI37175715954/LLM37175716006/Pages37175771165 SUCCESS, liveHTTP200 doğru26a.
-Son evidence/docs commit'ini PR olarak gönder, required checks sonrası merge;
-v1.1.0 release+assets ve final kaynak CI/Pages doğrula. HOLDOUT RERUN YOK.
-Aşağıdaki eski Aktif iş satırları önceki checkpoint'tir; bu güncel ek önceliklidir.
+Yazılım, otomatik QA ve sürüm teslimi tamamlandı. Yeni kod işi veya açık PR yok.
+v1.1.0 public: https://github.com/nowackk-cp/karkontrol/releases/tag/v1.1.0
+Remote main/tag source ae5297f0858da645487b0fac5648372ce46621b4.
+PR#6 uygulama, PR#10 ilk yeni set kanıtı normal required checks sonrası squash
+merge edildi. Main quality + model-eval strict/enforce_admins=true; bypass yok.
+Son main CI37176425935/Pages37176484284 SUCCESS; live HTTP200 doğruae5297f.
+Yerel main üzerinde sonraki günlük/bağlam kayıtları vardır; source kod aynı.
+Eski main14ea542 archive/main-v1-bookkeeping olarak korunur; reset/silme yok.
 
-Branch feat/remaining-acceptance, PR#6 ready ve attached.
-https://github.com/nowackk-cp/karkontrol/pull/6
-Efd464e quality, offline eval ve gerçek model run37174900112 SUCCESS.
-Son QA/CV/GIF belgeleri ve günlük085–087 henüz commit/push bekliyor.
-Son belge commit'ini push et; zorunlu quality + model-eval geçince PR'ı
-normal squash ve --match-head-commit ile birleştir. Admin bypass yapma.
-Paket ve uv.lock v1.1.0 hazır; release/tag henüz yok. Main c65cc65/v1.0.0.
+## Gerçek kalite kanıtı
 
-## Kalan otomatik teslim
+316 core +12 bağımsız Chromium E2E; aynı12 akış iPhone13 tekrarında geçti.
+Motor44/44=%100; motor değişmedi, Linux mutmut342/369=%92,68 kanıtı geçerli.
+Son yerel genel satır+dal95,881%; eski v1 %97,67 tarihî kanıttır.
+Qwen3-1.7B-Q8_0 / llama.cpp b11382 / temperature0 / Linux CPU:
+- İlk37173824046 FAILED: v1 13/40, v2 34/40,5 kritik hata; rapor saklandı.
+- Düzeltilmiş37174071378 ve main37175716006: v1 19/40, v2 40/40,
+  0kritik;21 iyileşme0gerileme. Her prompt36 gerçek çağrı +4 ön red.
+- Son PR#10 f6c1da3 quality55s, model37176164679 SUCCESS/4m43s.
+- İlk ve TEK yeni set37175718839 SUCCESS/1m46s, v2 10/10,9 çağrı+1 ön red.
+  PromptSHA89ab8fb2b790d66641a398fba9ea2aadcc13bf293d80e54be66ef6a1abc93ff5.
+  SoruSHA6c96312a4ca8517e5f1277f6215b80017c60d4178404c9367ec14314b55c346d.
+  Root soruları ancak eval sonrası okudu; prompt değişmedi, rerun yapılmadı.
+  Aynı Qwen'in soruları niyet şablonu/kısmen doğal olmayan dildir; bağımsız insan
+  holdout/genellenmiş kullanıcı doğruluğu değildir. İLK SETİ TEKRAR ÇALIŞTIRMA.
+Raw data/evidence/llm-first.json, llm-corrected.json, holdout-first/ kalıcı.
+Release10 ekin uzak digest/size değeri yerel dosyayla doğrulandı.
 
-1. Son belgeler lint/format/diff temiz. Yeni kaynak başlığında required CI geçsin.
-2. PR#6 merge sonrası holdout.yml --ref main yalnız BİR KEZ çalıştır.
-   Prompt v2 SHA256 sabit; yeni10 soruyu eval bitmeden root görmez.
-   İlk sonuç başarı/başarısızlık fark etmeksizin korunur. Prompt ayarı/rerun yok.
-   AI yazarlı aynı Qwen seti bağımsız insan hold-out diye sunulmaz.
-3. Artifact'i indir, kalıcı evidence ve doküman/günlük kaydı ekle.
-4. v1.1.0 release doğru main commit'inde yayımla; human workbook/judge ve gerçek
-   eval/ilk holdout kanıtı release assets olarak verilebilir. Main CI ve Pages
-   güncel kaynakta SUCCESS/HTTP200 doğrula. Başvuru/mesaj gönderme.
-5. Son DEVAM/günlük yerel bookkeeping commit'iyle temiz Git bırak; her günlük
-   için yeni PR ve model run döngüsüne girme. Eski local main üç bookkeeping
-   commit ileride: squash sonrası diverge olursa eski branch'i silme/resetleme;
-   arşiv adıyla koruyup origin/main'den yeni main aç.
+## Bağımsız kabul açık
 
-## Kanıt ve sınırlar
+40 senaryo XLSX'inde7 expected + reviewer/date/source BOŞ, counter0/40.
+20 gerçek model hakem puanı12pass/8fail; insan puanları NULL.
+Golden CLI exit1 SIP01; insan judge kalibrasyonu exit1 J01.
+AI motor çıktısından veya AI hesabından insan golden/puan üretmek yasak.
+Gerçek satıcı sözleşmesi kabulü yok. Resmî Amazon/FBA farkları belgeli.
+Codex kullanıldı; Claude/ai-v1 izolasyonu ve motor öncesi insan seti geçmişe
+ dönük yapılmış gibi gösterilmez. Özgün özel planın16 gerçek kutusu işaretlendi;
+insan/historik/kişisel hesap görevleri açık olarak korunur. Bu yüzden özgün
+bağımsız insan onaylı plan bütünü tamamlandı iddiası yok.
 
-316 core +12 bağımsız E2E geçti; aynı12 akış iPhone13 tekrarında da geçti.
-Motor değişmedi:44/44 dal, mutmut342/369=%92,68 önceki Linux kanıtı geçerli.
-Gerçek Qwen3-1.7B-Q8_0 + llama.cpp b11382, temperature0 Linux CPU:
-- İlk run37173824046 FAILED: v1 13/40, v2 34/40,5 kritik hata; rapor saklanır.
-- Düzeltilmiş run37174071378 SUCCESS: v1 19/40, v2 40/40,0 kritik hata;
-  21 iyileşme,0 gerileme. Her prompt36 model çağrısı +4 güvenlik ön reddi.
--20 gerçek model hakem puanı12 pass/8 fail; insan puanları NULL.
-- APP003 yanlış Eylül→Kasım seçimi: literal yıl/ay JSON enum'a bağlandı.
-- Model araç seçer; finans rakamlarını sunucu oluşturur. Serbest LLM finans hesabı değil.
-Raw data/evidence/llm-first.json, llm-corrected.json; judge data/draft'ta.
-40 XLSX senaryosunda7 expected +reviewer/date/source BOŞ; counter0/40.
-Golden CLI exit1 SIP01, human judge CLI exit1 J01: insan kabulü eksik.
-İnsan expected/puanlarını AI ile doldurmak yasak. Gerçek satıcı sözleşmesi yok.
-Resmî Amazon/FBA incelemesi ve demo farkları docs/GERCEK_TARIFE_INCELEMESI.md.
-CV proje bölümü/ön yazı docs/BASVURU_MATERYALI.md; kişisel geçmiş uydurulmadı.
-PR#4 gerçek API kaydı data/evidence/ci-gate.json ve4 kare GIF docs/assets'te;
-GIF kayıt animasyonudur, canlı ekran kaydı değildir. Gerçek motor bug sayısı0.
+## Sunulan belgeler ve hesap işleri
 
-## Ortam
+CV proje bölümü/ön yazı docs/BASVURU_MATERYALI.md; kişisel CV dosyası yok.
+Başvuru/e-posta/LinkedIn mesajı gönderilmedi. Hata Issue#7/8/9 CLOSED;
+gerçek önceki fix commit/PR kanıtı geriye dönük kayıt olarak açıkça belirtilir.
+Gerçek motor bug0; üç uygulama/model bug vardır. PR#4 kontrollü kırmızı demo.
+GIF docs/assets/ci-kapisi.gif API kaydı animasyonudur; canlı ekran kaydı değildir.
+GitHub nowackk-cp/nowackk-cp profil README yayımlandı, soncommitc3a5ea4.
+Gerçek ad/bio mevcut. Profil pin/fotoğraf değişimi ve diğer repo secret taraması
+ yapılmış gibi gösterilmez. In-app GitHub oturumu açık değildi.
 
-Windows PowerShell, uv0.11.26/Python3.13.14/Django5.2.17. approval never;
-sandbox_permissions verme. pytest python -m ile çağrılır.
-Qwen weights SHA256 doğrulandı .local/llm; Windows native llama-server ggml.dll
-CodeIntegrity3077/3033, exit0xC0E90002 ile engelli. Güvenliği değiştirme/bypass yok.
-Gerçek LLM Linux CI'da çalışır. 8001 kendi server session24306 --noreload;
-local UI offline backend. Browser NodeREPL agent/browser/tab/fs mevcut;
-tab store2 assistant ekranında. Demo-satici/demo-only-pass-2026 sentetik hesap.
-Kâr-20.01/hakediş34.74/netsatış124.99 rapor ve asistan eşitliği doğrulandı.
-Workbook output outputs/remaining-acceptance/insan_inceleme.xlsx, render/doğrulama
-geçti, human fields boş. Spreadsheet marker yalnız1 kez yapıldı; tekrar etme.
-OpenAI Docs, Computer Use, Spreadsheet ve Browser skill/guidance zaten okundu.
-CU uygulama otomasyonu gerekmedi. Node görsellerinde image(c), base64 text yok.
+## Ortam ve araçlar
+
+Windows PowerShell/uv0.11.26/Python3.13.14/Django5.2.17. approval never;
+sandbox_permissions verme. pytest python -m ile çağrılır. Subagent yetkisi yok.
+Qwen1.834.426.016byte SHA256 doğrulandı .local/llm. Windows native runtime
+CodeIntegrity3077/3033, ggml.dll exit0xC0E90002 ile engelli. Güvenliği değiştirme
+ve DLL load/rename bypass yapma. Gerçek model Linux CI'da çalıştı; local offline.
+8001 own server session24306 --noreload, /health OK. Browser NodeREPL
+agent/browser/tab/fs mevcut; tabid2 store2 kâr raporu teslim sekmesidir.
+Demo-satici/demo-only-pass-2026 sentetik hesap; kâr-20.01/hakediş34.74/netsatış124.99.
+Güncel ekran reports/screens/profit-report-v1.1.png. Browser profil tabı da var.
+Workbook outputs/remaining-acceptance/insan_inceleme.xlsx, release/data kopyası
+aynı bytes; tüm renderler doğrulandı. Spreadsheet marker yalnız1 kez kullanıldı.
+OpenAI Docs, Computer Use, Spreadsheet ve Browser skills/guidance okundu.
+CU uygulama otomasyonu gerekmedi. .local/artifacts scriptleri Git dışında;
+release digest kontrolü verify_release.py. reports/release-proof.json ham API kaydı.
 apply_patch aynı dosyaya tek operasyon kabul eder; tüm patch atomiktir.
+Günlük sonu105; teknik işi tekrar başlatma veya kör seti tekrar çalıştırma.
