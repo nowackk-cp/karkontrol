@@ -1,0 +1,645 @@
+{
+  "review_created_at_utc": "2026-10-05T01:01:14.370161+00:00",
+  "reviewer": "engine_fixes independent raw-diff review",
+  "source_commit": "c1481f4d7f364b13e6554912fe4a4e58e2787031",
+  "source_sha256": "6c0fa1048682cdd3fb951dbda06595734e5001bf05e305f91288cf22800cbb87",
+  "source_commit_sha256_verified": true,
+  "linux_run": {
+    "workflow_run_id": "37249153652",
+    "summary_path": "reports/review-mutation-first/mutation-evidence/reports/mutation-summary.json",
+    "commit": "c1481f4d7f364b13e6554912fe4a4e58e2787031",
+    "total": 436,
+    "killed": 423,
+    "survived": 13,
+    "other": 0,
+    "score_percent": "97.02",
+    "source_exclusions": [],
+    "test_selection": [
+      "tests/unit/test_profit.py",
+      "tests/unit/test_profit_contract.py"
+    ]
+  },
+  "metadata": [
+    {
+      "path": "reports/review-mutation-first/mutation-evidence/mutants/engine/__init__.py.meta",
+      "sha256": "8337af0c4106390d1c3bc4da61916adc36a117e653e1d7baa815d1ca882d6238",
+      "index_sha256_verified": true
+    },
+    {
+      "path": "reports/review-mutation-first/mutation-evidence/mutants/engine/profit.py.meta",
+      "sha256": "20a5db5cb27dc52835e82dbc2a0007114c6c3e9c6c4c1b7cdab292d67f750a01",
+      "index_sha256_verified": true
+    }
+  ],
+  "index_path": "reports/review-mutation-first/mutation-evidence/reports/mutation-review-index.json",
+  "index_sha256": "e98fd736033fc78f6f3520d55700c5dba3e0686c566c8c0f5ad265ca993ff3ad",
+  "raw_mutant_source_sha256": "86c8a65c25d81d163f6d2d5e9dadf9f132e67c77423b6c1279b2dfff6a0e38ec",
+  "all_436_metadata_exit_codes_match_summary": true,
+  "all_13_survivor_ids_match_index": true,
+  "classification_counts": {
+    "proven_equivalent": 3,
+    "test_gap": 10
+  },
+  "category_counts": {
+    "redundant_length_check": 3,
+    "observable_error_message": 9,
+    "financial_fx_double_rounding": 1
+  },
+  "score_adjusted": false,
+  "scope_limits": [
+    "Direct probes run isolated raw function ASTs in memory against the exact commit; this is not a new Linux mutation run.",
+    "Supported public input path assumed for zip invariant; precision mutation has a demonstrated accepted input witness.",
+    "Synthetic automatic regressions are not human golden financial acceptance.",
+    "Production source, tests, public docs, historical 27 evidence and mutation gate unchanged."
+  ],
+  "mutants": [
+    {
+      "mutant": "engine.profit.x__calculate__mutmut_62",
+      "linux_status": "survived",
+      "linux_exit_code": 0,
+      "diff_path": "reports/review-mutation-first/mutation-evidence/reports/mutation-diffs/09325053d5e800d8.diff",
+      "diff_sha256": "fa7e0bd7ecf09c1aaa2bf714bc80a2267675bc12409979858e4071ddf66472a8",
+      "raw_mutant_path": "reports/review-mutation-first/mutation-evidence/mutants/engine/profit.py",
+      "raw_function_lines": [
+        9982,
+        10035
+      ],
+      "source_function_lines": [
+        155,
+        208
+      ],
+      "original_ast_matches_commit": true,
+      "diff_lines_match_raw_function": true,
+      "removed": [
+        "for gross, line in zip(original, lines, strict=True)"
+      ],
+      "added": [
+        "for gross, line in zip(original, lines, strict=None)"
+      ],
+      "classification": "proven_equivalent",
+      "category": "redundant_length_check",
+      "proof": {
+        "invariant": "original = [ ... for line in lines ] oluşturur; len(original) == len(lines). Bu iki liste zip çağrısına kadar değişmez. strict yalnız uzunluk farkında davranış değiştirir; bu fark desteklenen calculate_order(list[LineInput]) yolunda oluşamaz.",
+        "scope": "Normal LineInput değerleriyle desteklenen kamu API yolu; monkeypatch ve eşzamanlı liste değiştirme bu kanıtın dışındadır.",
+        "direct_two_line_return_probe_equal": true
+      },
+      "reason": "strict=True→None/False/kaldırma, eşit uzunluk koşulu altında aynı çiftleri üretir; normal tamamlanma veya hesap sonucu değişmez."
+    },
+    {
+      "mutant": "engine.profit.x__calculate__mutmut_65",
+      "linux_status": "survived",
+      "linux_exit_code": 0,
+      "diff_path": "reports/review-mutation-first/mutation-evidence/reports/mutation-diffs/41a288e41916a3e2.diff",
+      "diff_sha256": "374cb28f406480e1287e218900339140e7a66b59f903dfe4bcc87bd4fd0dbb5e",
+      "raw_mutant_path": "reports/review-mutation-first/mutation-evidence/mutants/engine/profit.py",
+      "raw_function_lines": [
+        10150,
+        10203
+      ],
+      "source_function_lines": [
+        155,
+        208
+      ],
+      "original_ast_matches_commit": true,
+      "diff_lines_match_raw_function": true,
+      "removed": [
+        "for gross, line in zip(original, lines, strict=True)"
+      ],
+      "added": [
+        "for gross, line in zip(original, lines, )"
+      ],
+      "classification": "proven_equivalent",
+      "category": "redundant_length_check",
+      "proof": {
+        "invariant": "original = [ ... for line in lines ] oluşturur; len(original) == len(lines). Bu iki liste zip çağrısına kadar değişmez. strict yalnız uzunluk farkında davranış değiştirir; bu fark desteklenen calculate_order(list[LineInput]) yolunda oluşamaz.",
+        "scope": "Normal LineInput değerleriyle desteklenen kamu API yolu; monkeypatch ve eşzamanlı liste değiştirme bu kanıtın dışındadır.",
+        "direct_two_line_return_probe_equal": true
+      },
+      "reason": "strict=True→None/False/kaldırma, eşit uzunluk koşulu altında aynı çiftleri üretir; normal tamamlanma veya hesap sonucu değişmez."
+    },
+    {
+      "mutant": "engine.profit.x__calculate__mutmut_66",
+      "linux_status": "survived",
+      "linux_exit_code": 0,
+      "diff_path": "reports/review-mutation-first/mutation-evidence/reports/mutation-diffs/5547813b98595b1d.diff",
+      "diff_sha256": "93458f60cf376bacf2c303f715bac04b96eab8ff87b03907782319a0eb388210",
+      "raw_mutant_path": "reports/review-mutation-first/mutation-evidence/mutants/engine/profit.py",
+      "raw_function_lines": [
+        10206,
+        10259
+      ],
+      "source_function_lines": [
+        155,
+        208
+      ],
+      "original_ast_matches_commit": true,
+      "diff_lines_match_raw_function": true,
+      "removed": [
+        "for gross, line in zip(original, lines, strict=True)"
+      ],
+      "added": [
+        "for gross, line in zip(original, lines, strict=False)"
+      ],
+      "classification": "proven_equivalent",
+      "category": "redundant_length_check",
+      "proof": {
+        "invariant": "original = [ ... for line in lines ] oluşturur; len(original) == len(lines). Bu iki liste zip çağrısına kadar değişmez. strict yalnız uzunluk farkında davranış değiştirir; bu fark desteklenen calculate_order(list[LineInput]) yolunda oluşamaz.",
+        "scope": "Normal LineInput değerleriyle desteklenen kamu API yolu; monkeypatch ve eşzamanlı liste değiştirme bu kanıtın dışındadır.",
+        "direct_two_line_return_probe_equal": true
+      },
+      "reason": "strict=True→None/False/kaldırma, eşit uzunluk koşulu altında aynı çiftleri üretir; normal tamamlanma veya hesap sonucu değişmez."
+    },
+    {
+      "mutant": "engine.profit.x__calculate__mutmut_9",
+      "linux_status": "survived",
+      "linux_exit_code": 0,
+      "diff_path": "reports/review-mutation-first/mutation-evidence/reports/mutation-diffs/3c82f73aa15bd67a.diff",
+      "diff_sha256": "e2a76c7881d2ae08d48ba650adcad3c21bb48f9e612d9aaf8cc33339ffedacd1",
+      "raw_mutant_path": "reports/review-mutation-first/mutation-evidence/mutants/engine/profit.py",
+      "raw_function_lines": [
+        7020,
+        7073
+      ],
+      "source_function_lines": [
+        155,
+        208
+      ],
+      "original_ast_matches_commit": true,
+      "diff_lines_match_raw_function": true,
+      "removed": [
+        "raise ValueError(\"Demo TRY mağazasında yabancı para kullanılamaz\")"
+      ],
+      "added": [
+        "raise ValueError(\"XXDemo TRY mağazasında yabancı para kullanılamazXX\")"
+      ],
+      "classification": "test_gap",
+      "category": "observable_error_message",
+      "proof": {
+        "input": "calculate_order([USD line #1 rate=40],marketplace='demo_tr')",
+        "original": {
+          "error_type": "ValueError",
+          "message": "Demo TRY mağazasında yabancı para kullanılamaz"
+        },
+        "mutated": {
+          "error_type": "ValueError",
+          "message": "XXDemo TRY mağazasında yabancı para kullanılamazXX"
+        },
+        "existing_substring_regex_still_matches": true,
+        "exact_message_differs": true
+      },
+      "reason": "Aynı reddetme koşulu ve ValueError türü korunuyor; hata mesajı gözlenebilir biçimde değişiyor. Mevcut unanchored pytest match XX eklerini kabul ediyor. Bu tam hata sözleşmesinde eşdeğer değildir; sayısal hesap farkı göstermez.",
+      "test_evidence": {
+        "path": "tests/unit/test_profit.py",
+        "line": 178,
+        "recommended_assertion": "str(exc.value) == expected_message veya match=^re.escape(expected_message)$"
+      }
+    },
+    {
+      "mutant": "engine.profit.x_allocate__mutmut_3",
+      "linux_status": "survived",
+      "linux_exit_code": 0,
+      "diff_path": "reports/review-mutation-first/mutation-evidence/reports/mutation-diffs/63615a9ca65042ee.diff",
+      "diff_sha256": "c08f0633e7ff446542f7e5c5cd382b8c0b834d25364cc1e1e469b0b8c42e9aa2",
+      "raw_mutant_path": "reports/review-mutation-first/mutation-evidence/mutants/engine/profit.py",
+      "raw_function_lines": [
+        4357,
+        4367
+      ],
+      "source_function_lines": [
+        104,
+        114
+      ],
+      "original_ast_matches_commit": true,
+      "diff_lines_match_raw_function": true,
+      "removed": [
+        "raise ValueError(\"Dağıtım ağırlıkları geçersiz\")"
+      ],
+      "added": [
+        "raise ValueError(\"XXDağıtım ağırlıkları geçersizXX\")"
+      ],
+      "classification": "test_gap",
+      "category": "observable_error_message",
+      "proof": {
+        "input": "allocate(Decimal(1.00),[])",
+        "original": {
+          "error_type": "ValueError",
+          "message": "Dağıtım ağırlıkları geçersiz"
+        },
+        "mutated": {
+          "error_type": "ValueError",
+          "message": "XXDağıtım ağırlıkları geçersizXX"
+        },
+        "existing_substring_regex_still_matches": true,
+        "exact_message_differs": true
+      },
+      "reason": "Aynı reddetme koşulu ve ValueError türü korunuyor; hata mesajı gözlenebilir biçimde değişiyor. Mevcut unanchored pytest match XX eklerini kabul ediyor. Bu tam hata sözleşmesinde eşdeğer değildir; sayısal hesap farkı göstermez.",
+      "test_evidence": {
+        "path": "tests/unit/test_profit.py",
+        "line": 205,
+        "recommended_assertion": "str(exc.value) == expected_message veya match=^re.escape(expected_message)$"
+      }
+    },
+    {
+      "mutant": "engine.profit.x_calculate_order__mutmut_13",
+      "linux_status": "survived",
+      "linux_exit_code": 0,
+      "diff_path": "reports/review-mutation-first/mutation-evidence/reports/mutation-diffs/e15745ab5fcca849.diff",
+      "diff_sha256": "c0e8d14fc1759b45b40b2dd349a736a27960b4f3532846fc6c132233ff7f6ad9",
+      "raw_mutant_path": "reports/review-mutation-first/mutation-evidence/mutants/engine/profit.py",
+      "raw_function_lines": [
+        6290,
+        6297
+      ],
+      "source_function_lines": [
+        145,
+        152
+      ],
+      "original_ast_matches_commit": true,
+      "diff_lines_match_raw_function": true,
+      "removed": [
+        "raise ValueError(\"Bir siparişin para birimi ve kuru aynı olmalı\")"
+      ],
+      "added": [
+        "raise ValueError(\"XXBir siparişin para birimi ve kuru aynı olmalıXX\")"
+      ],
+      "classification": "test_gap",
+      "category": "observable_error_message",
+      "proof": {
+        "input": "calculate_order([TRY line #1 rate=1, USD line #2 rate=40])",
+        "original": {
+          "error_type": "ValueError",
+          "message": "Bir siparişin para birimi ve kuru aynı olmalı"
+        },
+        "mutated": {
+          "error_type": "ValueError",
+          "message": "XXBir siparişin para birimi ve kuru aynı olmalıXX"
+        },
+        "existing_substring_regex_still_matches": true,
+        "exact_message_differs": true
+      },
+      "reason": "Aynı reddetme koşulu ve ValueError türü korunuyor; hata mesajı gözlenebilir biçimde değişiyor. Mevcut unanchored pytest match XX eklerini kabul ediyor. Bu tam hata sözleşmesinde eşdeğer değildir; sayısal hesap farkı göstermez.",
+      "test_evidence": {
+        "path": "tests/unit/test_profit.py",
+        "line": 174,
+        "recommended_assertion": "str(exc.value) == expected_message veya match=^re.escape(expected_message)$"
+      }
+    },
+    {
+      "mutant": "engine.profit.x_calculate_order__mutmut_17",
+      "linux_status": "survived",
+      "linux_exit_code": 0,
+      "diff_path": "reports/review-mutation-first/mutation-evidence/reports/mutation-diffs/35dbfb9566fcb048.diff",
+      "diff_sha256": "95e05ff4c79f7af79fdf52169a685d1df114257f91210716fd0044c53d66d645",
+      "raw_mutant_path": "reports/review-mutation-first/mutation-evidence/mutants/engine/profit.py",
+      "raw_function_lines": [
+        6330,
+        6337
+      ],
+      "source_function_lines": [
+        145,
+        152
+      ],
+      "original_ast_matches_commit": true,
+      "diff_lines_match_raw_function": true,
+      "removed": [
+        "context.prec = 50"
+      ],
+      "added": [
+        "context.prec = 51"
+      ],
+      "classification": "test_gap",
+      "category": "financial_fx_double_rounding",
+      "proof": {
+        "input": {
+          "marketplace": "amazon_demo",
+          "line_number": 1,
+          "quantity": 1,
+          "unit_price_gross": "1.00",
+          "unit_cost_net": "0.00",
+          "vat_percent": "0",
+          "commission_percent": "0",
+          "currency": "USD",
+          "exchange_rate": "1.00499999999999999999999999999999999999999999999999",
+          "seller_discount": "0.00",
+          "platform_coupon": "0.00",
+          "returned_quantity": 0,
+          "desi": "1",
+          "weight_kg": "0.00",
+          "cost_vat_percent": "20"
+        },
+        "exchange_rate_constructor": "Decimal('1.004' + '9' * 47)",
+        "exchange_rate_significant_digits": 51,
+        "input_validation": "original and mutant LineInput.validate() both accept",
+        "original": {
+          "line_number": "1",
+          "gross_sales": "1.01",
+          "net_sales": "1.01",
+          "commission": "0.00",
+          "shipping": "80.00",
+          "service": "0.00",
+          "cost": "0.00",
+          "withholding": "0.01",
+          "profit": "-78.99",
+          "payout": "-95.00",
+          "sales_vat": "0.00",
+          "fee_vat": "16.00",
+          "cost_vat": "0.00"
+        },
+        "mutated": {
+          "line_number": "1",
+          "gross_sales": "1.00",
+          "net_sales": "1.00",
+          "commission": "0.00",
+          "shipping": "80.00",
+          "service": "0.00",
+          "cost": "0.00",
+          "withholding": "0.01",
+          "profit": "-79.00",
+          "payout": "-95.01",
+          "sales_vat": "0.00",
+          "fee_vat": "16.00",
+          "cost_vat": "0.00"
+        },
+        "oracle": {
+          "method": "Fraction(price) * Fraction(exchange_rate) * 100; divmod numerator/denominator; ROUND_HALF_UP iff 2*remainder>=denominator",
+          "exact_cents_numerator": "100499999999999999999999999999999999999999999999999",
+          "exact_cents_denominator": "1000000000000000000000000000000000000000000000000",
+          "rounded_cents": 100,
+          "gross_sales": "1.00"
+        }
+      },
+      "reason": "Kur basamak sayısı sözleşmede sınırlı değil. prec50 çarpımı 1.005 eşiğine erken yuvarlayıp money ile 1.01 üretir; tam rasyonel kuruş hesabı 1.00 verir. prec51 bu girdide 1.00 verir; bu mutanta global eşdeğerlik iddia edilmez ve prec51 genel çözüm değildir.",
+      "recommended_followup": "Yeni kaynak hatası issue: desteklenen FX değerlerinde kuruş kararından önce ara yuvarlama. Sözleşmeyi daraltmadan tam rasyonel/kanıtlanmış hassasiyetli yuvarlama; mevcut test beklenenlerini gevşetme."
+    },
+    {
+      "mutant": "engine.profit.x_calculate_order__mutmut_7",
+      "linux_status": "survived",
+      "linux_exit_code": 0,
+      "diff_path": "reports/review-mutation-first/mutation-evidence/reports/mutation-diffs/cd19319a9fb099a9.diff",
+      "diff_sha256": "071b214c6a3480a17868376131a7b4a63380c85b702f0425a1ce1f4f624224d2",
+      "raw_mutant_path": "reports/review-mutation-first/mutation-evidence/mutants/engine/profit.py",
+      "raw_function_lines": [
+        6230,
+        6237
+      ],
+      "source_function_lines": [
+        145,
+        152
+      ],
+      "original_ast_matches_commit": true,
+      "diff_lines_match_raw_function": true,
+      "removed": [
+        "raise ValueError(\"Sipariş boş veya satır numaraları tekrarlı\")"
+      ],
+      "added": [
+        "raise ValueError(\"XXSipariş boş veya satır numaraları tekrarlıXX\")"
+      ],
+      "classification": "test_gap",
+      "category": "observable_error_message",
+      "proof": {
+        "input": "calculate_order([])",
+        "original": {
+          "error_type": "ValueError",
+          "message": "Sipariş boş veya satır numaraları tekrarlı"
+        },
+        "mutated": {
+          "error_type": "ValueError",
+          "message": "XXSipariş boş veya satır numaraları tekrarlıXX"
+        },
+        "existing_substring_regex_still_matches": true,
+        "exact_message_differs": true
+      },
+      "reason": "Aynı reddetme koşulu ve ValueError türü korunuyor; hata mesajı gözlenebilir biçimde değişiyor. Mevcut unanchored pytest match XX eklerini kabul ediyor. Bu tam hata sözleşmesinde eşdeğer değildir; sayısal hesap farkı göstermez.",
+      "test_evidence": {
+        "path": "tests/unit/test_profit.py",
+        "line": 174,
+        "recommended_assertion": "str(exc.value) == expected_message veya match=^re.escape(expected_message)$"
+      }
+    },
+    {
+      "mutant": "engine.profit.x_shipping_fee__mutmut_24",
+      "linux_status": "survived",
+      "linux_exit_code": 0,
+      "diff_path": "reports/review-mutation-first/mutation-evidence/reports/mutation-diffs/a58231397cea242e.diff",
+      "diff_sha256": "7928960daab4422a5136469be3d30c14bbc2a14052eecfbb870aeccbf3ead960",
+      "raw_mutant_path": "reports/review-mutation-first/mutation-evidence/mutants/engine/profit.py",
+      "raw_function_lines": [
+        5549,
+        5562
+      ],
+      "source_function_lines": [
+        129,
+        142
+      ],
+      "original_ast_matches_commit": true,
+      "diff_lines_match_raw_function": true,
+      "removed": [
+        "raise ValueError(\"Pazaryeri desteklenmiyor\")"
+      ],
+      "added": [
+        "raise ValueError(\"XXPazaryeri desteklenmiyorXX\")"
+      ],
+      "classification": "test_gap",
+      "category": "observable_error_message",
+      "proof": {
+        "input": "shipping_fee(Decimal(600.00),Decimal(1),marketplace='unknown')",
+        "original": {
+          "error_type": "ValueError",
+          "message": "Pazaryeri desteklenmiyor"
+        },
+        "mutated": {
+          "error_type": "ValueError",
+          "message": "XXPazaryeri desteklenmiyorXX"
+        },
+        "existing_substring_regex_still_matches": true,
+        "exact_message_differs": true
+      },
+      "reason": "Aynı reddetme koşulu ve ValueError türü korunuyor; hata mesajı gözlenebilir biçimde değişiyor. Mevcut unanchored pytest match XX eklerini kabul ediyor. Bu tam hata sözleşmesinde eşdeğer değildir; sayısal hesap farkı göstermez.",
+      "test_evidence": {
+        "path": "tests/unit/test_profit.py",
+        "line": 176,
+        "recommended_assertion": "str(exc.value) == expected_message veya match=^re.escape(expected_message)$"
+      }
+    },
+    {
+      "mutant": "engine.profit.xǁLineInputǁvalidate__mutmut_109",
+      "linux_status": "survived",
+      "linux_exit_code": 0,
+      "diff_path": "reports/review-mutation-first/mutation-evidence/reports/mutation-diffs/72d630592d1f9a38.diff",
+      "diff_sha256": "6a4f2004db33c4ea3d05f45dbec6e0de1a7abad93c511067900dcbf8f01cb9a9",
+      "raw_mutant_path": "reports/review-mutation-first/mutation-evidence/mutants/engine/profit.py",
+      "raw_function_lines": [
+        3824,
+        3855
+      ],
+      "source_function_lines": [
+        42,
+        73
+      ],
+      "original_ast_matches_commit": true,
+      "diff_lines_match_raw_function": true,
+      "removed": [
+        "raise ValueError(\"TRY kuru 1 olmalı\")"
+      ],
+      "added": [
+        "raise ValueError(\"XXTRY kuru 1 olmalıXX\")"
+      ],
+      "classification": "test_gap",
+      "category": "observable_error_message",
+      "proof": {
+        "input": "LineInput(1,1,600.00,250.00,20,20,exchange_rate=Decimal(2)).validate()",
+        "original": {
+          "error_type": "ValueError",
+          "message": "TRY kuru 1 olmalı"
+        },
+        "mutated": {
+          "error_type": "ValueError",
+          "message": "XXTRY kuru 1 olmalıXX"
+        },
+        "existing_substring_regex_still_matches": true,
+        "exact_message_differs": true
+      },
+      "reason": "Aynı reddetme koşulu ve ValueError türü korunuyor; hata mesajı gözlenebilir biçimde değişiyor. Mevcut unanchored pytest match XX eklerini kabul ediyor. Bu tam hata sözleşmesinde eşdeğer değildir; sayısal hesap farkı göstermez.",
+      "test_evidence": {
+        "path": "tests/unit/test_profit.py",
+        "line": 112,
+        "recommended_assertion": "str(exc.value) == expected_message veya match=^re.escape(expected_message)$"
+      }
+    },
+    {
+      "mutant": "engine.profit.xǁLineInputǁvalidate__mutmut_116",
+      "linux_status": "survived",
+      "linux_exit_code": 0,
+      "diff_path": "reports/review-mutation-first/mutation-evidence/reports/mutation-diffs/a0a634dfcd807d77.diff",
+      "diff_sha256": "23bebe525a8f80b025d8bb4f212d34fba10eb0a5962763e46ee31725c7d96964",
+      "raw_mutant_path": "reports/review-mutation-first/mutation-evidence/mutants/engine/profit.py",
+      "raw_function_lines": [
+        4055,
+        4086
+      ],
+      "source_function_lines": [
+        42,
+        73
+      ],
+      "original_ast_matches_commit": true,
+      "diff_lines_match_raw_function": true,
+      "removed": [
+        "raise ValueError(\"İndirim ve kupon brüt tutarı aşamaz\")"
+      ],
+      "added": [
+        "raise ValueError(\"XXİndirim ve kupon brüt tutarı aşamazXX\")"
+      ],
+      "classification": "test_gap",
+      "category": "observable_error_message",
+      "proof": {
+        "input": "LineInput(1,1,600.00,250.00,20,20,seller_discount=Decimal(601.00)).validate()",
+        "original": {
+          "error_type": "ValueError",
+          "message": "İndirim ve kupon brüt tutarı aşamaz"
+        },
+        "mutated": {
+          "error_type": "ValueError",
+          "message": "XXİndirim ve kupon brüt tutarı aşamazXX"
+        },
+        "existing_substring_regex_still_matches": true,
+        "exact_message_differs": true
+      },
+      "reason": "Aynı reddetme koşulu ve ValueError türü korunuyor; hata mesajı gözlenebilir biçimde değişiyor. Mevcut unanchored pytest match XX eklerini kabul ediyor. Bu tam hata sözleşmesinde eşdeğer değildir; sayısal hesap farkı göstermez.",
+      "test_evidence": {
+        "path": "tests/unit/test_profit.py",
+        "line": 99,
+        "recommended_assertion": "str(exc.value) == expected_message veya match=^re.escape(expected_message)$"
+      }
+    },
+    {
+      "mutant": "engine.profit.xǁLineInputǁvalidate__mutmut_27",
+      "linux_status": "survived",
+      "linux_exit_code": 0,
+      "diff_path": "reports/review-mutation-first/mutation-evidence/reports/mutation-diffs/19705c7ed94e9bcd.diff",
+      "diff_sha256": "b1e885205d968acdfbdc0531591dfb69a52c3b2d12b00dc7083c283cf9fe634a",
+      "raw_mutant_path": "reports/review-mutation-first/mutation-evidence/mutants/engine/profit.py",
+      "raw_function_lines": [
+        1118,
+        1149
+      ],
+      "source_function_lines": [
+        42,
+        73
+      ],
+      "original_ast_matches_commit": true,
+      "diff_lines_match_raw_function": true,
+      "removed": [
+        "raise ValueError(\"İade adedi geçersiz\")"
+      ],
+      "added": [
+        "raise ValueError(\"XXİade adedi geçersizXX\")"
+      ],
+      "classification": "test_gap",
+      "category": "observable_error_message",
+      "proof": {
+        "input": "LineInput(1,1,600.00,250.00,20,20,returned_quantity=2).validate()",
+        "original": {
+          "error_type": "ValueError",
+          "message": "İade adedi geçersiz"
+        },
+        "mutated": {
+          "error_type": "ValueError",
+          "message": "XXİade adedi geçersizXX"
+        },
+        "existing_substring_regex_still_matches": true,
+        "exact_message_differs": true
+      },
+      "reason": "Aynı reddetme koşulu ve ValueError türü korunuyor; hata mesajı gözlenebilir biçimde değişiyor. Mevcut unanchored pytest match XX eklerini kabul ediyor. Bu tam hata sözleşmesinde eşdeğer değildir; sayısal hesap farkı göstermez.",
+      "test_evidence": {
+        "path": "tests/unit/test_profit.py",
+        "line": 83,
+        "recommended_assertion": "str(exc.value) == expected_message veya match=^re.escape(expected_message)$"
+      }
+    },
+    {
+      "mutant": "engine.profit.xǁLineInputǁvalidate__mutmut_98",
+      "linux_status": "survived",
+      "linux_exit_code": 0,
+      "diff_path": "reports/review-mutation-first/mutation-evidence/reports/mutation-diffs/95325684224258eb.diff",
+      "diff_sha256": "4de0a87f10bb0d2642cb7c604c7f6306e5009d5e3aff1c886358b19fd94d367d",
+      "raw_mutant_path": "reports/review-mutation-first/mutation-evidence/mutants/engine/profit.py",
+      "raw_function_lines": [
+        3461,
+        3492
+      ],
+      "source_function_lines": [
+        42,
+        73
+      ],
+      "original_ast_matches_commit": true,
+      "diff_lines_match_raw_function": true,
+      "removed": [
+        "raise ValueError(\"Para birimi veya kur geçersiz\")"
+      ],
+      "added": [
+        "raise ValueError(\"XXPara birimi veya kur geçersizXX\")"
+      ],
+      "classification": "test_gap",
+      "category": "observable_error_message",
+      "proof": {
+        "input": "LineInput(1,1,600.00,250.00,20,20,currency='GBP').validate()",
+        "original": {
+          "error_type": "ValueError",
+          "message": "Para birimi veya kur geçersiz"
+        },
+        "mutated": {
+          "error_type": "ValueError",
+          "message": "XXPara birimi veya kur geçersizXX"
+        },
+        "existing_substring_regex_still_matches": true,
+        "exact_message_differs": true
+      },
+      "reason": "Aynı reddetme koşulu ve ValueError türü korunuyor; hata mesajı gözlenebilir biçimde değişiyor. Mevcut unanchored pytest match XX eklerini kabul ediyor. Bu tam hata sözleşmesinde eşdeğer değildir; sayısal hesap farkı göstermez.",
+      "test_evidence": {
+        "path": "tests/unit/test_profit.py",
+        "line": 110,
+        "recommended_assertion": "str(exc.value) == expected_message veya match=^re.escape(expected_message)$"
+      }
+    }
+  ]
+}

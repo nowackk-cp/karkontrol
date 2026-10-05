@@ -1,7 +1,8 @@
 """Sentetik uygulama sözleşmesi regresyonları; insan altın verisi değildir."""
 
+import re
 from dataclasses import fields, replace
-from decimal import Decimal, localcontext
+from decimal import Decimal, Inexact, InvalidOperation, Rounded, localcontext
 from fractions import Fraction
 
 import pytest
@@ -177,7 +178,7 @@ def assert_order_matches_reference(inputs, marketplace="demo_tr"):
     for row, expected in zip(rows, reference_order(inputs, marketplace), strict=True):
         for name, cents in expected.items():
             value = getattr(row, name)
-            assert value * 100 == cents, (row.line_number, name)
+            assert Fraction(value) * 100 == cents, (row.line_number, name)
             assert isinstance(value, Decimal), name
             assert value.as_tuple().exponent == -2, name
     return rows
@@ -280,6 +281,169 @@ def test_allocation_largest_fraction_can_belong_to_smaller_weight():
 @pytest.mark.parametrize("value", ["300.000", "-0.000"])
 def test_trailing_zeros_do_not_change_money_precision(value):
     assert_order_matches_reference([line(unit_price_gross=D(value))])
+
+
+@pytest.mark.parametrize("digits", [51, 101])
+@pytest.mark.parametrize("quantity,returned", [(1, 0), (2, 1), (3, 2), (3, 1)])
+def test_fx_half_cent_boundary_uses_exact_rate(digits, quantity, returned):
+    """ENG-002: kabul edilen uzun kurda erken yuvarlama yapılmamalı."""
+    rate = D("1.004" + "9" * (digits - 4))
+    assert_order_matches_reference(
+        [
+            line(
+                quantity=quantity,
+                returned_quantity=returned,
+                unit_price_gross=D("1.00"),
+                unit_cost_net=D("1.00"),
+                vat_percent=D("0"),
+                commission_percent=D("0"),
+                currency="USD",
+                exchange_rate=rate,
+            )
+        ],
+        "amazon_demo",
+    )
+
+
+def decimal_above_fraction(value, decimal_places):
+    """Eşik üstündeki sonlu Decimal girdisini context kullanmadan oluştur."""
+    numerator = value.numerator * 10**decimal_places
+    coefficient = (numerator + value.denominator - 1) // value.denominator
+    return D((0, tuple(map(int, str(coefficient))), -decimal_places))
+
+
+@pytest.mark.parametrize("digits", [51, 101])
+def test_vat_near_half_cent_uses_exact_divisor(digits):
+    # 3 / (1 + (19900/401)/100) = 2.005; az yüksek KDV neti eşik altına indirir.
+    vat = decimal_above_fraction(Fraction(19900, 401), digits)
+    assert Fraction(vat) > Fraction(19900, 401)
+    assert_order_matches_reference(
+        [line(unit_price_gross=D("3.00"), unit_cost_net=D("0.00"), vat_percent=vat)]
+    )
+
+
+@pytest.mark.parametrize("digits", [51, 101])
+@pytest.mark.parametrize("field", ["commission_percent", "cost_vat_percent"])
+def test_percentage_near_half_cent_uses_exact_rate(digits, field):
+    percentage = D("0.4" + "9" * (digits - 1))
+    assert Fraction(percentage) < Fraction(1, 2)
+    assert_order_matches_reference(
+        [line(unit_price_gross=D("1.00"), unit_cost_net=D("1.00"), **{field: percentage})]
+    )
+
+
+@pytest.mark.parametrize("digits", [51, 101])
+@pytest.mark.parametrize("field", ["desi", "weight_kg"])
+@pytest.mark.parametrize("quantity,whole,fractional", [(1, "1", "5"), (2, "0", "75")])
+def test_total_desi_ceiling_preserves_small_positive_remainder(
+    digits, field, quantity, whole, fractional
+):
+    lower = D(f"{whole}.{fractional}")
+    upper = D(f"{whole}.{fractional}" + "0" * digits + "1")
+    inputs = (
+        [
+            line(line_number=1, quantity=quantity, desi=D("0"), **{field: lower}),
+            line(line_number=2, quantity=quantity, desi=D("0"), **{field: upper}),
+        ]
+        if field == "weight_kg"
+        else [
+            line(line_number=1, quantity=quantity, desi=lower),
+            line(line_number=2, quantity=quantity, desi=upper),
+        ]
+    )
+    assert_order_matches_reference(inputs)
+
+
+@pytest.mark.parametrize("precision", [1, 6, 28])
+def test_public_money_allocation_and_shipping_are_context_independent(precision):
+    value = D("9999999999.995")
+    total = D("9999999999.99")
+    with localcontext() as context:
+        context.prec = precision
+        assert money(value) == D("10000000000.00")
+        shares = allocate(total, [D("1"), D("1"), D("1")])
+        assert sum(map(Fraction, shares)) == Fraction(total)
+        assert [Fraction(item) * 100 for item in shares] == reference_allocation(
+            999999999999, [1, 1, 1]
+        )
+        assert shipping_fee(D("100.00"), D("9999999999.99")) == D("50000000015.00")
+
+
+def test_money_keeps_nonfinite_decimal_compatibility():
+    assert money(D("NaN")).is_qnan()
+    for value in (D("sNaN"), D("Infinity")):
+        with pytest.raises(InvalidOperation):
+            money(value)
+
+
+def test_financial_rounding_does_not_trigger_ambient_decimal_traps():
+    inputs = [
+        line(
+            quantity=3,
+            returned_quantity=1,
+            currency="EUR",
+            exchange_rate=D("1.004" + "9" * 97),
+            commission_percent=D("0.4" + "9" * 100),
+            cost_vat_percent=D("0.4" + "9" * 100),
+        )
+    ]
+    with localcontext() as context:
+        context.prec = 1
+        context.traps[Inexact] = True
+        context.traps[Rounded] = True
+        assert_order_matches_reference(inputs, "amazon_demo")
+
+
+@pytest.mark.parametrize("precision", [1, 6, 28])
+def test_large_order_and_cash_identity_preserve_exact_cents(precision):
+    inputs = [
+        line(
+            quantity=2_147_483_647,
+            returned_quantity=1,
+            unit_price_gross=D("9999999999.99"),
+            unit_cost_net=D("9999999999.98"),
+            currency="USD",
+            exchange_rate=D("9999999999.99"),
+        )
+    ]
+    with localcontext() as context:
+        context.prec = precision
+        row = assert_order_matches_reference(inputs, "amazon_demo")[0]
+        expected = reference_order(inputs, "amazon_demo")[0]
+        assert Fraction(row.cash_profit) * 100 == expected["profit"]
+
+
+@pytest.mark.parametrize(
+    "operation,message",
+    [
+        (lambda: line(returned_quantity=2).validate(), "İade adedi geçersiz"),
+        (lambda: line(currency="GBP").validate(), "Para birimi veya kur geçersiz"),
+        (lambda: line(exchange_rate=D("2")).validate(), "TRY kuru 1 olmalı"),
+        (
+            lambda: line(seller_discount=D("601.00")).validate(),
+            "İndirim ve kupon brüt tutarı aşamaz",
+        ),
+        (lambda: allocate(D("1.00"), []), "Dağıtım ağırlıkları geçersiz"),
+        (
+            lambda: shipping_fee(D("600.00"), D("1"), marketplace="unknown"),
+            "Pazaryeri desteklenmiyor",
+        ),
+        (lambda: calculate_order([]), "Sipariş boş veya satır numaraları tekrarlı"),
+        (
+            lambda: calculate_order(
+                [line(), line(line_number=2, currency="USD", exchange_rate=D("40"))]
+            ),
+            "Bir siparişin para birimi ve kuru aynı olmalı",
+        ),
+        (
+            lambda: calculate_order([line(currency="USD", exchange_rate=D("40"))]),
+            "Demo TRY mağazasında yabancı para kullanılamaz",
+        ),
+    ],
+)
+def test_error_message_contract_has_exact_anchors(operation, message):
+    with pytest.raises(ValueError, match=rf"\A{re.escape(message)}\Z"):
+        operation()
 
 
 input_rows = st.lists(

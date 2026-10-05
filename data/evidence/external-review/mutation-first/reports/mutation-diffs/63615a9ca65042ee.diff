@@ -1,0 +1,12 @@
+# engine.profit.x_allocate__mutmut_3: survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -1,7 +1,7 @@
+ def allocate(total: Decimal, weights: list[Decimal]) -> list[Decimal]:
+     """Kuruşların tamamını korur; eşit kalanlarda liste sırası belirleyicidir."""
+     if not weights:
+-        raise ValueError("Dağıtım ağırlıkları geçersiz")
++        raise ValueError("XXDağıtım ağırlıkları geçersizXX")
+     for weight in weights:
+         validate_decimal(weight, "weight")
+     validate_decimal(total, "total")

@@ -4,7 +4,7 @@ Bu metin AI tarafından hazırlanan uygulama sözleşmesidir. Bağımsız insan 
 
 ## TRY — demo-v1
 
-1. Para girdileri sonlu, negatif olmayan Decimal ve tam kuruş olmalıdır. Kuruş altı giriş reddedilir. Çıktılar ROUND_HALF_UP ile iki ondalığa yuvarlanır; işaretli sıfır normal sıfıra çevrilir. Rapor yuvarlanmış satırları toplar.
+1. Para girdileri sonlu, negatif olmayan Decimal ve tam kuruş olmalıdır. Kuruş altı giriş reddedilir. Kur, oran, iade ve desi ara hesapları tam rasyonel değerlerle yapılır; kuruş kararı yalnız ROUND_HALF_UP aşamasındadır. Çıktılar iki ondalıklı Decimal'dır; işaretli sıfır normal sıfıra çevrilir. Rapor yuvarlanmış satırları toplar.
 2. Satıcı indirimi bütün satır adedine aittir. İlk brüt = adet × birim fiyat − satıcı indirimi. Platform kuponunu platform karşılar; satıcı tahsilatı ve komisyon matrahı değişmez.
 3. İadede kalan brüt = ilk brüt × kalan adet / ilk adet. Net satış = kalan brüt / (1 + satış KDV oranı). Komisyon kalan brüt üzerinden hesaplanır. Geri alınan ürün maliyeti kârdan düşülmez.
 4. İlk indirimli sipariş toplamı en fazla 300 TL ise 30 TL, en fazla 600 TL ise 60 TL, üstünde 80 TL net gidiş kargosu alınır. Desi = Σ max(satır desisi, satır ağırlığı) × adet; toplam yukarı tamsayıya yuvarlanır. İlk üç birim dahil, sonraki birim başına 5 TL eklenir. Tam eşik alt tarifededir.

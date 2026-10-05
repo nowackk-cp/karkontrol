@@ -1,0 +1,12 @@
+# engine.profit.xǁLineInputǁvalidate__mutmut_27: survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -7,7 +7,7 @@
+         type(self.returned_quantity) is not int
+         or not 0 <= self.returned_quantity <= self.quantity
+     ):
+-        raise ValueError("İade adedi geçersiz")
++        raise ValueError("XXİade adedi geçersizXX")
+     for name in (
+         "unit_price_gross",
+         "unit_cost_net",

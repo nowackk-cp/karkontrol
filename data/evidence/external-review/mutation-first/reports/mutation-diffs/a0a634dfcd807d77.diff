@@ -1,0 +1,9 @@
+# engine.profit.xǁLineInputǁvalidate__mutmut_116: survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -29,4 +29,4 @@
+     if self.currency == "TRY" and self.exchange_rate != Decimal("1"):
+         raise ValueError("TRY kuru 1 olmalı")
+     if self.seller_discount + self.platform_coupon > self.unit_price_gross * self.quantity:
+-        raise ValueError("İndirim ve kupon brüt tutarı aşamaz")
++        raise ValueError("XXİndirim ve kupon brüt tutarı aşamazXX")

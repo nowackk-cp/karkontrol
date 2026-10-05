@@ -22,6 +22,10 @@ Yüksek önem. İlk model koşusunda E-16 ve E-28 ürün niyeti summary'ye, E-23
 
 Orta önem; **dış inceleme ile bulundu**. 10 TL'nin 100:10:10 dağılımı eski kodda 8,33/0,84/0,83; kural §6'ya göre 8,34/0,83/0,83 olmalıydı. Sipariş toplamı değişmez; satır ücreti 0,01 TL yanlış yere yazılır. İade ağırlıklarının önceden Decimal bölünmesi de tam eşitliği bozuyordu. Fraction/divmod ve `(-kalan, index)` sırası düzeltildi. Ayrıca kuruş altı para reddi ve işaretli sıfır normalizasyonu eklendi. `test_allocate_equal_remainders_prefer_lower_line` ve dönüş dağıtımı karşı örneği. [#11](https://github.com/nowackk-cp/karkontrol/issues/11), issue kaynak düzeltmesinden önce açıldı.
 
+## ENG-002 — yüksek hassasiyette erken kur yuvarlaması
+
+Bağımsız mutasyon incelemesinde bulundu. Kabul edilen 51 basamaklı USD kuru `1.005` eşiğinin hemen altındayken precision=50 ara hesabı brütü 1,00 yerine 1,01 TRY'ye yuvarladı. Bu örnekte brüt/hakediş farkı 0,01 TRY. [13 mutant incelemesi ve tam rasyonel karşı örnek](data/evidence/external-review/mutation-first/current-survivors-review.md) korunur. [#27](https://github.com/nowackk-cp/karkontrol/issues/27) düzeltmeden önce açıldı. Kur/oran/iade/desi ara hesapları Fraction ve tamsayı kuruşa taşındı; 51/101 basamak, yarım kuruş, desi ve context regresyonları önce başarısız, sonra başarılı oldu. İthalatçı kur basamağını sınırlar; bu bulgu motorun kabul ettiği daha geniş Decimal sözleşmesine aittir.
+
 ## IMP-001 — Excel yüzde biçimli oran
 
 Yüksek önem; **dış inceleme ile bulundu**. Hücrenin %20 görünümündeki 0,20 ham değeri oran olarak kabul ediliyordu. Yüzde biçimi artık açıklayıcı hata ile reddedilir; KDV beyaz listesi 0/1/10/20, komisyon en az 1. Yanlış defter üretimi kayıt öncesinde durur; hedef regresyon TL farkını ayrıca hesaplamadı. `test_xlsx_percent_formatted_rates_are_rejected` ve oran sınır testleri. [#12](https://github.com/nowackk-cp/karkontrol/issues/12), issue önce açıldı.
@@ -62,4 +66,4 @@ Bağımsız ajan incelemesinde bulundu. Başarısız model çağrısı `selectio
 
 Yeni gerçek Qwen geliştirme koşusunda bulundu. E-35 genel tavsiye sorusu yanlış netleştirildi; E-43 tarihsiz kâr özeti netleştirmeye, E-50 kargo fiyatı isteği kural açıklamasına yönlendirildi. Ayrı finans TL farkı ölçülmedi. [İlk ham yanıt](data/evidence/external-review/llm-v3-first/eval.json) saklandı; [#26](https://github.com/nowackk-cp/karkontrol/issues/26) düzeltmeden önce açıldı. v3 tarih yokluğu, kural/fiyat ve genel soru tanımları ayrıldı. Geliştirme vakaları ve eşikler değiştirilmedi; v2 prompt ve ilk sentetik set korunur.
 
-Bu PR'nin fix commit gövdeleri #11–24 ve #26 kapanışlarını taşır. Kod/ölçüm değişiklikleri kendi kaynak SHA'sıyla review edilir; main geçmişi, ilk başarısız raporlar ve sürüm etiketleri değiştirilmez.
+Bu PR'nin fix commit gövdeleri issue kapanışlarını taşır. Kod/ölçüm değişiklikleri kendi kaynak SHA'sıyla review edilir; main geçmişi, ilk başarısız raporlar ve sürüm etiketleri değiştirilmez.

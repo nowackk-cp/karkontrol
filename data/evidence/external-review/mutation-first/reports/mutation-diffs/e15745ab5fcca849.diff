@@ -1,0 +1,12 @@
+# engine.profit.x_calculate_order__mutmut_13: survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -2,7 +2,7 @@
+     if not lines or len({line.line_number for line in lines}) != len(lines):
+         raise ValueError("Sipariş boş veya satır numaraları tekrarlı")
+     if len({(line.currency, line.exchange_rate) for line in lines}) != 1:
+-        raise ValueError("Bir siparişin para birimi ve kuru aynı olmalı")
++        raise ValueError("XXBir siparişin para birimi ve kuru aynı olmalıXX")
+     with localcontext() as context:
+         context.prec = 50
+         return _calculate(sorted(lines, key=lambda line: line.line_number), marketplace)

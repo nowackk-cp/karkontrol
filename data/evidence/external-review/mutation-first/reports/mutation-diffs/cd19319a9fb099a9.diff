@@ -1,0 +1,11 @@
+# engine.profit.x_calculate_order__mutmut_7: survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -1,6 +1,6 @@
+ def calculate_order(lines: list[LineInput], *, marketplace="demo_tr") -> list[LineResult]:
+     if not lines or len({line.line_number for line in lines}) != len(lines):
+-        raise ValueError("Sipariş boş veya satır numaraları tekrarlı")
++        raise ValueError("XXSipariş boş veya satır numaraları tekrarlıXX")
+     if len({(line.currency, line.exchange_rate) for line in lines}) != 1:
+         raise ValueError("Bir siparişin para birimi ve kuru aynı olmalı")
+     with localcontext() as context:

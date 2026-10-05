@@ -5,7 +5,7 @@ flowchart LR
  A[Oturum sahibi] --> B[Mağaza sahiplik kontrolü]
  B --> C[Dosya doğrulama]
  C --> D[Atomik sipariş servisi]
- D --> E[Saf Decimal motoru]
+ D --> E[Decimal girdi/çıktı, tam ara hesap]
  E --> F[Tamsayı kuruş kayıtları]
  F --> G[Rapor ve CSV]
  F --> H[Parametreli SQL araçları]
@@ -13,7 +13,7 @@ flowchart LR
  H --> J[Dönemli sunucu yanıtı]
 ```
 
-Motor Django'yu bilmez. Sipariş servisi hesapları ve tutar sınırlarını yönetir; importer, billing ve reports bu sınırda ortak istisna kullanır. Kur/komisyon aktarım anında sabitlenir. Yeni satır veya iade bütün siparişi aynı transaction içinde yeniden hesaplar. Rapor filtreleri ücretleri yeniden dağıtmaz. Tamsayı kuruşlar SQL toplamının float'a dönüşmesini önler; mutlak toplam sınırı zıt işaretlerden bağımsız kontrol edilir.
+Motor Django'yu bilmez. Girdi ve para çıktıları Decimal'dır; kur/oran/iade/desi ara işlemleri Fraction ve tamsayı kuruş kullanır. ROUND_HALF_UP kararı ara Decimal precision'dan etkilenmez. Sipariş servisi hesapları ve tutar sınırlarını yönetir; importer, billing ve reports bu sınırda ortak istisna kullanır. Kur/komisyon aktarım anında sabitlenir. Yeni satır veya iade bütün siparişi aynı transaction içinde yeniden hesaplar. Rapor filtreleri ücretleri yeniden dağıtmaz. Tamsayı kuruşlar SQL toplamının float'a dönüşmesini önler; mutlak toplam sınırı zıt işaretlerden bağımsız kontrol edilir.
 
 ## Dosyalar
 
