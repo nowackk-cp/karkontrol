@@ -5,13 +5,14 @@ import os
 from .llm import ModelUnavailable, local_completion
 
 RUBRIC_VERSION = "grounding-v1"
+# Decoder grammar stays simple; the reason length limit is enforced in Python below.
 SCHEMA = {
     "type": "object",
     "properties": {
         "grounded": {"type": "boolean"},
         "answers_question": {"type": "boolean"},
         "clear": {"type": "boolean"},
-        "reason": {"type": "string", "maxLength": 300},
+        "reason": {"type": "string"},
     },
     "required": ["grounded", "answers_question", "clear", "reason"],
     "additionalProperties": False,
@@ -55,7 +56,8 @@ def grade(*, question, answer, source):
         max_tokens=256,
     )
     if (
-        set(response) != set(SCHEMA["required"])
+        not isinstance(response, dict)
+        or set(response) != set(SCHEMA["required"])
         or any(
             type(response.get(field)) is not bool
             for field in ("grounded", "answers_question", "clear")

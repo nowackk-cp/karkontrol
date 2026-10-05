@@ -100,7 +100,11 @@ def write_report(path, report):
     if path.exists():
         raise CommandError(f"Output already exists; choose a new path: {path}")
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
+    try:
+        with path.open("x", encoding="utf-8") as output:
+            output.write(json.dumps(report, indent=2, ensure_ascii=False))
+    except FileExistsError as error:
+        raise CommandError(f"Output already exists; choose a new path: {path}") from error
 
 
 class Command(BaseCommand):
@@ -166,18 +170,46 @@ class Command(BaseCommand):
             except ModelUnavailable as error:
                 raise CommandError(str(error)) from error
             graded = []
-            for row in rows:
-                try:
-                    score = grade(
-                        question=row["question"], answer=row["answer"], source=row["source"]
+            partial_path = options["output"].with_suffix(".partial.jsonl")
+            partial_path.parent.mkdir(parents=True, exist_ok=True)
+            try:
+                partial = partial_path.open("x", encoding="utf-8")
+            except FileExistsError as error:
+                raise CommandError(
+                    f"Partial output already exists; choose a new score path: {partial_path}"
+                ) from error
+            with partial:
+                for row in rows:
+                    try:
+                        score = grade(
+                            question=row["question"], answer=row["answer"], source=row["source"]
+                        )
+                    except ModelUnavailable:
+                        score = {"judge_pass": None, "unavailable": True}
+                    graded_row = {**row, **score}
+                    partial.write(
+                        json.dumps(
+                            {
+                                "case_id": row["id"],
+                                "status": "unavailable"
+                                if score.get("unavailable")
+                                else "scored_uncalibrated",
+                                "assistant_model": configuration["assistant_model"],
+                                "judge_model": configuration["judge_model"],
+                                "human_agreement_percent": None,
+                                "raw_result": score,
+                                "case": graded_row,
+                            },
+                            ensure_ascii=False,
+                        )
+                        + "\n"
                     )
-                except ModelUnavailable:
-                    score = {"judge_pass": None, "unavailable": True}
-                graded.append({**row, **score})
-                self.stdout.write(
-                    f"{row['id']}: judge result saved; human review remains independent"
-                )
-                self.stdout.flush()
+                    partial.flush()
+                    graded.append(graded_row)
+                    self.stdout.write(
+                        f"{row['id']}: judge result saved; human review remains independent"
+                    )
+                    self.stdout.flush()
             result = {
                 "status": "scored_uncalibrated",
                 "sample_origin": report.get("sample_origin", "user selected candidates"),

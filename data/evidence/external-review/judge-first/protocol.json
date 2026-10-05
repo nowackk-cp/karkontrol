@@ -1,0 +1,11 @@
+{
+  "run_url": "https://github.com/nowackk-cp/karkontrol/actions/runs/37251524081",
+  "source_commit": "267eab9fb19532ca949608e6088e8c9ca17d5001",
+  "conclusion": "cancelled",
+  "job_timeout_minutes": 20,
+  "completed_iteration_logs": 26,
+  "judge_scores_json_exists": false,
+  "all_completed_requests_cancelled_after_45_seconds": true,
+  "human_labels_filled": false,
+  "hypothesis_not_yet_verified": "Bounded string repetition in reason schema may slow grammar decoding"
+}

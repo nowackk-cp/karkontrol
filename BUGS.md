@@ -70,4 +70,8 @@ Yeni gerçek Qwen geliştirme koşusunda bulundu. E-35 genel tavsiye sorusu yanl
 
 Gerçek Qwen v3 yönerge ayarı sonrasında E-24 “KDV nasıl hesaplanır?” sorusu unsupported'a döndü. [Üçüncü ham koşu](data/evidence/external-review/llm-v3-third/eval.json) ve [#28](https://github.com/nowackk-cp/karkontrol/issues/28) kaynak düzeltmesinden önce kaydedildi. Finans kuralının hesaplama yöntemini açıklamak ile serbest para hesabı yapmak yönergede ayrıldı. Beklenen vaka, v2 ve kapı eşiği değiştirilmedi; ayrı TL farkı ölçülmedi.
 
-Bu PR'nin fix commit gövdeleri issue kapanışlarını taşır. Kod/ölçüm değişiklikleri kendi kaynak SHA'sıyla review edilir; main geçmişi, ilk başarısız raporlar ve sürüm etiketleri değiştirilmez.
+## JDG-002 — hakem çağrılarında zaman aşımı ve kaybolan sonuçlar
+
+Ayrı Qwen3-0.6B hakeminin [ilk Linux koşusu](https://github.com/nowackk-cp/karkontrol/actions/runs/37251524081) bütün çağrılarda 45 saniye sınırına takıldı; 20 dakika sonunda job iptal edildi. Döngü yalnız sonunda JSON yazdığı için tamamlanan denemeler de sonuç dosyasına girmedi. [İlk ham log ve protokol](data/evidence/external-review/judge-first/protocol.json) korunur; [#31](https://github.com/nowackk-cp/karkontrol/issues/31) kaynak düzeltmesinden önce açıldı. Finans TL farkı yok; hakem araçlarının çalışabilirliği ve kanıt korunması sorunu. [Sabit runtime'ın resmi grammar rehberi](https://github.com/ggml-org/llama.cpp/blob/b11382/grammars/README.md#efficient-optional-repetitions) bazı sınırlı tekrarların yavaş sampling üretebildiğini açıklar. Bu koşunun sebebi aynı prompt/model ile kontrollü karşılaştırılacak; uygulama yanıt uzunluğu sınırı ve insan kalibrasyonu koşulları korunur.
+
+Fix commit gövdeleri issue kapanışlarını taşır. Kod/ölçüm değişiklikleri kendi kaynak SHA'sıyla review edilir; main geçmişi, ilk başarısız raporlar ve sürüm etiketleri değiştirilmez.
