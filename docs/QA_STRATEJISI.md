@@ -1,96 +1,87 @@
-# QA stratejisi
+# Test stratejisi ve kanıt incelemesi
 
-Durum: çalışan demo kalite kapıları, 2026-10-04.
+Güncel ölçümlerin tek tablosu [README](../README.md) içindedir. Bir testin geçmesi alan kuralının insan tarafından doğru seçildiğini kanıtlamaz.
 
-## Öncelik
+| Risk | Kontrol |
+|---|---|
+| Kuruş, eşik ve iade dağıtımı | Sözleşme örnekleri, Fraction/tamsayı referansı, property testleri |
+| Yanlış oran/dosya ve yarım kayıt | XLSX hücre biçimi, CSV genişliği, atomik rollback ve undo |
+| Mağaza izolasyonu | Bütün store rotaları; yabancı GET ve CSRF-geçerli POST; DB değişmezliği |
+| Rapor toplamı | Parametreli aylık SQL, motor ve filtreli CSV/ekran tutarlılığı |
+| UI para gösterimi | Farklı senaryolar, tüm finans sütunları, üç kart, dışlayan filtre |
+| Asistan dönemi ve niyeti | Kritik tarih vakaları, tam cümle sözleşmesi, eşit olmayan ürün sırası |
+| İnsan finans doğruluğu | Her insan inceleme satırında ayrı mutabakat testi |
 
-| Risk | Etki (1–5) | Olasılık (1–5) | Önce doğrulanacak davranış |
-|---|---:|---:|---|
-| Yanlış kâr / hakediş | 5 | 4 | Bağımsız altın veriyle sıfır tolerans |
-| İade / indirim karışıklığı | 5 | 4 | Satır ve adet bazında hesap |
-| Kuruş farkı | 4 | 5 | Decimal, satır yuvarlaması ve yarım kuruş |
-| Mükerrer içe aktarma | 5 | 3 | Tekrar yüklemede aynı toplam |
-| Kısmi veri kaydı | 5 | 3 | Hatalı dosyada atomik geri alma |
-| Mağazalar arası veri sızıntısı | 5 | 3 | Oturumdan sahiplik; URL ile atlatılamaz |
-| Hatalı oturum akışı | 4 | 3 | CSRF, güvenli yönlendirme, çıkış |
-| Asistanın uydurduğu rakam | 5 | 3 | SQL araç sonucu ve sayısal doğrulayıcı |
+Nakit/kâr eşitliği motorun alanlarından türeyen özdeşliktir; ikinci bağımsız finans hesabı değildir. Hakediş ve KDV testleri girdi oranlarından Fraction/tamsayı ile ayrıca hesaplanır. Bunlar ayrı aritmetik uygulamadır; insan altın kanıtı sayılmaz.
 
-## Doğrulama katmanları
+## CI
 
-Altyapıda giriş/çıkış, güvenlik ayarları ve servis kontrolü test edilir.
-Motor aşamasında kurallara dayanan birim/sınır testleri, Fraction referansı ve
-Hypothesis değişmezleri çalışır. İnsan doğrulamalı 30+10 sipariş mutabakatı henüz
-kabul edilmemiştir. Entegrasyonda dosya → DB →
-rapor zinciri, E2E'de yalnızca kritik kullanıcı akışları test edilir.
+quality lint, format, ayar/migration, unit/integration/eval, kapsam ve Chromium akışlarını denetler. Playwright bulunmayan dev ortamı tarayıcı paketini atlar. Model değişiklikleri changes job'uyla tespit edilir; required model-eval kontrolü her PR'da sonuç bildirir. İlgili değişiklik yoksa model indirmesi atlanır. Haftalık/elle koşu model ölçümünü zorlar. PR'lar eski koşuyu iptal eder; main koşuları iptal edilmez.
 
-Altın beklenenler motor çıktısından alınmaz. Hesaplama testleri finansal
-alanları tam `Decimal` eşitliğiyle karşılaştıracak. Property testinin motorun
-formülünü tekrarlaması tek başına bağımsız doğrulama sayılmaz.
+İnsan mutabakatı ayrı, henüz zorunlu olmayan kırmızı job'dur; boş kanıtı başarı saymaz. CODEOWNERS insan veri dizinini işaretler. İnsan hakem job'u kaliteyi engellemez. Pages başarılı main CI'ın JUnit sayılarından dinamik HTML oluşturur. Release JUnit/HTML/kapsam/mutasyon ve model JSON'larını süreli artifact dışında saklar.
 
-## Şimdilik kapsam dışında
+## Mutasyon
 
-Gerçek ödeme, canlı kur API'si, pazaryeri bağlantısı, reklam/taksit gideri ve
-gerçek müşteri verisi yok. Offline araç ölçümü ve gerçek Qwen ölçümü ayrı
-raporlanır. Bağımsız insan golden ve hakem kabulü eksiktir. Yeni set protokolü
-AI yazarlıdır; bağımsız insan hold-out kabulü değildir. Yer tutucu metrik yayımlanmaz.
+Hata mesajları da test sözleşmesidir; güncel mutasyon ayarında `raise ValueError` dışlaması kaldırılmıştır. Test seçimi motor sözleşme testlerini içerir. Eski dışlamalı sonuç güncel motorun skoru olarak kullanılmaz. Önceki kalan mutantların tek tek farkları ve inceleme sınıfları bu belgenin ekinde korunur. Eşdeğerlik her girdi için gerekçe ister; yalnız teste yakalanmamak eşdeğerlik değildir. Zaman aşımı/çalışma hatası kill sayılmaz. Dışlamasız puan ölçülmeden tahmin rakamı yazılmaz.
 
-## Başlangıç kalite kapısı
+## Kalite kapısı demosu
 
-Lint → format → Django sistem kontrolü → migration farkı → birim ve
-entegrasyon/eval → motor dal kapsamı ≥ %90 → 12 Chromium E2E.
-Raporlar artifact olarak saklanır. Linux gecelik mutasyon kapısı ≥ %85'tir;
-yalnız exit1 gerçekten öldürülen sayılır. Hatalı/boş ölçüm başarılı sayılmaz.
+[PR #4](https://github.com/nowackk-cp/karkontrol/pull/4) eski kasıtlı stopaj değişikliğinin başarısız CI kaydıdır ve birleştirilmeden kapandı. Sentetik API animasyonu kaldırıldı. Yeni sahiplik regresyonu demo PR'ı ve görünen GitHub ekranı tamamlandığında README'de bağlanır. Kasıtlı değişiklik BUGS'a yeni AI hatası diye eklenmez.
 
-## Uygulanan veri akışı testleri
+## Yeni pazaryeri ve Shopify hazırlığı
 
-2026-10-04: toplam 75 test; CSV ve XLSX, 30 satırlık sentetik girdi,
-DB benzersizlikleri, çelişkide transaction rollback, aynı dosya/farklı biçimde
-mükerrerlik, kullanıcı izolasyonu, komisyon ve iade sınırları, tarih/ürün
-filtreleri ve sayfalama doğrulandı. Genel uygulama kapsamı %96.
+Önce tarihli resmi ücret/sözleşme, sipariş-satır-adet matrahı, vergi niteliği, indirim finansmanı, kur kaynağı, iade/mahsup dönemi ve kuruş dağıtımı seçilir. Sonra en az beş insan hesabı karşılaştırmadan önce commit edilir; mevcut pazaryeri regresyonları, SQL toplamları ve izolasyon aynı kalmalıdır.
 
-Beklenen fiyatlar yalnızca dosyadaki girdinin veritabanında korunmasını
-doğrular; bağımsız altın kâr bekleneni değildir. Gerçek tarayıcı kontrolleri
-ayrıca işlem günlüğünde kayıtlıdır. Bu paragraf PR2 sonrası tarihî başlangıç kanıtıdır.
+Shopify bir pazaryeri kesintisinin birebir kopyası değildir. [Shopify Payments](https://help.shopify.com/en/manual/payments/shopify-payments) ve [üçüncü taraf ücretleri](https://help.shopify.com/en/manual/your-account/manage-billing/billing-charges/types-of-charges/third-party-charges) ödeme sağlayıcısına bağlı ayrı ücretleri açıklar. Erişim 2026-10-04. Hazırlanacak beş insan senaryosu: yerel kart, üçüncü taraf sağlayıcı, indirimli çok satır, kısmi iade, dövizli satış. Hesapları ve ülke/tarife kararları henüz verilmedi; Shopify motor desteği eklenmiş sayılmaz.
 
-## Finans demo sürümü kanıtları
+## Tarihî kalan mutant incelemesi
 
-252 test ve 12 E2E Linux CI'de geçti:
-[run37170676379](https://github.com/nowackk-cp/karkontrol/actions/runs/37170676379).
-Motor dal kapsamı 44/44 (%100); genel satır+dal kapsamı yaklaşık %98.
-Mutmut3.8 ilk tamamlanmış ve artifact'ı alınmış ölçüm 335/369=%90,79:
-[run37170823038](https://github.com/nowackk-cp/karkontrol/actions/runs/37170823038).
-34 survivor saklanır, gizlenmez. Exception raise satırlarının mesajları mutasyondan
-hariçtir; bütün koşullar/hesaplar dahil. Mutmut3 globals ve dataclass varsayılanlarını
-mutate etmez; bu sınır metrikle birlikte değerlendirilir. Detaylar ayrı mutasyon raporunda.
+### Tarihî 27 kalan mutant incelemesi
 
-Katmanlar teknik riskleri tamamlar. Aynı AI'ın sözleşme ve test yazması alan
-hatasının iki tarafa da taşınmasını engellemez; insan inceleme seti boş kalır.
+Kaynak: 40c5442508633acd8f03ec8715494a7dce04f8b1; mutmut 3.8.0.
+Eski skorun sayısal özeti README'dedir.
+Tüm mutant kimlikleri ve kaynak fonksiyon hashleri arşiv metadata ile aynı
+olacak şekilde saf mutant üreticisiyle yeniden oluşturuldu. Ham diffler
+[mutant farkları](../data/evidence/external-review/historical-survivors-diffs.txt), doğrudan karşı örnekler
+[karşı örnekler](../data/evidence/external-review/historical-witnesses.json) içindedir. Linux mutant test koşusu tekrarlanmadı.
+Bu tarihî skor yeni motorun skoru değildir.
 
-## v1 demo son kabulü
+14 hata mesajı farkı, 9 kanıtlı giriş/hesap/çıktı farkı, 3 kaynak akışında eşdeğer
+strict değişikliği ve 1 precision eşdeğerlik adayı bulunuyor. Hata mesajı
+farkları finans tutarlarını korur; tam kamu hata sözleşmesinde eşdeğer değildir.
+Precision adayı için tüm geçerli Decimal girdilerinde eşdeğerlik kanıtı yoktur.
+18/9 tahmini bu sayılarla doğrulanmış kabul edilmez.
 
-261 unit/integration/property/eval +12 E2E; mobilde aynı 12 akış da geçti.
-Toplam satır+dal kapsamı %97,67 (raporda yuvarlanmış %98), motor 44/44.
-Güçlendirilmiş mutasyon 342/369=%92,68, yaşayan 27. Main fc27163 üzerinde
-[CI](https://github.com/nowackk-cp/karkontrol/actions/runs/37171612643),
-[eval](https://github.com/nowackk-cp/karkontrol/actions/runs/37171612606) ve
-[mutation](https://github.com/nowackk-cp/karkontrol/actions/runs/37171615550) geçti.
-[Canlı HTML raporlar](https://nowackk-cp.github.io/karkontrol/) HTTP200 doğrulandı.
-[Kırmızı kapı kanıtı](CI_KAPISI_KANITI.md) dört testi başarısız olan PR'ın
-birleştirilmeden kapatıldığını gösterir. Bilinçli hata gerçek motor bug sayılmaz.
+| Mutant (engine.profit öneki) | Gerçek diff | Sınıf ve kanıt |
+|---|---|---|
+| LineInput.validate 40 | `name` → `None` | Hata mesajı farkı; float fiyat için alan adı kaybolur |
+| LineInput.validate 58 | `name` → `None` | Hata mesajı farkı; KDV 101 için alan adı kaybolur |
+| LineInput.validate 67 | para birimi/kur koşulunda `or` → `and` | Kanıtlı boşluk: Amazon'da GBP kabul edilir |
+| LineInput.validate 75 | kur `<= 0` → `< 0` | Kanıtlı boşluk: Amazon USD kur 0 kabul edilir |
+| LineInput.validate 85 | fiyat `* quantity` → `/ quantity` | Kanıtlı boşluk: 2×600 TL, 600 TL indirim geçerliyken reddedilir |
+| allocate 6 | `"weight"` → `None` | Hata mesajı farkı; float ağırlık alan adı |
+| allocate 9 | `"weight"` → `"XXweightXX"` | Hata mesajı farkı; float ağırlık alan adı |
+| allocate 10 | `"weight"` → `"WEIGHT"` | Hata mesajı farkı; float ağırlık alan adı |
+| allocate 12 | `"total"` → `None` | Hata mesajı farkı; negatif toplam alan adı |
+| allocate 15 | `"total"` → `"XXtotalXX"` | Hata mesajı farkı; negatif toplam alan adı |
+| allocate 16 | `"total"` → `"TOTAL"` | Hata mesajı farkı; negatif toplam alan adı |
+| allocate 42 | `exact[i] - base[i]` → `exact[i] + base[i]` | Kanıtlı boşluk: 0,02 TL / [1,2], [0,01;0,01] → [0;0,02] |
+| shipping_fee 4 | `"gross"` → `None` | Hata mesajı farkı; negatif brüt alan adı |
+| shipping_fee 7 | `"gross"` → `"XXgrossXX"` | Hata mesajı farkı; negatif brüt alan adı |
+| shipping_fee 8 | `"gross"` → `"GROSS"` | Hata mesajı farkı; negatif brüt alan adı |
+| shipping_fee 10 | `"desi"` → `None` | Hata mesajı farkı; negatif desi alan adı |
+| shipping_fee 13 | `"desi"` → `"XXdesiXX"` | Hata mesajı farkı; negatif desi alan adı |
+| shipping_fee 14 | `"desi"` → `"DESI"` | Hata mesajı farkı; negatif desi alan adı |
+| calculate_order 9 | `prec = 50` → `51` | Eşdeğerlik adayı; bütün geçerli Decimal oranlarda kanıtlanmadı |
+| _calculate 14 | ilk brüt ağırlık koşuluna `and False` | Kanıtlı boşluk: 100+200 TL kargo [10;20] → [15;15] |
+| _calculate 15 | ilk brüt ağırlık koşuluna `or True` | Kanıtlı boşluk: sıfır brüt, adet [2;1] kargo [20;10] → [15;15] |
+| _calculate 53 | iade ağırlığı `/ quantity` → `* quantity` | Kanıtlı boşluk: farklı adetli kısmi iadede kargo [35;25] → [44;16] |
+| _calculate 57 | `strict=True` → `None` | Kaynak akışında eşdeğer: original ve lines aynı comprehensions uzunluğunda |
+| _calculate 60 | `strict=True` kaldırılır | Kaynak akışında eşdeğer: original ve lines aynı uzunlukta |
+| _calculate 61 | `strict=True` → `False` | Kaynak akışında eşdeğer: original ve lines aynı uzunlukta |
+| _calculate 102 | maliyet `* exchange_rate` → `/ exchange_rate` | Kanıtlı boşluk: 250 USD ×40 maliyet 10.000,00 → 6,25 TL |
+| _calculate 114 | `line_number` → `None` | Kanıtlı boşluk: kamu çıktı satır kimliği kaybolur |
 
-## v1.1 gerçek model ve kabul araçları
-
-316 core test ve 12 bağımsız E2E geçti; aynı 12 akış mobilde de geçti.
-Motor değişmediği için 44/44 dal ve 342/369 mutasyon kanıtı geçerlidir.
-Qwen3-1.7B-Q8_0 Linux CPU üzerinde v1 19/40, v2 40/40;
-her prompt 36 model çağrısı ve 4 güvenlik ön reddi içerir. Sayısal beklenti
-bağımsız SQL sorgusundan doğrulanır. Model yalnız aracı seçer; cevap tutarını
-sunucu oluşturur. [Gerçek ölçüm](https://github.com/nowackk-cp/karkontrol/actions/runs/37174071378).
-
-İlk başarısız model raporu saklanır; Eylül→Kasım seçimi APP-003 olarak kayıtlıdır.
-20 gerçek hakem puanı vardır; insan puanları olmadan %85 kalibrasyon iddia edilmez.
-Prompt SHA256 sabitken 10 yeni soruluk set üreten manual workflow tek ölçüm içindir;
-ilk sonuç korunur ve sonuç görüldükten sonra prompt bu sete göre ayarlanmaz.
-40 finans senaryosunun insan beklenenlerini ve kaynaklarını doldurmadan
-`scripts/check_golden.py` başarısız olur. [Kabul komutları](KABUL_CALISTIRMA.md).
-Main için quality ve model-eval zorunludur; yöneticiler de kurala tabidir.
+Dışlamasız skor ölçülmedi. Dışlanan raise satırları için test sonuçları olmadığı
+için %83,8 tahmini ölçüm diye yazılamaz. Yeni motor ve genişletilmiş testler
+üzerinde yeni Linux koşusu gerekir; tarihî kimlikler yeni üretimde değişebilir.

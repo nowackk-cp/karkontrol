@@ -1,0 +1,278 @@
+[
+  {
+    "mutant": "engine.profit.xǁLineInputǁvalidate__mutmut_67",
+    "original": {
+      "error_type": "ValueError",
+      "message": "Para birimi veya kur geçersiz"
+    },
+    "mutated": {
+      "value": [
+        "250.00"
+      ]
+    }
+  },
+  {
+    "mutant": "engine.profit.xǁLineInputǁvalidate__mutmut_75",
+    "original": {
+      "error_type": "ValueError",
+      "message": "Para birimi veya kur geçersiz"
+    },
+    "mutated": {
+      "value": [
+        "0.00"
+      ]
+    }
+  },
+  {
+    "mutant": "engine.profit.xǁLineInputǁvalidate__mutmut_85",
+    "original": {
+      "value": [
+        "600.00"
+      ]
+    },
+    "mutated": {
+      "error_type": "ValueError",
+      "message": "İndirim ve kupon brüt tutarı aşamaz"
+    }
+  },
+  {
+    "mutant": "engine.profit.x_allocate__mutmut_42",
+    "original": {
+      "value": [
+        "0.01",
+        "0.01"
+      ]
+    },
+    "mutated": {
+      "value": [
+        "0",
+        "0.02"
+      ]
+    }
+  },
+  {
+    "mutant": "engine.profit.x__calculate__mutmut_14",
+    "original": {
+      "value": [
+        "10",
+        "20"
+      ]
+    },
+    "mutated": {
+      "value": [
+        "15",
+        "15"
+      ]
+    }
+  },
+  {
+    "mutant": "engine.profit.x__calculate__mutmut_15",
+    "original": {
+      "value": [
+        "20",
+        "10"
+      ]
+    },
+    "mutated": {
+      "value": [
+        "15",
+        "15"
+      ]
+    }
+  },
+  {
+    "mutant": "engine.profit.x__calculate__mutmut_53",
+    "original": {
+      "value": [
+        "35",
+        "25"
+      ]
+    },
+    "mutated": {
+      "value": [
+        "44",
+        "16"
+      ]
+    }
+  },
+  {
+    "mutant": "engine.profit.x__calculate__mutmut_102",
+    "original": {
+      "value": [
+        "10000.00"
+      ]
+    },
+    "mutated": {
+      "value": [
+        "6.25"
+      ]
+    }
+  },
+  {
+    "mutant": "engine.profit.x__calculate__mutmut_114",
+    "original": {
+      "value": [
+        "1"
+      ]
+    },
+    "mutated": {
+      "value": [
+        "None"
+      ]
+    }
+  },
+  {
+    "mutant": "engine.profit.xǁLineInputǁvalidate__mutmut_40",
+    "original": {
+      "error_type": "ValueError",
+      "message": "unit_price_gross: sonlu, negatif olmayan Decimal gerekli"
+    },
+    "mutated": {
+      "error_type": "ValueError",
+      "message": "None: sonlu, negatif olmayan Decimal gerekli"
+    }
+  },
+  {
+    "mutant": "engine.profit.xǁLineInputǁvalidate__mutmut_58",
+    "original": {
+      "error_type": "ValueError",
+      "message": "vat_percent: üst sınır aşıldı"
+    },
+    "mutated": {
+      "error_type": "ValueError",
+      "message": "None: üst sınır aşıldı"
+    }
+  },
+  {
+    "mutant": "engine.profit.x_allocate__mutmut_6",
+    "original": {
+      "error_type": "ValueError",
+      "message": "weight: sonlu, negatif olmayan Decimal gerekli"
+    },
+    "mutated": {
+      "error_type": "ValueError",
+      "message": "None: sonlu, negatif olmayan Decimal gerekli"
+    }
+  },
+  {
+    "mutant": "engine.profit.x_allocate__mutmut_9",
+    "original": {
+      "error_type": "ValueError",
+      "message": "weight: sonlu, negatif olmayan Decimal gerekli"
+    },
+    "mutated": {
+      "error_type": "ValueError",
+      "message": "XXweightXX: sonlu, negatif olmayan Decimal gerekli"
+    }
+  },
+  {
+    "mutant": "engine.profit.x_allocate__mutmut_10",
+    "original": {
+      "error_type": "ValueError",
+      "message": "weight: sonlu, negatif olmayan Decimal gerekli"
+    },
+    "mutated": {
+      "error_type": "ValueError",
+      "message": "WEIGHT: sonlu, negatif olmayan Decimal gerekli"
+    }
+  },
+  {
+    "mutant": "engine.profit.x_allocate__mutmut_12",
+    "original": {
+      "error_type": "ValueError",
+      "message": "total: sonlu, negatif olmayan Decimal gerekli"
+    },
+    "mutated": {
+      "error_type": "ValueError",
+      "message": "None: sonlu, negatif olmayan Decimal gerekli"
+    }
+  },
+  {
+    "mutant": "engine.profit.x_allocate__mutmut_15",
+    "original": {
+      "error_type": "ValueError",
+      "message": "total: sonlu, negatif olmayan Decimal gerekli"
+    },
+    "mutated": {
+      "error_type": "ValueError",
+      "message": "XXtotalXX: sonlu, negatif olmayan Decimal gerekli"
+    }
+  },
+  {
+    "mutant": "engine.profit.x_allocate__mutmut_16",
+    "original": {
+      "error_type": "ValueError",
+      "message": "total: sonlu, negatif olmayan Decimal gerekli"
+    },
+    "mutated": {
+      "error_type": "ValueError",
+      "message": "TOTAL: sonlu, negatif olmayan Decimal gerekli"
+    }
+  },
+  {
+    "mutant": "engine.profit.x_shipping_fee__mutmut_4",
+    "original": {
+      "error_type": "ValueError",
+      "message": "gross: sonlu, negatif olmayan Decimal gerekli"
+    },
+    "mutated": {
+      "error_type": "ValueError",
+      "message": "None: sonlu, negatif olmayan Decimal gerekli"
+    }
+  },
+  {
+    "mutant": "engine.profit.x_shipping_fee__mutmut_7",
+    "original": {
+      "error_type": "ValueError",
+      "message": "gross: sonlu, negatif olmayan Decimal gerekli"
+    },
+    "mutated": {
+      "error_type": "ValueError",
+      "message": "XXgrossXX: sonlu, negatif olmayan Decimal gerekli"
+    }
+  },
+  {
+    "mutant": "engine.profit.x_shipping_fee__mutmut_8",
+    "original": {
+      "error_type": "ValueError",
+      "message": "gross: sonlu, negatif olmayan Decimal gerekli"
+    },
+    "mutated": {
+      "error_type": "ValueError",
+      "message": "GROSS: sonlu, negatif olmayan Decimal gerekli"
+    }
+  },
+  {
+    "mutant": "engine.profit.x_shipping_fee__mutmut_10",
+    "original": {
+      "error_type": "ValueError",
+      "message": "desi: sonlu, negatif olmayan Decimal gerekli"
+    },
+    "mutated": {
+      "error_type": "ValueError",
+      "message": "None: sonlu, negatif olmayan Decimal gerekli"
+    }
+  },
+  {
+    "mutant": "engine.profit.x_shipping_fee__mutmut_13",
+    "original": {
+      "error_type": "ValueError",
+      "message": "desi: sonlu, negatif olmayan Decimal gerekli"
+    },
+    "mutated": {
+      "error_type": "ValueError",
+      "message": "XXdesiXX: sonlu, negatif olmayan Decimal gerekli"
+    }
+  },
+  {
+    "mutant": "engine.profit.x_shipping_fee__mutmut_14",
+    "original": {
+      "error_type": "ValueError",
+      "message": "desi: sonlu, negatif olmayan Decimal gerekli"
+    },
+    "mutated": {
+      "error_type": "ValueError",
+      "message": "DESI: sonlu, negatif olmayan Decimal gerekli"
+    }
+  }
+]

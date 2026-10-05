@@ -1,37 +1,21 @@
 # Sürüm geçmişi
 
-## 1.1.0 — gerçek model ve bağımsız kabul araçları
+## 1.2.0 — dış inceleme düzeltmeleri (yayın hazırlığı)
 
-Qwen3-1.7B yerel JSON araç seçimi, sunucu tarih/owner sınırı, gerçek v1/v2
-SQL eval ve LLM hakem çalıştırıcısı eklendi. Gerçek Linux ölçümünde v1%47,5
-→ v2%100; kritik hata0, gerileyen soru0. İlk başarısız%85 ölçüm korunur;
-APP-003 yanlış ay hatası düzeltildi.316 core test ve12 E2E geçti.
-40 sipariş XLSX/CSV insan inceleme akışı ve kuruş mutabakat kapısı hazır;
-20 model hakem puanı ve%85 insan kalibrasyonu kapısı vardır. İnsan alanları boş.
-Sabit prompt üzerinde ilk yeni10 sentetik soru10/10 geçti;9model çağrısı+1önred.
-Aynı modelin şablon dili bağımsız insan holdout sayılmaz; ilk ham rapor korunur.
-Resmî Amazon tarife farkları, gerçek hata Issue#7/8/9 kayıtları, CV proje bölümü
-ve gerçek PR kayıtlarından GIF belgelendi. Windows native LLM çalışması
-Code Integrity engeline tabidir.
+Tam kuruş dağıtımı, Excel oran/CSV genişliği, atomik aktarım geri alma, Türkçe arama, eksik rapor davranışı, üretim/upload/login sınırları düzeltildi. Asistan dönem çözümü ve v3 geliştirme seti, ayrı model/kör insan hakem hazırlığı, insan mutabakat işi, koşullu zorunlu model kontrolü ve dinamik Pages raporu eklendi. Public çalışma/başvuru notları yerelde tutulur; kurallar/QA/mimari/kabul belgeleri birleştirildi. İlk kanıtlar ve eski etiketler korundu. Güncel test/LLM/mutasyon sonuçları README'dedir. İnsan kabulü tamamlanmış sayılmaz.
 
-## 1.0.0 — çalışan portföy demosu
+## 1.1.0 — model ve bağımsız kabul araçları
 
-Demo ürün ve otomatik kalite katmanları tamamlandı: 261 test, 12 Chromium
-E2E, mobilde aynı 12 akış, %100 motor dal kapsamı ve %92,68 ham mutasyon.
-Ana dal raporları Pages'te yayımlanır; kasıtlı hatalı PR kalite kapısıyla
-engellenip birleştirilmeden kapatıldı. Mimari/QA/eval/alan/mülakat belgeleri hazır.
-Bağımsız insan golden kabulü ve gerçek LLM/judge kanıtları ayrı kabul işidir.
+Qwen JSON araç seçimi ve tarih/sahiplik sınırı, gerçek SQL eval, insan inceleme XLSX/CSV araçları eklendi. İlk başarısız LLM sonucu ve düzeltme sonrası sonuç korundu. Aynı modelin ürettiği ilk sentetik soru seti insan kör kabulü sayılmaz. Tarihî kanıtlar ilgili sürüm assetleri ve data/evidence içindedir.
 
-## 0.2.0 — finans demo sürümü
+## 1.0.0 — portföy demosu
 
-Decimal motoru, sipariş başına ücret dağıtımı, kısmi/tam iade, integer-cents
-SQL raporu, sabit USD/EUR Amazon demo, CSV export, hesap oluşturma,
-ücretsiz kota/sahte ödeme ve araç asistanı eklendi. Unit/property/SQL/eval,
-12 E2E ve Linux mutasyon kapıları çalışır; main kalite korumalıdır.
-İnsan golden/judge/kör holdout ve gerçek pazaryeri tarifesi kapsam dışıdır.
+Finans/import/iade/rapor/abonelik/asistan akışları, Chromium ve Linux mutasyon kontrolleri, main kalite kapısı ve Pages yayını eklendi. Kasıtlı PR birleştirilmeden kapandı.
+
+## 0.2.0 — finans demo
+
+Decimal motoru, sipariş ücreti dağıtımı, iade, SQL kuruş toplamları ve sabit kur Amazon demo eklendi.
 
 ## 0.1.0 — başlangıç
 
-Django altyapısı, protected GitHub main, CSV/XLSX atomik aktarım, mağaza
-izolasyonu, filtre/sayfalama ve iade giriş ekranı. APP-001/APP-002 gerçek
-regresyon testleriyle düzeltildi. İlk 22 test, sonra75 test kanıtı günlüktedir.
+Django mağaza izolasyonu, atomik CSV/XLSX aktarımı, filtreler ve iade arayüzü. APP-001/002 yerel regresyonlarla düzeltildi; hatalı hâlleri commit edilmedi.

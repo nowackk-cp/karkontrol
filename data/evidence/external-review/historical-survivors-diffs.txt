@@ -1,0 +1,337 @@
+# engine.profit.xǁLineInputǁvalidate__mutmut_40: historically survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -17,7 +17,7 @@
+         "weight_kg",
+         "exchange_rate",
+     ):
+-        validate_decimal(getattr(self, name), name, maximum=Decimal("9999999999.99"))
++        validate_decimal(getattr(self, name), None, maximum=Decimal("9999999999.99"))
+     for name in ("vat_percent", "commission_percent", "cost_vat_percent"):
+         validate_decimal(getattr(self, name), name, maximum=HUNDRED)
+     if self.currency not in ("TRY", "USD", "EUR") or self.exchange_rate <= ZERO:
+
+# engine.profit.xǁLineInputǁvalidate__mutmut_58: historically survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -19,7 +19,7 @@
+     ):
+         validate_decimal(getattr(self, name), name, maximum=Decimal("9999999999.99"))
+     for name in ("vat_percent", "commission_percent", "cost_vat_percent"):
+-        validate_decimal(getattr(self, name), name, maximum=HUNDRED)
++        validate_decimal(getattr(self, name), None, maximum=HUNDRED)
+     if self.currency not in ("TRY", "USD", "EUR") or self.exchange_rate <= ZERO:
+         raise ValueError("Para birimi veya kur geçersiz")
+     if self.currency == "TRY" and self.exchange_rate != Decimal("1"):
+
+# engine.profit.xǁLineInputǁvalidate__mutmut_67: historically survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -20,7 +20,7 @@
+         validate_decimal(getattr(self, name), name, maximum=Decimal("9999999999.99"))
+     for name in ("vat_percent", "commission_percent", "cost_vat_percent"):
+         validate_decimal(getattr(self, name), name, maximum=HUNDRED)
+-    if self.currency not in ("TRY", "USD", "EUR") or self.exchange_rate <= ZERO:
++    if self.currency not in ("TRY", "USD", "EUR") and self.exchange_rate <= ZERO:
+         raise ValueError("Para birimi veya kur geçersiz")
+     if self.currency == "TRY" and self.exchange_rate != Decimal("1"):
+         raise ValueError("TRY kuru 1 olmalı")
+
+# engine.profit.xǁLineInputǁvalidate__mutmut_75: historically survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -20,7 +20,7 @@
+         validate_decimal(getattr(self, name), name, maximum=Decimal("9999999999.99"))
+     for name in ("vat_percent", "commission_percent", "cost_vat_percent"):
+         validate_decimal(getattr(self, name), name, maximum=HUNDRED)
+-    if self.currency not in ("TRY", "USD", "EUR") or self.exchange_rate <= ZERO:
++    if self.currency not in ("TRY", "USD", "EUR") or self.exchange_rate < ZERO:
+         raise ValueError("Para birimi veya kur geçersiz")
+     if self.currency == "TRY" and self.exchange_rate != Decimal("1"):
+         raise ValueError("TRY kuru 1 olmalı")
+
+# engine.profit.xǁLineInputǁvalidate__mutmut_85: historically survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -24,5 +24,5 @@
+         raise ValueError("Para birimi veya kur geçersiz")
+     if self.currency == "TRY" and self.exchange_rate != Decimal("1"):
+         raise ValueError("TRY kuru 1 olmalı")
+-    if self.seller_discount + self.platform_coupon > self.unit_price_gross * self.quantity:
++    if self.seller_discount + self.platform_coupon > self.unit_price_gross / self.quantity:
+         raise ValueError("İndirim ve kupon brüt tutarı aşamaz")
+
+# engine.profit.x_allocate__mutmut_6: historically survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -3,7 +3,7 @@
+     if not weights or any(weight < ZERO for weight in weights):
+         raise ValueError("Dağıtım ağırlıkları geçersiz")
+     for weight in weights:
+-        validate_decimal(weight, "weight")
++        validate_decimal(weight, None)
+     validate_decimal(total, "total")
+     if sum(weights) == ZERO:
+         weights = [Decimal("1")] * len(weights)
+
+# engine.profit.x_allocate__mutmut_9: historically survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -3,7 +3,7 @@
+     if not weights or any(weight < ZERO for weight in weights):
+         raise ValueError("Dağıtım ağırlıkları geçersiz")
+     for weight in weights:
+-        validate_decimal(weight, "weight")
++        validate_decimal(weight, "XXweightXX")
+     validate_decimal(total, "total")
+     if sum(weights) == ZERO:
+         weights = [Decimal("1")] * len(weights)
+
+# engine.profit.x_allocate__mutmut_10: historically survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -3,7 +3,7 @@
+     if not weights or any(weight < ZERO for weight in weights):
+         raise ValueError("Dağıtım ağırlıkları geçersiz")
+     for weight in weights:
+-        validate_decimal(weight, "weight")
++        validate_decimal(weight, "WEIGHT")
+     validate_decimal(total, "total")
+     if sum(weights) == ZERO:
+         weights = [Decimal("1")] * len(weights)
+
+# engine.profit.x_allocate__mutmut_12: historically survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -4,7 +4,7 @@
+         raise ValueError("Dağıtım ağırlıkları geçersiz")
+     for weight in weights:
+         validate_decimal(weight, "weight")
+-    validate_decimal(total, "total")
++    validate_decimal(total, None)
+     if sum(weights) == ZERO:
+         weights = [Decimal("1")] * len(weights)
+     cents = int(money(total) * HUNDRED)
+
+# engine.profit.x_allocate__mutmut_15: historically survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -4,7 +4,7 @@
+         raise ValueError("Dağıtım ağırlıkları geçersiz")
+     for weight in weights:
+         validate_decimal(weight, "weight")
+-    validate_decimal(total, "total")
++    validate_decimal(total, "XXtotalXX")
+     if sum(weights) == ZERO:
+         weights = [Decimal("1")] * len(weights)
+     cents = int(money(total) * HUNDRED)
+
+# engine.profit.x_allocate__mutmut_16: historically survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -4,7 +4,7 @@
+         raise ValueError("Dağıtım ağırlıkları geçersiz")
+     for weight in weights:
+         validate_decimal(weight, "weight")
+-    validate_decimal(total, "total")
++    validate_decimal(total, "TOTAL")
+     if sum(weights) == ZERO:
+         weights = [Decimal("1")] * len(weights)
+     cents = int(money(total) * HUNDRED)
+
+# engine.profit.x_allocate__mutmut_42: historically survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -10,7 +10,7 @@
+     cents = int(money(total) * HUNDRED)
+     exact = [Decimal(cents) * weight / sum(weights) for weight in weights]
+     base = [int(value) for value in exact]
+-    ranked = sorted(range(len(base)), key=lambda i: (-(exact[i] - base[i]), i))
++    ranked = sorted(range(len(base)), key=lambda i: (-(exact[i] + base[i]), i))
+     for index in ranked[: cents - sum(base)]:
+         base[index] += 1
+     return [Decimal(value) / HUNDRED for value in base]
+
+# engine.profit.x_shipping_fee__mutmut_4: historically survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -1,5 +1,5 @@
+ def shipping_fee(gross: Decimal, desi: Decimal, *, marketplace="demo_tr") -> Decimal:
+-    validate_decimal(gross, "gross")
++    validate_decimal(gross, None)
+     validate_decimal(desi, "desi")
+     if marketplace == "amazon_demo":
+         return Decimal("80.00")
+
+# engine.profit.x_shipping_fee__mutmut_7: historically survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -1,5 +1,5 @@
+ def shipping_fee(gross: Decimal, desi: Decimal, *, marketplace="demo_tr") -> Decimal:
+-    validate_decimal(gross, "gross")
++    validate_decimal(gross, "XXgrossXX")
+     validate_decimal(desi, "desi")
+     if marketplace == "amazon_demo":
+         return Decimal("80.00")
+
+# engine.profit.x_shipping_fee__mutmut_8: historically survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -1,5 +1,5 @@
+ def shipping_fee(gross: Decimal, desi: Decimal, *, marketplace="demo_tr") -> Decimal:
+-    validate_decimal(gross, "gross")
++    validate_decimal(gross, "GROSS")
+     validate_decimal(desi, "desi")
+     if marketplace == "amazon_demo":
+         return Decimal("80.00")
+
+# engine.profit.x_shipping_fee__mutmut_10: historically survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -1,6 +1,6 @@
+ def shipping_fee(gross: Decimal, desi: Decimal, *, marketplace="demo_tr") -> Decimal:
+     validate_decimal(gross, "gross")
+-    validate_decimal(desi, "desi")
++    validate_decimal(desi, None)
+     if marketplace == "amazon_demo":
+         return Decimal("80.00")
+     if marketplace != "demo_tr":
+
+# engine.profit.x_shipping_fee__mutmut_13: historically survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -1,6 +1,6 @@
+ def shipping_fee(gross: Decimal, desi: Decimal, *, marketplace="demo_tr") -> Decimal:
+     validate_decimal(gross, "gross")
+-    validate_decimal(desi, "desi")
++    validate_decimal(desi, "XXdesiXX")
+     if marketplace == "amazon_demo":
+         return Decimal("80.00")
+     if marketplace != "demo_tr":
+
+# engine.profit.x_shipping_fee__mutmut_14: historically survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -1,6 +1,6 @@
+ def shipping_fee(gross: Decimal, desi: Decimal, *, marketplace="demo_tr") -> Decimal:
+     validate_decimal(gross, "gross")
+-    validate_decimal(desi, "desi")
++    validate_decimal(desi, "DESI")
+     if marketplace == "amazon_demo":
+         return Decimal("80.00")
+     if marketplace != "demo_tr":
+
+# engine.profit.x_calculate_order__mutmut_9: historically survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -4,5 +4,5 @@
+     if len({(line.currency, line.exchange_rate) for line in lines}) != 1:
+         raise ValueError("Bir siparişin para birimi ve kuru aynı olmalı")
+     with localcontext() as context:
+-        context.prec = 50
++        context.prec = 51
+         return _calculate(sorted(lines, key=lambda line: line.line_number), marketplace)
+
+# engine.profit.x__calculate__mutmut_14: historically survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -7,7 +7,7 @@
+         money((line.unit_price_gross * line.quantity - line.seller_discount) * line.exchange_rate)
+         for line in lines
+     ]
+-    weights = original if sum(original) else [Decimal(line.quantity) for line in lines]
++    weights = original if (sum(original)) and False else [Decimal(line.quantity) for line in lines]
+     desi = sum(max(line.desi, line.weight_kg) * line.quantity for line in lines)
+     freight = shipping_fee(sum(original), desi, marketplace=marketplace)
+     outbound = allocate(freight, weights)
+
+# engine.profit.x__calculate__mutmut_15: historically survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -7,7 +7,7 @@
+         money((line.unit_price_gross * line.quantity - line.seller_discount) * line.exchange_rate)
+         for line in lines
+     ]
+-    weights = original if sum(original) else [Decimal(line.quantity) for line in lines]
++    weights = original if (sum(original)) or True else [Decimal(line.quantity) for line in lines]
+     desi = sum(max(line.desi, line.weight_kg) * line.quantity for line in lines)
+     freight = shipping_fee(sum(original), desi, marketplace=marketplace)
+     outbound = allocate(freight, weights)
+
+# engine.profit.x__calculate__mutmut_53: historically survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -13,7 +13,7 @@
+     outbound = allocate(freight, weights)
+     service = allocate(Decimal("0") if marketplace == "amazon_demo" else Decimal("10"), weights)
+     return_weights = [
+-        gross * line.returned_quantity / line.quantity
++        gross * line.returned_quantity * line.quantity
+         for gross, line in zip(original, lines, strict=True)
+     ]
+     if not sum(return_weights):
+
+# engine.profit.x__calculate__mutmut_57: historically survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -14,7 +14,7 @@
+     service = allocate(Decimal("0") if marketplace == "amazon_demo" else Decimal("10"), weights)
+     return_weights = [
+         gross * line.returned_quantity / line.quantity
+-        for gross, line in zip(original, lines, strict=True)
++        for gross, line in zip(original, lines, strict=None)
+     ]
+     if not sum(return_weights):
+         return_weights = [Decimal(line.returned_quantity) for line in lines]
+
+# engine.profit.x__calculate__mutmut_60: historically survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -14,7 +14,7 @@
+     service = allocate(Decimal("0") if marketplace == "amazon_demo" else Decimal("10"), weights)
+     return_weights = [
+         gross * line.returned_quantity / line.quantity
+-        for gross, line in zip(original, lines, strict=True)
++        for gross, line in zip(original, lines, )
+     ]
+     if not sum(return_weights):
+         return_weights = [Decimal(line.returned_quantity) for line in lines]
+
+# engine.profit.x__calculate__mutmut_61: historically survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -14,7 +14,7 @@
+     service = allocate(Decimal("0") if marketplace == "amazon_demo" else Decimal("10"), weights)
+     return_weights = [
+         gross * line.returned_quantity / line.quantity
+-        for gross, line in zip(original, lines, strict=True)
++        for gross, line in zip(original, lines, strict=False)
+     ]
+     if not sum(return_weights):
+         return_weights = [Decimal(line.returned_quantity) for line in lines]
+
+# engine.profit.x__calculate__mutmut_102: historically survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -27,7 +27,7 @@
+         commission = money(gross * line.commission_percent / HUNDRED)
+         shipping = outbound[index] + inbound[index]
+         fee = money(service[index] * remaining / line.quantity)
+-        cost = money(line.unit_cost_net * remaining * line.exchange_rate)
++        cost = money(line.unit_cost_net * remaining / line.exchange_rate)
+         withholding = money(net / HUNDRED)
+         fee_vat = sum(money(item * Decimal("0.20")) for item in (commission, shipping, fee))
+         results.append(
+
+# engine.profit.x__calculate__mutmut_114: historically survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -32,7 +32,7 @@
+         fee_vat = sum(money(item * Decimal("0.20")) for item in (commission, shipping, fee))
+         results.append(
+             LineResult(
+-                line_number=line.line_number,
++                line_number=None,
+                 gross_sales=gross,
+                 net_sales=net,
+                 commission=commission,
