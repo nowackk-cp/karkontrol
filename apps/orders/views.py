@@ -16,8 +16,8 @@ from .services import recalculate_order, undo_import
 
 
 @login_required
-@store_owner_required
 @require_safe
+@store_owner_required
 def order_list(request, store_pk):
     store = request.karkontrol_store
     lines = OrderLine.objects.filter(store=store)
