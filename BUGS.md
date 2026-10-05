@@ -81,3 +81,5 @@ Fix commit gövdeleri issue kapanışlarını taşır. Kod/ölçüm değişiklik
 ## APP-007 — açık kur sorusuna farklı kural
 
 Orta önem. Gerçek PR #32 Qwen [tekrar ölçümünde](data/evidence/external-review/llm-v3-repeat/eval.json) E-26 “Kur kuralı nedir?” sorusuna `action=rule, topic=kdv` ve KDV açıklaması verildi. Kaynak/prompt/veri hashleri önceki başarılı ölçümle aynıydı; önceki sonuç bunun yerine kullanılmadı. Finans tutarı farkı ölçülmedi, kullanıcı yanlış kural açıklaması aldı. [#33](https://github.com/nowackk-cp/karkontrol/issues/33) kaynak değişmeden önce açıldı. Açık tek kural konusu v3 üretim şemasına bağlanır; farklı model konusu ayrıca reddedilir. Sözcük sınırı, tüm konular, çok konu, rapor niyeti ve paylaşılan şemanın değişmemesi regresyonlarla denetlenir. Sorular, beklenenler, frozen v2 ve kalite kapısı değiştirilmez.
+
+APP-007 düzeltmesinin [PR ham yanıtı](data/evidence/external-review/llm-v3-rule-fix/eval.json) ve [ana dal ham yanıtı](data/evidence/external-review/llm-v3-release/eval.json) kur konusuna gider; önceki yanlış KDV yanıtı kendi dosyasında korunur. Düzeltme [PR #32](https://github.com/nowackk-cp/karkontrol/pull/32) ile birleşti.
