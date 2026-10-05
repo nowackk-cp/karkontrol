@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" width="1200" height="300" role="img" aria-labelledby="t d">
+<title id="t">Kalite hattı</title>
+<desc id="d">Doğru siparişler lint, unit, integration, eval ve E2E kapılarından geçip main dalına ulaşır. ENG-001 kuruş dağıtımı hatası unit kapısında, APP-003 yanlış ay hatası eval kapısında yakalanır.</desc>
+<style>
+.sans{font-family:system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace}
+.lane{stroke:#1f3a48;stroke-width:2;stroke-dasharray:6 8}
+.gate{fill:#10303a;stroke:#2a6a6a;stroke-width:1.5}
+.gl{fill:#bff3e9;font-size:13px;font-weight:700}
+.tok rect{rx:17}
+.t{opacity:0;animation-duration:12s;animation-iteration-count:infinite;animation-timing-function:ease-in-out}
+.a{animation-name:a}.b{animation-name:b}.c{animation-name:c}.d{animation-name:d}
+.fu{animation:fu 12s infinite}.fe{animation:fe 12s infinite}
+.cu{opacity:0;animation:cu 12s infinite}.ce{opacity:0;animation:ce 12s infinite}
+.vault{animation:v 12s infinite}
+@keyframes a{0%{opacity:0;transform:translateX(0)}3%{opacity:1}38%{opacity:1;transform:translateX(860px)}42%,100%{opacity:0;transform:translateX(900px)}}
+@keyframes b{0%,22%{opacity:0;transform:translateX(0)}25%{opacity:1}36%{transform:translateX(205px)}38%{transform:translateX(198px)}40%,58%{opacity:1;transform:translateX(205px)}62%,100%{opacity:0;transform:translateX(205px)}}
+@keyframes c{0%,48%{opacity:0;transform:translateX(0)}51%{opacity:1}68%{transform:translateX(505px)}70%{transform:translateX(498px)}72%,90%{opacity:1;transform:translateX(505px)}94%,100%{opacity:0;transform:translateX(505px)}}
+@keyframes d{0%,62%{opacity:0;transform:translateX(0)}65%{opacity:1}96%{opacity:1;transform:translateX(860px)}99%,100%{opacity:0;transform:translateX(900px)}}
+@keyframes fu{0%,35%{fill:#10303a;stroke:#2a6a6a}37%,58%{fill:#4a1520;stroke:#ff5d73}62%,100%{fill:#10303a;stroke:#2a6a6a}}
+@keyframes fe{0%,67%{fill:#10303a;stroke:#2a6a6a}69%,90%{fill:#4a1520;stroke:#ff5d73}94%,100%{fill:#10303a;stroke:#2a6a6a}}
+@keyframes cu{0%,37%{opacity:0}40%,58%{opacity:1}62%,100%{opacity:0}}
+@keyframes ce{0%,69%{opacity:0}72%,90%{opacity:1}94%,100%{opacity:0}}
+@keyframes v{0%,36%{stroke:#2a6a6a}39%,44%{stroke:#34d399;stroke-width:3}48%,94%{stroke:#2a6a6a;stroke-width:1.5}97%,100%{stroke:#34d399;stroke-width:3}}
+@media (prefers-reduced-motion:reduce){.t,.fu,.fe,.cu,.ce,.vault{animation:none}.cu,.ce{opacity:1}}
+</style>
+<defs><linearGradient id="bg" x1="0" x2="1"><stop offset="0" stop-color="#0b1d26"/><stop offset="1" stop-color="#0f2233"/></linearGradient></defs>
+<rect width="1200" height="300" rx="20" fill="url(#bg)"/>
+<text x="40" y="44" class="sans" font-size="20" font-weight="800" fill="#e8f1f5">Bir siparişin yolculuğu</text>
+<text x="40" y="68" class="sans" font-size="14" fill="#8fb3c4">Her PR bu kapılardan geçer. Bulunan her hata bir regresyon testine dönüşür; kapı kırmızıysa kod main'e giremez.</text>
+
+<line class="lane" x1="40" x2="1040" y1="160" y2="160"/>
+
+<g class="sans">
+  <rect class="gate" x="230" y="112" width="16" height="96" rx="5"/><text class="gl" x="238" y="102" text-anchor="middle">LINT</text>
+  <rect class="gate fu" x="380" y="112" width="16" height="96" rx="5"/><text class="gl" x="388" y="102" text-anchor="middle">UNIT</text>
+  <rect class="gate" x="530" y="112" width="16" height="96" rx="5"/><text class="gl" x="538" y="102" text-anchor="middle">INTEGRATION</text>
+  <rect class="gate fe" x="680" y="112" width="16" height="96" rx="5"/><text class="gl" x="688" y="102" text-anchor="middle">LLM EVAL</text>
+  <rect class="gate" x="830" y="112" width="16" height="96" rx="5"/><text class="gl" x="838" y="102" text-anchor="middle">E2E</text>
+  <rect class="vault" x="1050" y="118" width="120" height="84" rx="14" fill="#0f3a2e" stroke="#2a6a6a" stroke-width="1.5"/>
+  <text x="1110" y="155" text-anchor="middle" font-size="18" font-weight="800" fill="#6ee7b7">main</text>
+  <text x="1110" y="178" text-anchor="middle" font-size="12" fill="#8fb3c4">korumalı dal</text>
+</g>
+
+<g class="mono" font-size="13" font-weight="700">
+  <g class="t a"><rect x="40" y="143" width="140" height="34" rx="17" fill="#0f3a2e" stroke="#34d399"/><text x="110" y="165" text-anchor="middle" fill="#a7f3d0">SNT-102 ✓</text></g>
+  <g class="t b"><rect x="40" y="143" width="140" height="34" rx="17" fill="#3a1220" stroke="#ff5d73"/><text x="110" y="165" text-anchor="middle" fill="#ffc2cc">8,33 / 0,84 ?</text></g>
+  <g class="t c"><rect x="40" y="143" width="140" height="34" rx="17" fill="#3a1220" stroke="#ff5d73"/><text x="110" y="165" text-anchor="middle" fill="#ffc2cc">Eylül → Kasım?</text></g>
+  <g class="t d"><rect x="40" y="143" width="140" height="34" rx="17" fill="#0f3a2e" stroke="#34d399"/><text x="110" y="165" text-anchor="middle" fill="#a7f3d0">SNT-109 ✓</text></g>
+</g>
+
+<g class="sans cu">
+  <text x="388" y="236" text-anchor="middle" font-size="14" font-weight="800" fill="#ff8c9b">ENG-001 geri dönerse unit durdurur</text>
+  <text x="388" y="256" text-anchor="middle" font-size="12" fill="#c9dde6">10 ₺ dağıtımı 8,34 / 0,83 / 0,83 olmalı</text>
+</g>
+<g class="sans ce">
+  <text x="688" y="236" text-anchor="middle" font-size="14" font-weight="800" fill="#ff8c9b">APP-003 geri dönerse eval durdurur</text>
+  <text x="688" y="256" text-anchor="middle" font-size="12" fill="#c9dde6">yanlış ay −60 ₺ zararı "veri yok" ile gizliyordu</text>
+</g>
+</svg>

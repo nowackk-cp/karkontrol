@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kâr Laboratuvarı · KârKontrol</title>
+<meta name="description" content="Fiyatı kaydır, kârın nereye gittiğini gör. Tüm rakamlar KârKontrol kâr motorunun gerçek çıktısıdır.">
+<style>
+:root{--bg:#081419;--panel:#0d1f27;--panel2:#11293340;--line:#1d3a47;--text:#e8f3f7;--muted:#88a6b4;
+--teal:#2dd4bf;--blue:#60a5fa;--red:#ff5d73;--amber:#fbbf24;--green:#34d399;
+--c-commission:#60a5fa;--c-shipping:#f59e0b;--c-service:#a78bfa;--c-cost:#94a3b8;--c-withholding:#f472b6;--c-profit:#34d399}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(1200px 600px at 10% -10%,#0f3b3a 0,transparent 60%),radial-gradient(900px 500px at 110% 10%,#13304d 0,transparent 55%),var(--bg);
+color:var(--text);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;min-height:100vh}
+a{color:var(--teal)}
+.wrap{max-width:1080px;margin:0 auto;padding:28px 16px 64px}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-weight:800;font-size:20px;letter-spacing:-.3px;text-decoration:none;color:var(--text)}
+.brand span{background:linear-gradient(90deg,var(--teal),var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent}
+.pill{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:13px;color:var(--muted);text-decoration:none}
+.hero{margin:44px 0 28px}
+.hero h1{font-size:clamp(32px,6vw,56px);line-height:1.05;margin:0 0 14px;letter-spacing:-1.5px}
+.hero h1 em{font-style:normal;color:var(--red)}
+.hero p{color:var(--muted);max-width:680px;margin:0;font-size:18px}
+.grid{display:grid;grid-template-columns:1.15fr .85fr;gap:18px}
+@media (max-width:860px){.grid{grid-template-columns:1fr}}
+.card{background:linear-gradient(180deg,#0f232c,#0b1b22);border:1px solid var(--line);border-radius:18px;padding:22px;position:relative;overflow:hidden}
+.card h2{font-size:15px;text-transform:uppercase;letter-spacing:1.4px;color:var(--muted);margin:0 0 14px}
+.price{font-size:clamp(40px,7vw,64px);font-weight:800;letter-spacing:-1.5px;line-height:1}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.chip{border:1px solid var(--line);background:#0b1a21;color:var(--text);border-radius:999px;padding:7px 13px;font:600 13px system-ui,sans-serif;cursor:pointer;transition:.15s}
+.chip:hover{border-color:var(--teal)}
+.chip[aria-pressed=true]{background:var(--teal);color:#052;border-color:var(--teal)}
+.chip.cliff{border-color:#5a2633;color:#ffb3bf}
+.chip.cliff[aria-pressed=true]{background:var(--red);color:#fff;border-color:var(--red)}
+input[type=range]{width:100%;accent-color:var(--teal);margin:18px 0 10px;height:28px}
+.label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;margin:14px 0 6px}
+.big{font-size:clamp(34px,6vw,52px);font-weight:800;letter-spacing:-1px;transition:color .2s}
+.pos{color:var(--green)}.neg{color:var(--red)}
+.delta{display:inline-block;margin-left:8px;font-size:14px;font-weight:700;padding:3px 9px;border-radius:999px;vertical-align:middle;opacity:0;transform:translateY(4px);transition:.25s}
+.delta.show{opacity:1;transform:none}
+.delta.down{background:#3a1220;color:#ffb3bf}.delta.up{background:#0f3a2e;color:#a7f3d0}
+.bar{display:flex;height:40px;border-radius:10px;overflow:hidden;background:#0a161c;border:1px solid var(--line)}
+.bar div{height:100%;transition:width .45s cubic-bezier(.2,.8,.2,1);position:relative}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:6px 14px;margin-top:12px;font-size:14px}
+.legend div{display:flex;justify-content:space-between;gap:8px;border-bottom:1px dashed #1a3340;padding:4px 0}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:7px;vertical-align:middle}
+svg text{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.chart{width:100%;height:auto;display:block;cursor:crosshair;touch-action:none}
+.game{margin-top:18px}
+.duel{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:stretch;margin:14px 0}
+.opt{border:1px solid var(--line);background:#0b1a21;color:var(--text);border-radius:16px;padding:18px;font:800 28px system-ui,sans-serif;cursor:pointer;transition:.15s;text-align:center}
+.opt small{display:block;font:500 13px system-ui,sans-serif;color:var(--muted);margin-top:6px;min-height:20px}
+.opt:hover:not(:disabled){border-color:var(--teal);transform:translateY(-2px)}
+.opt:disabled{cursor:default}
+.opt.win{border-color:var(--green);background:#0f3a2e}.opt.lose{border-color:var(--red);background:#2a0f17}
+.vs{align-self:center;color:var(--muted);font-weight:800}
+.score{font-weight:800;color:var(--amber)}
+.msg{min-height:26px;color:var(--muted)}
+.next{background:linear-gradient(90deg,var(--teal),var(--blue));color:#04131a;border:0;border-radius:999px;padding:10px 18px;font:800 14px system-ui,sans-serif;cursor:pointer}
+.next:disabled{opacity:.35;cursor:default}
+.proof{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:18px}
+.proof a{display:block;text-decoration:none;color:var(--text);border:1px solid var(--line);border-radius:14px;padding:14px;background:#0b1a21;transition:.15s}
+.proof a:hover{border-color:var(--teal);transform:translateY(-2px)}
+.proof b{display:block;font-size:26px;letter-spacing:-.5px}
+.proof span{font-size:13px;color:var(--muted)}
+footer{margin-top:36px;color:var(--muted);font-size:14px;border-top:1px solid var(--line);padding-top:18px}
+code{background:#0b1a21;border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:13px}
+.err{color:var(--red)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <a class="brand" href="https://github.com/nowackk-cp/karkontrol">Kâr<span>Kontrol</span> · Laboratuvar</a>
+  <a class="pill" href="https://github.com/nowackk-cp/karkontrol">★ GitHub'da kaynak kod →</a>
+</header>
+
+<section class="hero">
+  <h1>Fiyatı <b>1 kuruş</b> artır.<br>Kârın <em>29,99 ₺</em> düşsün.</h1>
+  <p>Kaydırıcıyla satış fiyatını değiştir; komisyon, kargo baremi, hizmet bedeli, stopaj ve maliyetin kârı nasıl yediğini canlı izle. Bu sayfa hiç para hesabı yapmaz: her rakam KârKontrol'ün test edilmiş kâr motorunun gerçek çıktısıdır.</p>
+</section>
+
+<div class="grid">
+  <section class="card" aria-labelledby="h-sim">
+    <h2 id="h-sim">Simülatör</h2>
+    <div class="label">Satış fiyatı (KDV dahil)</div>
+    <div class="price mono" id="price">—</div>
+    <input type="range" id="slider" min="0" max="1" value="0" aria-label="Satış fiyatı">
+    <div class="row" id="jumps" aria-label="Hızlı geçiş"></div>
+    <div class="label">Komisyon</div>
+    <div class="row" id="commissions"></div>
+    <div class="label">Ürün maliyeti (KDV hariç)</div>
+    <div class="row" id="costs"></div>
+  </section>
+
+  <section class="card" aria-labelledby="h-res" aria-live="polite">
+    <h2 id="h-res">Sonuç</h2>
+    <div class="label" style="margin-top:0">Net kâr</div>
+    <div><span class="big mono" id="profit">—</span><span class="delta mono" id="delta"></span></div>
+    <div class="label">Hakediş (hesabına yatan)</div>
+    <div class="mono" style="font-size:22px;font-weight:700" id="payout">—</div>
+    <div class="label">Net satış nereye gidiyor?</div>
+    <div class="bar" id="bar" role="img" aria-label="Net satışın dağılımı"></div>
+    <div class="legend mono" id="legend"></div>
+  </section>
+</div>
+
+<section class="card" style="margin-top:18px" aria-labelledby="h-chart">
+  <h2 id="h-chart">Kâr eğrisi — tıkla veya sürükle</h2>
+  <svg class="chart" id="chart" viewBox="0 0 1000 320" aria-label="Fiyata göre net kâr eğrisi"></svg>
+</section>
+
+<section class="card game" aria-labelledby="h-game">
+  <h2 id="h-game">Kuruş Avcısı · hangisi daha kârlı?</h2>
+  <p style="margin:0;color:var(--muted)">Aynı ürün, aynı komisyon, aynı maliyet. Sadece fiyat farklı. Sezgine güvenme. <span class="score" id="score">0 / 0</span></p>
+  <div class="duel">
+    <button class="opt mono" id="optA"></button>
+    <div class="vs">VS</div>
+    <button class="opt mono" id="optB"></button>
+  </div>
+  <div class="row" style="justify-content:space-between">
+    <div class="msg" id="msg"></div>
+    <button class="next" id="next" disabled>Sonraki tur →</button>
+  </div>
+</section>
+
+<section aria-labelledby="h-proof">
+  <h2 id="h-proof" style="font-size:15px;text-transform:uppercase;letter-spacing:1.4px;color:var(--muted);margin:30px 0 0">Bu rakamlara neden güvenebilirsin?</h2>
+  <div class="proof">
+    <a href="https://github.com/nowackk-cp/karkontrol/tree/main/tests"><b>669</b><span>otomatik test her PR'da</span></a>
+    <a href="https://github.com/nowackk-cp/karkontrol/blob/main/docs/OLCUMLER.md"><b>%100</b><span>kâr motoru dal kapsamı</span></a>
+    <a href="https://github.com/nowackk-cp/karkontrol/blob/main/docs/OLCUMLER.md"><b>507/513</b><span>mutant öldürüldü</span></a>
+    <a href="https://github.com/nowackk-cp/karkontrol/blob/main/BUGS.md"><b>15+</b><span>yakalanan gerçek hata</span></a>
+    <a href="../"><b>HTML</b><span>son CI test raporları</span></a>
+  </div>
+</section>
+
+<footer>
+  Veri: <code>scripts/build_profit_lab.py</code> → <code>engine/profit.py</code> (<span id="ver">demo-v1</span>). <code>tests/unit/test_profit_lab.py</code> bu dosyanın motorla birebir aynı kaldığını her CI koşusunda denetler.
+  Barem ve oranlar sentetiktir; hiçbir pazaryeriyle ilişkisi yoktur. Adet 1 · KDV %20 · desi 1.
+</footer>
+</div>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const PARTS = [
+    ["commission", "Komisyon"], ["shipping", "Kargo"], ["service", "Hizmet"],
+    ["cost", "Maliyet"], ["withholding", "Stopaj"], ["profit", "Kâr"],
+  ];
+  // Yalnız biçimlendirme: kuruş tamsayısını metne çevirir, hesap yapmaz.
+  const tl = (c) => {
+    const s = c < 0 ? "−" : "", a = Math.abs(c);
+    return s + Math.floor(a / 100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "," + String(a % 100).padStart(2, "0") + " ₺";
+  };
+  const state = { i: 0, commission: "20", cost: "120.00", prevProfit: null };
+  let D;
+
+  fetch("data.json").then((r) => r.json()).then((data) => { D = data; init(); })
+    .catch(() => { $("price").innerHTML = '<span class="err">Veri yüklenemedi</span>'; });
+
+  const sc = () => D.scenarios[state.commission + "|" + state.cost];
+  const idx = (cents) => D.prices.indexOf(cents);
+
+  function chips(el, values, key, fmt) {
+    el.innerHTML = "";
+    values.forEach((v) => {
+      const b = document.createElement("button");
+      b.className = "chip"; b.textContent = fmt(v);
+      b.setAttribute("aria-pressed", String(state[key] === v));
+      b.onclick = () => { state[key] = v; state.prevProfit = null; chips(el, values, key, fmt); render(); newRound(); };
+      el.appendChild(b);
+    });
+  }
+
+  function init() {
+    $("ver").textContent = D.engine;
+    const s = $("slider"); s.max = D.prices.length - 1; state.i = idx(30000); s.value = state.i;
+    s.oninput = () => { state.i = +s.value; render(); };
+    const commissions = [...new Set(Object.keys(D.scenarios).map((k) => k.split("|")[0]))];
+    const costs = [...new Set(Object.keys(D.scenarios).map((k) => k.split("|")[1]))];
+    chips($("commissions"), commissions, "commission", (v) => "%" + v);
+    chips($("costs"), costs, "cost", (v) => tl(Math.round(parseFloat(v) * 100)));
+    const jumps = [29900, 30000, 30001, 60000, 60001];
+    jumps.forEach((c) => {
+      const b = document.createElement("button");
+      b.className = "chip" + (c % 100 ? " cliff" : ""); b.textContent = tl(c);
+      b.onclick = () => { state.i = idx(c); s.value = state.i; render(); };
+      $("jumps").appendChild(b);
+    });
+    const chart = $("chart");
+    const pick = (e) => {
+      const r = chart.getBoundingClientRect();
+      const x = ((e.touches ? e.touches[0].clientX : e.clientX) - r.left) / r.width * 1000;
+      const price = D.prices[0] + (x - 60) / 910 * (D.prices.at(-1) - D.prices[0]);
+      let best = 0;
+      D.prices.forEach((p, k) => { if (Math.abs(p - price) < Math.abs(D.prices[best] - price)) best = k; });
+      state.i = best; s.value = best; render();
+    };
+    let drag = false;
+    chart.addEventListener("pointerdown", (e) => { drag = true; pick(e); });
+    window.addEventListener("pointerup", () => { drag = false; });
+    chart.addEventListener("pointermove", (e) => { if (drag) pick(e); });
+    render(); newRound();
+  }
+
+  function render() {
+    const S = sc(), i = state.i, profit = S.profit[i];
+    $("price").textContent = tl(D.prices[i]);
+    const p = $("profit"); p.textContent = tl(profit); p.className = "big mono " + (profit < 0 ? "neg" : "pos");
+    $("payout").textContent = tl(S.payout[i]);
+    const d = $("delta");
+    if (state.prevProfit !== null && state.prevProfit !== profit) {
+      const diff = profit - state.prevProfit; // iki motor çıktısının tamsayı kuruş farkı
+      d.textContent = (diff > 0 ? "▲ +" : "▼ ") + tl(diff).replace("−", "−");
+      d.className = "delta mono show " + (diff > 0 ? "up" : "down");
+    } else if (state.prevProfit === null) { d.className = "delta mono"; }
+    state.prevProfit = profit;
+    const net = S.net_sales[i];
+    const total = PARTS.reduce((a, [k]) => a + Math.max(0, S[k][i]), 0) || 1;
+    $("bar").innerHTML = PARTS.map(([k, n]) => {
+      const v = Math.max(0, S[k][i]);
+      return `<div title="${n}: ${tl(S[k][i])}" style="width:${(v / total * 100).toFixed(2)}%;background:var(--c-${k})"></div>`;
+    }).join("");
+    $("legend").innerHTML = `<div><span>Net satış</span><b>${tl(net)}</b></div>` + PARTS.map(([k, n]) =>
+      `<div><span><i style="background:var(--c-${k})"></i>${n}</span><b class="${k === "profit" && S[k][i] < 0 ? "neg" : ""}">${tl(S[k][i])}</b></div>`).join("");
+    drawChart();
+  }
+
+  function drawChart() {
+    const S = sc(), P = D.prices, Y = S.profit, W = 1000, H = 320, L = 60, R = 30, T = 20, B = 40;
+    const lo = Math.min(0, ...Y), hi = Math.max(...Y), span = hi - lo || 1;
+    const x = (p) => L + (p - P[0]) / (P.at(-1) - P[0]) * (W - L - R);
+    const y = (v) => T + (hi - v) / span * (H - T - B);
+    let g = `<defs><linearGradient id="lg" x1="0" x2="1"><stop offset="0" stop-color="#2dd4bf"/><stop offset="1" stop-color="#60a5fa"/></linearGradient></defs>`;
+    g += `<rect x="${L}" y="${y(0)}" width="${W - L - R}" height="${Math.max(0, H - B - y(0))}" fill="#ff5d73" opacity=".07"/>`;
+    const step = span > 40000 ? 10000 : 5000;
+    for (let v = Math.ceil(lo / step) * step; v <= hi; v += step) {
+      g += `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="${v === 0 ? "#3b5868" : "#16303b"}"/>`;
+      g += `<text x="${L - 8}" y="${y(v) + 4}" fill="#6f8c9a" font-size="12" text-anchor="end">${v / 100}</text>`;
+    }
+    for (let p = 10000; p <= 80000; p += 10000)
+      g += `<text x="${x(p)}" y="${H - 14}" fill="#6f8c9a" font-size="12" text-anchor="middle">${p / 100} ₺</text>`;
+    g += `<polyline fill="none" stroke="url(#lg)" stroke-width="3" stroke-linejoin="round" points="${P.map((p, k) => x(p).toFixed(1) + "," + y(Y[k]).toFixed(1)).join(" ")}"/>`;
+    for (let k = 1; k < P.length; k++) if (P[k] - P[k - 1] === 1 && Y[k] < Y[k - 1])
+      g += `<circle cx="${x(P[k])}" cy="${y(Y[k])}" r="5" fill="#ff5d73"><title>${tl(P[k - 1])} → ${tl(P[k])}: ${tl(Y[k] - Y[k - 1])}</title></circle>`;
+    const cx = x(P[state.i]), cy = y(Y[state.i]);
+    g += `<line x1="${cx}" x2="${cx}" y1="${T}" y2="${H - B}" stroke="#fbbf24" stroke-dasharray="4 4" opacity=".6"/>`;
+    g += `<circle cx="${cx}" cy="${cy}" r="8" fill="#fbbf24" stroke="#081419" stroke-width="3"/>`;
+    const right = cx > W - 220;
+    g += `<text x="${cx + (right ? -14 : 14)}" y="${Math.max(T + 14, cy - 12)}" fill="#fde68a" font-size="14" font-weight="700" text-anchor="${right ? "end" : "start"}">${tl(Y[state.i])}</text>`;
+    $("chart").innerHTML = g;
+  }
+
+  // Kuruş Avcısı: çiftler motor ızgarasından seçilir; doğru cevap motor çıktılarının karşılaştırmasıdır.
+  const PAIRS = [[30000, 30001], [29900, 30001], [60000, 60001], [59000, 60001], [30001, 32500], [28000, 31000], [60001, 61000], [25000, 30001]];
+  let round = 0, right = 0, done = 0, order = [];
+  function newRound() {
+    if (!D) return;
+    if (!order.length) order = PAIRS.map((p) => p).sort(() => Math.random() - .5);
+    const [a, b] = order[round % order.length];
+    const flip = Math.random() < .5, A = flip ? b : a, B = flip ? a : b;
+    const S = sc(), pa = S.profit[idx(A)], pb = S.profit[idx(B)];
+    [["optA", A, pa, pb], ["optB", B, pb, pa]].forEach(([id, price, mine, other]) => {
+      const el = $(id); el.disabled = false; el.className = "opt mono";
+      el.innerHTML = tl(price) + "<small>&nbsp;</small>";
+      el.onclick = () => {
+        done++; const ok = mine >= other; if (ok) right++;
+        $("optA").disabled = $("optB").disabled = true;
+        $("optA").querySelector("small").textContent = "kâr " + tl(id === "optA" ? mine : other);
+        $("optB").querySelector("small").textContent = "kâr " + tl(id === "optB" ? mine : other);
+        (mine >= other ? el : (id === "optA" ? $("optB") : $("optA"))).classList.add("win");
+        if (!ok) el.classList.add("lose");
+        const cheaperWins = (price < (id === "optA" ? B : A)) === ok;
+        $("msg").textContent = ok
+          ? (cheaperWins ? "Doğru! Ucuz olan daha kârlı — barem tuzağını gördün." : "Doğru! Bu sefer pahalı olan kazandı.")
+          : "Tuzak! Fark: " + tl(Math.abs(mine - other)) + ". Kargo baremi kârı yedi.";
+        $("score").textContent = right + " / " + done;
+        $("next").disabled = false;
+      };
+    });
+    $("msg").textContent = "Bir fiyat seç."; $("next").disabled = true;
+  }
+  $("next").onclick = () => { round++; newRound(); };
+})();
+</script>
+</body>
+</html>
