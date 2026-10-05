@@ -66,4 +66,8 @@ Bağımsız ajan incelemesinde bulundu. Başarısız model çağrısı `selectio
 
 Yeni gerçek Qwen geliştirme koşusunda bulundu. E-35 genel tavsiye sorusu yanlış netleştirildi; E-43 tarihsiz kâr özeti netleştirmeye, E-50 kargo fiyatı isteği kural açıklamasına yönlendirildi. Ayrı finans TL farkı ölçülmedi. [İlk ham yanıt](data/evidence/external-review/llm-v3-first/eval.json) saklandı; [#26](https://github.com/nowackk-cp/karkontrol/issues/26) düzeltmeden önce açıldı. v3 tarih yokluğu, kural/fiyat ve genel soru tanımları ayrıldı. Geliştirme vakaları ve eşikler değiştirilmedi; v2 prompt ve ilk sentetik set korunur.
 
+## APP-006 — desteklenen KDV kuralının reddi
+
+Gerçek Qwen v3 yönerge ayarı sonrasında E-24 “KDV nasıl hesaplanır?” sorusu unsupported'a döndü. [Üçüncü ham koşu](data/evidence/external-review/llm-v3-third/eval.json) ve [#28](https://github.com/nowackk-cp/karkontrol/issues/28) kaynak düzeltmesinden önce kaydedildi. Finans kuralının hesaplama yöntemini açıklamak ile serbest para hesabı yapmak yönergede ayrıldı. Beklenen vaka, v2 ve kapı eşiği değiştirilmedi; ayrı TL farkı ölçülmedi.
+
 Bu PR'nin fix commit gövdeleri issue kapanışlarını taşır. Kod/ölçüm değişiklikleri kendi kaynak SHA'sıyla review edilir; main geçmişi, ilk başarısız raporlar ve sürüm etiketleri değiştirilmez.
