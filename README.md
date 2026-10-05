@@ -1,90 +1,265 @@
-# AI ajanının yazdığı kâr/hakediş uygulamasını denetleyen test sistemi
+<p align="center">
+  <img src="docs/assets/showcase/hero.svg" alt="KârKontrol: Kodu AI yazdı. Doğruluğunu testler kanıtlıyor. 669 test, 13 tarayıcı testi, 507/513 mutant öldürüldü." width="100%">
+</p>
 
-Codex'e pazaryeri siparişleri için KârKontrol uygulamasını yazdırdım. Kuruş hesaplarını, dosya aktarımını, mağaza sahipliğini ve asistan yönlendirmesini testlerle denetlettim. LLM koşusunda yanlış dönem/niyet, dış incelemede ise kuruş dağıtımı ve Excel oranı hataları bulundu; bunları regresyonlarıyla düzelttirdim.
+<p align="center">
+  <a href="https://nowackk-cp.github.io/karkontrol/lab/"><img src="https://img.shields.io/badge/%E2%96%B6_K%C3%82R_LABORATUVARINI_OYNA-2dd4bf?style=for-the-badge&labelColor=0b1d26" alt="Kâr Laboratuvarını oyna"></a>
+  <a href="https://nowackk-cp.github.io/karkontrol/"><img src="https://img.shields.io/badge/CANLI_TEST_RAPORLARI-60a5fa?style=for-the-badge&labelColor=0b1d26" alt="Canlı test raporları"></a>
+  <a href="BUGS.md"><img src="https://img.shields.io/badge/YAKALANAN_HATALAR-ff5d73?style=for-the-badge&labelColor=0b1d26" alt="Yakalanan hatalar"></a>
+</p>
 
-[![CI](https://github.com/nowackk-cp/karkontrol/actions/workflows/ci.yml/badge.svg)](https://github.com/nowackk-cp/karkontrol/actions/workflows/ci.yml)
-[![Model eval](https://github.com/nowackk-cp/karkontrol/actions/workflows/llm.yml/badge.svg)](https://github.com/nowackk-cp/karkontrol/actions/workflows/llm.yml)
+<p align="center">
+  <a href="https://github.com/nowackk-cp/karkontrol/actions/workflows/ci.yml"><img src="https://github.com/nowackk-cp/karkontrol/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/nowackk-cp/karkontrol/actions/workflows/llm.yml"><img src="https://github.com/nowackk-cp/karkontrol/actions/workflows/llm.yml/badge.svg" alt="Model eval"></a>
+  <img src="https://img.shields.io/badge/Python-3.13-3776AB?logo=python&logoColor=white" alt="Python 3.13">
+  <img src="https://img.shields.io/badge/Django-5.2-092E20?logo=django&logoColor=white" alt="Django 5.2">
+  <img src="https://img.shields.io/badge/Playwright-E2E-2EAD33?logo=playwright&logoColor=white" alt="Playwright">
+</p>
 
-Uygulama CSV/XLSX sipariş aktarır, aktarımı geri alır, iadeleri günceller, filtreli kâr/hakediş raporu ve Excel uyumlu CSV üretir. TRY ve sabit kurla Amazon USD/EUR demo hesapları, örnek abonelik ödemesi ve rapor araçlarına bağlı asistan vardır.
+---
 
-## Ne kanıtlıyor
+## 🎬 30 saniyelik tur
 
-- Belgelenen demo sözleşmesinin kuruş, iade, eşik ve rapor davranışları otomatik kontrollerden geçiyor.
-- Sahiplik, CSRF, dosya atomikliği ve tarayıcıda para gösterimi ayrı katmanlarda denetleniyor.
-- İlk hatalar, düzeltmeler ve ham model cevapları korunuyor; ölçümler kaynak commit'e bağlı.
+<p align="center">
+  <img src="docs/assets/showcase/demo.gif" alt="Demo: giriş, mağaza kurma, sipariş dosyası yükleme, kâr raporu ve asistana soru sorma" width="880">
+</p>
 
-## Henüz ne kanıtlamıyor
+Giriş → mağaza kur → sipariş dosyası yükle → kâr raporu → asistana sor. Tüm veri sentetik.
 
-- Bağımsız insan finans kabulü: insan beklenenleri 0/40. En az 10, hedef 40 insan hesabı, kural kararları ve ilk karşılaştırma gerekiyor. Tarifeler sentetik; üretim dağıtımı ve gerçek pazaryeri uyumu yapılmadı.
-- Görülmemiş insan sorularına genelleme: aynı geliştirme setindeki prompt ayarı ve AI'nın ürettiği sentetik ilk set bunu ölçmez. Yeni kör insan seti gerekiyor.
-- Kalibre edilmiş hakem veya kişisel alan yeterliği: yeni 30 benzersiz adayın insan etiketleri boş. Ayrı model puanı, kör insan incelemesi, alan anlatımı ve başvuru son redaksiyonu gerekiyor.
+---
 
-## Yakalanan hatalar
+## 🎯 Önce sen tahmin et
 
-| Hata | Yakalayan | Satıcı etkisi |
-|---|---|---|
-| APP-001 — yabancı mağazaya POST 405 | Entegrasyon testi | Beklenen 404 sözleşmesi bozuldu; finans farkı yok |
-| APP-002 — çok uzun adet 500 | Girdi testi | Aktarım açıklayıcı hata veremedi; kayıt oluşmadı |
-| APP-003 — Eylül yerine Kasım | İlk LLM koşusu | −60,00 TL zarar “veri yok” cevabında gizlendi |
-| APP-004 — ürün/iade için yanlış araç | İlk LLM koşusu | Yanlış rapor/kural cevabı; ayrı TL farkı ölçülmedi |
-| ENG-001 — eşit kalan sırası | Dış inceleme ve regresyon | 10 TL dağıtımında 8,33/0,84/0,83 yerine 8,34/0,83/0,83 gerekir |
-| ENG-002 — yüksek hassasiyette kur | Bağımsız mutasyon incelemesi | Kabul edilen çok hassas kurda brüt/hakediş 0,01 TRY sapıyordu; tam ara hesapla düzeltildi |
-| IMP-001 — yüzde biçimli Excel oranı | Dış inceleme ve regresyon | Yanlış oranla kayıt oluşabiliyordu; artık atomik reddedilir |
-| IMP-002/003 — geri alma/kısa CSV | Dış inceleme ve regresyon | Hatalı yeni satırlar kaldı veya kısa satır kabul edildi |
-| APP-007 — kur sorusuna KDV kuralı | Gerçek Qwen tekrar koşusu | Yanlış kural açıklaması; TL farkı ölçülmedi |
-| JDG-002 — kesilen hakem denemeleri | Ayrı Linux hakem koşusu | Finans farkı yok; denemeler dosyaya kaydedilemiyordu. Artık her deneme hemen korunur |
-| REP/CFG/AI/JDG | Dış inceleme ve çapraz test | Arama, eksik rapor, sınır, dönem ve ölçüm sözleşmesi düzeltildi |
+> Aynı termos. Aynı komisyon, aynı maliyet.
+> **A:** 300,00 ₺'ye satılıyor. **B:** 300,01 ₺'ye satılıyor.
+> Hangisi daha kârlı, ve fark ne kadar?
 
-Ayrıntılar ve issue bağlantıları [BUGS.md](BUGS.md) içinde. Testten önce issue açılma sırası ve sonradan belgelenen eski hatalar açıkça ayrılır.
+<details>
+<summary><b>👉 Cevabı görmek için tıkla</b></summary>
+<br>
 
-## Ölçümler
+**A, açık ara.** B'nin kârı **29,99 ₺ daha düşük**: 1 kuruşluk fiyat artışı siparişi bir üst kargo baremine taşır.
 
-Bu tablo güncel sayısal ölçümlerin tek özetidir. Tarihî kanıtlar değiştirilmez.
+<p align="center">
+  <img src="docs/assets/showcase/profit-cliff.svg" alt="Kâr uçurumu grafiği: 300 ve 600 TL eşiklerinde kâr aniden düşer" width="100%">
+</p>
 
-| Ölçüm | Sonuç / kaynak |
+Bu grafik elle çizilmedi: [`scripts/build_profit_lab.py`](scripts/build_profit_lab.py) onu gerçek kâr motorundan üretir
+ve [bir test](tests/unit/test_profit_lab.py) her CI koşusunda grafiğin motorla birebir aynı kaldığını doğrular.
+
+**Kendin dene →** [Kâr Laboratuvarı](https://nowackk-cp.github.io/karkontrol/lab/): fiyatı kaydır, komisyonu ve maliyeti değiştir,
+"Kuruş Avcısı" oyununda sezgini test et.
+
+</details>
+
+Satıcı fiyatını bu rakamlara bakarak belirliyorsa, sınır değerdeki tek bir hata **yanlış karar** demektir.
+Bu proje tam olarak o soruya cevap arıyor:
+
+> ### Kodun büyük kısmını AI yazıyorsa, *doğru olduğunu nereden bileceğiz?*
+
+---
+
+## 🛡️ Bir siparişin yolculuğu
+
+<p align="center">
+  <img src="docs/assets/showcase/pipeline.svg" alt="Kalite hattı animasyonu: doğru siparişler lint, unit, integration, LLM eval ve E2E kapılarından geçip main'e ulaşır; hatalı olanlar kapıda durur" width="100%">
+</p>
+
+Her pull request aynı kapılardan geçer ve biri kırmızıysa `main`'e birleşemez — yönetici dahil.
+Bu iddia kanıtlandı: sahiplik kontrolünü **kasıtlı bozan** [PR #29](https://github.com/nowackk-cp/karkontrol/pull/29)
+[kırmızıya düştü](https://github.com/nowackk-cp/karkontrol/actions/runs/37251575603),
+GitHub [birleşmeyi engelledi](data/evidence/external-review/app001-demo/open-state.json) ve PR
+[birleştirilmeden kapatıldı](data/evidence/external-review/app001-demo/closed-state.json).
+
+<table>
+<tr>
+<td align="center" width="20%"><h2>669</h2><sub>otomatik test<br>unit · integration · eval</sub></td>
+<td align="center" width="20%"><h2>13</h2><sub>Playwright E2E<br>masaüstü + mobil</sub></td>
+<td align="center" width="20%"><h2>%100</h2><sub>kâr motoru<br>dal kapsamı</sub></td>
+<td align="center" width="20%"><h2>507/513</h2><sub>mutant öldürüldü<br>%98,83</sub></td>
+<td align="center" width="20%"><h2>52/52</h2><sub>LLM asistan eval<br>ilk koşu 49/52</sub></td>
+</tr>
+</table>
+
+---
+
+## 🐞 Hata avı: AI yazdı, testler yakaladı
+
+Kod "çalışıyor" görünüyordu. Her kartı aç:
+
+<details>
+<summary>🔴 <b>APP-003 · Asistan zararı "veri yok" diye sakladı</b></summary>
+
+| | |
 |---|---|
-| Çekirdek testler | Son yerel ve main Linux kaynağında 666 geçti: 259 unit, 153 integration, 254 eval; hakem için 33 ve kural konusu için 91 yeni regresyon |
-| Chromium E2E | 13 geçti; gerçek tarayıcı, yeni üç para kartı ve farklı satırlar |
-| Dev-only, Playwright yok | Son kaynakta 666 geçti / 1 opsiyonel paket atlandı |
-| Mobil Chromium | 390×844 dokunmatik görünümde 13 geçti |
-| Güncel motor dal kapsamı | Yerel ve main Linux CI'da 50/50 = %100; dışlanan satır yok |
-| Tarihî dışlamalı mutasyon | 342/369 = %92,68; 27 kalan mutant: 14 mesaj, 9 davranış farkı, 3 strict eşdeğeri, 1 precision adayı |
-| İlk dışlamasız mutasyon | 423/436 = %97,02; 13 kalan / 0 diğer. [Koşu](https://github.com/nowackk-cp/karkontrol/actions/runs/37249153652), c1481f4 kaynak sürümü; incelemesi ENG-002'yi buldu |
-| Son dışlamasız mutasyon | 507/513 = %98,83; 6 kalan / 0 diğer. [Koşu](https://github.com/nowackk-cp/karkontrol/actions/runs/37250701744), [altı mutantın bağımsız incelemesi](data/evidence/external-review/mutation-final/final-six-survivors.md): desteklenen API'de 6 eşdeğer, 0 test açığı. Eşdeğerler paydadan çıkarılmadı |
-| İlk v2 geliştirme ölçümü | 34/40, 5 kritik hata → aynı sette prompt ayarı sonrası 40/40; genelleme kanıtı değildir |
-| Modele atfedilebilir yönlendirici doğruluğu | İlk 30/36 → düzeltilmiş 36/36; 4 model öncesi güvenlik reddi ayrı. İnceleme notundaki 34/36 ham JSON ile uyuşmuyor |
-| Anahtar kelime tabanı | Tarihî 40/40; yeni dönem geliştirme setinde yerel 52/52 |
-| İlk v3 Qwen geliştirme ölçümü | 49/52; modele atfedilebilir 41/44, 2 kritik hata. [İlk ham yanıt](data/evidence/external-review/llm-v3-first/eval.json) |
-| İkinci / üçüncü v3 Qwen ölçümü | İkisi de 51/52, modele atfedilebilir 43/44, kritik hata 0. [İkinci](data/evidence/external-review/llm-v3-second/eval.json) E-35; [üçüncü](data/evidence/external-review/llm-v3-third/eval.json) E-24 hatasını korur |
-| Önceki v3 Qwen ana dal ölçümü | 52/52; modele atfedilebilir 44/44, kritik hata 0. [Ana dal ham yanıtı](data/evidence/external-review/llm-v3-final/eval.json), [koşu](https://github.com/nowackk-cp/karkontrol/actions/runs/37251483476). Ortak 40 eski vakada gerileme yok; 12 yeni vaka. Aynı geliştirme seti üzerinde ayarlandı |
-| Kur düzeltmesinden önceki v3 tekrar ölçümü | 51/52; modele atfedilebilir 43/44, kritik hata 0. [Ham tekrar](data/evidence/external-review/llm-v3-repeat/eval.json), [koşu](https://github.com/nowackk-cp/karkontrol/actions/runs/37254150079). Kaynak/prompt/veri hashleri önceki ölçümle aynı; E-26 kur sorusu KDV kuralına gitti. Önceki başarı bu sonuç yerine kullanılmadı |
-| Son v3 Qwen ana dal ölçümü | 52/52; modele atfedilebilir 44/44, kritik hata 0. [Ham ana dal sonucu](data/evidence/external-review/llm-v3-release/eval.json), [koşu](https://github.com/nowackk-cp/karkontrol/actions/runs/37270587083); açık kur konusu şemada doğrulanır. [Düzeltme PR ölçümü](data/evidence/external-review/llm-v3-rule-fix/eval.json) ayrı korunur. Aynı sentetik geliştirme seti; insan kör kabulü bekliyor |
-| Ayrı hakem yanıtlarının kullanılabilirliği | 30/30 şemaya uygun yanıt; [ham sonuç](data/evidence/external-review/judge-final/judge-scores.json), [koşu](https://github.com/nowackk-cp/karkontrol/actions/runs/37253777571). Qwen3-0.6B ayrı ağırlık, aynı aile; insan etiketleri boş. Bu hakem doğruluğu veya insan uyumu değildir |
+| **Ne oldu?** | Satıcı "Eylül net kârım ne?" diye sordu; model Eylül yerine **Kasım**'ı sorguladı |
+| **Satıcıya etkisi** | Gerçek sonuç **−60,00 ₺ zarar** iken cevap "veri yok" oldu |
+| **Kim yakaladı?** | İlk gerçek LLM eval koşusu ([ham yanıt](data/evidence/llm-first.json)) |
+| **Şimdi** | Tarih, kullanıcı sorusundan şemaya bağlanır; geçerli ama yanlış ay reddedilir. İki regresyon testi korur |
 
-[Güncel main CI koşuları](https://github.com/nowackk-cp/karkontrol/actions/workflows/ci.yml?query=branch%3Amain) · [HTML raporları](https://nowackk-cp.github.io/karkontrol/) · [İlk başarısız LLM koşusu](https://github.com/nowackk-cp/karkontrol/actions/runs/37173824046) · [Kalıcı sürüm kanıtları](https://github.com/nowackk-cp/karkontrol/releases/tag/v1.2.0).
+</details>
 
-## Bulgular ve kalite kapısı
+<details>
+<summary>🔴 <b>IMP-001 · Excel'deki "%20" sessizce 0,20 okundu</b></summary>
 
-Sentetik baremde fiyatı 300,00 TL'den 300,01 TL'ye artırmak kârı **29,99 TL düşürebilir**: kargo bandı 30 TL artar. Bu test fiyat artışıyla kârın her zaman yükseldiği varsayımını engeller.
+| | |
+|---|---|
+| **Ne oldu?** | Yüzde biçimli Excel hücresi oran olarak kabul ediliyordu |
+| **Satıcıya etkisi** | Yanlış komisyon/KDV oranıyla kayıt oluşabiliyordu |
+| **Kim yakaladı?** | Dış inceleme, ardından regresyon testi |
+| **Şimdi** | Yüzde biçimi açıklayıcı hatayla, **sıfır kayıtla** reddedilir |
 
-Main'de quality ve model-eval kontrolleri zorunlu; yönetici de kurala tabidir. [PR #29](https://github.com/nowackk-cp/karkontrol/pull/29) APP-001 sahiplik kontrolünün sırasını kasıtlı değiştirdi: [quality başarısız oldu](https://github.com/nowackk-cp/karkontrol/actions/runs/37251575603), [GitHub API açık PR'ı BLOCKED bildirdi](data/evidence/external-review/app001-demo/open-state.json) ve [birleştirilmeden kapatıldı](data/evidence/external-review/app001-demo/closed-state.json). Yalnız orders değiştiği için [model indirmesi atlandı, zorunlu model-eval başarılı sonuç bildirdi](https://github.com/nowackk-cp/karkontrol/actions/runs/37251575576). [Eski PR #4](https://github.com/nowackk-cp/karkontrol/pull/4) ve [gerçek eski kontrol ekranı](docs/assets/pr4-checks.jpg) korunur. İnsan PR onayı yok.
+</details>
 
-![PR #29 gerçek GitHub quality başarısızlığı](docs/assets/app001-checks.jpg)
+<details>
+<summary>🟠 <b>ENG-001 · Kuruşun "kime gideceği" yanlış seçildi</b></summary>
 
-Ekran görüntüsü GitHub'ın başarısız quality kontrolünü gösterir. Oturumsuz sayfada “Merging is blocked” kutusu görünmez; engellenme kaydı yukarıdaki ham API JSON'udur.
+| | |
+|---|---|
+| **Ne oldu?** | 10 ₺ hizmet bedeli 100:10:10 oranında dağıtılırken eşit kalanlarda sıra yanlıştı |
+| **Satıcıya etkisi** | 8,34 / 0,83 / 0,83 yerine 8,33 / 0,84 / 0,83 — kuruş yanlış satıra yazılıyordu |
+| **Kim yakaladı?** | Dış inceleme, ardından regresyon testi |
+| **Şimdi** | Tam rasyonel `Fraction`/`divmod` hesabı; kural sözleşmesinin §6 maddesi |
 
-## Üç komutla çalıştırma
+</details>
+
+<details>
+<summary>🟠 <b>ENG-002 · Çok hassas döviz kurunda 1 kuruş sapma</b></summary>
+
+| | |
+|---|---|
+| **Ne oldu?** | 51 basamaklı USD kurunda ara hesap erken yuvarlanıyordu |
+| **Satıcıya etkisi** | Brüt ve hakediş **0,01 ₺** sapıyordu |
+| **Kim yakaladı?** | **Mutasyon testi** incelemesi ([13 mutantın analizi](data/evidence/external-review/mutation-first/current-survivors-review.md)) |
+| **Şimdi** | Kur, oran, iade ve desi ara hesapları tamsayı kuruş ve `Fraction` ile |
+
+</details>
+
+<details>
+<summary>🟡 <b>Ve dahası</b> · yabancı mağaza erişimi, 500 hatası, kısa CSV, geri alınamayan aktarım, Türkçe İ/I araması…</summary>
+
+Her biri için ilk başarısız kanıt, düzeltme commit'i, regresyon testi ve GitHub issue'su: **[BUGS.md](BUGS.md)**.
+
+</details>
+
+**Kural:** testi geçirmek için beklenen sonuç asla gevşetilmez; kaynak kod düzeltilir. Başarısız ölçümler silinmez.
+
+---
+
+## 🤖 AI asistanın karnesi
+
+Satıcı doğal dilde sorar. Model yalnızca **hangi aracın** çağrılacağını seçer;
+rakamı parametreli SQL ve sunucu kodu üretir. Model tutar uyduramaz.
+
+<p align="center">
+  <img src="docs/assets/demo-asistan.png" alt="Mağaza asistanı: '2026 Eylül net kârım ne?' sorusuna net kâr, hakediş ve net satış yanıtı" width="760">
+</p>
+
+```text
+İlk gerçek koşu    ██████████████████░░  49/52   2 kritik hata: yanlış dönem, yanlış araç
+Düzeltme sonrası   ████████████████████  52/52   kritik hata 0
+Tekrar koşusu      ███████████████████░  51/52   kur sorusu → KDV kuralı (APP-007) — gizlenmedi, düzeltildi
+Son ana dal        ████████████████████  52/52   kritik hata 0
+```
+
+Ham model yanıtları kaynak commit'e bağlı olarak [`data/evidence`](data/evidence/) altında saklanır · Tüm geçmiş: [OLCUMLER.md](docs/OLCUMLER.md)
+
+---
+
+## 🙅 Projede reddedilen kestirmeler
+
+AI ile hızlı ilerlemenin bedeli, kolay yolu seçmek olmamalı:
+
+| Cazip kestirme | Ne yapıldı |
+|---|---|
+| Motorun çıktısını "beklenen sonuç" olarak kaydetmek | ❌ Reddedildi; aynı hata iki tarafta saklanır. Beklenen değerler motordan türetilmez |
+| Başarısız LLM koşusunu silip sadece başarılıyı göstermek | ❌ Reddedildi; ilk ham sonuç korundu |
+| Testi geçirmek için beklentiyi gevşetmek | ❌ Reddedildi; kaynak kod düzeltildi |
+| Aynı modelin hakemliğini insan kontrolü saymak | ❌ Reddedildi; ayrı model ve kör insan etiketi ayrıldı |
+
+Tam kayıt: [AI ile çalışma](docs/AI_ILE_CALISMA.md)
+
+---
+
+## 🧭 Henüz kanıtlamadıkları
+
+- **İnsan altın seti boş (0/40).** Mutabakat altyapısı hazır; elle doğrulanmış sipariş hesapları girilene kadar bu test bilerek kırmızıdır.
+- **Asistan skorları geliştirme setinde alındı.** Görülmemiş insan sorularına genellemeyi kanıtlamaz.
+- **Tarifeler sentetik.** Gerçek pazaryeri ücret tablolarıyla birebir uyum ve üretim dağıtımı yapılmadı.
+
+---
+
+<details>
+<summary><b>🏗️ Mimari</b></summary>
+<br>
+
+```mermaid
+flowchart LR
+    U[Satıcı] --> S[Mağaza sahiplik kontrolü]
+    S --> F[Dosya doğrulama<br/>CSV / XLSX]
+    F --> O[Atomik sipariş servisi]
+    O --> K[Kâr motoru<br/>Decimal · Fraction · tamsayı kuruş]
+    K --> R[(Kuruş kayıtları)]
+    R --> RP[Rapor + Excel CSV]
+    R --> T[Parametreli SQL araçları]
+    LLM[LLM araç seçimi] --> T
+    T --> A[Asistan yanıtı]
+```
+
+- **Motor Django'yu bilmez:** saf Python; izole test ve mutasyon testi mümkün.
+- **Para yalnız `Decimal`**, ara hesaplar tam rasyonel; yuvarlama tek noktada `ROUND_HALF_UP`.
+- **Çoklu pazaryeri:** TRY demo tarifesi ve sabit kurlu Amazon USD/EUR demo hesabı.
+
+| Katman | Araç | Neyi korur |
+|---|---|---|
+| Unit | pytest, Hypothesis | Komisyon, kargo baremi/desi, hizmet, stopaj, KDV, iade, kuruş dağıtımı, kur |
+| Integration | pytest-django | CSV/XLSX aktarımı, atomik geri alma, mağaza sahipliği, CSRF, dosya sınırları, rapor/CSV/SQL tutarlılığı |
+| E2E | Playwright, Page Object Model | Giriş, mağaza kurulumu, aktarım, iade, kâr ekranı, abonelik ödemesi — masaüstü ve mobil |
+| Mutasyon | mutmut | Testlerin gerçekten hata yakaladığını ölçer; [kalan 6 mutantın incelemesi](data/evidence/external-review/mutation-final/final-six-survivors.md) |
+| LLM eval | Gerçek Qwen, sabit prompt ve hash | Doğru araç, dönem ve kural seçimi |
+| Mutabakat | `tests/reconciliation` | İnsan tarafından doğrulanmış altın siparişler; boş veri başarısızdır |
+
+</details>
+
+<details>
+<summary><b>🚀 Üç komutla çalıştır</b></summary>
+<br>
 
 Python 3.13 ve [uv](https://docs.astral.sh/uv/) gerekir.
 
-```powershell
+```bash
 uv sync --locked --extra dev --extra e2e
 uv run python manage.py bootstrap_demo
 uv run python manage.py runserver 127.0.0.1:8001
 ```
 
-[Yerel uygulama](http://127.0.0.1:8001/) — `demo-satici / demo-only-pass-2026`. Demo kurulumu yalnız DEBUG açıkken çalışır; mevcut şifre/iade bilgisine dokunmaz. UI'dan kayıt ve yeni mağaza oluşturulabilir.
+[http://127.0.0.1:8001](http://127.0.0.1:8001/) → `demo-satici` / `demo-only-pass-2026` (yalnız DEBUG'da çalışan sentetik demo hesabı).
 
-Kontroller: `uv run ruff check .`, `uv run ruff format --check .`, `uv run python -m pytest -n 2 --cov`, `uv run python -m playwright install chromium`, `uv run python -m pytest tests/e2e -m e2e --browser chromium`. İnsan mutabakatı ayrıca `uv run python -m pytest tests/reconciliation -m reconciliation` ile çalışır; boş insan kanıtı başarısızdır. Linux mutasyonu: `uv sync --locked --extra dev --extra mutation`, `uv run mutmut run --max-children 2`.
+```bash
+uv run ruff check . && uv run ruff format --check .
+uv run python -m pytest -n 2 --cov                              # unit + integration + eval
+uv run python -m playwright install chromium
+uv run python -m pytest tests/e2e -m e2e --browser chromium      # tarayıcı testleri
+uv run python -m pytest tests/reconciliation -m reconciliation   # insan mutabakatı
+uv run python -m scripts.build_profit_lab                        # laboratuvar verisi + grafik
+```
 
-[Kurallar](docs/KURALLAR.md) · [Alan kaynakları](docs/ALAN_BILGISI.md) · [Mimari/dosya sözleşmesi](docs/MIMARI.md) · [QA ve mutant incelemesi](docs/QA_STRATEJISI.md) · [İnsan altın seti](docs/ALTIN_SET.md) · [Eval protokolü](docs/EVAL_RAPORU.md) · [AI çalışma kaydı](docs/AI_ILE_CALISMA.md).
+</details>
+
+<details>
+<summary><b>📚 Belgeler</b></summary>
+<br>
+
+| | |
+|---|---|
+| [KURALLAR.md](docs/KURALLAR.md) | Komisyon, kargo, iade, stopaj ve KDV hesap sözleşmesi |
+| [QA_STRATEJISI.md](docs/QA_STRATEJISI.md) | Test stratejisi ve mutant incelemesi |
+| [EVAL_RAPORU.md](docs/EVAL_RAPORU.md) | LLM değerlendirme protokolü |
+| [ALTIN_SET.md](docs/ALTIN_SET.md) | İnsan doğrulamalı altın veri süreci |
+| [OLCUMLER.md](docs/OLCUMLER.md) | Tüm ölçümler ve CI koşu bağlantıları |
+| [AI_ILE_CALISMA.md](docs/AI_ILE_CALISMA.md) | AI ile çalışma kaydı |
+| [BUGS.md](BUGS.md) · [CHANGELOG.md](CHANGELOG.md) | Hata kayıtları ve sürüm geçmişi |
+
+</details>
+
+<p align="center"><sub>Bağımsız portföy projesidir; hiçbir pazaryeriyle ilişkisi yoktur. Tüm veri ve tarifeler sentetiktir. · <a href="LICENSE">MIT</a></sub></p>

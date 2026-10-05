@@ -29,6 +29,8 @@ jobs:
           run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path: public
+      - name: Profit lab
+        run: cp -r docs/lab public/lab
       - name: Report index
         env:
           RUN_URL: ${{ github.event.workflow_run.html_url }}

@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 380" width="1200" height="380" role="img" aria-labelledby="t d">
+<title id="t">KârKontrol</title>
+<desc id="d">Kodu AI yazdı, doğruluğunu testler kanıtlıyor. 669 test, 13 tarayıcı testi, 507/513 mutant öldürüldü.</desc>
+<style>
+.sans{font-family:system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace}
+.h{fill:#f2fbff;font-weight:800;font-size:64px;letter-spacing:-1px}
+.tag{fill:#9fe7da;font-size:24px;font-weight:600}
+.p{fill:#93adbb;font-size:17px}
+.chip{fill:#12303a;stroke:#1f5a5a}
+.chipt{fill:#bff3e9;font-size:14px;font-weight:600}
+.term{fill:#08131a;stroke:#1e3a48}
+.dot{opacity:.9}
+.ln{fill:#c9dde6;font-size:15px;opacity:0;animation:in .35s ease-out forwards}
+.ok{fill:#34d399}.bad{fill:#ff6b81}.dim{fill:#5f7c8b}.acc{fill:#7dd3fc}
+.l1{animation-delay:.4s}.l2{animation-delay:1.0s}.l3{animation-delay:1.5s}.l4{animation-delay:2.0s}
+.l5{animation-delay:2.5s}.l6{animation-delay:3.1s}.l7{animation-delay:3.7s}.l8{animation-delay:4.4s}
+.caret{fill:#9fe7da;animation:blink 1s steps(1) infinite}
+.coin{animation:float 4s ease-in-out infinite}
+.glow{animation:glow 3s ease-in-out infinite}
+@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes blink{50%{opacity:0}}
+@keyframes float{50%{transform:translateY(-8px)}}
+@keyframes glow{50%{opacity:.35}}
+@media (prefers-reduced-motion:reduce){.ln{animation:none;opacity:1}.caret,.coin,.glow{animation:none}}
+</style>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b1d26"/><stop offset=".55" stop-color="#0c2a2f"/><stop offset="1" stop-color="#10243a"/></linearGradient>
+<radialGradient id="r1" cx=".15" cy=".1" r=".6"><stop offset="0" stop-color="#2dd4bf" stop-opacity=".25"/><stop offset="1" stop-color="#2dd4bf" stop-opacity="0"/></radialGradient>
+<radialGradient id="r2" cx=".9" cy="1" r=".6"><stop offset="0" stop-color="#60a5fa" stop-opacity=".22"/><stop offset="1" stop-color="#60a5fa" stop-opacity="0"/></radialGradient>
+<linearGradient id="txt" x1="0" x2="1"><stop offset="0" stop-color="#5eead4"/><stop offset="1" stop-color="#93c5fd"/></linearGradient>
+<pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#ffffff" stroke-opacity=".035"/></pattern>
+</defs>
+<rect width="1200" height="380" rx="22" fill="url(#bg)"/>
+<rect width="1200" height="380" rx="22" fill="url(#grid)"/>
+<rect class="glow" width="1200" height="380" rx="22" fill="url(#r1)"/>
+<rect width="1200" height="380" rx="22" fill="url(#r2)"/>
+
+<g transform="translate(56 54)"><g class="coin">
+  <circle cx="26" cy="26" r="26" fill="#f6c453"/><circle cx="26" cy="26" r="20" fill="none" stroke="#b7862a" stroke-width="2"/>
+  <text x="26" y="33" text-anchor="middle" class="sans" font-weight="800" font-size="20" fill="#7a5512">₺</text>
+</g></g>
+<text x="124" y="102" class="sans h">Kâr<tspan fill="url(#txt)">Kontrol</tspan></text>
+<text x="60" y="160" class="sans tag">Kodu AI yazdı. Doğruluğunu testler kanıtlıyor.</text>
+<text x="60" y="196" class="sans p">Pazaryeri satıcıları için kâr ve hakediş uygulaması,</text>
+<text x="60" y="220" class="sans p">ve AI'ın yazdığı finans kodunu kuruşu kuruşuna denetleyen test sistemi.</text>
+
+<g class="sans">
+  <rect class="chip" x="60" y="252" width="140" height="34" rx="17"/><text class="chipt" x="130" y="274" text-anchor="middle">Decimal · kuruş</text>
+  <rect class="chip" x="210" y="252" width="104" height="34" rx="17"/><text class="chipt" x="262" y="274" text-anchor="middle">Playwright</text>
+  <rect class="chip" x="324" y="252" width="90" height="34" rx="17"/><text class="chipt" x="369" y="274" text-anchor="middle">LLM eval</text>
+  <rect class="chip" x="424" y="252" width="100" height="34" rx="17"/><text class="chipt" x="474" y="274" text-anchor="middle">Mutasyon</text>
+  <rect class="chip" x="534" y="252" width="94" height="34" rx="17"/><text class="chipt" x="581" y="274" text-anchor="middle">CI kapısı</text>
+</g>
+<text x="60" y="330" class="sans" font-size="14" fill="#5f7c8b">Python 3.13 · Django 5.2 · pytest · Hypothesis · mutmut · GitHub Actions · sentetik veri</text>
+
+<g transform="translate(690 46)">
+  <rect class="term" width="460" height="290" rx="14"/>
+  <circle class="dot" cx="22" cy="20" r="6" fill="#ff5f57"/><circle class="dot" cx="42" cy="20" r="6" fill="#febc2e"/><circle class="dot" cx="62" cy="20" r="6" fill="#28c840"/>
+  <text x="230" y="25" text-anchor="middle" class="mono" font-size="12" fill="#5f7c8b">kalite-kapısı — main</text>
+  <g class="mono">
+    <text x="22" y="66" class="ln l1"><tspan class="acc">$</tspan> pytest &amp;&amp; playwright &amp;&amp; mutmut</text>
+    <text x="22" y="96" class="ln l2">unit ............... <tspan class="ok">262 passed</tspan></text>
+    <text x="22" y="122" class="ln l3">integration ........ <tspan class="ok">153 passed</tspan></text>
+    <text x="22" y="148" class="ln l4">assistant eval ..... <tspan class="ok">254 passed</tspan></text>
+    <text x="22" y="174" class="ln l5">e2e · chromium ..... <tspan class="ok"> 13 passed</tspan></text>
+    <text x="22" y="200" class="ln l6">mutants killed ..... <tspan class="ok">507/513</tspan></text>
+    <text x="22" y="230" class="ln l7"><tspan fill="#febc2e">⚠</tspan> +0,01 ₺ fiyat → −29,99 ₺ kâr <tspan class="dim">(testli)</tspan></text>
+    <text x="22" y="262" class="ln l8"><tspan class="ok">✓ 669 test · motor dal kapsamı %100</tspan></text>
+    <rect class="caret" x="22" y="272" width="9" height="3"/>
+  </g>
+</g>
+</svg>
