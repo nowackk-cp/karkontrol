@@ -2,6 +2,7 @@
 
 import json
 import os
+import re
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -11,7 +12,7 @@ from django.shortcuts import get_object_or_404
 
 from apps.stores.models import Store
 
-from .dates import resolve_period
+from .dates import normalize_question, resolve_period
 from .service import _render, guardrail, unsafe_question, unsupported_amount_filter
 from .tools import RULES, explain_rule, product_profit, profit_summary, return_statistics
 
@@ -93,6 +94,12 @@ def local_completion(*, messages, schema, max_tokens=128, base_url=None, model=N
         ) from error
 
 
+def _explicit_rule_topic(question):
+    words = set(re.findall(r"\w+", normalize_question(question)))
+    topics = [topic for topic in RULES if normalize_question(topic) in words]
+    return topics[0] if len(topics) == 1 else None
+
+
 def select_tool(question, version="v3", *, completion=None):
     if version not in {"v1", "v2", "v3"}:
         raise ValueError("Unknown prompt version")
@@ -101,8 +108,14 @@ def select_tool(question, version="v3", *, completion=None):
     if period.error:
         raise ModelUnavailable(period.error)
     year, month = period.year, period.month
+    explicit_topic = _explicit_rule_topic(question) if version == "v3" else None
     if version == "v3":
         prompt += f"\nSunucunun çözdüğü dönem: year={year}, month={month}. Bu değerleri kullan."
+        if explicit_topic:
+            prompt += (
+                f"\nSunucunun metindeki tek açık kural konusu: topic={explicit_topic}. "
+                "action=rule ise bu topic değerini kullan; diğer eylemlerde topic boş kalır."
+            )
     # Dates are exact user input, not model arithmetic. Constrain generation at its source.
     schema = {
         **SCHEMA,
@@ -112,6 +125,11 @@ def select_tool(question, version="v3", *, completion=None):
             "month": {"enum": [month]},
         },
     }
+    if explicit_topic:
+        schema["properties"]["topic"] = {
+            **SCHEMA["properties"]["topic"],
+            "enum": ["", explicit_topic],
+        }
     try:
         selected, usage = (completion or local_completion)(
             messages=[{"role": "system", "content": prompt}, {"role": "user", "content": question}],
@@ -125,6 +143,8 @@ def select_tool(question, version="v3", *, completion=None):
         raise ModelUnavailable("Geçersiz araç.")
     if selected["topic"] not in SCHEMA["properties"]["topic"]["enum"]:
         raise ModelUnavailable("Geçersiz kural.")
+    if explicit_topic and selected["action"] == "rule" and selected["topic"] != explicit_topic:
+        raise ModelUnavailable("Kural konusu kullanıcı sorusuyla eşleşmiyor.")
     for field, minimum, maximum in (("year", 1900, 2199), ("month", 1, 12)):
         value = selected[field]
         if value is not None and (type(value) is not int or not minimum <= value <= maximum):

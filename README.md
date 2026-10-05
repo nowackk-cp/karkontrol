@@ -31,6 +31,8 @@ Uygulama CSV/XLSX sipariş aktarır, aktarımı geri alır, iadeleri günceller,
 | ENG-002 — yüksek hassasiyette kur | Bağımsız mutasyon incelemesi | Kabul edilen çok hassas kurda brüt/hakediş 0,01 TRY sapıyordu; tam ara hesapla düzeltildi |
 | IMP-001 — yüzde biçimli Excel oranı | Dış inceleme ve regresyon | Yanlış oranla kayıt oluşabiliyordu; artık atomik reddedilir |
 | IMP-002/003 — geri alma/kısa CSV | Dış inceleme ve regresyon | Hatalı yeni satırlar kaldı veya kısa satır kabul edildi |
+| APP-007 — kur sorusuna KDV kuralı | Gerçek Qwen tekrar koşusu | Yanlış kural açıklaması; TL farkı ölçülmedi |
+| JDG-002 — kesilen hakem denemeleri | Ayrı Linux hakem koşusu | Finans farkı yok; denemeler dosyaya kaydedilemiyordu. Artık her deneme hemen korunur |
 | REP/CFG/AI/JDG | Dış inceleme ve çapraz test | Arama, eksik rapor, sınır, dönem ve ölçüm sözleşmesi düzeltildi |
 
 Ayrıntılar ve issue bağlantıları [BUGS.md](BUGS.md) içinde. Testten önce issue açılma sırası ve sonradan belgelenen eski hatalar açıkça ayrılır.
@@ -41,9 +43,9 @@ Bu tablo güncel sayısal ölçümlerin tek özetidir. Tarihî kanıtlar değiş
 
 | Ölçüm | Sonuç / kaynak |
 |---|---|
-| Çekirdek testler | Yerel ve main Linux CI'da 542 geçti: 259 unit, 153 integration, 130 eval |
+| Çekirdek testler | Son yerel kaynakta 666 geçti: 259 unit, 153 integration, 254 eval; hakem için 33 ve kural konusu için 91 yeni regresyon |
 | Chromium E2E | 13 geçti; gerçek tarayıcı, yeni üç para kartı ve farklı satırlar |
-| Dev-only, Playwright yok | Son kaynakta 542 geçti / 1 opsiyonel paket atlandı |
+| Dev-only, Playwright yok | Son kaynakta 666 geçti / 1 opsiyonel paket atlandı |
 | Mobil Chromium | 390×844 dokunmatik görünümde 13 geçti |
 | Güncel motor dal kapsamı | Yerel ve main Linux CI'da 50/50 = %100; dışlanan satır yok |
 | Tarihî dışlamalı mutasyon | 342/369 = %92,68; 27 kalan mutant: 14 mesaj, 9 davranış farkı, 3 strict eşdeğeri, 1 precision adayı |
@@ -54,9 +56,11 @@ Bu tablo güncel sayısal ölçümlerin tek özetidir. Tarihî kanıtlar değiş
 | Anahtar kelime tabanı | Tarihî 40/40; yeni dönem geliştirme setinde yerel 52/52 |
 | İlk v3 Qwen geliştirme ölçümü | 49/52; modele atfedilebilir 41/44, 2 kritik hata. [İlk ham yanıt](data/evidence/external-review/llm-v3-first/eval.json) |
 | İkinci / üçüncü v3 Qwen ölçümü | İkisi de 51/52, modele atfedilebilir 43/44, kritik hata 0. [İkinci](data/evidence/external-review/llm-v3-second/eval.json) E-35; [üçüncü](data/evidence/external-review/llm-v3-third/eval.json) E-24 hatasını korur |
-| Son v3 Qwen geliştirme ölçümü | 52/52; modele atfedilebilir 44/44, kritik hata 0. [Ana dal ham yanıtı](data/evidence/external-review/llm-v3-final/eval.json), [koşu](https://github.com/nowackk-cp/karkontrol/actions/runs/37251483476). Ortak 40 eski vakada gerileme yok; 12 yeni vaka. Aynı geliştirme seti üzerinde ayarlandı |
+| Önceki v3 Qwen ana dal ölçümü | 52/52; modele atfedilebilir 44/44, kritik hata 0. [Ana dal ham yanıtı](data/evidence/external-review/llm-v3-final/eval.json), [koşu](https://github.com/nowackk-cp/karkontrol/actions/runs/37251483476). Ortak 40 eski vakada gerileme yok; 12 yeni vaka. Aynı geliştirme seti üzerinde ayarlandı |
+| Son v3 Qwen tekrar ölçümü | 51/52; modele atfedilebilir 43/44, kritik hata 0. [Ham tekrar](data/evidence/external-review/llm-v3-repeat/eval.json), [koşu](https://github.com/nowackk-cp/karkontrol/actions/runs/37254150079). Kaynak/prompt/veri hashleri önceki ölçümle aynı; E-26 kur sorusu KDV kuralına gitti. Önceki başarı bu sonuç yerine kullanılmadı |
+| Ayrı hakem yanıtlarının kullanılabilirliği | 30/30 şemaya uygun yanıt; [ham sonuç](data/evidence/external-review/judge-final/judge-scores.json), [koşu](https://github.com/nowackk-cp/karkontrol/actions/runs/37253777571). Qwen3-0.6B ayrı ağırlık, aynı aile; insan etiketleri boş. Bu hakem doğruluğu veya insan uyumu değildir |
 
-[Doğrulanmış main CI](https://github.com/nowackk-cp/karkontrol/actions/runs/37251483524) · [Güncel main koşuları](https://github.com/nowackk-cp/karkontrol/actions/workflows/ci.yml?query=branch%3Amain) · [HTML raporları](https://nowackk-cp.github.io/karkontrol/) · [İlk başarısız LLM koşusu](https://github.com/nowackk-cp/karkontrol/actions/runs/37173824046) · [Kalıcı sürüm kanıtları](https://github.com/nowackk-cp/karkontrol/releases/tag/v1.2.0).
+[Güncel main CI koşuları](https://github.com/nowackk-cp/karkontrol/actions/workflows/ci.yml?query=branch%3Amain) · [HTML raporları](https://nowackk-cp.github.io/karkontrol/) · [İlk başarısız LLM koşusu](https://github.com/nowackk-cp/karkontrol/actions/runs/37173824046) · [Hazırlanan sürüm kanıtları (yayın bekliyor)](https://github.com/nowackk-cp/karkontrol/releases/tag/v1.2.0).
 
 ## Bulgular ve kalite kapısı
 

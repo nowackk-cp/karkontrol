@@ -5,13 +5,14 @@ import os
 from .llm import ModelUnavailable, local_completion
 
 RUBRIC_VERSION = "grounding-v1"
+# Decoder grammar stays simple; the reason length limit is enforced in Python below.
 SCHEMA = {
     "type": "object",
     "properties": {
         "grounded": {"type": "boolean"},
         "answers_question": {"type": "boolean"},
         "clear": {"type": "boolean"},
-        "reason": {"type": "string", "maxLength": 300},
+        "reason": {"type": "string"},
     },
     "required": ["grounded", "answers_question", "clear", "reason"],
     "additionalProperties": False,
@@ -43,7 +44,8 @@ def grade(*, question, answer, source):
                     "grounded: tüm iddialar kaynakla uyumlu mu? "
                     "answers_question: soruyu cevaplıyor mu? clear: açık ve anlaşılır mı? "
                     "Bir iddia kaynakla çelişirse grounded false olmalı. "
-                    "JSON ve kısa Türkçe reason yaz. /no_think"
+                    "JSON yaz. reason tek cümle ve en fazla 80 karakter olsun; "
+                    "yalnız kısa nedeni yaz, kaynağı veya yanıtı tekrar etme. /no_think"
                 ),
             },
             {
@@ -55,7 +57,8 @@ def grade(*, question, answer, source):
         max_tokens=256,
     )
     if (
-        set(response) != set(SCHEMA["required"])
+        not isinstance(response, dict)
+        or set(response) != set(SCHEMA["required"])
         or any(
             type(response.get(field)) is not bool
             for field in ("grounded", "answers_question", "clear")

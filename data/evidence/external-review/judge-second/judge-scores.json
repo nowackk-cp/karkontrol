@@ -1,0 +1,674 @@
+{
+  "status": "scored_uncalibrated",
+  "sample_origin": "AI-authored synthetic draft; human must select real unique answers",
+  "same_model_as_assistant": false,
+  "assistant_model": "Qwen3-1.7B-Q8_0",
+  "judge_model": "Qwen3-0.6B-Q8_0",
+  "model_identity": "configured names; runtime identity requires separate verification",
+  "human_agreement_percent": null,
+  "cases": [
+    {
+      "id": "J30-01",
+      "question": "stopaj kuralı nasıl uygulanır?",
+      "answer": "Stopaj net satıştan hesaplanır ve hakedişi azaltır; kârın gider kalemi değildir.",
+      "source": "Stopaj net satış üzerinden hesaplanır; hakedişi azaltır. Kâr gideri değildir.",
+      "answer_sha256": "9c3e7ab89566ff12afd06e24615000f5fe160e9e6ab52da48c2724bf4dd9e3b2",
+      "human_pass": null,
+      "human_reason": "",
+      "reviewer": "",
+      "reviewed_at": "",
+      "judge_pass": true,
+      "grounded": true,
+      "answers_question": true,
+      "clear": true,
+      "reason": "Soru ve yanıt aynı şekilde stopaj net satış üzerinden hesaplanır, hakedişi azaltır ve kârın gideri değildir. Kaynak doğru ve uygulama doğru.",
+      "usage": {
+        "completion_tokens": 76,
+        "prompt_tokens": 197,
+        "total_tokens": 273,
+        "prompt_tokens_details": {
+          "cached_tokens": 196
+        }
+      },
+      "rubric_version": "grounding-v1",
+      "judge_model": "Qwen3-0.6B-Q8_0"
+    },
+    {
+      "id": "J30-02",
+      "question": "stopaj kuralı nasıl uygulanır?",
+      "answer": "Stopaj yalnız net kâr üzerinden hesaplanır.",
+      "source": "Stopaj net satış üzerinden hesaplanır; hakedişi azaltır. Kâr gideri değildir.",
+      "answer_sha256": "db19e47c4a37ed89d2daa3b00979a39d494c9bc83837b089ebaeef2c29c81f8b",
+      "human_pass": null,
+      "human_reason": "",
+      "reviewer": "",
+      "reviewed_at": "",
+      "judge_pass": null,
+      "unavailable": true
+    },
+    {
+      "id": "J30-03",
+      "question": "stopaj kuralı nasıl uygulanır?",
+      "answer": "Kâr ile hakediş farklıdır; stopaj hakedişte kesilir, net kârdan düşülmez.",
+      "source": "Stopaj net satış üzerinden hesaplanır; hakedişi azaltır. Kâr gideri değildir.",
+      "answer_sha256": "9b8e132f341bc6af8db9cb1c6eddeed39ecbca351a41ec18d6c28d1043d110f7",
+      "human_pass": null,
+      "human_reason": "",
+      "reviewer": "",
+      "reviewed_at": "",
+      "judge_pass": false,
+      "grounded": false,
+      "answers_question": true,
+      "clear": false,
+      "reason": "Kaynak, stopaj kuralını doğru olarak tanımlamış, ancak aday yanıt, hakediş ve kâr arasındaki farklılık ifade etmektedir. Bu, grounded false olabilir.",
+      "usage": {
+        "completion_tokens": 78,
+        "prompt_tokens": 198,
+        "total_tokens": 276,
+        "prompt_tokens_details": {
+          "cached_tokens": 160
+        }
+      },
+      "rubric_version": "grounding-v1",
+      "judge_model": "Qwen3-0.6B-Q8_0"
+    },
+    {
+      "id": "J30-04",
+      "question": "stopaj kuralı nasıl uygulanır?",
+      "answer": "Stopaj komisyon faturası üzerinden hesaplanır ve satışla ilgisizdir.",
+      "source": "Stopaj net satış üzerinden hesaplanır; hakedişi azaltır. Kâr gideri değildir.",
+      "answer_sha256": "4998b3ecce16ef6b5c9eaa65788c16e10fa28347bcd4b2f64e9fb0f64a548028",
+      "human_pass": null,
+      "human_reason": "",
+      "reviewer": "",
+      "reviewed_at": "",
+      "judge_pass": false,
+      "grounded": false,
+      "answers_question": true,
+      "clear": false,
+      "reason": "Kaynak, stopaj net satış üzerinden hesaplanır ve hakedişi azaltır. Aday yanıt, stopaj komisyon faturası üzerinden hesaplanır ve satışla ilgisizdir. Bu durum, stopaj net satış ile ilgili değil, hakedişi azaltma ve kâr gideri değildir. Kaynakla uyumlu olmayan iddia.",
+      "usage": {
+        "completion_tokens": 121,
+        "prompt_tokens": 190,
+        "total_tokens": 311,
+        "prompt_tokens_details": {
+          "cached_tokens": 160
+        }
+      },
+      "rubric_version": "grounding-v1",
+      "judge_model": "Qwen3-0.6B-Q8_0"
+    },
+    {
+      "id": "J30-05",
+      "question": "stopaj kuralı nasıl uygulanır?",
+      "answer": "Stopaj hakedişi azaltmaz; yalnız raporda bilgi olarak gösterilir.",
+      "source": "Stopaj net satış üzerinden hesaplanır; hakedişi azaltır. Kâr gideri değildir.",
+      "answer_sha256": "9401e9566532fba4c05fb03531d84b0879dda3064c6903a18be1fa09693c2d70",
+      "human_pass": null,
+      "human_reason": "",
+      "reviewer": "",
+      "reviewed_at": "",
+      "judge_pass": false,
+      "grounded": false,
+      "answers_question": true,
+      "clear": false,
+      "reason": "Kaynak, stopaj net satış üzerinden hesaplanır ve hakedişi azaltır. Aday yanıt, stopaj hakedişi azaltmaz, ancak raporda bilgi verir. Bu, kaynakla uyumlu değildir. Kaynak, hakedişi azaltır, ancak aday, hakedişi azaltmaz. Aday yanıt, hakedişi azaltmaz, ancak raporda bilgi verir. Kaynakla uyumlu değil.",
+      "usage": {
+        "completion_tokens": 144,
+        "prompt_tokens": 190,
+        "total_tokens": 334,
+        "prompt_tokens_details": {
+          "cached_tokens": 162
+        }
+      },
+      "rubric_version": "grounding-v1",
+      "judge_model": "Qwen3-0.6B-Q8_0"
+    },
+    {
+      "id": "J30-06",
+      "question": "kupon kuralı nasıl uygulanır?",
+      "answer": "Platformun karşıladığı kupon satıcının indiriminden ayrı tutulur.",
+      "source": "Platform kuponunu platform karşılar. Satıcı indirimi satıcının gelirini azaltır.",
+      "answer_sha256": "feb634269d699662e3981827a44f22987bf2c95980ff044866c782547db5883b",
+      "human_pass": null,
+      "human_reason": "",
+      "reviewer": "",
+      "reviewed_at": "",
+      "judge_pass": false,
+      "grounded": false,
+      "answers_question": true,
+      "clear": false,
+      "reason": "Kaynak doğru kabul edilir, ancak aday yanıtın kuralı platformun karşıladığı indirimle ilişkili değil. Platform kuponunu karşılayarak indirim azaltmakla değil, kuponun uygulaması için platformun karşıladığı indirim ile ilişkilendirilmesi gerektir.",
+      "usage": {
+        "completion_tokens": 104,
+        "prompt_tokens": 183,
+        "total_tokens": 287,
+        "prompt_tokens_details": {
+          "cached_tokens": 115
+        }
+      },
+      "rubric_version": "grounding-v1",
+      "judge_model": "Qwen3-0.6B-Q8_0"
+    },
+    {
+      "id": "J30-07",
+      "question": "kupon kuralı nasıl uygulanır?",
+      "answer": "Satıcı indirimi satıcının gelirini azaltır; platform kuponunu platform karşılar.",
+      "source": "Platform kuponunu platform karşılar. Satıcı indirimi satıcının gelirini azaltır.",
+      "answer_sha256": "6f448c447f94073ebdd3322fce57927b8f45d85c8f5d87926b6447da4eb5cb9d",
+      "human_pass": null,
+      "human_reason": "",
+      "reviewer": "",
+      "reviewed_at": "",
+      "judge_pass": true,
+      "grounded": true,
+      "answers_question": true,
+      "clear": true,
+      "reason": "İddiayı kaynakla uyumlu ve uygulama doğru olarak ifade edildi.",
+      "usage": {
+        "completion_tokens": 55,
+        "prompt_tokens": 189,
+        "total_tokens": 244,
+        "prompt_tokens_details": {
+          "cached_tokens": 157
+        }
+      },
+      "rubric_version": "grounding-v1",
+      "judge_model": "Qwen3-0.6B-Q8_0"
+    },
+    {
+      "id": "J30-08",
+      "question": "kupon kuralı nasıl uygulanır?",
+      "answer": "Her platform kuponunun tamamını satıcı öder.",
+      "source": "Platform kuponunu platform karşılar. Satıcı indirimi satıcının gelirini azaltır.",
+      "answer_sha256": "911c9edeb5dc24157087878b47a4662329d9d585026ed83cbb3dae4a92896279",
+      "human_pass": null,
+      "human_reason": "",
+      "reviewer": "",
+      "reviewed_at": "",
+      "judge_pass": false,
+      "grounded": false,
+      "answers_question": true,
+      "clear": false,
+      "reason": "Kaynak doğru kabul edilir, ancak aday yanıtın kuralı 'satıcı öder' ile ilgili değil, kuponun tamamını satıcı öder. Bu aday yanıtın grounded false olmalı.",
+      "usage": {
+        "completion_tokens": 85,
+        "prompt_tokens": 180,
+        "total_tokens": 265,
+        "prompt_tokens_details": {
+          "cached_tokens": 157
+        }
+      },
+      "rubric_version": "grounding-v1",
+      "judge_model": "Qwen3-0.6B-Q8_0"
+    },
+    {
+      "id": "J30-09",
+      "question": "kupon kuralı nasıl uygulanır?",
+      "answer": "Satıcı indirimi platform tarafından ödendiğinden satış geliri aynı kalır.",
+      "source": "Platform kuponunu platform karşılar. Satıcı indirimi satıcının gelirini azaltır.",
+      "answer_sha256": "0cb04dc1bc636fc947a86328cd9d610e93d17ab8dd85eed840b540e627c192c0",
+      "human_pass": null,
+      "human_reason": "",
+      "reviewer": "",
+      "reviewed_at": "",
+      "judge_pass": null,
+      "unavailable": true
+    },
+    {
+      "id": "J30-10",
+      "question": "kupon kuralı nasıl uygulanır?",
+      "answer": "Kuponun kaynağı sonucu değiştirmez; bütün kuponlar satıcının gideridir.",
+      "source": "Platform kuponunu platform karşılar. Satıcı indirimi satıcının gelirini azaltır.",
+      "answer_sha256": "b5e5da319720a2aa9f9dd92ebdef0e353cddf65e600688714eddaed52efc0bc9",
+      "human_pass": null,
+      "human_reason": "",
+      "reviewer": "",
+      "reviewed_at": "",
+      "judge_pass": false,
+      "grounded": false,
+      "answers_question": true,
+      "clear": false,
+      "reason": "Kaynak doğru kabul edilir, ancak aday yanıtın kuponun kaynağı değiştirme ve satıcı giderme gibi ifadeleri doğrudan uygulamamıştır. Bu durum grounded false olmalı.",
+      "usage": {
+        "completion_tokens": 84,
+        "prompt_tokens": 188,
+        "total_tokens": 272,
+        "prompt_tokens_details": {
+          "cached_tokens": 157
+        }
+      },
+      "rubric_version": "grounding-v1",
+      "judge_model": "Qwen3-0.6B-Q8_0"
+    },
+    {
+      "id": "J30-11",
+      "question": "iade kuralı nasıl uygulanır?",
+      "answer": "İade edilen stok maliyeti geri alınırken gidiş kargosu kalır.",
+      "source": "İade edilen stok maliyeti geri alınır. Gidiş kargosu kalır ve dönüş kargosu eklenir.",
+      "answer_sha256": "727fa36d85d7832db76a760a7ba38c1e903148d4fb54f01e185061edb11b27cc",
+      "human_pass": null,
+      "human_reason": "",
+      "reviewer": "",
+      "reviewed_at": "",
+      "judge_pass": false,
+      "grounded": false,
+      "answers_question": true,
+      "clear": false,
+      "reason": "Kaynak, iade kuralı uygulaması için 'geri alınır' ve 'gidiş kargosu kalır ve dönüş kargosu eklenir' ifadesini veriyor, ancak aday yanıt, 'geri alınırken gidiş kargosu kalır' ifadesini veriyor. Bu, iade kuralı uygulaması için doğru ifade değil, ancak aday yanıtın temel kuralları doğru olabilir.",
+      "usage": {
+        "completion_tokens": 141,
+        "prompt_tokens": 201,
+        "total_tokens": 342,
+        "prompt_tokens_details": {
+          "cached_tokens": 115
+        }
+      },
+      "rubric_version": "grounding-v1",
+      "judge_model": "Qwen3-0.6B-Q8_0"
+    },
+    {
+      "id": "J30-12",
+      "question": "iade kuralı nasıl uygulanır?",
+      "answer": "İadede dönüş kargosu eklenir; ilk gidiş kargosu kendiliğinden silinmez.",
+      "source": "İade edilen stok maliyeti geri alınır. Gidiş kargosu kalır ve dönüş kargosu eklenir.",
+      "answer_sha256": "8b8ca71e3c35a119391d0ef0dd6082dc03a5fb201147d1eedbc0c8d4505a8224",
+      "human_pass": null,
+      "human_reason": "",
+      "reviewer": "",
+      "reviewed_at": "",
+      "judge_pass": false,
+      "grounded": false,
+      "answers_question": true,
+      "clear": false,
+      "reason": "Kaynak, iade kuralı uygulaması için 'geri alınır' ve 'eklenir' ifadeleri veriyor, ancak aday yanıt, 'dönüş kargosu eklenir' ve 'ilk gidiş kargosu silinmez' ifadeleri veriyor. Bu, iade kuralı uygulaması için doğrudan uyumlu değil.",
+      "usage": {
+        "completion_tokens": 126,
+        "prompt_tokens": 205,
+        "total_tokens": 331,
+        "prompt_tokens_details": {
+          "cached_tokens": 169
+        }
+      },
+      "rubric_version": "grounding-v1",
+      "judge_model": "Qwen3-0.6B-Q8_0"
+    },
+    {
+      "id": "J30-13",
+      "question": "iade kuralı nasıl uygulanır?",
+      "answer": "Tam iadede gidiş kargosu daima eksiksiz geri ödenir.",
+      "source": "İade edilen stok maliyeti geri alınır. Gidiş kargosu kalır ve dönüş kargosu eklenir.",
+      "answer_sha256": "45691e642a317a4b8cca63a4d3780e1117e6fa52b38350ebea53fc7ec6c95fec",
+      "human_pass": null,
+      "human_reason": "",
+      "reviewer": "",
+      "reviewed_at": "",
+      "judge_pass": false,
+      "grounded": false,
+      "answers_question": true,
+      "clear": false,
+      "reason": "Kaynak, iade kuralı uygulamak için 'geri alınır ve dönüş kargosu eklenir' ifadesini verir, ancak aday yanıt, 'tam iadede gidiş kargosu daima eksiksiz geri ödenir' ifadesini veriyor. Bu, iade kuralı uygulamak için 'geri alınır' ifadesini doğru vermedi.",
+      "usage": {
+        "completion_tokens": 130,
+        "prompt_tokens": 200,
+        "total_tokens": 330,
+        "prompt_tokens_details": {
+          "cached_tokens": 168
+        }
+      },
+      "rubric_version": "grounding-v1",
+      "judge_model": "Qwen3-0.6B-Q8_0"
+    },
+    {
+      "id": "J30-14",
+      "question": "iade kuralı nasıl uygulanır?",
+      "answer": "İade edilen stokun maliyeti kârdan düşülmeye devam eder.",
+      "source": "İade edilen stok maliyeti geri alınır. Gidiş kargosu kalır ve dönüş kargosu eklenir.",
+      "answer_sha256": "12b064779bf59576698a29ffd2a4f2c6637c882ef7cba6d336813d66f693595c",
+      "human_pass": null,
+      "human_reason": "",
+      "reviewer": "",
+      "reviewed_at": "",
+      "judge_pass": false,
+      "grounded": false,
+      "answers_question": true,
+      "clear": false,
+      "reason": "Kaynak, iade kuralı uygulamada stok maliyeti geri alınması gerektiğini belirtti. Aday yanıt, stok maliyeti kârdan düşülmeye devam eder. Bu, iade kuralı uygulamada stok maliyeti geri alınması ile ilgili değil, instead, stok maliyeti düşülen bir diğer işlemdir.",
+      "usage": {
+        "completion_tokens": 128,
+        "prompt_tokens": 201,
+        "total_tokens": 329,
+        "prompt_tokens_details": {
+          "cached_tokens": 168
+        }
+      },
+      "rubric_version": "grounding-v1",
+      "judge_model": "Qwen3-0.6B-Q8_0"
+    },
+    {
+      "id": "J30-15",
+      "question": "iade kuralı nasıl uygulanır?",
+      "answer": "İadenin kargo gideri yoktur; gidiş ve dönüş kargosu sıfırlanır.",
+      "source": "İade edilen stok maliyeti geri alınır. Gidiş kargosu kalır ve dönüş kargosu eklenir.",
+      "answer_sha256": "7232f032857f0b329bc267b063af5d6e49ab83e046468af0918fb25afc86c081",
+      "human_pass": null,
+      "human_reason": "",
+      "reviewer": "",
+      "reviewed_at": "",
+      "judge_pass": false,
+      "grounded": false,
+      "answers_question": true,
+      "clear": false,
+      "reason": "Kaynak, iade kuralı uygulandığında stok maliyeti geri alınarak gidiş ve dönüş kargosu sıfırlanır. Aday yanıt, iade kuralı uygulanmadığında kargo gideri yoktur, bu ile gidiş ve dönüş kargosu sıfırlanır. Bu, kaynakla uyumlu değil, grounded false olmalı.",
+      "usage": {
+        "completion_tokens": 127,
+        "prompt_tokens": 203,
+        "total_tokens": 330,
+        "prompt_tokens_details": {
+          "cached_tokens": 169
+        }
+      },
+      "rubric_version": "grounding-v1",
+      "judge_model": "Qwen3-0.6B-Q8_0"
+    },
+    {
+      "id": "J30-16",
+      "question": "kdv kuralı nasıl uygulanır?",
+      "answer": "Net tutarlardan hesaplanan kâr ile ücret KDV'si düşülen hakediş ayrı sonuçlardır.",
+      "source": "Kâr net tutarlarla hesaplanır. Hakedişte platform ücretlerinin KDV'si de düşülür.",
+      "answer_sha256": "5e1e824eae05ea9b01d545647b0f6f29c02c6cf534e32866fcd0143f52a41076",
+      "human_pass": null,
+      "human_reason": "",
+      "reviewer": "",
+      "reviewed_at": "",
+      "judge_pass": false,
+      "grounded": false,
+      "answers_question": true,
+      "clear": false,
+      "reason": "Kaynak doğru, ancak aday yanıtın grounded false olmamasına neden olma. Aday yanıt, KDV ile hakediş ilişkisiyle ilgili değil, net tutarla ile hakediş ilişkisiyle ilgili değil. KDV ile hakediş ilişkisiyle ilgili değil, net tutarla ile hakediş ilişkisiyle ilgili değil.",
+      "usage": {
+        "completion_tokens": 123,
+        "prompt_tokens": 201,
+        "total_tokens": 324,
+        "prompt_tokens_details": {
+          "cached_tokens": 116
+        }
+      },
+      "rubric_version": "grounding-v1",
+      "judge_model": "Qwen3-0.6B-Q8_0"
+    },
+    {
+      "id": "J30-17",
+      "question": "kdv kuralı nasıl uygulanır?",
+      "answer": "Hakedişte platform ücretlerine ait KDV de kesilir.",
+      "source": "Kâr net tutarlarla hesaplanır. Hakedişte platform ücretlerinin KDV'si de düşülür.",
+      "answer_sha256": "fb7acb4fd7c1034f3680336a8e5cae0e5b55889c1983bcec0d5aa424447b83aa",
+      "human_pass": null,
+      "human_reason": "",
+      "reviewer": "",
+      "reviewed_at": "",
+      "judge_pass": null,
+      "unavailable": true
+    },
+    {
+      "id": "J30-18",
+      "question": "kdv kuralı nasıl uygulanır?",
+      "answer": "Kâr KDV dahil satış ile KDV dahil maliyetin farkından oluşur.",
+      "source": "Kâr net tutarlarla hesaplanır. Hakedişte platform ücretlerinin KDV'si de düşülür.",
+      "answer_sha256": "ce4cee991f330f069c1ccdc9a6372baa3d15848e517c09289bf5cf9497e0a57f",
+      "human_pass": null,
+      "human_reason": "",
+      "reviewer": "",
+      "reviewed_at": "",
+      "judge_pass": null,
+      "unavailable": true
+    },
+    {
+      "id": "J30-19",
+      "question": "kdv kuralı nasıl uygulanır?",
+      "answer": "Komisyon faturasındaki KDV hakedişi hiçbir zaman değiştirmez.",
+      "source": "Kâr net tutarlarla hesaplanır. Hakedişte platform ücretlerinin KDV'si de düşülür.",
+      "answer_sha256": "38f04bcc1a3697d9d2462a3938de727e5c84a87cf52d9f6276b2bcb26cf79a09",
+      "human_pass": null,
+      "human_reason": "",
+      "reviewer": "",
+      "reviewed_at": "",
+      "judge_pass": false,
+      "grounded": false,
+      "answers_question": false,
+      "clear": false,
+      "reason": "Kaynak doğru kabul edilir, ancak aday yanıtın temel iddiayi doğru değil. KDV kuralı, hakedişte platform ücretlerinin KDV'si de düşülürken, aday yanıt, hakedişte KDV hakedişi değişmez olmaktan yararlanıyor. Bu, kdv kuralını doğru uygulamak için uygun değil.",
+      "usage": {
+        "completion_tokens": 124,
+        "prompt_tokens": 190,
+        "total_tokens": 314,
+        "prompt_tokens_details": {
+          "cached_tokens": 164
+        }
+      },
+      "rubric_version": "grounding-v1",
+      "judge_model": "Qwen3-0.6B-Q8_0"
+    },
+    {
+      "id": "J30-20",
+      "question": "kdv kuralı nasıl uygulanır?",
+      "answer": "Hakediş ve kâr aynı vergi tabanından hesaplandığı için her zaman eşittir.",
+      "source": "Kâr net tutarlarla hesaplanır. Hakedişte platform ücretlerinin KDV'si de düşülür.",
+      "answer_sha256": "bfb5831947a90aaa1b65983998cd55d9b6ebb2775e6bdaf7f8bfaf28065b137a",
+      "human_pass": null,
+      "human_reason": "",
+      "reviewer": "",
+      "reviewed_at": "",
+      "judge_pass": false,
+      "grounded": false,
+      "answers_question": true,
+      "clear": false,
+      "reason": "Kaynak, KDV ile kâr ve hakediş aynı vergi tabanında hesaplandığını belirtti. Aday yanıt, kâr ve hakediş aynı vergi tabanında eşittir olduğunu öne sürmedi. Bu, kdv kuralının doğrudan uygulama konusunda doğrudan çelişti.",
+      "usage": {
+        "completion_tokens": 112,
+        "prompt_tokens": 197,
+        "total_tokens": 309,
+        "prompt_tokens_details": {
+          "cached_tokens": 164
+        }
+      },
+      "rubric_version": "grounding-v1",
+      "judge_model": "Qwen3-0.6B-Q8_0"
+    },
+    {
+      "id": "J30-21",
+      "question": "kargo kuralı nasıl uygulanır?",
+      "answer": "Kargo sipariş başına belirlenir; satırlara en büyük kalan yöntemiyle paylaştırılır.",
+      "source": "Kargo sipariş başına uygulanır ve satırlara en büyük kalan yöntemiyle dağıtılır.",
+      "answer_sha256": "c9d976a1fca56133514fbd6314185fe8490d352ab027c44711806fac5d139de2",
+      "human_pass": null,
+      "human_reason": "",
+      "reviewer": "",
+      "reviewed_at": "",
+      "judge_pass": true,
+      "grounded": true,
+      "answers_question": true,
+      "clear": true,
+      "reason": "Kaynak doğru ve aday yanıt uygun. Soru kargo kuralını uygulamak için belirli bir işlemi (sipariş belirleme ve paylaştırma) sunar. Adı geçen yanıt, kargo kuralını doğru şekilde ifade eder.",
+      "usage": {
+        "completion_tokens": 95,
+        "prompt_tokens": 192,
+        "total_tokens": 287,
+        "prompt_tokens_details": {
+          "cached_tokens": 116
+        }
+      },
+      "rubric_version": "grounding-v1",
+      "judge_model": "Qwen3-0.6B-Q8_0"
+    },
+    {
+      "id": "J30-22",
+      "question": "kargo kuralı nasıl uygulanır?",
+      "answer": "Çok satırlı siparişte tek kargo gideri satırlar arasında dağıtılır.",
+      "source": "Kargo sipariş başına uygulanır ve satırlara en büyük kalan yöntemiyle dağıtılır.",
+      "answer_sha256": "ee8ff7cf1644b59b28010b60807dca0ee7eae151aca549c38a493b88a97f9f6c",
+      "human_pass": null,
+      "human_reason": "",
+      "reviewer": "",
+      "reviewed_at": "",
+      "judge_pass": false,
+      "grounded": false,
+      "answers_question": true,
+      "clear": false,
+      "reason": "Kaynak, kargo kuralı 'kargo sipariş başına uygulanır ve satırlara en büyük kalan yöntemiyle dağıtılır' olduğunu belirtti. Aday yanıt, çok satırlı siparişte tek kargo gideri satırlar arasında dağıtılır. Bu, kargo kuralı ile ilgili bir farklı yaklaşım olabilir, ancak bu, kaynakla uyumlu değildir.",
+      "usage": {
+        "completion_tokens": 126,
+        "prompt_tokens": 188,
+        "total_tokens": 314,
+        "prompt_tokens_details": {
+          "cached_tokens": 158
+        }
+      },
+      "rubric_version": "grounding-v1",
+      "judge_model": "Qwen3-0.6B-Q8_0"
+    },
+    {
+      "id": "J30-23",
+      "question": "kargo kuralı nasıl uygulanır?",
+      "answer": "Bir siparişin her satırına tam kargo ücretinin tamamı yazılır.",
+      "source": "Kargo sipariş başına uygulanır ve satırlara en büyük kalan yöntemiyle dağıtılır.",
+      "answer_sha256": "88f1379419b1097de94916322d8d1d216a20d9bcf448d8226455da1db4786c55",
+      "human_pass": null,
+      "human_reason": "",
+      "reviewer": "",
+      "reviewed_at": "",
+      "judge_pass": null,
+      "unavailable": true
+    },
+    {
+      "id": "J30-24",
+      "question": "kargo kuralı nasıl uygulanır?",
+      "answer": "Kargo dağıtımında bütün kuruşlar silinir; yalnız tam lira dağıtılır.",
+      "source": "Kargo sipariş başına uygulanır ve satırlara en büyük kalan yöntemiyle dağıtılır.",
+      "answer_sha256": "4fb8214dd48f24dd45866918f52649a64b99ab886979c569ab91faf7bac94328",
+      "human_pass": null,
+      "human_reason": "",
+      "reviewer": "",
+      "reviewed_at": "",
+      "judge_pass": false,
+      "grounded": false,
+      "answers_question": true,
+      "clear": false,
+      "reason": "Kaynak, kargo kuralını 'kargo sipariş başına uygulanır ve satırlara en büyük kalan yöntemiyle dağıtılır' şeklinde tanımlar. Aday yanıt, kargo kuralını 'kuruşlar silinir ve tam lira dağıtılır' olarak ifade eder. Bu, kargo kuralının doğru olduğunu ve uygulanmaya uyumlu olmamasına neden olur.",
+      "usage": {
+        "completion_tokens": 128,
+        "prompt_tokens": 188,
+        "total_tokens": 316,
+        "prompt_tokens_details": {
+          "cached_tokens": 158
+        }
+      },
+      "rubric_version": "grounding-v1",
+      "judge_model": "Qwen3-0.6B-Q8_0"
+    },
+    {
+      "id": "J30-25",
+      "question": "kargo kuralı nasıl uygulanır?",
+      "answer": "Kargo sadece ilk satıra yazılır ve diğer satırlara hiçbir pay verilmez.",
+      "source": "Kargo sipariş başına uygulanır ve satırlara en büyük kalan yöntemiyle dağıtılır.",
+      "answer_sha256": "283d4e313cff500f82a0dd9b0b39c41f0b0e95805a2f77bc41d90d6eed9f6b52",
+      "human_pass": null,
+      "human_reason": "",
+      "reviewer": "",
+      "reviewed_at": "",
+      "judge_pass": false,
+      "grounded": false,
+      "answers_question": true,
+      "clear": false,
+      "reason": "Kaynak, kargo kuralını 'kargo sipariş başına uygulanır ve satırlara en büyük kalan yöntemiyle dağıtılır' şeklinde tanımlar. Aday yanıt, kargo sadece ilk satıra yazılır ve diğer satırlara hiçbir pay verilmez, bu da kargo kuralını tamamen değiştirmektedir. Bu, grounded false olmalı.",
+      "usage": {
+        "completion_tokens": 120,
+        "prompt_tokens": 189,
+        "total_tokens": 309,
+        "prompt_tokens_details": {
+          "cached_tokens": 160
+        }
+      },
+      "rubric_version": "grounding-v1",
+      "judge_model": "Qwen3-0.6B-Q8_0"
+    },
+    {
+      "id": "J30-26",
+      "question": "kur kuralı nasıl uygulanır?",
+      "answer": "Sipariş kuru kayıtlıdır; rapor açıldığında güncel piyasa kuruna dönüşmez.",
+      "source": "Sipariş kuru sabittir. Yabancı para satışları kaydedilmiş kurla TRY'ye çevrilir.",
+      "answer_sha256": "97d06f25c903f20083974808760df431d9a5379b1eeb4b30d6902b5fa24f0e60",
+      "human_pass": null,
+      "human_reason": "",
+      "reviewer": "",
+      "reviewed_at": "",
+      "judge_pass": null,
+      "unavailable": true
+    },
+    {
+      "id": "J30-27",
+      "question": "kur kuralı nasıl uygulanır?",
+      "answer": "Yabancı para satışı siparişe kaydedilen sabit kurla TRY olarak raporlanır.",
+      "source": "Sipariş kuru sabittir. Yabancı para satışları kaydedilmiş kurla TRY'ye çevrilir.",
+      "answer_sha256": "0d833246a139abf3b835e504588d27707eb2c4a768127400bb2c856e1d9bf63a",
+      "human_pass": null,
+      "human_reason": "",
+      "reviewer": "",
+      "reviewed_at": "",
+      "judge_pass": null,
+      "unavailable": true
+    },
+    {
+      "id": "J30-28",
+      "question": "kur kuralı nasıl uygulanır?",
+      "answer": "Geçmiş siparişin kuru her raporda canlı kur servisine göre yenilenir.",
+      "source": "Sipariş kuru sabittir. Yabancı para satışları kaydedilmiş kurla TRY'ye çevrilir.",
+      "answer_sha256": "085f25d82de4cc2018a01caf3e086c3142a2518574c0f256eee329a258937002",
+      "human_pass": null,
+      "human_reason": "",
+      "reviewer": "",
+      "reviewed_at": "",
+      "judge_pass": null,
+      "unavailable": true
+    },
+    {
+      "id": "J30-29",
+      "question": "kur kuralı nasıl uygulanır?",
+      "answer": "Yabancı para tutarı TRY'ye çevrilmeden TL raporuna aynen eklenir.",
+      "source": "Sipariş kuru sabittir. Yabancı para satışları kaydedilmiş kurla TRY'ye çevrilir.",
+      "answer_sha256": "89b422bb056f39bbf31b590fb0d30a139b0586fa373f7afed6d9cce09a7d8302",
+      "human_pass": null,
+      "human_reason": "",
+      "reviewer": "",
+      "reviewed_at": "",
+      "judge_pass": false,
+      "grounded": false,
+      "answers_question": true,
+      "clear": false,
+      "reason": "Kaynak, kur kuralını TRY'ye çevrilerek TL raporuna ekler. Aday yanıt, kur kuralını TRY'ye çevrilmeden TL raporuna ekler. Bu, kur kuralının uygulanmasının doğru şekilde yapılmamasına neden olur.",
+      "usage": {
+        "completion_tokens": 97,
+        "prompt_tokens": 197,
+        "total_tokens": 294,
+        "prompt_tokens_details": {
+          "cached_tokens": 168
+        }
+      },
+      "rubric_version": "grounding-v1",
+      "judge_model": "Qwen3-0.6B-Q8_0"
+    },
+    {
+      "id": "J30-30",
+      "question": "kur kuralı nasıl uygulanır?",
+      "answer": "Kur değişince önceki siparişin tüm satış tutarları otomatik yeniden değerlenir.",
+      "source": "Sipariş kuru sabittir. Yabancı para satışları kaydedilmiş kurla TRY'ye çevrilir.",
+      "answer_sha256": "b723f7c373ab3cca48334bddc4c1b7a3a8e8c6a4ae5ab74d38db4b9ea241231d",
+      "human_pass": null,
+      "human_reason": "",
+      "reviewer": "",
+      "reviewed_at": "",
+      "judge_pass": null,
+      "unavailable": true
+    }
+  ]
+}

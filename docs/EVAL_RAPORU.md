@@ -10,7 +10,9 @@ v2 prompt farkı: ürün niyetine ürün kârlılığı, karşılaştırma ve ve
 
 v3 yeni parserın çözdüğü dönemi modele açık verir: karaktersiz Türkçe, 09/2026, 2026-09, geçen/bu ay. Çok dönem ve tutar eşiği modelden önce ele alınır. Geliştirme soruları ayrı `questions_v3.jsonl` içindedir; göreli tarih için eval saati sabittir. Sıralama fixture'ı farklı kârlı ürünleri ve talimat içeren fakat veri olarak kalan SKU'yu içerir.
 
-Yeni v3 geliştirmesinin [ilk](../data/evidence/external-review/llm-v3-first/eval.json), [ikinci](../data/evidence/external-review/llm-v3-second/eval.json), [üçüncü](../data/evidence/external-review/llm-v3-third/eval.json) ve [son ana dal](../data/evidence/external-review/llm-v3-final/eval.json) ölçümleri ayrı dosyalarda saklanır. Tarih şeması, desteklenmeyen serbest işlem ile desteklenen kural hesaplamasının ayrımı bu görülen hatalara göre v3'te düzeltildi. Son raporun v2 bölümü dondurulmuş eski promptun aynı yeni sorulardaki ayrı referansıdır; v3 başarısıyla birleştirilmez. Protokol source commit ve model manifestini kaydeder; eski ilk sentetik set yeniden çalıştırılmadı.
+Yeni v3 geliştirmesinin [ilk](../data/evidence/external-review/llm-v3-first/eval.json), [ikinci](../data/evidence/external-review/llm-v3-second/eval.json), [üçüncü](../data/evidence/external-review/llm-v3-third/eval.json) ve [önceki ana dal](../data/evidence/external-review/llm-v3-final/eval.json) ölçümleri ayrı dosyalarda saklanır. Tarih şeması, desteklenmeyen serbest işlem ile desteklenen kural hesaplamasının ayrımı bu görülen hatalara göre v3'te düzeltildi. Son raporun v2 bölümü dondurulmuş eski promptun aynı yeni sorulardaki ayrı referansıdır; v3 başarısıyla birleştirilmez. Protokol source commit ve model manifestini kaydeder; eski ilk sentetik set yeniden çalıştırılmadı.
+
+Aynı kaynak/prompt/veri hashleriyle daha sonraki [tekrar koşusunda](../data/evidence/external-review/llm-v3-repeat/eval.json) kur sorusu KDV kuralına yönlendi. Önceki başarı güncel sonuç yerine kullanılmaz. v3 açıkça tek kural konusu içeren sorularda izin verilen konu üretim şemasına bağlanır ve farklı kural seçimi ayrıca reddedilir; model çıktısı sonradan doğru konuyla değiştirilmez. Birden fazla konu veya rapor niyeti tek konu seçmeye zorlanmaz. Bu geliştirme hatasına göre yapılan bir düzeltmedir; kör test sayılmaz.
 
 ## Çalıştırma ve sürüm karşılaştırması
 
@@ -35,6 +37,8 @@ uv run python manage.py evaluate_judge --human-review data/draft/judge_blind30.j
 ```
 
 Score için ayrı `KARKONTROL_JUDGE_URL` ve `KARKONTROL_JUDGE_MODEL` gerekir; asistanla aynı model reddedilir. Ayrı ağırlıklar aynı model ailesindeyse bağımsız aile kanıtı olmaz. İnsan inceleyen/tarih/gerekçe alanları AI tarafından doldurulmaz.
+
+Ayrı Qwen3-0.6B Linux [ilk koşusu](../data/evidence/external-review/judge-first/protocol.json) zaman aşımında sonuç dosyası oluşturamadı. Her deneme artık ayrı partial JSONL'ye hemen yazılır; tamamlanan final JSON ve partial kayıt yeniden kullanılmaz. [İkinci](../data/evidence/external-review/judge-second/protocol.json) ve [son](../data/evidence/external-review/judge-final/protocol.json) ham koşular ayrıdır. Format yönergesi kısa gerekçe ister; Python uzunluk/boolean doğrulaması korunur. Kullanılabilir yanıt sayısı hakem doğruluğu değildir; insan etiketleri olmadan Cohen κ veya uyum skoru verilmez. Timeout'un kesin nedeni kontrollü probe ile kanıtlanmadı.
 
 ## İsteğe bağlı Haiku
 

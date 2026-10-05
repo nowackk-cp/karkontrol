@@ -29,6 +29,8 @@ jobs:
           "$runtime" -m .local/llm/Qwen3-0.6B-Q8_0.gguf --host 127.0.0.1 --port 8081 -c 4096 -t 4 --parallel 1 --jinja > reports/judge-server.log 2>&1 &
           echo "$!" > reports/judge-server.pid
           uv run python scripts/wait_local_llm.py
+      - name: Compare bounded and unbounded decoder strings
+        run: uv run python scripts/probe_judge_schema.py
       - run: uv run python manage.py evaluate_judge --score data/draft/judge_candidates30.json --output reports/judge-scores.json
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
@@ -36,6 +38,8 @@ jobs:
           name: separate-judge-uncalibrated
           path: |
             reports/judge-scores.json
+            reports/judge-scores.partial.jsonl
+            reports/judge-schema-probe.json
             reports/judge-server.log
             .local/llm/judge-manifest.json
           include-hidden-files: true
