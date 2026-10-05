@@ -18,6 +18,22 @@
 
 ---
 
+<details>
+<summary><b>🇬🇧 English summary</b></summary>
+
+**KârKontrol** is a Python/Django demo for marketplace sellers that calculates profit per order after commission, shipping tiers and costs, with a local LLM assistant that answers questions about the numbers. Most of the code was written by an AI coding agent; this project is about **proving that code is correct**.
+
+- **669** automated tests (unit, integration, LLM eval) and **13** Playwright E2E tests on desktop and mobile
+- **100%** branch coverage on the profit engine, **507/513** mutants killed (**98.83%** mutation score)
+- LLM assistant evaluated on a 52-question set: **49/52 → 52/52**, tracked by GitHub Actions
+- Every pull request must pass all gates before it can merge into `main`, admins included
+
+Try the [Profit Lab](https://nowackk-cp.github.io/karkontrol/lab/), browse the [live test reports](https://nowackk-cp.github.io/karkontrol/) or read the [bugs the tests caught](BUGS.md). All data is synthetic.
+
+</details>
+
+---
+
 ## 🎬 30 saniyelik tur
 
 <p align="center">
