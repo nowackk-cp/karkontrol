@@ -36,6 +36,8 @@ uv run python manage.py evaluate_judge --human-review data/draft/judge_blind30.j
 
 Score için ayrı `KARKONTROL_JUDGE_URL` ve `KARKONTROL_JUDGE_MODEL` gerekir; asistanla aynı model reddedilir. Ayrı ağırlıklar aynı model ailesindeyse bağımsız aile kanıtı olmaz. İnsan inceleyen/tarih/gerekçe alanları AI tarafından doldurulmaz.
 
+Ayrı Qwen3-0.6B Linux [ilk koşusu](../data/evidence/external-review/judge-first/protocol.json) zaman aşımında sonuç dosyası oluşturamadı. Her deneme artık ayrı partial JSONL'ye hemen yazılır; tamamlanan final JSON ve partial kayıt yeniden kullanılmaz. [İkinci](../data/evidence/external-review/judge-second/protocol.json) ve [son](../data/evidence/external-review/judge-final/protocol.json) ham koşular ayrıdır. Format yönergesi kısa gerekçe ister; Python uzunluk/boolean doğrulaması korunur. Kullanılabilir yanıt sayısı hakem doğruluğu değildir; insan etiketleri olmadan Cohen κ veya uyum skoru verilmez. Timeout'un kesin nedeni kontrollü probe ile kanıtlanmadı.
+
 ## İsteğe bağlı Haiku
 
 Yalnız elle tetiklenen workflow sentetik geliştirme sorularını gönderir. Anahtar GitHub `haiku-benchmark` Environment secret'ında tutulur; kişisel hesap harcama sınırı ayrıca insan hesabında ayarlanmalıdır. API hesabı/anahtar olmadığında koşu açık hata verir ve başarı yazılmaz. [Resmi fiyat](https://platform.claude.com/docs/en/about-claude/pricing), erişim 2026-10-04: Haiku 4.5 milyon giriş tokenı 1 USD, çıkış 5 USD. Sabit model `claude-haiku-4-5-20251001`; tek tur ve sınırlı cevap uzunluğu. Maliyet TRY kuruşu olarak garanti edilmez. Qwen/Haiku/offline kategori CSV'leri yalnız üç gerçek koşu mevcutsa kıyaslanabilir.

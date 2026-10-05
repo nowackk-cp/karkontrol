@@ -1,0 +1,14 @@
+{
+  "run_url": "https://github.com/nowackk-cp/karkontrol/actions/runs/37253777571",
+  "source_commit": "95947b829083db5f3fce1f1ef2833c499a09b80d",
+  "conclusion": "success",
+  "attempted": 30,
+  "validated_responses": 30,
+  "partial_rows_preserved": 30,
+  "max_observed_reason_characters": 232,
+  "human_labels_filled": 0,
+  "human_calibrated": false,
+  "different_weights_same_model_family": true,
+  "first_timeout_causality_proven": false,
+  "notes": "Formatting prompt requested short reasons; strict 300-character post-validation and 256-token budget preserved. Response availability is not human agreement or judge accuracy."
+}
