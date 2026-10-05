@@ -1,0 +1,9 @@
+# engine.profit.x__round_half_up__mutmut_16: survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -2,4 +2,4 @@
+     """Tam rasyonelin en yakın tamsayısı; yarımda sıfırdan uzaklaşır."""
+     quotient, remainder = divmod(abs(value.numerator), value.denominator)
+     rounded = quotient + int(2 * remainder >= value.denominator)
+-    return -rounded if value < 0 else rounded
++    return -rounded if value <= 0 else rounded

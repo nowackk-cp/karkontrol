@@ -1,0 +1,241 @@
+{
+  "review_created_at_utc": "2026-10-05T01:20:31.837509+00:00",
+  "reviewer": "imports_reports independent second review",
+  "source_commit": "2207c894c4ff35307e2644160649531d9253059b",
+  "source_sha256": "25d13efa08dd0b61822aae5884746f42f1523b07a79b7291b716f7ef360a0ffb",
+  "source_commit_hash_verified": true,
+  "source_local_hash": "25d13efa08dd0b61822aae5884746f42f1523b07a79b7291b716f7ef360a0ffb",
+  "index_path": "reports/review-mutation-final/mutation-evidence/reports/mutation-review-index.json",
+  "index_sha256": "5705a50eaa73002f552330cdd7b4ec78e487e72351e524fd34440e52ddb3ed71",
+  "raw_mutant_source_sha256": "cd288363f7320a23412d64d94fff57824a3401ec8d2cac5aa677cdaf3448fce3",
+  "metadata": [
+    {
+      "path": "reports/review-mutation-final/mutation-evidence/mutants/engine/__init__.py.meta",
+      "sha256": "8337af0c4106390d1c3bc4da61916adc36a117e653e1d7baa815d1ca882d6238",
+      "verified": true
+    },
+    {
+      "path": "reports/review-mutation-final/mutation-evidence/mutants/engine/profit.py.meta",
+      "sha256": "ff088d6f661bb68a1a642ae86888664828999d8b918eb76fb0b808b3c579072b",
+      "verified": true
+    }
+  ],
+  "linux_run": {
+    "id": 37250701744,
+    "commit": "2207c894c4ff35307e2644160649531d9253059b",
+    "total": 513,
+    "killed": 507,
+    "survived": 6,
+    "other": 0,
+    "score_percent": "98.83",
+    "source_exclusions": [],
+    "test_selection": [
+      "tests/unit/test_profit.py",
+      "tests/unit/test_profit_contract.py"
+    ]
+  },
+  "all_513_metadata_exit_codes_match_summary": true,
+  "all_six_survivor_ids_match_index": true,
+  "classification_counts": {
+    "proven_equivalent_supported_api": 6,
+    "test_gap": 0,
+    "unresolved": 0
+  },
+  "category_counts": {
+    "redundant_zip_length_check": 3,
+    "zero_integer_sign": 1,
+    "nonfinite_rounding_irrelevance": 2
+  },
+  "probe_counts": {
+    "round_fraction_inputs_per_variant": 49955,
+    "money_inputs_contexts_per_variant": 2944,
+    "nonfinite_money_inputs_contexts_per_variant": 1408,
+    "public_order_inputs_contexts_per_variant": 24,
+    "money_rounding_modes": 8,
+    "decimal_precisions": [
+      1,
+      3,
+      28,
+      50
+    ]
+  },
+  "score_adjusted": false,
+  "new_exclusions": false,
+  "witnesses": [],
+  "scope_limits": [
+    "Proof assumes supported normal built-in Decimal/Fraction and concrete list[LineInput] APIs; custom side-effectful subclasses, monkeypatching and concurrent mutation are outside the contract.",
+    "Direct probes execute verified raw function ASTs in isolated memory; no new Linux mutation run.",
+    "No source or tests changed; no human finance expected values or labels generated.",
+    "The raw 507/513 score is unchanged; equivalent classification is not a recalculated score."
+  ],
+  "mutants": [
+    {
+      "mutant": "engine.profit.x__calculate__mutmut_75",
+      "linux_exit_code": 0,
+      "classification": "proven_equivalent_supported_api",
+      "source_function": "_calculate",
+      "source_function_lines": [
+        189,
+        256
+      ],
+      "raw_function_lines": [
+        12019,
+        12086
+      ],
+      "original_ast_matches_commit": true,
+      "diff_ast_matches_raw_mutant": true,
+      "diff_path": "reports/review-mutation-final/mutation-evidence/reports/mutation-diffs/b0330dcc5b32fece.diff",
+      "diff_sha256": "8671e173ba46f74b1faaa2b8e2949f188528ebda776e01fac0d3eec3be5bcee0",
+      "removed": [
+        "        for gross, line in zip(original, lines, strict=True)"
+      ],
+      "added": [
+        "        for gross, line in zip(original, lines, strict=None)"
+      ],
+      "category": "redundant_zip_length_check",
+      "proof": "calculate_order builds a private sorted list of validated LineInput. original is a one-to-one comprehension over that list; neither list changes before zip. Equal lengths make strict=True, None, omitted and False yield identical pairs. The supported path cannot produce a length mismatch.",
+      "public_order_probes_equal": 24,
+      "direct_probes_equal": 24
+    },
+    {
+      "mutant": "engine.profit.x__calculate__mutmut_78",
+      "linux_exit_code": 0,
+      "classification": "proven_equivalent_supported_api",
+      "source_function": "_calculate",
+      "source_function_lines": [
+        189,
+        256
+      ],
+      "raw_function_lines": [
+        12229,
+        12296
+      ],
+      "original_ast_matches_commit": true,
+      "diff_ast_matches_raw_mutant": true,
+      "diff_path": "reports/review-mutation-final/mutation-evidence/reports/mutation-diffs/ab291395d6519ff2.diff",
+      "diff_sha256": "92f5510df03004a956093fa6a334204025cc9581e261e5755257d0594cce428e",
+      "removed": [
+        "        for gross, line in zip(original, lines, strict=True)"
+      ],
+      "added": [
+        "        for gross, line in zip(original, lines, )"
+      ],
+      "category": "redundant_zip_length_check",
+      "proof": "calculate_order builds a private sorted list of validated LineInput. original is a one-to-one comprehension over that list; neither list changes before zip. Equal lengths make strict=True, None, omitted and False yield identical pairs. The supported path cannot produce a length mismatch.",
+      "public_order_probes_equal": 24,
+      "direct_probes_equal": 24
+    },
+    {
+      "mutant": "engine.profit.x__calculate__mutmut_79",
+      "linux_exit_code": 0,
+      "classification": "proven_equivalent_supported_api",
+      "source_function": "_calculate",
+      "source_function_lines": [
+        189,
+        256
+      ],
+      "raw_function_lines": [
+        12299,
+        12366
+      ],
+      "original_ast_matches_commit": true,
+      "diff_ast_matches_raw_mutant": true,
+      "diff_path": "reports/review-mutation-final/mutation-evidence/reports/mutation-diffs/6578dad1d31dbb0d.diff",
+      "diff_sha256": "0d91e802acab9ff5323cf1547957126a05d8bf694afd69dac4eed62b9c4ccd4f",
+      "removed": [
+        "        for gross, line in zip(original, lines, strict=True)"
+      ],
+      "added": [
+        "        for gross, line in zip(original, lines, strict=False)"
+      ],
+      "category": "redundant_zip_length_check",
+      "proof": "calculate_order builds a private sorted list of validated LineInput. original is a one-to-one comprehension over that list; neither list changes before zip. Equal lengths make strict=True, None, omitted and False yield identical pairs. The supported path cannot produce a length mismatch.",
+      "public_order_probes_equal": 24,
+      "direct_probes_equal": 24
+    },
+    {
+      "mutant": "engine.profit.x__round_half_up__mutmut_16",
+      "linux_exit_code": 0,
+      "classification": "proven_equivalent_supported_api",
+      "source_function": "_round_half_up",
+      "source_function_lines": [
+        19,
+        23
+      ],
+      "raw_function_lines": [
+        223,
+        227
+      ],
+      "original_ast_matches_commit": true,
+      "diff_ast_matches_raw_mutant": true,
+      "diff_path": "reports/review-mutation-final/mutation-evidence/reports/mutation-diffs/6af370ecdbd50914.diff",
+      "diff_sha256": "f637d36a09bb615b2ea42707e8009868bdf960c577c0568fff3f7c57e6c40f2a",
+      "removed": [
+        "    return -rounded if value < 0 else rounded"
+      ],
+      "added": [
+        "    return -rounded if value <= 0 else rounded"
+      ],
+      "category": "zero_integer_sign",
+      "proof": "The predicates <0 and <=0 differ only at Fraction(0). Its numerator and divmod remainder are zero, so rounded is Python int 0; -0 is the same Python int 0. Nonzero inputs take the same branch. Fraction has no signed zero.",
+      "public_order_probes_equal": 24,
+      "direct_probes_equal": 49955
+    },
+    {
+      "mutant": "engine.profit.x_money__mutmut_3",
+      "linux_exit_code": 0,
+      "classification": "proven_equivalent_supported_api",
+      "source_function": "money",
+      "source_function_lines": [
+        13,
+        16
+      ],
+      "raw_function_lines": [
+        42,
+        45
+      ],
+      "original_ast_matches_commit": true,
+      "diff_ast_matches_raw_mutant": true,
+      "diff_path": "reports/review-mutation-final/mutation-evidence/reports/mutation-diffs/b59ffd39b63f74c3.diff",
+      "diff_sha256": "c935e1165b5a2ac1dca47d36aa054edc49c378f3e5e02c95e2389f9f6b04b997",
+      "removed": [
+        "        return value.quantize(CENT, rounding=ROUND_HALF_UP)"
+      ],
+      "added": [
+        "        return value.quantize(CENT, rounding=None)"
+      ],
+      "category": "nonfinite_rounding_irrelevance",
+      "proof": "Finite Decimal values bypass the modified quantize branch entirely. For nonfinite built-in Decimal, qNaN propagation, sNaN quieting/InvalidOperation and Infinity InvalidOperation have no finite coefficient to round. Valid context rounding selection does not change the result/payload/sign, exception or flags. Public LineInput validation rejects these nonfinite finance inputs before money; direct compatibility calls were also checked.",
+      "public_order_probes_equal": 24,
+      "direct_probes_equal": 2944
+    },
+    {
+      "mutant": "engine.profit.x_money__mutmut_5",
+      "linux_exit_code": 0,
+      "classification": "proven_equivalent_supported_api",
+      "source_function": "money",
+      "source_function_lines": [
+        13,
+        16
+      ],
+      "raw_function_lines": [
+        54,
+        57
+      ],
+      "original_ast_matches_commit": true,
+      "diff_ast_matches_raw_mutant": true,
+      "diff_path": "reports/review-mutation-final/mutation-evidence/reports/mutation-diffs/2b327f8fcca1e251.diff",
+      "diff_sha256": "65aec005599a2a87dd24d6a2eabd3b15957d0fcd8caf3e348bf858d2c25e7197",
+      "removed": [
+        "        return value.quantize(CENT, rounding=ROUND_HALF_UP)"
+      ],
+      "added": [
+        "        return value.quantize(CENT, )"
+      ],
+      "category": "nonfinite_rounding_irrelevance",
+      "proof": "Finite Decimal values bypass the modified quantize branch entirely. For nonfinite built-in Decimal, qNaN propagation, sNaN quieting/InvalidOperation and Infinity InvalidOperation have no finite coefficient to round. Valid context rounding selection does not change the result/payload/sign, exception or flags. Public LineInput validation rejects these nonfinite finance inputs before money; direct compatibility calls were also checked.",
+      "public_order_probes_equal": 24,
+      "direct_probes_equal": 2944
+    }
+  ]
+}

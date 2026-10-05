@@ -10,6 +10,8 @@ v2 prompt farkı: ürün niyetine ürün kârlılığı, karşılaştırma ve ve
 
 v3 yeni parserın çözdüğü dönemi modele açık verir: karaktersiz Türkçe, 09/2026, 2026-09, geçen/bu ay. Çok dönem ve tutar eşiği modelden önce ele alınır. Geliştirme soruları ayrı `questions_v3.jsonl` içindedir; göreli tarih için eval saati sabittir. Sıralama fixture'ı farklı kârlı ürünleri ve talimat içeren fakat veri olarak kalan SKU'yu içerir.
 
+Yeni v3 geliştirmesinin [ilk](../data/evidence/external-review/llm-v3-first/eval.json), [ikinci](../data/evidence/external-review/llm-v3-second/eval.json), [üçüncü](../data/evidence/external-review/llm-v3-third/eval.json) ve [son ana dal](../data/evidence/external-review/llm-v3-final/eval.json) ölçümleri ayrı dosyalarda saklanır. Tarih şeması, desteklenmeyen serbest işlem ile desteklenen kural hesaplamasının ayrımı bu görülen hatalara göre v3'te düzeltildi. Son raporun v2 bölümü dondurulmuş eski promptun aynı yeni sorulardaki ayrı referansıdır; v3 başarısıyla birleştirilmez. Protokol source commit ve model manifestini kaydeder; eski ilk sentetik set yeniden çalıştırılmadı.
+
 ## Çalıştırma ve sürüm karşılaştırması
 
 ```powershell

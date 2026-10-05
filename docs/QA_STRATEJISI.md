@@ -24,9 +24,11 @@ quality lint, format, ayar/migration, unit/integration/eval, kapsam ve Chromium 
 
 Hata mesajları da test sözleşmesidir; güncel mutasyon ayarında `raise ValueError` dışlaması kaldırılmıştır. Test seçimi motor sözleşme testlerini içerir. Eski dışlamalı sonuç güncel motorun skoru olarak kullanılmaz. Önceki kalan mutantların tek tek farkları ve inceleme sınıfları bu belgenin ekinde korunur. Eşdeğerlik her girdi için gerekçe ister; yalnız teste yakalanmamak eşdeğerlik değildir. Zaman aşımı/çalışma hatası kill sayılmaz. Dışlamasız puan ölçülmeden tahmin rakamı yazılmaz.
 
+Güncel ham [mutasyon özeti](../data/evidence/external-review/mutation-final/reports/mutation-summary.json) ve [kalan mutant incelemesi](../data/evidence/external-review/mutation-final/final-six-survivors.md) ayrı tutulur. İkinci ajan kaynak/metaveri hash'lerini, çıkış kodlarını, AST farklarını ve doğrudan karşılaştırmaları denetledi. Eşdeğer sınıflaması desteklenen API ve standart girdi tipleriyle sınırlıdır; yan etkili özel subclass veya eşzamanlı girdi değişikliği bu sözleşmede yoktur. İnceleme ham mutasyon skorunu değiştirmez.
+
 ## Kalite kapısı demosu
 
-[PR #4](https://github.com/nowackk-cp/karkontrol/pull/4) eski kasıtlı stopaj değişikliğinin başarısız CI kaydıdır ve birleştirilmeden kapandı. Sentetik API animasyonu kaldırıldı. Yeni sahiplik regresyonu demo PR'ı ve görünen GitHub ekranı tamamlandığında README'de bağlanır. Kasıtlı değişiklik BUGS'a yeni AI hatası diye eklenmez.
+[PR #4](https://github.com/nowackk-cp/karkontrol/pull/4) eski kasıtlı stopaj değişikliğinin başarısız CI kaydıdır ve birleştirilmeden kapandı. Sentetik API animasyonu kaldırıldı. [Yeni PR #29](https://github.com/nowackk-cp/karkontrol/pull/29) tek sahiplik/metot sırası değişikliğiyle entegrasyon testlerini kırdı ve birleştirilmeden kapandı. Açık PR'ın BLOCKED API kaydı, kapanış JSON'u, ham CI logu ve gerçek GitHub kontrol ekranı README'de bağlanır. Görüntüde oturum gerektiren merge kutusu yoktur. Kasıtlı değişiklik BUGS'a yeni AI hatası diye eklenmez.
 
 ## Yeni pazaryeri ve Shopify hazırlığı
 
