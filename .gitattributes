@@ -9,3 +9,4 @@
 *.ini text eol=lf
 *.toml text eol=lf
 *.lock text eol=lf
+data/evidence/external-review/judge-*/judge-server.log -text

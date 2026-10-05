@@ -1,0 +1,22 @@
+{
+  "run_url": "https://github.com/nowackk-cp/karkontrol/actions/runs/37253477931",
+  "source_commit": "4680d3f022561703eb4e1df00d721152e7e89771",
+  "conclusion": "failure",
+  "attempted": 30,
+  "validated_responses": 21,
+  "unavailable_ids": [
+    "J30-02",
+    "J30-09",
+    "J30-17",
+    "J30-18",
+    "J30-23",
+    "J30-26",
+    "J30-27",
+    "J30-28",
+    "J30-30"
+  ],
+  "partial_rows_preserved": 30,
+  "human_calibrated": false,
+  "speed_causality_proven": false,
+  "notes": "Paired first candidate completed with both schemas (3.12s/1.78s); old 45s timeout was not reproduced. Caching and output length differ. 9 full-run calls failed validation or availability; first result preserved before prompt formatting change."
+}

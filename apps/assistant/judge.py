@@ -44,7 +44,8 @@ def grade(*, question, answer, source):
                     "grounded: tüm iddialar kaynakla uyumlu mu? "
                     "answers_question: soruyu cevaplıyor mu? clear: açık ve anlaşılır mı? "
                     "Bir iddia kaynakla çelişirse grounded false olmalı. "
-                    "JSON ve kısa Türkçe reason yaz. /no_think"
+                    "JSON yaz. reason tek cümle ve en fazla 80 karakter olsun; "
+                    "yalnız kısa nedeni yaz, kaynağı veya yanıtı tekrar etme. /no_think"
                 ),
             },
             {

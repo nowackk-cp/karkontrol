@@ -1,0 +1,56 @@
+{
+  "source_commit": "4680d3f022561703eb4e1df00d721152e7e89771",
+  "candidate_id": "J30-01",
+  "candidate_sha256": "9c3e7ab89566ff12afd06e24615000f5fe160e9e6ab52da48c2724bf4dd9e3b2",
+  "prompt_sha256": "dcef2b7dde60024f75fc6a3dbaeea56fe59a6ab7a453ee68f538c3cdcd404aa6",
+  "judge_model": "Qwen3-0.6B-Q8_0",
+  "post_validation_max_reason_length": 300,
+  "same_prompt_and_token_budget": true,
+  "human_calibrated": false,
+  "results": [
+    {
+      "schema": "old_bounded",
+      "elapsed_seconds": 3.1245554269999616,
+      "completed": true,
+      "score": {
+        "grounded": true,
+        "answers_question": true,
+        "clear": true,
+        "reason": "Soru ve yanıt aynı şekilde stopaj net satışının uygulanması ve hakedişi azaltması ile ilgili olduğunu belirtti. Ayrıca, kârın gideri kalemi değildir ifadesi de doğru ve grounded olarak kabul edilir.",
+        "judge_pass": true,
+        "usage": {
+          "completion_tokens": 91,
+          "prompt_tokens": 197,
+          "total_tokens": 288,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          }
+        },
+        "rubric_version": "grounding-v1",
+        "judge_model": "Qwen3-0.6B-Q8_0"
+      }
+    },
+    {
+      "schema": "new_unbounded",
+      "elapsed_seconds": 1.7812026639999772,
+      "completed": true,
+      "score": {
+        "grounded": true,
+        "answers_question": true,
+        "clear": true,
+        "reason": "Soru ve yanıt aynı şekilde stopaj net satış üzerinden hesaplanır, hakedişi azaltır ve kârın gideri değildir. Kaynak doğru ve uygulama doğru.",
+        "judge_pass": true,
+        "usage": {
+          "completion_tokens": 76,
+          "prompt_tokens": 197,
+          "total_tokens": 273,
+          "prompt_tokens_details": {
+            "cached_tokens": 196
+          }
+        },
+        "rubric_version": "grounding-v1",
+        "judge_model": "Qwen3-0.6B-Q8_0"
+      }
+    }
+  ]
+}
