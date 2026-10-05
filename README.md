@@ -28,6 +28,7 @@ Uygulama CSV/XLSX sipariş aktarır, aktarımı geri alır, iadeleri günceller,
 | APP-003 — Eylül yerine Kasım | İlk LLM koşusu | −60,00 TL zarar “veri yok” cevabında gizlendi |
 | APP-004 — ürün/iade için yanlış araç | İlk LLM koşusu | Yanlış rapor/kural cevabı; ayrı TL farkı ölçülmedi |
 | ENG-001 — eşit kalan sırası | Dış inceleme ve regresyon | 10 TL dağıtımında 8,33/0,84/0,83 yerine 8,34/0,83/0,83 gerekir |
+| ENG-002 — yüksek hassasiyette kur | Bağımsız mutasyon incelemesi | Kabul edilen çok hassas kurda brüt/hakediş 0,01 TRY sapıyordu; tam ara hesapla düzeltildi |
 | IMP-001 — yüzde biçimli Excel oranı | Dış inceleme ve regresyon | Yanlış oranla kayıt oluşabiliyordu; artık atomik reddedilir |
 | IMP-002/003 — geri alma/kısa CSV | Dış inceleme ve regresyon | Hatalı yeni satırlar kaldı veya kısa satır kabul edildi |
 | REP/CFG/AI/JDG | Dış inceleme ve çapraz test | Arama, eksik rapor, sınır, dönem ve ölçüm sözleşmesi düzeltildi |
@@ -40,17 +41,18 @@ Bu tablo güncel sayısal ölçümlerin tek özetidir. Tarihî kanıtlar değiş
 
 | Ölçüm | Sonuç / kaynak |
 |---|---|
-| Çekirdek testler | Yerel ve Linux PR CI'da 503 geçti |
+| Çekirdek testler | Son yerel kaynakta 542 geçti; yeni Linux CI bekleniyor |
 | Chromium E2E | 13 geçti; gerçek tarayıcı, yeni üç para kartı ve farklı satırlar |
-| Dev-only, Playwright yok | Son kaynakta 503 geçti / 1 opsiyonel paket atlandı |
+| Dev-only, Playwright yok | Son kaynakta 542 geçti / 1 opsiyonel paket atlandı |
 | Mobil Chromium | 390×844 dokunmatik görünümde 13 geçti |
-| Güncel motor dal kapsamı | Yerel ve Linux CI'da 48/48 = %100 |
+| Güncel motor dal kapsamı | Son yerel kaynakta 50/50 = %100; yeni Linux CI bekleniyor |
 | Tarihî dışlamalı mutasyon | 342/369 = %92,68; 27 kalan mutant: 14 mesaj, 9 davranış farkı, 3 strict eşdeğeri, 1 precision adayı |
-| Dışlamasız mutasyon | 423/436 = %97,02; 13 kalan / 0 diğer. [Koşu](https://github.com/nowackk-cp/karkontrol/actions/runs/37249153652), c1481f4 kaynak sürümü |
+| İlk dışlamasız mutasyon | 423/436 = %97,02; 13 kalan / 0 diğer. [Koşu](https://github.com/nowackk-cp/karkontrol/actions/runs/37249153652), c1481f4 kaynak sürümü; incelemesi ENG-002'yi buldu. Son düzeltme ölçümü bekleniyor |
 | İlk v2 geliştirme ölçümü | 34/40, 5 kritik hata → aynı sette prompt ayarı sonrası 40/40; genelleme kanıtı değildir |
 | Modele atfedilebilir yönlendirici doğruluğu | İlk 30/36 → düzeltilmiş 36/36; 4 model öncesi güvenlik reddi ayrı. İnceleme notundaki 34/36 ham JSON ile uyuşmuyor |
 | Anahtar kelime tabanı | Tarihî 40/40; yeni dönem geliştirme setinde yerel 52/52 |
 | İlk v3 Qwen geliştirme ölçümü | 49/52; modele atfedilebilir 41/44, 2 kritik hata. [İlk ham yanıt](data/evidence/external-review/llm-v3-first/eval.json); düzeltme sonrası ölçüm bekleniyor |
+| İkinci v3 Qwen ölçümü | 51/52; modele atfedilebilir 43/44, kritik hata 0. [İkinci ham yanıt](data/evidence/external-review/llm-v3-second/eval.json); kalan E-35 için yönerge düzeltildi, son ölçüm bekleniyor |
 
 [Son main CI](https://github.com/nowackk-cp/karkontrol/actions/workflows/ci.yml?query=branch%3Amain) · [HTML raporları](https://nowackk-cp.github.io/karkontrol/) · [İlk başarısız LLM koşusu](https://github.com/nowackk-cp/karkontrol/actions/runs/37173824046) · [Düzeltilmiş ham rapor](data/evidence/llm-corrected.json).
 

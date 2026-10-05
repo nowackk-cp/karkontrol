@@ -17,5 +17,7 @@ Veri olmayan tarih de geçerli rapor isteğidir; veri varlığını araç kontro
 Örnek: "Nisan kârım" -> {"action":"clarify","topic":"","year":null,"month":4}
 Örnek: "Kargo nasıl dağıtılıyor?" -> {"action":"rule","topic":"kargo","year":null,"month":null}
 Örnek: "İade adedi" -> {"action":"returns","topic":"","year":null,"month":null}
+Örnek: "Ne yapmalıyım?" -> {"action":"unsupported","topic":"","year":null,"month":null}
+Örnek: "Hangi mesleği seçmeliyim?" -> {"action":"unsupported","topic":"","year":null,"month":null}
 /no_think
 Ek tarih sözleşmesi: 09/2026 ve 2026-09 aynı dönemdir. Karaktersiz Türkçe yazım geçerlidir. Geçen ay ve bu ay için sunucunun verdiği dönemi kullan. Para eşikleri ve birden fazla ay sunucuda önce ele alınır.
