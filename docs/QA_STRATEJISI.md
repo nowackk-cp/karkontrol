@@ -82,6 +82,6 @@ Precision adayı için tüm geçerli Decimal girdilerinde eşdeğerlik kanıtı 
 | _calculate 102 | maliyet `* exchange_rate` → `/ exchange_rate` | Kanıtlı boşluk: 250 USD ×40 maliyet 10.000,00 → 6,25 TL |
 | _calculate 114 | `line_number` → `None` | Kanıtlı boşluk: kamu çıktı satır kimliği kaybolur |
 
-Dışlamasız skor ölçülmedi. Dışlanan raise satırları için test sonuçları olmadığı
-için %83,8 tahmini ölçüm diye yazılamaz. Yeni motor ve genişletilmiş testler
-üzerinde yeni Linux koşusu gerekir; tarihî kimlikler yeni üretimde değişebilir.
+Tarihî kaynağın dışlanan raise satırları için test sonuçları olmadığı için
+%83,8 tahmini ölçüm diye yazılamaz. Güncel motor ve genişletilmiş testlerin
+yeni Linux ölçümü README'dedir; yeni mutant kimlikleri tarihî üretimden farklıdır.

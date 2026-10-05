@@ -58,4 +58,8 @@ Orta önem; **dış inceleme ile bulundu**. Opsiyonel tarayıcı importu ana pyt
 
 Bağımsız ajan incelemesinde bulundu. Başarısız model çağrısı `selection` üretmediği için doğruluk paydasından düşebiliyordu; Haiku yanıtı local etiketi taşıyordu. Foreign sentinel fixture ile eşleşmiyor, talimat SKU top sıralamada görünmüyordu. Bütün başlayan çağrılar doğru backend ile sayılır; geçersiz tool yanıtları ve token sınırları güvenli reddedilir. Fixture marker bütün yanıt nesnesinde, talimat SKU da sıralama çıktısında kontrol edilir. [#23](https://github.com/nowackk-cp/karkontrol/issues/23) ve aynı ölçüm kapsamlı [#24](https://github.com/nowackk-cp/karkontrol/issues/24), source düzeltmesinden önce açıldı. Ayrı finans TL farkı yok; bu ölçüm güvenilirliği sorunudur.
 
-Bu PR'nin fix commit gövdeleri #11–24 kapanışlarını taşır. Kod/ölçüm değişiklikleri kendi kaynak SHA'sıyla review edilir; main geçmişi, ilk başarısız raporlar ve sürüm etiketleri değiştirilmez.
+## APP-005 — v3 tarihsiz soru ve fiyat niyeti
+
+Yeni gerçek Qwen geliştirme koşusunda bulundu. E-35 genel tavsiye sorusu yanlış netleştirildi; E-43 tarihsiz kâr özeti netleştirmeye, E-50 kargo fiyatı isteği kural açıklamasına yönlendirildi. Ayrı finans TL farkı ölçülmedi. [İlk ham yanıt](data/evidence/external-review/llm-v3-first/eval.json) saklandı; [#26](https://github.com/nowackk-cp/karkontrol/issues/26) düzeltmeden önce açıldı. v3 tarih yokluğu, kural/fiyat ve genel soru tanımları ayrıldı. Geliştirme vakaları ve eşikler değiştirilmedi; v2 prompt ve ilk sentetik set korunur.
+
+Bu PR'nin fix commit gövdeleri #11–24 ve #26 kapanışlarını taşır. Kod/ölçüm değişiklikleri kendi kaynak SHA'sıyla review edilir; main geçmişi, ilk başarısız raporlar ve sürüm etiketleri değiştirilmez.

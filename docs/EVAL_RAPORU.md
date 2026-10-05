@@ -4,7 +4,7 @@ Güncel ve tarihî sayısal sonuçlar [README](../README.md) tablosundadır. Fin
 
 ## Geliştirme seti ve prompt değişikliği
 
-İlk Qwen koşusunda yanlış Eylül dönemi ve ürün/kural niyeti hataları bulundu; aynı geliştirme setinde tarih şeması ve prompt ayarı yapıldı. Son başarılı ölçüm genelleme kanıtı değildir. Ham [ilk](../data/evidence/llm-first.json) ve [düzeltilmiş](../data/evidence/llm-corrected.json) yanıtlar korunur. Model öncesi güvenlik reddi yönlendirici paydasına girmez; yalnız `selection` içeren satırlar sayılır. İnceleme notunun modele atfedilebilir rakamı ham JSON sayımıyla düzeltilmiştir.
+İlk Qwen koşusunda yanlış Eylül dönemi ve ürün/kural niyeti hataları bulundu; aynı geliştirme setinde tarih şeması ve prompt ayarı yapıldı. Son başarılı ölçüm genelleme kanıtı değildir. Ham [ilk](../data/evidence/llm-first.json) ve [düzeltilmiş](../data/evidence/llm-corrected.json) yanıtlar korunur. Model öncesi güvenlik reddi yönlendirici paydasına girmez. Güncel payda `model_attempted` ile başlayan bütün çağrıları, başarısız yanıtları da kapsar. Bu alanı içermeyen tarihî JSON'larda `selection` kaydı kullanılır; inceleme notunun tarihî modele atfedilebilir rakamı ham JSON sayımıyla düzeltilmiştir.
 
 v2 prompt farkı: ürün niyetine ürün kârlılığı, karşılaştırma ve veri-yok durumu eklendi (satır 5); rule topic sorudaki konuya bağlandı, iade/kargo ayrımı açıklandı (satır 7); tarih yoksa null ve yıl-yalnız isteğinde month=null kuralı güçlendirildi (satır 13). Tarih eşleşmesi üretim şemasına da bağlandı. Eski v2 dosyası ilk sentetik setten sonra değiştirilmedi.
 

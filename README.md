@@ -40,16 +40,17 @@ Bu tablo güncel sayısal ölçümlerin tek özetidir. Tarihî kanıtlar değiş
 
 | Ölçüm | Sonuç / kaynak |
 |---|---|
-| Son birleşik yerel çekirdek tur | 503 geçti; PR öncesi ara ölçüm, yeni birleşik CI bekleniyor |
+| Çekirdek testler | Yerel ve Linux PR CI'da 503 geçti |
 | Chromium E2E | 13 geçti; gerçek tarayıcı, yeni üç para kartı ve farklı satırlar |
 | Dev-only, Playwright yok | Son kaynakta 503 geçti / 1 opsiyonel paket atlandı |
 | Mobil Chromium | 390×844 dokunmatik görünümde 13 geçti |
-| Güncel motor dal kapsamı | Yerel 48/48 = %100; aynı kaynak için Linux CI doğrulaması bekleniyor |
+| Güncel motor dal kapsamı | Yerel ve Linux CI'da 48/48 = %100 |
 | Tarihî dışlamalı mutasyon | 342/369 = %92,68; 27 kalan mutant: 14 mesaj, 9 davranış farkı, 3 strict eşdeğeri, 1 precision adayı |
-| Dışlamasız mutasyon | Yeni ölçüm bekleniyor; %83,8 tahmini sonuç olarak kullanılmadı |
+| Dışlamasız mutasyon | 423/436 = %97,02; 13 kalan / 0 diğer. [Koşu](https://github.com/nowackk-cp/karkontrol/actions/runs/37249153652), c1481f4 kaynak sürümü |
 | İlk v2 geliştirme ölçümü | 34/40, 5 kritik hata → aynı sette prompt ayarı sonrası 40/40; genelleme kanıtı değildir |
 | Modele atfedilebilir yönlendirici doğruluğu | İlk 30/36 → düzeltilmiş 36/36; 4 model öncesi güvenlik reddi ayrı. İnceleme notundaki 34/36 ham JSON ile uyuşmuyor |
 | Anahtar kelime tabanı | Tarihî 40/40; yeni dönem geliştirme setinde yerel 52/52 |
+| İlk v3 Qwen geliştirme ölçümü | 49/52; modele atfedilebilir 41/44, 2 kritik hata. [İlk ham yanıt](data/evidence/external-review/llm-v3-first/eval.json); düzeltme sonrası ölçüm bekleniyor |
 
 [Son main CI](https://github.com/nowackk-cp/karkontrol/actions/workflows/ci.yml?query=branch%3Amain) · [HTML raporları](https://nowackk-cp.github.io/karkontrol/) · [İlk başarısız LLM koşusu](https://github.com/nowackk-cp/karkontrol/actions/runs/37173824046) · [Düzeltilmiş ham rapor](data/evidence/llm-corrected.json).
 
