@@ -1,0 +1,24 @@
+{
+  "run_url": "https://github.com/nowackk-cp/karkontrol/actions/runs/37254150079",
+  "source_commit": "d4df845723b0b4e6306baf4094497f18505128cd",
+  "pr_head": "878c1f4c4a44103def69152a5125d3d94925cb28",
+  "v3_passed": 51,
+  "v3_count": 52,
+  "router_accuracy": {
+    "passed": 43,
+    "count": 44
+  },
+  "critical_failures": [],
+  "gate_passed": true,
+  "failed_cases": [
+    "E-26"
+  ],
+  "previous_source_prompt_dataset_hashes_identical": true,
+  "meaning": "Repeated development measurement: identical source and frozen prompt does not guarantee identical inference output across runners. Prior 52/52 is preserved, not substituted for this 51/52.",
+  "human_financial_acceptance": false,
+  "human_judge_calibrated": false,
+  "files": {
+    "eval.json": "e28a2a377e32919b4a43de1ef7640728de837c84861570ccc7478dc6e628e164",
+    "model-manifest.json": "e715667250931c43d7edb93f4981942ee05ea673548cee6e58f8779f04e101dd"
+  }
+}
