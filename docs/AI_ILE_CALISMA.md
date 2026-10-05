@@ -1,93 +1,19 @@
 # AI ile çalışma kaydı
 
-## 2026-10-04 — Gerçek LLM değerlendirmesi
+Kod ve otomatik testler Codex ile geliştirildi. İnsan altın finans hesabı, kör sorular ve hakem etiketleri bu süreçte üretilmedi. Aşağıdaki anlatım teknik kayıt taslağıdır; kişinin kendi emeğine ilişkin son anlatımı kendisinin yazması gerekir.
 
-Kullanıcı bütün planın tamamlanmasını ve computer use yetkisini istedi.
-API anahtarı bulunmadığı için resmî Qwen modelinin anahtarsız CPU yolu seçildi.
-Windows Code Integrity engeli sonrası model Linux GitHub runner'da çalıştırıldı.
-İlk gerçek ölçüm v1%32,5 / v2%85; kritik hatalar kapıyı kırmızı yaptı.
-APP-003 yanlış ay sorununu kaydeder. Promptlar apps/assistant/prompts altında
-aynen sürümlenir; değişen tarih doğrulaması motor/golden beklentilerini değiştirmez.
+Kullanılan talepler: “projeye başla”, “bütün planı tamamla” ve dış inceleme için “oku ve hepsini bitir sonra bitirdiklerini de kontrol et”. Sürüm kontrollü model talimatları `apps/assistant/prompts/` altında birebir bulunur. Ayrı onaylı kurallarla başlayan bağımsız `ai-v1` geliştirme oturumu yapılmadı; böyle bir izolasyon vaadi başarı olarak sunulmaz.
 
-| Karar | Sonuç | Gerekçe |
-|---|---|---|
-| Gerçek model çalıştırma yerine offline sonucu LLM diye yazmak | Ret | Ayrı backend ve ham çağrı kanıtı gerekir |
-| Windows güvenlik politikasını kapatmak | Ret | Linux runner mevcut, sistem ayarı değiştirmeye gerek yok |
-| Modelin Eylül sayısını tahmin etmesi | Ret | Kullanıcı tarihini JSON şemasına bağlamak güvenilir |
-| İnsan beklentilerini/puanlarını AI doldursun | Ret | Bağımsız kabul koşulunu bozardı |
-| Gerçek hatayı kapıdan geçirmek için baseline düşürmek | Ret | Kritik hata kapısı korunur |
+| Öneri/karar | Karar ve gerekçe |
+|---|---|
+| Motor çıktısını altın beklenti yapmak | Reddedildi; aynı hata iki tarafta saklanabilir |
+| Nakit özdeşliğini iki bağımsız hesap diye sunmak | Dış incelemede düzeltildi; girdi temelli ayrı hakediş/KDV kontrolleri yazıldı |
+| Ay sayısını modele tahmin ettirmek | Şemaya bağlandı; yanlış dönemin zararı gizlemesi kayıt altına alındı |
+| Başarısız ölçümü silip yalnız son başarıyı bırakmak | Reddedildi; ilk ham sonuç ve eski etiketler korundu |
+| Testi geçirmek için bekleneni gevşetmek | Reddedildi; kaynak davranışı düzeltildi |
+| Windows model korumasını kapatmak | Reddedildi; Linux runner kullanıldı |
+| Aynı model hakemini insan mutabakatı saymak | Reddedildi; ayrı model ve kör insan etiketleri ayrıldı |
+| Eşit kalanları Decimal bölümüyle sıralamak | Dış incelemede tam Fraction/divmod ile düzeltildi |
+| Büyük dosya için yalnız import kontrolüne güvenmek | Streaming HTTP sınırı ve atomik testler eklendi |
 
-Aşağıdaki başlangıç kayıtları o tarihteki ara durumları anlatır; güncel kabul
-durumu PROJE_DURUMU ve EVAL_RAPORU belgelerindedir.
-
-## 2026-10-04 — Kesintisiz demo tamamlama
-
-Kullanıcının “bitene kadar durma” talimatı, bağımsız insan onayı yokken bütün
-geliştirmeyi durdurma yaklaşımını değiştirdi. Demo sözleşmesi açık varsayımlarla
-uygulandı; golden sonuç hücreleri boş kaldı. Motor `demo-v1`, asistan `tools-v1`;
-AI hesabı insan kanıtı olarak sunulmadı.
-
-| Öneri/karar | Sonuç | Gerekçe |
-|---|---|---|
-| Atomik import ve siparişin tamamını yeniden hesaplama | Kabul | Yarım kayıt ve çok satırlı ücret hatalarını önler |
-| SQL'de integer cents | Kabul | SQLite Decimal toplamasında float riskini kaldırır |
-| Kalan kuruşu rastgele dağıtma | Ret | Tekrar hesaplamada aynı sonuç gereklidir |
-| Platform kuponunu satıcı indirimiyle birleştirme | Ret | Finansmanı farklıdır, gelir/komisyon farklı davranır |
-| 12 kritik E2E + geniş unit/property katmanı | Kabul | Para ve sahiplik riskine odaklanır |
-| Logo rengi için otomasyon | Ret | Kritik akış kabulünü güçlendirmez |
-| Motor çıktısından golden beklenti üretme | Ret | Aynı hata iki tarafta görünmez olur |
-| Bir hatalı testte bekleneni değiştirme | Ret | Envanterde9 reserved hata olduğunda veri10'a tamamlandı |
-| Anahtarsız araç asistanı | Kabul | Kullanıcı verisi/kâr hesapları yerelde ve doğrulanabilir kalır |
-| Bu sonucu LLM/judge/kör holdout diye sunma | Ret | Bu ölçümler yapılmadı |
-| Kasıtlı CI demo hatasını gerçek AI bug sayma | Ret | Gate kanıtı ile bug kaydı farklıdır |
-
-İlk mutasyon ölçümü 335/369=%90,79; yaşayan mutantlar raporda korunur.
-Şeffaf araç/kapsam/kanıt sınırı projenin kabul kuralıdır.
-
-## 2026-10-04 — Başlangıç
-
-Araç: Codex. Bu çalışmanın Claude Code ile yapıldığı iddia edilmez.
-Kullanıcı talebi: projeye başla; her tamamlanan işlemi `projede yapılanlar.md`
-dosyasına yaz ve bunu altın kural olarak ekle; soru sormadan ilerle;
-bağlam dolduğunda compact yap.
-
-| Karar | Sonuç | Gerekçe |
-|---|---|---|
-| Python 3.13 + Django 5.2 altyapısı | Kabul | Ana planla uyumlu |
-| İnsan kontrolü olmayan AI altın hesapları | Ret | Bağımsız kâhin kuralını ihlal eder |
-| Ölçülmemiş CI/kapsam/mutasyon rozeti | Ret | Gerçek kanıt yok |
-| Giriş ve sağlık kontrolü testleri | Kabul | Çalışır altyapı ve güvenlik doğrulanır |
-| Üretim ve yerel ayarları ayırma | Kabul | Yerel kolaylıklar üretime taşınmaz |
-| Kaynaklardan alan araştırma özeti | Kabul, taslak | İnsan yazarlığı/onayı iddia edilmez |
-
-### Bağlam devamlılığı
-
-Compact işlemi uygulamanın otomatik bağlam yönetimine bağlıdır; bu oturumda
-çağrılabilir bir compact aracı bulunmadı. `AGENTS.md`, işlem günlüğü ve
-`DEVAM_NOTU.md` dosyaları sonraki oturumların aynı işten devam etmesini sağlar.
-
-### Motor bağımsızlığı
-
-Henüz motor üretilmedi, `ai-v1` etiketi konmadı. Kurallar ve bağımsız altın set
-tamamlandığında ayrı oturumda yalnızca onaylı kurallar gösterilecek. Gerçek
-prompt ve ilk sürüm o aşamada kaydedilecek.
-
-## 2026-10-04 — Veri akışları
-
-Kullanıcı talebi: "devam et projeye". Önceki soru sormadan ilerleme ve her
-işlemi günlüğe yazma talimatı korunur. İnsan doğrulamalı altın veri bulunmadığı
-için finansal motor yerine bağımsız mağaza/aktarım altyapısı geliştirildi.
-
-| Öneri/iş | Karar | Kanıt/gerekçe |
-|---|---|---|
-| Mağaza sahipliğini POST alanından alma | Ret | Oturum sahibinden belirlenir |
-| Kısmi dosya aktarımını kabul etme | Ret | Yanlış sipariş toplamı riski |
-| Mükerrerleri dosya hash'iyle tek başına önleme | Ret | Farklı dosyada aynı satır için DB benzersizliği de gerekli |
-| Testi 404 yerine 405 kabul edecek şekilde gevşetme | Ret | APP-001 sahiplik sırası düzeltilerek çözüldü |
-| Çok uzun adet için Python dönüşüm sınırını artırma | Ret | APP-002 girdi sınırıyla çözüldü |
-| UI'da hazır olmayan kârı 0 gösterme | Ret | Kâr/hakediş henüz hesaplanmıyor |
-| Sentetik demo ve gerçek tarayıcı akışı | Kabul | Yerel kullanım ve kullanıcı akışı doğrulaması |
-
-Son doğrulama: 75 test geçti, uygulama toplam kapsamı %96. Browser becerisiyle
-giriş, mağaza, filtre, örnek dosya/tekrar aktarım ve iade gerçek tarayıcıda
-doğrulandı. Bu kontroller otomatik Playwright test paketi diye raporlanmaz.
+AI tarafından kod/test üretildiğinde bağımsızlık sınırlıdır. Çapraz ajan incelemesi farklı hata bulma fırsatı sağlar, insan alan doğrulamasının yerine geçmez. Tamamlanan otomatik işlemler yerel günlükte tutulur. Güncel rakamlar ve kabul sınırları [README](../README.md) içindedir.

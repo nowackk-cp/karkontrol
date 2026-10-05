@@ -1,6 +1,7 @@
 """Fail closed until 40 independent human-reviewed financial expectations exist."""
 
 import argparse
+import csv
 import hashlib
 import json
 import sys
@@ -29,19 +30,31 @@ def main():
     parser.add_argument("--inputs", type=Path, default=ROOT / "data/draft/inputs.json")
     parser.add_argument("--review", type=Path, default=ROOT / "data/draft/manual_review.csv")
     parser.add_argument("--output", type=Path, default=ROOT / "reports/golden-acceptance.json")
+    parser.add_argument("--required-count", type=int, choices=(10, 40), default=40)
     args = parser.parse_args()
+    if args.output.exists() and args.output.resolve().is_relative_to(
+        (ROOT / "data/evidence").resolve()
+    ):
+        parser.error("İlk kanıt dosyası korunur; data/evidence içindeki sonuç üzerine yazılamaz.")
     report = {"passed": False, "provenance": "human evidence required; no engine-derived oracle"}
     try:
         scenarios = json.loads(args.inputs.read_text(encoding="utf-8"))["scenarios"]
         identifiers = {row["id"] for row in scenarios}
         if len(scenarios) != 40 or len(identifiers) != 40:
             raise ValueError("Exactly 40 distinct input scenarios required")
-        reviewed = read_review(args.review, identifiers)
-        report["discrepancies"] = reconcile(scenarios, reviewed, calculate)
+        with args.review.open(encoding="utf-8-sig", newline="") as stream:
+            review_ids = [row.get("id", "") for row in csv.DictReader(stream, delimiter=";")]
+        if len(review_ids) < args.required_count or not set(review_ids) <= identifiers:
+            raise ValueError(f"At least {args.required_count} known review scenarios required")
+        reviewed = read_review(args.review, set(review_ids))
+        selected = [scenario for scenario in scenarios if scenario["id"] in reviewed]
+        report["discrepancies"] = reconcile(selected, reviewed, calculate)
         report["review_sha256"] = hashlib.sha256(args.review.read_bytes()).hexdigest()
         report["inputs_sha256"] = hashlib.sha256(args.inputs.read_bytes()).hexdigest()
         report["passed"] = not report["discrepancies"]
-        report["count"] = 40
+        report["count"] = len(reviewed)
+        report["target_count"] = 40
+        report["complete_financial_acceptance"] = report["passed"] and len(reviewed) == 40
     except (OSError, ValueError, KeyError) as error:
         report["missing_evidence"] = str(error)
     args.output.parent.mkdir(parents=True, exist_ok=True)

@@ -22,3 +22,7 @@ htmlcov/
 *.egg-info/
 # Başvuruya yönelik özel notlar yerelde tutulur.
 /KarKontrol_Proje_Plani.md
+/projede yapılanlar.md
+/docs/DEVAM_NOTU.md
+/docs/BASVURU_MATERYALI.md
+/docs/MULAKAT_NOTLARI.md

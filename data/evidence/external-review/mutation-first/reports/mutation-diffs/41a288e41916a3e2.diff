@@ -1,0 +1,12 @@
+# engine.profit.x__calculate__mutmut_65: survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -14,7 +14,7 @@
+     service = allocate(Decimal("0") if marketplace == "amazon_demo" else Decimal("10"), weights)
+     return_weights = [
+         Fraction(gross) * line.returned_quantity / line.quantity
+-        for gross, line in zip(original, lines, strict=True)
++        for gross, line in zip(original, lines, )
+     ]
+     if not sum(return_weights):
+         return_weights = [Fraction(line.returned_quantity) for line in lines]

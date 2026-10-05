@@ -1,0 +1,10 @@
+# engine.profit.x_calculate_order__mutmut_17: survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -4,5 +4,5 @@
+     if len({(line.currency, line.exchange_rate) for line in lines}) != 1:
+         raise ValueError("Bir siparişin para birimi ve kuru aynı olmalı")
+     with localcontext() as context:
+-        context.prec = 50
++        context.prec = 51
+         return _calculate(sorted(lines, key=lambda line: line.line_number), marketplace)

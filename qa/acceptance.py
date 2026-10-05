@@ -76,14 +76,30 @@ def eval_gate(rows, baseline_percent=100):
 
 
 def calibrate(rows):
-    if len(rows) != 20 or len({row["id"] for row in rows}) != 20:
-        raise ValueError("Exactly 20 distinct calibration answers required")
+    import hashlib
+
+    if len(rows) < 30 or len({row["id"] for row in rows}) != len(rows):
+        raise ValueError("At least 30 distinct calibration answers required")
+    answers = set()
     for row in rows:
+        answer = row.get("answer")
+        if not isinstance(answer, str) or not answer.strip():
+            raise ValueError(f"{row['id']}: answer text is missing")
+        digest = hashlib.sha256(answer.encode("utf-8")).hexdigest()
+        if row.get("answer_sha256") != digest:
+            raise ValueError(f"{row['id']}: answer SHA256 changed or is missing")
+        normalized = " ".join(answer.split()).casefold()
+        if normalized in answers:
+            raise ValueError("At least 30 unique answer texts required; duplicate answer found")
+        answers.add(normalized)
         if (
             type(row.get("human_pass")) is not bool
             or type(row.get("judge_pass")) is not bool
-            or not row.get("reviewer")
+            or not isinstance(row.get("reviewer"), str)
+            or not row["reviewer"].strip()
             or not row.get("reviewed_at")
+            or not isinstance(row.get("human_reason"), str)
+            or not row["human_reason"].strip()
         ):
             raise ValueError(f"{row['id']}: human scoring is missing")
         if row["reviewer"].casefold().strip() in {"ai", "codex", "claude", "gemini", "chatgpt"}:
@@ -91,9 +107,23 @@ def calibrate(rows):
         if date.fromisoformat(row["reviewed_at"]) > date.today():
             raise ValueError(f"{row['id']}: future human review date")
     disagreement = [row["id"] for row in rows if row["human_pass"] != row["judge_pass"]]
-    agreement = (20 - len(disagreement)) * 5
+    count = len(rows)
+    matches = count - len(disagreement)
+    human_positive = sum(row["human_pass"] for row in rows)
+    judge_positive = sum(row["judge_pass"] for row in rows)
+    chance_numerator = human_positive * judge_positive + (count - human_positive) * (
+        count - judge_positive
+    )
+    denominator = count * count - chance_numerator
+    kappa = (matches * count - chance_numerator) / denominator if denominator else None
+    degenerate = human_positive in (0, count) or judge_positive in (0, count)
+    agreement = matches * 100 / count
     return {
+        "count": count,
+        "unique_answers": len(answers),
         "agreement_percent": agreement,
+        "cohen_kappa": kappa,
+        "degenerate": degenerate,
         "disagreements": disagreement,
-        "passed": agreement >= 85,
+        "passed": agreement >= 85 and not degenerate,
     }

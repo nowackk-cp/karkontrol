@@ -1,57 +1,22 @@
-from dataclasses import fields
 from decimal import Decimal
 
 from django.db import connection
 
-from apps.orders.models import FinancialLine, OrderLine
-from engine.profit import VERSION, LineInput, LineResult, calculate_order
-
-AMOUNTS = tuple(field.name for field in fields(LineResult) if field.name != "line_number")
-
-
-def recalculate_order(store, order_number, *, enforce_totals=True):
-    lines = list(
-        OrderLine.objects.filter(store=store, order_number=order_number).order_by("line_number")
-    )
-    inputs = [
-        LineInput(**{field.name: getattr(line, field.name) for field in fields(LineInput)})
-        for line in lines
-    ]
-    results = calculate_order(inputs, marketplace=store.marketplace)
-    for line, result in zip(lines, results, strict=True):
-        cents = {name: int(getattr(result, name) * 100) for name in AMOUNTS}
-        if any(abs(value) > 9_000_000_000_000_000 for value in cents.values()):
-            raise ValueError("Hesap tutarı güvenli raporlama sınırını aşıyor.")
-        FinancialLine.objects.update_or_create(
-            line=line,
-            defaults=cents | {"rule_version": VERSION},
-        )
-    if enforce_totals:
-        check_report_bounds(store)
-
-
-def check_report_bounds(store):
-    # Bound the sum of absolute cents, including opposite signs. SQL SUM cannot
-    # overflow on any filtered subset or on a cumulative monthly window.
-    totals = [0] * len(AMOUNTS)
-    for row in FinancialLine.objects.filter(line__store=store).values_list(*AMOUNTS):
-        totals = [total + abs(value) for total, value in zip(totals, row, strict=True)]
-        if any(total > 9_000_000_000_000_000_000 for total in totals):
-            raise ValueError("Mağaza toplamı güvenli SQL raporlama sınırını aşıyor.")
+from apps.orders.models import OrderLine
+from apps.orders.search import normalize_search
+from apps.orders.services import AMOUNTS as AMOUNTS
+from apps.orders.services import check_report_bounds as check_report_bounds
+from apps.orders.services import recalculate_order as recalculate_order
 
 
 def filtered_lines(store, data):
-    from django.db.models import Q
-
     query = OrderLine.objects.filter(store=store).select_related("financial")
     if data.get("start"):
         query = query.filter(order_date__gte=data["start"])
     if data.get("end"):
         query = query.filter(order_date__lte=data["end"])
     if data.get("product"):
-        query = query.filter(
-            Q(product_name__icontains=data["product"]) | Q(sku__icontains=data["product"])
-        )
+        query = query.filter(search_text__contains=normalize_search(data["product"]))
     return query
 
 

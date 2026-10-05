@@ -2,16 +2,17 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db import transaction
-from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.views.decorators.http import require_http_methods, require_safe
+from django.views.decorators.http import require_http_methods, require_POST, require_safe
 
 from apps.stores.views import store_owner_required
 
 from .forms import OrderFilterForm, ReturnForm, UploadForm
 from .importing import REQUIRED_COLUMNS, ImportValidationError, import_orders
 from .models import OrderLine
+from .search import normalize_search
+from .services import recalculate_order, undo_import
 
 
 @login_required
@@ -28,9 +29,7 @@ def order_list(request, store_pk):
         if data["end"]:
             lines = lines.filter(order_date__lte=data["end"])
         if data["product"]:
-            lines = lines.filter(
-                Q(product_name__icontains=data["product"]) | Q(sku__icontains=data["product"])
-            )
+            lines = lines.filter(search_text__contains=normalize_search(data["product"]))
     else:
         lines = lines.none()
     paginator = Paginator(lines, 50)
@@ -47,6 +46,7 @@ def order_list(request, store_pk):
             "filter_form": form,
             "filtered_count": paginator.count,
             "filter_query": query.urlencode(),
+            "import_batches": store.import_batches.order_by("-created_at", "-pk")[:20],
         },
     )
 
@@ -82,14 +82,26 @@ def order_return(request, store_pk, pk):
     line = get_object_or_404(OrderLine, pk=pk, store=store)
     form = ReturnForm(request.POST if request.method == "POST" else None, instance=line)
     if request.method == "POST" and form.is_valid():
-        from apps.reports.services import recalculate_order
-
         with transaction.atomic():
             form.save()
             recalculate_order(store, line.order_number)
         messages.success(request, "İade adedi güncellendi.")
         return redirect("orders:list", store_pk=store.pk)
     return render(request, "orders/return.html", {"form": form, "line": line, "store": store})
+
+
+@login_required
+@store_owner_required
+@require_POST
+def import_undo(request, store_pk, batch_pk):
+    store = request.karkontrol_store
+    try:
+        count = undo_import(user=request.user, store_pk=store.pk, batch_pk=batch_pk)
+    except ValueError as exc:
+        messages.error(request, f"Aktarım geri alınamadı: {exc}")
+    else:
+        messages.success(request, f"Aktarım geri alındı; {count} sipariş satırı silindi.")
+    return redirect("orders:list", store_pk=store.pk)
 
 
 @login_required

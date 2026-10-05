@@ -1,0 +1,12 @@
+# engine.profit.x_shipping_fee__mutmut_24: survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -4,7 +4,7 @@
+     if marketplace == "amazon_demo":
+         return Decimal("80.00")
+     if marketplace != "demo_tr":
+-        raise ValueError("Pazaryeri desteklenmiyor")
++        raise ValueError("XXPazaryeri desteklenmiyorXX")
+     base = (
+         Decimal("30")
+         if gross <= Decimal("300")

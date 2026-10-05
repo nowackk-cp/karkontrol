@@ -6,7 +6,7 @@
   <h1>Mağazanı ekle</h1>
   <p>Burada kullanılan pazaryeri eğitim amaçlı demo kurallarıyla çalışır.</p>
   <form method="post" data-testid="store-form">
-    {% csrf_token %}{{ form.as_p }}
+    {% csrf_token %}<div data-testid="store-errors">{{ form.errors }}</div>{{ form.as_p }}
     <button type="submit" data-testid="store-save">Mağazayı oluştur</button>
   </form>
 </section>

@@ -13,7 +13,9 @@ from .services import demo_payment
 class DemoPaymentForm(forms.Form):
     key = forms.UUIDField(widget=forms.HiddenInput)
     outcome = forms.ChoiceField(
-        label="Sahte ödeme sonucu", choices=PaymentAttempt._meta.get_field("outcome").choices
+        label="Sahte ödeme sonucu",
+        choices=PaymentAttempt._meta.get_field("outcome").choices,
+        widget=forms.Select(attrs={"data-testid": "payment-outcome"}),
     )
 
 

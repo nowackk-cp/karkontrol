@@ -1,4 +1,5 @@
 import csv
+import hashlib
 from datetime import date
 
 import pytest
@@ -70,7 +71,7 @@ def test_eval_baseline_drop_and_critical_failure():
 
 
 def test_judge_cannot_claim_calibration_without_human():
-    rows = [{"id": str(i), "judge_pass": True} for i in range(20)]
+    rows = [{"id": str(i), "judge_pass": True} for i in range(30)]
     with pytest.raises(ValueError, match="missing"):
         calibrate(rows)
 
@@ -79,17 +80,26 @@ def test_judge_eighty_five_percent_threshold():
     rows = [
         {
             "id": str(i),
-            "human_pass": True,
-            "judge_pass": i >= 3,
+            "answer": f"Synthetic calibration unit answer {i}",
+            "answer_sha256": hashlib.sha256(
+                f"Synthetic calibration unit answer {i}".encode()
+            ).hexdigest(),
+            "human_pass": i % 2 == 0,
+            "judge_pass": (i % 2 != 0) if i < 6 else i % 2 == 0,
             "reviewer": "human",
             "reviewed_at": date.today().isoformat(),
+            "human_reason": "synthetic unit fixture",
         }
-        for i in range(20)
+        for i in range(40)
     ]
     assert calibrate(rows) == {
+        "count": 40,
+        "unique_answers": 40,
         "agreement_percent": 85,
-        "disagreements": ["0", "1", "2"],
+        "cohen_kappa": 0.7,
+        "degenerate": False,
+        "disagreements": ["0", "1", "2", "3", "4", "5"],
         "passed": True,
     }
-    rows[3]["judge_pass"] = False
+    rows[6]["judge_pass"] = False
     assert not calibrate(rows)["passed"]

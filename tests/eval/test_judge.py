@@ -11,6 +11,8 @@ pytestmark = pytest.mark.eval
 
 
 def test_judge_requires_all_rubric_dimensions(monkeypatch):
+    monkeypatch.setenv("KARKONTROL_JUDGE_MODEL", "distinct-test-judge")
+    monkeypatch.setenv("KARKONTROL_JUDGE_URL", "http://127.0.0.1:8082")
     monkeypatch.setattr(
         judge,
         "local_completion",
@@ -30,7 +32,7 @@ def test_generated_judge_scores_do_not_fill_human_evidence(monkeypatch, tmp_path
     path = tmp_path / "judge.json"
     call_command("evaluate_judge", output=path, stdout=StringIO())
     report = json.loads(path.read_text(encoding="utf-8"))
-    assert len(report["cases"]) == 20
+    assert len(report["cases"]) == 30
     assert report["human_agreement_percent"] is None
     assert all(row["human_pass"] is None and not row["reviewer"] for row in report["cases"])
     with pytest.raises(CommandError, match="missing"):

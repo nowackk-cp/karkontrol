@@ -21,6 +21,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "config.security.UploadLimitMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -62,3 +63,22 @@ LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
 ASSISTANT_BACKEND = os.getenv("KARKONTROL_ASSISTANT_BACKEND", "offline")
+DATA_UPLOAD_MAX_MEMORY_SIZE = 5 * 1024 * 1024
+FILE_UPLOAD_MAX_MEMORY_SIZE = 256 * 1024
+FILE_UPLOAD_MAX_BYTES = 5 * 1024 * 1024
+FILE_UPLOAD_HANDLERS = [
+    "config.security.LimitedUploadHandler",
+    "django.core.files.uploadhandler.MemoryFileUploadHandler",
+    "django.core.files.uploadhandler.TemporaryFileUploadHandler",
+]
+LOGIN_RATE_LIMIT_ATTEMPTS = 5
+LOGIN_RATE_LIMIT_IP_ATTEMPTS = 20
+LOGIN_RATE_LIMIT_WINDOW = 300
+CACHES = {
+    "default": {
+        "BACKEND": os.getenv(
+            "DJANGO_CACHE_BACKEND", "django.core.cache.backends.locmem.LocMemCache"
+        ),
+        "LOCATION": os.getenv("DJANGO_CACHE_LOCATION", "karkontrol-security"),
+    }
+}

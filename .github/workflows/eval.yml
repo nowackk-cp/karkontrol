@@ -10,19 +10,23 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: eval-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 jobs:
   eval:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v6
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: astral-sh/setup-uv@d0d8abe699bfb85fec6de9f7adb5ae17292296ff
         with:
           version: '0.11.26'
       - run: uv sync --locked --extra dev
-      - run: uv run python -m pytest tests/eval --junitxml=reports/eval.xml
-      - uses: actions/upload-artifact@v4
+      - run: uv run python -m pytest tests/eval --junitxml=reports/eval.xml --html=reports/eval.html --self-contained-html
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: assistant-eval
-          path: reports/eval.xml
+          path: reports/eval.*
+          retention-days: 90

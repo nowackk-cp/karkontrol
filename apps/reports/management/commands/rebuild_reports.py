@@ -2,12 +2,12 @@ from django.core.management.base import BaseCommand
 from django.db import transaction
 
 from apps.orders.models import OrderLine
-from apps.reports.services import check_report_bounds, recalculate_order
+from apps.orders.services import check_report_bounds, recalculate_order
 from apps.stores.models import Store
 
 
 class Command(BaseCommand):
-    help = "Mevcut siparişlerin demo-v1 hesap kayıtlarını atomik olarak yeniden oluşturur."
+    help = "Mevcut siparişlerin pazaryeri kurallarıyla hesap kayıtlarını atomik yeniden oluşturur."
 
     @transaction.atomic
     def handle(self, *args, **options):

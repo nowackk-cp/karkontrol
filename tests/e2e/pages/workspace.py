@@ -1,27 +1,21 @@
-from playwright.sync_api import expect
+from .base import Screen
+from .login import LoginPage
+from .report import ReportPage
+from .return_form import ReturnFormPage
+from .store_form import StoreFormPage
+from .subscription import SubscriptionPage
+from .upload import UploadPage
 
 
-class Workspace:
+class Workspace(Screen):
     def __init__(self, page, base_url, store_pk):
-        self.page = page
-        self.base_url = base_url
-        self.store_pk = store_pk
-
-    def open(self, path):
-        return self.page.goto(self.base_url + path)
+        super().__init__(page, base_url, store_pk)
+        self.login_screen = LoginPage(page, base_url, store_pk)
+        self.store_form = StoreFormPage(page, base_url, store_pk)
+        self.upload_screen = UploadPage(page, base_url, store_pk)
+        self.report_screen = ReportPage(page, base_url, store_pk)
+        self.return_form = ReturnFormPage(page, base_url, store_pk)
+        self.subscription = SubscriptionPage(page, base_url, store_pk)
 
     def login(self):
-        self.open("/accounts/login/")
-        self.page.locator("#id_username").fill("e2e-owner")
-        self.page.locator("#id_password").fill("synthetic-browser-pass")
-        self.page.get_by_test_id("login-submit").click()
-        expect(self.page.get_by_test_id("welcome")).to_contain_text("e2e-owner")
-
-    def upload(self, path):
-        self.open(f"/stores/{self.store_pk}/orders/upload/")
-        self.page.locator("input[type=file]").set_input_files(str(path))
-        self.page.get_by_test_id("upload-submit").click()
-
-    def report(self):
-        self.open(f"/stores/{self.store_pk}/reports/")
-        return self.page.get_by_test_id("total-profit")
+        self.login_screen.login()

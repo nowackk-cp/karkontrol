@@ -1,0 +1,127 @@
+{
+  "commit": "c1481f4d7f364b13e6554912fe4a4e58e2787031",
+  "created_at": "2026-10-05T00:53:00.800465+00:00",
+  "generator": "mutmut 3.8.0",
+  "source_sha256": "6c0fa1048682cdd3fb951dbda06595734e5001bf05e305f91288cf22800cbb87",
+  "source_exclusions": [],
+  "test_selection": [
+    "tests/unit/test_profit.py",
+    "tests/unit/test_profit_contract.py"
+  ],
+  "metadata": [
+    {
+      "path": "mutants/engine/__init__.py.meta",
+      "sha256": "8337af0c4106390d1c3bc4da61916adc36a117e653e1d7baa815d1ca882d6238"
+    },
+    {
+      "path": "mutants/engine/profit.py.meta",
+      "sha256": "20a5db5cb27dc52835e82dbc2a0007114c6c3e9c6c4c1b7cdab292d67f750a01"
+    }
+  ],
+  "mutants": [
+    {
+      "mutant": "engine.profit.x__calculate__mutmut_62",
+      "exit_code": 0,
+      "status": "survived",
+      "diff": "reports/mutation-diffs/09325053d5e800d8.diff",
+      "show_exit_code": 0,
+      "classification": "unreviewed"
+    },
+    {
+      "mutant": "engine.profit.x__calculate__mutmut_65",
+      "exit_code": 0,
+      "status": "survived",
+      "diff": "reports/mutation-diffs/41a288e41916a3e2.diff",
+      "show_exit_code": 0,
+      "classification": "unreviewed"
+    },
+    {
+      "mutant": "engine.profit.x__calculate__mutmut_66",
+      "exit_code": 0,
+      "status": "survived",
+      "diff": "reports/mutation-diffs/5547813b98595b1d.diff",
+      "show_exit_code": 0,
+      "classification": "unreviewed"
+    },
+    {
+      "mutant": "engine.profit.x__calculate__mutmut_9",
+      "exit_code": 0,
+      "status": "survived",
+      "diff": "reports/mutation-diffs/3c82f73aa15bd67a.diff",
+      "show_exit_code": 0,
+      "classification": "unreviewed"
+    },
+    {
+      "mutant": "engine.profit.x_allocate__mutmut_3",
+      "exit_code": 0,
+      "status": "survived",
+      "diff": "reports/mutation-diffs/63615a9ca65042ee.diff",
+      "show_exit_code": 0,
+      "classification": "unreviewed"
+    },
+    {
+      "mutant": "engine.profit.x_calculate_order__mutmut_13",
+      "exit_code": 0,
+      "status": "survived",
+      "diff": "reports/mutation-diffs/e15745ab5fcca849.diff",
+      "show_exit_code": 0,
+      "classification": "unreviewed"
+    },
+    {
+      "mutant": "engine.profit.x_calculate_order__mutmut_17",
+      "exit_code": 0,
+      "status": "survived",
+      "diff": "reports/mutation-diffs/35dbfb9566fcb048.diff",
+      "show_exit_code": 0,
+      "classification": "unreviewed"
+    },
+    {
+      "mutant": "engine.profit.x_calculate_order__mutmut_7",
+      "exit_code": 0,
+      "status": "survived",
+      "diff": "reports/mutation-diffs/cd19319a9fb099a9.diff",
+      "show_exit_code": 0,
+      "classification": "unreviewed"
+    },
+    {
+      "mutant": "engine.profit.x_shipping_fee__mutmut_24",
+      "exit_code": 0,
+      "status": "survived",
+      "diff": "reports/mutation-diffs/a58231397cea242e.diff",
+      "show_exit_code": 0,
+      "classification": "unreviewed"
+    },
+    {
+      "mutant": "engine.profit.x\u01c1LineInput\u01c1validate__mutmut_109",
+      "exit_code": 0,
+      "status": "survived",
+      "diff": "reports/mutation-diffs/72d630592d1f9a38.diff",
+      "show_exit_code": 0,
+      "classification": "unreviewed"
+    },
+    {
+      "mutant": "engine.profit.x\u01c1LineInput\u01c1validate__mutmut_116",
+      "exit_code": 0,
+      "status": "survived",
+      "diff": "reports/mutation-diffs/a0a634dfcd807d77.diff",
+      "show_exit_code": 0,
+      "classification": "unreviewed"
+    },
+    {
+      "mutant": "engine.profit.x\u01c1LineInput\u01c1validate__mutmut_27",
+      "exit_code": 0,
+      "status": "survived",
+      "diff": "reports/mutation-diffs/19705c7ed94e9bcd.diff",
+      "show_exit_code": 0,
+      "classification": "unreviewed"
+    },
+    {
+      "mutant": "engine.profit.x\u01c1LineInput\u01c1validate__mutmut_98",
+      "exit_code": 0,
+      "status": "survived",
+      "diff": "reports/mutation-diffs/95325684224258eb.diff",
+      "show_exit_code": 0,
+      "classification": "unreviewed"
+    }
+  ]
+}

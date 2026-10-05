@@ -1,16 +1,32 @@
-"""Kurallar: docs/KURALLAR_v1.md ve docs/KURALLAR_v2.md."""
+"""Kurallar: docs/KURALLAR.md."""
 
 from dataclasses import dataclass
-from decimal import ROUND_CEILING, ROUND_HALF_UP, Decimal, localcontext
+from decimal import ROUND_HALF_UP, Decimal
+from fractions import Fraction
 
-ZERO = Decimal("0")
+ZERO = Decimal("0.00")
 CENT = Decimal("0.01")
 HUNDRED = Decimal("100")
 VERSION = "demo-v1"
 
 
 def money(value: Decimal) -> Decimal:
-    return value.quantize(CENT, rounding=ROUND_HALF_UP)
+    if not value.is_finite():
+        return value.quantize(CENT, rounding=ROUND_HALF_UP)
+    return _decimal_from_coefficient(_round_half_up(Fraction(value) * 100))
+
+
+def _round_half_up(value: Fraction) -> int:
+    """Tam rasyonelin en yakın tamsayısı; yarımda sıfırdan uzaklaşır."""
+    quotient, remainder = divmod(abs(value.numerator), value.denominator)
+    rounded = quotient + int(2 * remainder >= value.denominator)
+    return -rounded if value < 0 else rounded
+
+
+def _decimal_from_coefficient(value: int, exponent: int = -2) -> Decimal:
+    """Decimal context'i kullanmadan tam katsayı ve ölçek oluştur."""
+    digits = Decimal(value).as_tuple()
+    return Decimal((digits.sign, digits.digits, exponent))
 
 
 def validate_decimal(value, name, *, maximum=None):
@@ -59,11 +75,18 @@ class LineInput:
             validate_decimal(getattr(self, name), name, maximum=Decimal("9999999999.99"))
         for name in ("vat_percent", "commission_percent", "cost_vat_percent"):
             validate_decimal(getattr(self, name), name, maximum=HUNDRED)
+        for name in ("unit_price_gross", "unit_cost_net", "seller_discount", "platform_coupon"):
+            value = getattr(self, name)
+            if value != money(value):
+                raise ValueError(f"{name}: kuruş altı para kabul edilmez")
         if self.currency not in ("TRY", "USD", "EUR") or self.exchange_rate <= ZERO:
             raise ValueError("Para birimi veya kur geçersiz")
         if self.currency == "TRY" and self.exchange_rate != Decimal("1"):
             raise ValueError("TRY kuru 1 olmalı")
-        if self.seller_discount + self.platform_coupon > self.unit_price_gross * self.quantity:
+        if (
+            Fraction(self.seller_discount) + Fraction(self.platform_coupon)
+            > Fraction(self.unit_price_gross) * self.quantity
+        ):
             raise ValueError("İndirim ve kupon brüt tutarı aşamaz")
 
 
@@ -85,47 +108,74 @@ class LineResult:
 
     @property
     def cash_profit(self):
-        return (
-            self.payout
-            - self.cost
-            - self.cost_vat
-            - (self.sales_vat - self.fee_vat - self.cost_vat)
-            + self.withholding
+        """Uyumluluk için cebirsel kâr eşitliği; bağımsız hesap doğrulaması değildir."""
+        exponent = min(
+            value.as_tuple().exponent
+            for value in (
+                self.payout,
+                self.cost,
+                self.cost_vat,
+                self.sales_vat,
+                self.fee_vat,
+                self.withholding,
+            )
         )
+        exact = (
+            Fraction(self.payout)
+            - Fraction(self.cost)
+            - Fraction(self.cost_vat)
+            - (Fraction(self.sales_vat) - Fraction(self.fee_vat) - Fraction(self.cost_vat))
+            + Fraction(self.withholding)
+        )
+        coefficient = exact / Fraction(10) ** exponent
+        return _decimal_from_coefficient(coefficient.numerator, exponent)
 
 
 def allocate(total: Decimal, weights: list[Decimal]) -> list[Decimal]:
     """Kuruşların tamamını korur; eşit kalanlarda liste sırası belirleyicidir."""
-    if not weights or any(weight < ZERO for weight in weights):
+    if not weights:
         raise ValueError("Dağıtım ağırlıkları geçersiz")
     for weight in weights:
         validate_decimal(weight, "weight")
     validate_decimal(total, "total")
-    if sum(weights) == ZERO:
+    if not any(weights):
         weights = [Decimal("1")] * len(weights)
-    cents = int(money(total) * HUNDRED)
-    exact = [Decimal(cents) * weight / sum(weights) for weight in weights]
-    base = [int(value) for value in exact]
-    ranked = sorted(range(len(base)), key=lambda i: (-(exact[i] - base[i]), i))
+    cents = _round_half_up(Fraction(total) * 100)
+    return _allocate_cents(cents, [Fraction(weight) for weight in weights])
+
+
+def _allocate_cents(cents: int, exact_weights: list[Fraction]) -> list[Decimal]:
+    return [
+        _decimal_from_coefficient(value) for value in _allocate_integer_cents(cents, exact_weights)
+    ]
+
+
+def _allocate_integer_cents(cents: int, exact_weights: list[Fraction]) -> list[int]:
+    # Decimal bölmesi aynı rasyonel kalana farklı son basamaklar verebilir.
+    # Fraction ve divmod, eşit kalanları context precision'dan bağımsız tutar.
+    weight_sum = sum(exact_weights)
+    shares = [divmod(cents * weight, weight_sum) for weight in exact_weights]
+    base = [quotient for quotient, _ in shares]
+    ranked = sorted(range(len(base)), key=lambda i: (-shares[i][1], i))
     for index in ranked[: cents - sum(base)]:
         base[index] += 1
-    return [Decimal(value) / HUNDRED for value in base]
+    return base
 
 
 def shipping_fee(gross: Decimal, desi: Decimal, *, marketplace="demo_tr") -> Decimal:
     validate_decimal(gross, "gross")
     validate_decimal(desi, "desi")
+    return _decimal_from_coefficient(_shipping_cents(Fraction(gross), Fraction(desi), marketplace))
+
+
+def _shipping_cents(gross: Fraction, desi: Fraction, marketplace: str) -> int:
     if marketplace == "amazon_demo":
-        return Decimal("80.00")
+        return 8000
     if marketplace != "demo_tr":
         raise ValueError("Pazaryeri desteklenmiyor")
-    base = (
-        Decimal("30")
-        if gross <= Decimal("300")
-        else (Decimal("60") if gross <= Decimal("600") else Decimal("80"))
-    )
-    units = desi.to_integral_value(rounding=ROUND_CEILING)
-    return money(base + max(ZERO, units - Decimal("3")) * Decimal("5"))
+    base = 3000 if gross <= 300 else (6000 if gross <= 600 else 8000)
+    units = -(-desi.numerator // desi.denominator)
+    return base + max(0, units - 3) * 500
 
 
 def calculate_order(lines: list[LineInput], *, marketplace="demo_tr") -> list[LineResult]:
@@ -133,9 +183,7 @@ def calculate_order(lines: list[LineInput], *, marketplace="demo_tr") -> list[Li
         raise ValueError("Sipariş boş veya satır numaraları tekrarlı")
     if len({(line.currency, line.exchange_rate) for line in lines}) != 1:
         raise ValueError("Bir siparişin para birimi ve kuru aynı olmalı")
-    with localcontext() as context:
-        context.prec = 50
-        return _calculate(sorted(lines, key=lambda line: line.line_number), marketplace)
+    return _calculate(sorted(lines, key=lambda line: line.line_number), marketplace)
 
 
 def _calculate(lines, marketplace):
@@ -144,47 +192,65 @@ def _calculate(lines, marketplace):
         if marketplace == "demo_tr" and line.currency != "TRY":
             raise ValueError("Demo TRY mağazasında yabancı para kullanılamaz")
     original = [
-        money((line.unit_price_gross * line.quantity - line.seller_discount) * line.exchange_rate)
+        _round_half_up(
+            (Fraction(line.unit_price_gross) * line.quantity - Fraction(line.seller_discount))
+            * Fraction(line.exchange_rate)
+            * 100
+        )
         for line in lines
     ]
-    weights = original if sum(original) else [Decimal(line.quantity) for line in lines]
-    desi = sum(max(line.desi, line.weight_kg) * line.quantity for line in lines)
-    freight = shipping_fee(sum(original), desi, marketplace=marketplace)
-    outbound = allocate(freight, weights)
-    service = allocate(Decimal("0") if marketplace == "amazon_demo" else Decimal("10"), weights)
+    weights = (
+        [Fraction(value) for value in original]
+        if sum(original)
+        else [Fraction(line.quantity) for line in lines]
+    )
+    desi = sum(max(Fraction(line.desi), Fraction(line.weight_kg)) * line.quantity for line in lines)
+    freight = _shipping_cents(Fraction(sum(original), 100), desi, marketplace)
+    outbound = _allocate_integer_cents(freight, weights)
+    service = _allocate_integer_cents(0 if marketplace == "amazon_demo" else 1000, weights)
     return_weights = [
-        gross * line.returned_quantity / line.quantity
+        Fraction(gross * line.returned_quantity, line.quantity)
         for gross, line in zip(original, lines, strict=True)
     ]
     if not sum(return_weights):
-        return_weights = [Decimal(line.returned_quantity) for line in lines]
-    inbound = allocate(freight, return_weights) if sum(return_weights) else [ZERO] * len(lines)
+        return_weights = [Fraction(line.returned_quantity) for line in lines]
+    inbound = (
+        _allocate_integer_cents(freight, return_weights)
+        if sum(return_weights)
+        else [0] * len(lines)
+    )
     results = []
     for index, line in enumerate(lines):
         remaining = line.quantity - line.returned_quantity
-        gross = money(original[index] * remaining / line.quantity)
-        net = money(gross / (Decimal("1") + line.vat_percent / HUNDRED))
-        commission = money(gross * line.commission_percent / HUNDRED)
+        gross = _round_half_up(Fraction(original[index] * remaining, line.quantity))
+        net = _round_half_up(Fraction(gross) / (1 + Fraction(line.vat_percent) / 100))
+        commission = _round_half_up(Fraction(gross) * Fraction(line.commission_percent) / 100)
         shipping = outbound[index] + inbound[index]
-        fee = money(service[index] * remaining / line.quantity)
-        cost = money(line.unit_cost_net * remaining * line.exchange_rate)
-        withholding = money(net / HUNDRED)
-        fee_vat = sum(money(item * Decimal("0.20")) for item in (commission, shipping, fee))
+        fee = _round_half_up(Fraction(service[index] * remaining, line.quantity))
+        cost = _round_half_up(
+            Fraction(line.unit_cost_net) * remaining * Fraction(line.exchange_rate) * 100
+        )
+        withholding = _round_half_up(Fraction(net, 100))
+        fee_vat = sum(_round_half_up(Fraction(item, 5)) for item in (commission, shipping, fee))
         results.append(
             LineResult(
                 line_number=line.line_number,
-                gross_sales=gross,
-                net_sales=net,
-                commission=commission,
-                shipping=shipping,
-                service=fee,
-                cost=cost,
-                withholding=withholding,
-                profit=net - commission - shipping - fee - cost,
-                payout=gross - commission - shipping - fee - fee_vat - withholding,
-                sales_vat=gross - net,
-                fee_vat=fee_vat,
-                cost_vat=money(cost * line.cost_vat_percent / HUNDRED),
+                gross_sales=_decimal_from_coefficient(gross),
+                net_sales=_decimal_from_coefficient(net),
+                commission=_decimal_from_coefficient(commission),
+                shipping=_decimal_from_coefficient(shipping),
+                service=_decimal_from_coefficient(fee),
+                cost=_decimal_from_coefficient(cost),
+                withholding=_decimal_from_coefficient(withholding),
+                profit=_decimal_from_coefficient(net - commission - shipping - fee - cost),
+                payout=_decimal_from_coefficient(
+                    gross - commission - shipping - fee - fee_vat - withholding
+                ),
+                sales_vat=_decimal_from_coefficient(gross - net),
+                fee_vat=_decimal_from_coefficient(fee_vat),
+                cost_vat=_decimal_from_coefficient(
+                    _round_half_up(Fraction(cost) * Fraction(line.cost_vat_percent) / 100)
+                ),
             )
         )
     return results

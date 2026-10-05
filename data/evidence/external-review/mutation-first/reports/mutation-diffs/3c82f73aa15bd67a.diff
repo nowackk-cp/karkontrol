@@ -1,0 +1,12 @@
+# engine.profit.x__calculate__mutmut_9: survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -2,7 +2,7 @@
+     for line in lines:
+         line.validate()
+         if marketplace == "demo_tr" and line.currency != "TRY":
+-            raise ValueError("Demo TRY mağazasında yabancı para kullanılamaz")
++            raise ValueError("XXDemo TRY mağazasında yabancı para kullanılamazXX")
+     original = [
+         money((line.unit_price_gross * line.quantity - line.seller_discount) * line.exchange_rate)
+         for line in lines

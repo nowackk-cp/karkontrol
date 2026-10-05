@@ -3,6 +3,7 @@
 {% block content %}
 <section class="card">
   <h1>Hesabına giriş yap</h1>
+  {% if form.errors %}<div data-testid="login-errors">{{ form.errors }}</div>{% endif %}
   <form method="post" data-testid="login-form">
     {% csrf_token %}
     {{ form.as_p }}

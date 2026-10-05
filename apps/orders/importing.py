@@ -18,9 +18,12 @@ from django.shortcuts import get_object_or_404
 from openpyxl import load_workbook
 from openpyxl.utils.exceptions import InvalidFileException
 
+from apps.billing.services import check_import_limit
 from apps.stores.models import Store
 
+from .exceptions import ImportValidationError as ImportValidationError
 from .models import ImportBatch, OrderLine
+from .services import check_report_bounds, recalculate_order
 
 MAX_FILE_BYTES = 5 * 1024 * 1024
 MAX_EXPANDED_BYTES = 25 * 1024 * 1024
@@ -47,10 +50,6 @@ OPTIONAL_COLUMNS = (
     "maliyet_kdv_orani",
     "doviz_kuru",
 )
-
-
-class ImportValidationError(ValueError):
-    pass
 
 
 @dataclass(frozen=True)
@@ -127,13 +126,25 @@ def _xlsx_rows(content):
             sheet = workbook.worksheets[0]
             # Ignore untrusted worksheet dimension metadata; bound actual rows/columns below.
             sheet.reset_dimensions()
-            for row in sheet.iter_rows():
+            headers = None
+            for index, row in enumerate(sheet.iter_rows(), start=1):
                 if len(row) > len(REQUIRED_COLUMNS) + len(OPTIONAL_COLUMNS):
                     raise ImportValidationError("Excel dosyasında fazla sütun var.")
                 if any(cell.data_type == "f" for cell in row):
                     raise ImportValidationError(
                         "Formül yerine hesaplanmış hücre değerlerini aktarın."
                     )
+                if headers is None:
+                    headers = [_text(cell.value) for cell in row]
+                else:
+                    for name, cell in zip(headers, row, strict=False):
+                        if name in {"kdv_orani", "komisyon_orani", "maliyet_kdv_orani"} and (
+                            cell.value is not None and "%" in cell.number_format
+                        ):
+                            raise ImportValidationError(
+                                f"Satır {index}: {name}: "
+                                "Oranı 20 olarak yazın, yüzde biçimi kullanmayın."
+                            )
                 yield [cell.value for cell in row]
         finally:
             workbook.close()
@@ -176,6 +187,8 @@ def _parse(content, extension, store):
             raise ImportValidationError(f"Dosya en fazla {MAX_ROWS} veri satırı içerebilir.")
         if all(not _text(value) for value in values):
             continue
+        if extension == ".csv" and len(values) != len(headers):
+            raise ImportValidationError(f"Satır {index}: sütun sayısı başlıkla eşit olmalı.")
         if len(values) > len(headers):
             raise ImportValidationError(f"Satır {index}: başlıktan fazla hücre var.")
         values = list(values) + [None] * (len(headers) - len(values))
@@ -220,6 +233,18 @@ def _parse(content, extension, store):
                     row.get("maliyet_kdv_orani") or "20", "maliyet_kdv_orani"
                 ),
             )
+            if line.vat_percent not in {Decimal("0"), Decimal("1"), Decimal("10"), Decimal("20")}:
+                raise ImportValidationError("kdv_orani: 0, 1, 10 veya 20 kullanın.")
+            if line.cost_vat_percent not in {
+                Decimal("0"),
+                Decimal("1"),
+                Decimal("10"),
+                Decimal("20"),
+            }:
+                raise ImportValidationError("maliyet_kdv_orani: 0, 1, 10 veya 20 kullanın.")
+            if line.commission_percent < Decimal("1"):
+                raise ImportValidationError("Komisyon oranı en az 1 olmalı.")
+            line.imported_returned_quantity = line.returned_quantity
             line.full_clean(validate_unique=False, validate_constraints=False)
             identity = (line.order_number, line.line_number)
             if identity in identities:
@@ -247,36 +272,50 @@ def import_orders(*, user, store_pk, upload):
     lines = _parse(content, extension, store)
     digest = hashlib.sha256(content).hexdigest()
     with transaction.atomic():
+        store = Store.objects.select_for_update().get(pk=store.pk)
         batch, created = ImportBatch.objects.get_or_create(store=store, digest=digest)
         if not created:
-            return ImportResult(0, len(lines), repeated_file=True)
+            existing_identities = set(
+                OrderLine.objects.filter(
+                    store=store, order_number__in={line.order_number for line in lines}
+                ).values_list("order_number", "line_number")
+            )
+            if all((line.order_number, line.line_number) in existing_identities for line in lines):
+                return ImportResult(0, len(lines), repeated_file=True)
         created_count = skipped_count = 0
         new_orders = set()
         for line in lines:
             defaults = {
                 field.name: getattr(line, field.name)
                 for field in OrderLine._meta.fields
-                if field.name not in ("id", "store", "order_number", "line_number")
+                if field.name
+                not in ("id", "store", "order_number", "line_number", "import_batch", "search_text")
             }
             existing, is_new = OrderLine.objects.get_or_create(
                 store=store,
                 order_number=line.order_number,
                 line_number=line.line_number,
-                defaults=defaults,
+                defaults=defaults | {"import_batch": batch},
             )
             if is_new:
                 created_count += 1
                 new_orders.add(line.order_number)
-            elif any(getattr(existing, name) != value for name, value in defaults.items()):
+            elif any(
+                getattr(
+                    existing,
+                    "imported_returned_quantity" if name == "returned_quantity" else name,
+                )
+                != value
+                for name, value in defaults.items()
+                if existing.imported_returned_quantity is not None
+                or name not in {"returned_quantity", "imported_returned_quantity"}
+            ):
                 raise ImportValidationError(
                     f"{line.order_number} / {line.line_number}: "
                     "mevcut kayıtla çelişiyor; dosya aktarılmadı."
                 )
             else:
                 skipped_count += 1
-        from apps.billing.services import check_import_limit
-        from apps.reports.services import check_report_bounds, recalculate_order
-
         check_import_limit(user)
         try:
             for number in new_orders:
@@ -284,7 +323,7 @@ def import_orders(*, user, store_pk, upload):
             check_report_bounds(store)
         except ValueError as exc:
             raise ImportValidationError(str(exc)) from exc
-        batch.created_lines = created_count
+        batch.created_lines += created_count
         batch.skipped_lines = skipped_count
         batch.save(update_fields=["created_lines", "skipped_lines"])
     return ImportResult(created_count, skipped_count)

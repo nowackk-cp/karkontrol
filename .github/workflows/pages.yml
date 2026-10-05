@@ -20,7 +20,10 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
         with:
           name: test-reports
           run-id: ${{ github.event.workflow_run.id }}
@@ -30,16 +33,9 @@ jobs:
         env:
           RUN_URL: ${{ github.event.workflow_run.html_url }}
           COMMIT_SHA: ${{ github.event.workflow_run.head_sha }}
-        run: |
-          python - <<'PY'
-          import html, json, os, pathlib
-          report = json.loads(pathlib.Path('public/reports/coverage.json').read_text())
-          coverage = report['totals']['percent_covered_display']
-          page = f'''<!doctype html><html lang="tr"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>KârKontrol QA raporları</title><style>body{{max-width:800px;margin:64px auto;padding:24px;font:18px/1.7 system-ui;color:#182a35;background:#f3f6f8}}a{{color:#136454}}code{{overflow-wrap:anywhere}}</style><h1>KârKontrol QA raporları</h1><p>Başarılı ana dal CI çalışmasının gerçek çıktıları.</p><p>Toplam satır ve dal kapsamı: %{html.escape(coverage)}</p><ul><li><a href="reports/tests.html">Pytest sonuçları</a></li><li><a href="htmlcov/index.html">Kapsam raporu</a></li><li><a href="reports/e2e.xml">12 Chromium E2E JUnit çıktısı</a></li><li><a href="{html.escape(os.environ['RUN_URL'])}">Kaynak CI çalışması</a></li></ul><p>Commit: <code>{html.escape(os.environ['COMMIT_SHA'])}</code></p><p>İnsan altın veri kabulü, gerçek LLM ve judge ölçümü bu raporun kapsamına girmez.</p></html>'''
-          pathlib.Path('public/index.html').write_text(page)
-          PY
-      - uses: actions/upload-pages-artifact@v3
+        run: python scripts/build_report_index.py --root public --run-url "$RUN_URL" --commit "$COMMIT_SHA"
+      - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa
         with:
           path: public
-      - uses: actions/deploy-pages@v4
+      - uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e
         id: deployment

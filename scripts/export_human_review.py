@@ -51,7 +51,7 @@ def main():
                 )
     finally:
         workbook.close()
-    print("Values exported. Run check_golden; export does not establish human approval.")
+    print("Values exported. Run check_golden; export does not establish human verification.")
 
 
 if __name__ == "__main__":

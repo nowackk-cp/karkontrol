@@ -1,0 +1,30 @@
+name: Optional Haiku comparison
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  haiku:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: haiku-benchmark
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: astral-sh/setup-uv@d0d8abe699bfb85fec6de9f7adb5ae17292296ff
+        with:
+          version: '0.11.26'
+      - run: uv sync --locked --extra dev
+      - run: uv run python manage.py migrate --noinput
+      - name: One synthetic run, no retries, bounded output
+        run: uv run python manage.py evaluate_assistant --backend haiku --versions v3 --output reports/haiku.json
+      - name: Offline comparison on identical fixture
+        if: success() || failure()
+        run: uv run python manage.py evaluate_assistant --backend offline --versions v3 --output reports/offline.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: haiku-comparison
+          path: reports/
+          retention-days: 30
