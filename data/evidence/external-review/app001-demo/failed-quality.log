@@ -1,0 +1,128 @@
+quality	Integration tests	﻿2026-10-05T01:28:55.4126733Z ##[group]Run uv run python -m pytest tests/integration -n 2 -m 'not e2e and not reconciliation' --cov --cov-append --cov-report= --html=reports/integration.html --self-contained-html --junitxml=reports/integration.xml
+quality	Integration tests	2026-10-05T01:28:55.4127483Z ^[[36;1muv run python -m pytest tests/integration -n 2 -m 'not e2e and not reconciliation' --cov --cov-append --cov-report= --html=reports/integration.html --self-contained-html --junitxml=reports/integration.xml^[[0m
+quality	Integration tests	2026-10-05T01:28:55.4176795Z shell: /usr/bin/bash -e {0}
+quality	Integration tests	2026-10-05T01:28:55.4176931Z env:
+quality	Integration tests	2026-10-05T01:28:55.4177071Z   UV_CACHE_DIR: /home/runner/work/_temp/setup-uv-cache
+quality	Integration tests	2026-10-05T01:28:55.4177241Z ##[endgroup]
+quality	Integration tests	2026-10-05T01:28:56.9253187Z ============================= test session starts ==============================
+quality	Integration tests	2026-10-05T01:28:56.9254059Z platform linux -- Python 3.13.14, pytest-9.1.1, pluggy-1.6.0
+quality	Integration tests	2026-10-05T01:28:56.9254934Z django: version: 5.2.17, settings: config.settings.test (from ini)
+quality	Integration tests	2026-10-05T01:28:56.9255589Z rootdir: /home/runner/work/karkontrol/karkontrol
+quality	Integration tests	2026-10-05T01:28:56.9256133Z configfile: pyproject.toml
+quality	Integration tests	2026-10-05T01:28:56.9256819Z plugins: html-4.2.0, metadata-3.1.1, playwright-0.9.0, django-4.14.0, hypothesis-6.168.3, cov-7.1.0, base-url-2.1.0, xdist-3.8.0
+quality	Integration tests	2026-10-05T01:28:56.9257507Z created: 2/2 workers
+quality	Integration tests	2026-10-05T01:28:56.9257869Z 2 workers [153 items]
+quality	Integration tests	2026-10-05T01:28:56.9258162Z 
+quality	Integration tests	2026-10-05T01:28:58.0885672Z ............................................F......F.................... [ 47%]
+quality	Integration tests	2026-10-05T01:28:58.8055070Z .................................................................F...... [ 94%]
+quality	Integration tests	2026-10-05T01:28:59.3922751Z .........                                                                [100%]
+quality	Integration tests	2026-10-05T01:28:59.3923179Z =================================== FAILURES ===================================
+quality	Integration tests	2026-10-05T01:28:59.3923544Z __________ test_every_store_route_requires_login_and_ownership[post] ___________
+quality	Integration tests	2026-10-05T01:28:59.3923974Z [gw0] linux -- Python 3.13.14 /home/runner/work/karkontrol/karkontrol/.venv/bin/python3
+quality	Integration tests	2026-10-05T01:28:59.3924290Z 
+quality	Integration tests	2026-10-05T01:28:59.3924446Z client = <django.test.client.Client object at 0x7efcdf9b8d70>
+quality	Integration tests	2026-10-05T01:28:59.3924870Z security_store = (<User: security-owner>, <User: security-other>, <Store: Security store>)
+quality	Integration tests	2026-10-05T01:28:59.3925218Z method = 'post'
+quality	Integration tests	2026-10-05T01:28:59.3925320Z 
+quality	Integration tests	2026-10-05T01:28:59.3925446Z     @pytest.mark.parametrize("method", ["get", "post"])
+quality	Integration tests	2026-10-05T01:28:59.3925840Z     def test_every_store_route_requires_login_and_ownership(client, security_store, method):
+quality	Integration tests	2026-10-05T01:28:59.3926216Z         owner, other, store = security_store
+quality	Integration tests	2026-10-05T01:28:59.3926467Z         line = OrderLine.objects.get(store=store)
+quality	Integration tests	2026-10-05T01:28:59.3926751Z         batch = ImportBatch.objects.get(store=store)
+quality	Integration tests	2026-10-05T01:28:59.3927101Z         identifiers = {"store_pk": store.pk, "pk": line.pk, "batch_pk": batch.pk}
+quality	Integration tests	2026-10-05T01:28:59.3927424Z         before = database_snapshot()
+quality	Integration tests	2026-10-05T01:28:59.3927656Z         routes = list(store_routes())
+quality	Integration tests	2026-10-05T01:28:59.3927889Z         assert len(routes) >= 7
+quality	Integration tests	2026-10-05T01:28:59.3928102Z         for name, converters in routes:
+quality	Integration tests	2026-10-05T01:28:59.3928423Z             assert set(converters) <= identifiers.keys(), f"Add identifiers for {name}"
+quality	Integration tests	2026-10-05T01:28:59.3928840Z             url = reverse(name, kwargs={key: identifiers[key] for key in converters})
+quality	Integration tests	2026-10-05T01:28:59.3929222Z             client.logout()
+quality	Integration tests	2026-10-05T01:28:59.3929477Z             assert getattr(client, method)(url).status_code == 302, name
+quality	Integration tests	2026-10-05T01:28:59.3929766Z             client.force_login(other)
+quality	Integration tests	2026-10-05T01:28:59.3930036Z >           assert getattr(client, method)(url).status_code == 404, name
+quality	Integration tests	2026-10-05T01:28:59.3930323Z E           AssertionError: orders:list
+quality	Integration tests	2026-10-05T01:28:59.3930742Z E           assert 405 == 404
+quality	Integration tests	2026-10-05T01:28:59.3931122Z E            +  where 405 = <HttpResponseNotAllowed [GET, HEAD] status_code=405, "text/html; charset=utf-8">.status_code
+quality	Integration tests	2026-10-05T01:28:59.3931737Z E            +    where <HttpResponseNotAllowed [GET, HEAD] status_code=405, "text/html; charset=utf-8"> = post('/stores/1/orders/')
+quality	Integration tests	2026-10-05T01:28:59.3933046Z E            +      where post = getattr(<django.test.client.Client object at 0x7efcdf9b8d70>, 'post')
+quality	Integration tests	2026-10-05T01:28:59.3933340Z 
+quality	Integration tests	2026-10-05T01:28:59.3933484Z tests/integration/test_http_security.py:75: AssertionError
+quality	Integration tests	2026-10-05T01:28:59.3933850Z ------------------------------ Captured log call -------------------------------
+quality	Integration tests	2026-10-05T01:28:59.3934295Z WARNING  django.request:log.py:253 Method Not Allowed (POST): /stores/1/orders/
+quality	Integration tests	2026-10-05T01:28:59.3934732Z _____________ test_every_store_route_requires_login_and_ownership ______________
+quality	Integration tests	2026-10-05T01:28:59.3935166Z [gw0] linux -- Python 3.13.14 /home/runner/work/karkontrol/karkontrol/.venv/bin/python3
+quality	Integration tests	2026-10-05T01:28:59.3935438Z 
+quality	Integration tests	2026-10-05T01:28:59.3935585Z client = <django.test.client.Client object at 0x7efcdf922cb0>
+quality	Integration tests	2026-10-05T01:28:59.3936432Z seller = (<User: integrity-owner>, <User: integrity-other>, <Store: Bütünlük kontrolü>, <Store: Diğer kontrol>)
+quality	Integration tests	2026-10-05T01:28:59.3936788Z 
+quality	Integration tests	2026-10-05T01:28:59.3936960Z     def test_every_store_route_requires_login_and_ownership(client, seller):
+quality	Integration tests	2026-10-05T01:28:59.3937290Z         owner, other, _, foreign = seller
+quality	Integration tests	2026-10-05T01:28:59.3937538Z         load(other, foreign, [row()])
+quality	Integration tests	2026-10-05T01:28:59.3937787Z         foreign_line = foreign.order_lines.get()
+quality	Integration tests	2026-10-05T01:28:59.3938074Z         foreign_batch = foreign.import_batches.get()
+quality	Integration tests	2026-10-05T01:28:59.3938389Z         routes = list(store_routes(get_resolver().url_patterns))
+quality	Integration tests	2026-10-05T01:28:59.3938673Z         assert routes
+quality	Integration tests	2026-10-05T01:28:59.3938873Z         for view, converters in routes:
+quality	Integration tests	2026-10-05T01:28:59.3939134Z             kwargs = {name: 1 for name in converters}
+quality	Integration tests	2026-10-05T01:28:59.3939402Z             kwargs["store_pk"] = foreign.pk
+quality	Integration tests	2026-10-05T01:28:59.3939640Z             if "pk" in kwargs:
+quality	Integration tests	2026-10-05T01:28:59.3939866Z                 kwargs["pk"] = foreign_line.pk
+quality	Integration tests	2026-10-05T01:28:59.3940109Z             if "batch_pk" in kwargs:
+quality	Integration tests	2026-10-05T01:28:59.3940372Z                 kwargs["batch_pk"] = foreign_batch.pk
+quality	Integration tests	2026-10-05T01:28:59.3940793Z             url = reverse(view, kwargs=kwargs)
+quality	Integration tests	2026-10-05T01:28:59.3941038Z             client.logout()
+quality	Integration tests	2026-10-05T01:28:59.3941251Z             for method in ["get", "post"]:
+quality	Integration tests	2026-10-05T01:28:59.3941575Z                 assert getattr(client, method)(url).status_code == 302, (view, method)
+quality	Integration tests	2026-10-05T01:28:59.3941918Z             client.force_login(owner)
+quality	Integration tests	2026-10-05T01:28:59.3942150Z             for method in ["get", "post"]:
+quality	Integration tests	2026-10-05T01:28:59.3942471Z >               assert getattr(client, method)(url).status_code == 404, (view, method)
+quality	Integration tests	2026-10-05T01:28:59.3942827Z E               AssertionError: ('orders:list', 'post')
+quality	Integration tests	2026-10-05T01:28:59.3943089Z E               assert 405 == 404
+quality	Integration tests	2026-10-05T01:28:59.3943494Z E                +  where 405 = <HttpResponseNotAllowed [GET, HEAD] status_code=405, "text/html; charset=utf-8">.status_code
+quality	Integration tests	2026-10-05T01:28:59.3944141Z E                +    where <HttpResponseNotAllowed [GET, HEAD] status_code=405, "text/html; charset=utf-8"> = post('/stores/2/orders/')
+quality	Integration tests	2026-10-05T01:28:59.3944743Z E                +      where post = getattr(<django.test.client.Client object at 0x7efcdf922cb0>, 'post')
+quality	Integration tests	2026-10-05T01:28:59.3945045Z 
+quality	Integration tests	2026-10-05T01:28:59.3945220Z tests/integration/test_import_report_integrity.py:190: AssertionError
+quality	Integration tests	2026-10-05T01:28:59.3945609Z ------------------------------ Captured log call -------------------------------
+quality	Integration tests	2026-10-05T01:28:59.3945988Z WARNING  django.request:log.py:253 Not Found: /stores/2/orders/
+quality	Integration tests	2026-10-05T01:28:59.3946382Z WARNING  django.request:log.py:253 Method Not Allowed (POST): /stores/2/orders/
+quality	Integration tests	2026-10-05T01:28:59.3946912Z _______________ test_foreign_store_routes_return_404[post-list] ________________
+quality	Integration tests	2026-10-05T01:28:59.3947379Z [gw1] linux -- Python 3.13.14 /home/runner/work/karkontrol/karkontrol/.venv/bin/python3
+quality	Integration tests	2026-10-05T01:28:59.3947647Z 
+quality	Integration tests	2026-10-05T01:28:59.3947792Z client = <django.test.client.Client object at 0x7f9f95ae20d0>
+quality	Integration tests	2026-10-05T01:28:59.3948464Z owner = <User: sentetik-a>, other = <User: sentetik-b>
+quality	Integration tests	2026-10-05T01:28:59.3948778Z store = <Store: Sentetik A>, route = 'list', method = 'post'
+quality	Integration tests	2026-10-05T01:28:59.3948981Z 
+quality	Integration tests	2026-10-05T01:28:59.3949159Z     @pytest.mark.parametrize("route", ["list", "upload", "sample", "return"])
+quality	Integration tests	2026-10-05T01:28:59.3949524Z     @pytest.mark.parametrize("method", ["get", "post"])
+quality	Integration tests	2026-10-05T01:28:59.3949910Z     def test_foreign_store_routes_return_404(client, owner, other, store, route, method):
+quality	Integration tests	2026-10-05T01:28:59.3950283Z         load(owner, store, csv_upload([row()]))
+quality	Integration tests	2026-10-05T01:28:59.3950684Z         client.force_login(other)
+quality	Integration tests	2026-10-05T01:28:59.3950906Z         kwargs = {"store_pk": store.pk}
+quality	Integration tests	2026-10-05T01:28:59.3951137Z         if route == "return":
+quality	Integration tests	2026-10-05T01:28:59.3951377Z             kwargs["pk"] = OrderLine.objects.get().pk
+quality	Integration tests	2026-10-05T01:28:59.3951738Z         response = getattr(client, method)(reverse(f"orders:{route}", kwargs=kwargs))
+quality	Integration tests	2026-10-05T01:28:59.3952106Z >       assert response.status_code == 404
+quality	Integration tests	2026-10-05T01:28:59.3952354Z E       assert 405 == 404
+quality	Integration tests	2026-10-05T01:28:59.3952735Z E        +  where 405 = <HttpResponseNotAllowed [GET, HEAD] status_code=405, "text/html; charset=utf-8">.status_code
+quality	Integration tests	2026-10-05T01:28:59.3953082Z 
+quality	Integration tests	2026-10-05T01:28:59.3953227Z tests/integration/test_stores_orders.py:241: AssertionError
+quality	Integration tests	2026-10-05T01:28:59.3953592Z ------------------------------ Captured log call -------------------------------
+quality	Integration tests	2026-10-05T01:28:59.3954000Z WARNING  django.request:log.py:253 Method Not Allowed (POST): /stores/1/orders/
+quality	Integration tests	2026-10-05T01:28:59.3954450Z - generated xml file: /home/runner/work/karkontrol/karkontrol/reports/integration.xml -
+quality	Integration tests	2026-10-05T01:28:59.3954970Z - Generated html report: file:///home/runner/work/karkontrol/karkontrol/reports/integration.html -
+quality	Integration tests	2026-10-05T01:28:59.3955398Z =========================== short test summary info ============================
+quality	Integration tests	2026-10-05T01:28:59.3956037Z FAILED tests/integration/test_http_security.py::test_every_store_route_requires_login_and_ownership[post] - AssertionError: orders:list
+quality	Integration tests	2026-10-05T01:28:59.3956548Z assert 405 == 404
+quality	Integration tests	2026-10-05T01:28:59.3956887Z  +  where 405 = <HttpResponseNotAllowed [GET, HEAD] status_code=405, "text/html; charset=utf-8">.status_code
+quality	Integration tests	2026-10-05T01:28:59.3957480Z  +    where <HttpResponseNotAllowed [GET, HEAD] status_code=405, "text/html; charset=utf-8"> = post('/stores/1/orders/')
+quality	Integration tests	2026-10-05T01:28:59.3958031Z  +      where post = getattr(<django.test.client.Client object at 0x7efcdf9b8d70>, 'post')
+quality	Integration tests	2026-10-05T01:28:59.3958704Z FAILED tests/integration/test_import_report_integrity.py::test_every_store_route_requires_login_and_ownership - AssertionError: ('orders:list', 'post')
+quality	Integration tests	2026-10-05T01:28:59.3959239Z assert 405 == 404
+quality	Integration tests	2026-10-05T01:28:59.3959587Z  +  where 405 = <HttpResponseNotAllowed [GET, HEAD] status_code=405, "text/html; charset=utf-8">.status_code
+quality	Integration tests	2026-10-05T01:28:59.3960189Z  +    where <HttpResponseNotAllowed [GET, HEAD] status_code=405, "text/html; charset=utf-8"> = post('/stores/2/orders/')
+quality	Integration tests	2026-10-05T01:28:59.3960966Z  +      where post = getattr(<django.test.client.Client object at 0x7efcdf922cb0>, 'post')
+quality	Integration tests	2026-10-05T01:28:59.3961323Z FAILED tests/integration/test_stores_orders.py::test_foreign_store_routes_return_404[post-list] - assert 405 == 404
+quality	Integration tests	2026-10-05T01:28:59.3961694Z  +  where 405 = <HttpResponseNotAllowed [GET, HEAD] status_code=405, "text/html; charset=utf-8">.status_code
+quality	Integration tests	2026-10-05T01:28:59.3961980Z ======================== 3 failed, 150 passed in 3.58s =========================
+quality	Integration tests	2026-10-05T01:28:59.4670390Z ##[error]Process completed with exit code 1.

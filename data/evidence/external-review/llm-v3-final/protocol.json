@@ -1,0 +1,16 @@
+{
+  "run_url": "https://github.com/nowackk-cp/karkontrol/actions/runs/37251483476",
+  "source_commit": "267eab9fb19532ca949608e6088e8c9ca17d5001",
+  "v3_passed": 52,
+  "v3_count": 52,
+  "model_attempted": 44,
+  "router_passed": 44,
+  "critical_failures": [],
+  "dataset": "repeated synthetic development set; not human blind evaluation",
+  "preceding_successful_pr_run": "https://github.com/nowackk-cp/karkontrol/actions/runs/37251130529",
+  "preceding_pr_evaluated_merge_commit": "d1c1c979aa7e1c4e68a47b818be6ce8b42d4e1c3",
+  "preceding_pr_json_sha256": "6161518efe60ef72f2031652851e1dfe58e1e9dacc8bcb118bcb5dacf91e19a9",
+  "source_hashes_verified": true,
+  "human_financial_acceptance": false,
+  "human_judge_calibrated": false
+}

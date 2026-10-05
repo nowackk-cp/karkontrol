@@ -1,0 +1,9 @@
+# engine.profit.x_money__mutmut_5: survived
+--- engine/profit.py
++++ engine/profit.py
+@@ -1,4 +1,4 @@
+ def money(value: Decimal) -> Decimal:
+     if not value.is_finite():
+-        return value.quantize(CENT, rounding=ROUND_HALF_UP)
++        return value.quantize(CENT, )
+     return _decimal_from_coefficient(_round_half_up(Fraction(value) * 100))

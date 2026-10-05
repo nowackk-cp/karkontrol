@@ -1,0 +1,71 @@
+{
+  "commit": "2207c894c4ff35307e2644160649531d9253059b",
+  "created_at": "2026-10-05T01:16:11.323055+00:00",
+  "generator": "mutmut 3.8.0",
+  "source_sha256": "25d13efa08dd0b61822aae5884746f42f1523b07a79b7291b716f7ef360a0ffb",
+  "source_exclusions": [],
+  "test_selection": [
+    "tests/unit/test_profit.py",
+    "tests/unit/test_profit_contract.py"
+  ],
+  "metadata": [
+    {
+      "path": "mutants/engine/__init__.py.meta",
+      "sha256": "8337af0c4106390d1c3bc4da61916adc36a117e653e1d7baa815d1ca882d6238"
+    },
+    {
+      "path": "mutants/engine/profit.py.meta",
+      "sha256": "ff088d6f661bb68a1a642ae86888664828999d8b918eb76fb0b808b3c579072b"
+    }
+  ],
+  "mutants": [
+    {
+      "mutant": "engine.profit.x__calculate__mutmut_75",
+      "exit_code": 0,
+      "status": "survived",
+      "diff": "reports/mutation-diffs/b0330dcc5b32fece.diff",
+      "show_exit_code": 0,
+      "classification": "unreviewed"
+    },
+    {
+      "mutant": "engine.profit.x__calculate__mutmut_78",
+      "exit_code": 0,
+      "status": "survived",
+      "diff": "reports/mutation-diffs/ab291395d6519ff2.diff",
+      "show_exit_code": 0,
+      "classification": "unreviewed"
+    },
+    {
+      "mutant": "engine.profit.x__calculate__mutmut_79",
+      "exit_code": 0,
+      "status": "survived",
+      "diff": "reports/mutation-diffs/6578dad1d31dbb0d.diff",
+      "show_exit_code": 0,
+      "classification": "unreviewed"
+    },
+    {
+      "mutant": "engine.profit.x__round_half_up__mutmut_16",
+      "exit_code": 0,
+      "status": "survived",
+      "diff": "reports/mutation-diffs/6af370ecdbd50914.diff",
+      "show_exit_code": 0,
+      "classification": "unreviewed"
+    },
+    {
+      "mutant": "engine.profit.x_money__mutmut_3",
+      "exit_code": 0,
+      "status": "survived",
+      "diff": "reports/mutation-diffs/b59ffd39b63f74c3.diff",
+      "show_exit_code": 0,
+      "classification": "unreviewed"
+    },
+    {
+      "mutant": "engine.profit.x_money__mutmut_5",
+      "exit_code": 0,
+      "status": "survived",
+      "diff": "reports/mutation-diffs/2b327f8fcca1e251.diff",
+      "show_exit_code": 0,
+      "classification": "unreviewed"
+    }
+  ]
+}
