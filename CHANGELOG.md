@@ -2,7 +2,7 @@
 
 ## 1.2.0 — dış inceleme düzeltmeleri
 
-- Asistanın açıkça sorulan tek kural konusunu v3 şemasına bağla; kur yerine KDV açıklaması veren ham tekrar koşusunu koru.
+- Asistanın açıkça sorulan tek kural konusu v3 şemasına bağlandı; kur yerine KDV açıklaması veren ham tekrar koşusu korundu.
 
 Tam kuruş dağıtımı, Excel oran/CSV genişliği, atomik aktarım geri alma, Türkçe arama, eksik rapor davranışı, üretim/upload/login sınırları düzeltildi. Asistan dönem çözümü ve v3 geliştirme seti, ayrı model/kör insan hakem hazırlığı, kesintide korunan hakem denemeleri, insan mutabakat işi, koşullu zorunlu model kontrolü ve dinamik Pages raporu eklendi. Public çalışma/başvuru notları yerelde tutulur; kurallar/QA/mimari/kabul belgeleri birleştirildi. İlk kanıtlar ve eski etiketler korundu. Güncel test/LLM/mutasyon sonuçları README'dedir. İnsan kabulü tamamlanmış sayılmaz.
 

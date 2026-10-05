@@ -14,6 +14,8 @@ Yeni v3 geliştirmesinin [ilk](../data/evidence/external-review/llm-v3-first/eva
 
 Aynı kaynak/prompt/veri hashleriyle daha sonraki [tekrar koşusunda](../data/evidence/external-review/llm-v3-repeat/eval.json) kur sorusu KDV kuralına yönlendi. Önceki başarı güncel sonuç yerine kullanılmaz. v3 açıkça tek kural konusu içeren sorularda izin verilen konu üretim şemasına bağlanır ve farklı kural seçimi ayrıca reddedilir; model çıktısı sonradan doğru konuyla değiştirilmez. Birden fazla konu veya rapor niyeti tek konu seçmeye zorlanmaz. Bu geliştirme hatasına göre yapılan bir düzeltmedir; kör test sayılmaz.
 
+Genel konu düzeltmesinin [PR ölçümü](../data/evidence/external-review/llm-v3-rule-fix/eval.json) ve [son ana dal ölçümü](../data/evidence/external-review/llm-v3-release/eval.json) ayrı ham dosyalardır. Önceki başarısız tekrar korunur; güncel sonuçların tek özeti README tablosudur. Yayın commit’i ile ölçülen source commit ayrı kaydedilir, kaynak dosyalarının SHA eşitliği doğrulanır.
+
 ## Çalıştırma ve sürüm karşılaştırması
 
 ```powershell

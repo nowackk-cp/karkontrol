@@ -43,7 +43,7 @@ Bu tablo güncel sayısal ölçümlerin tek özetidir. Tarihî kanıtlar değiş
 
 | Ölçüm | Sonuç / kaynak |
 |---|---|
-| Çekirdek testler | Son yerel kaynakta 666 geçti: 259 unit, 153 integration, 254 eval; hakem için 33 ve kural konusu için 91 yeni regresyon |
+| Çekirdek testler | Son yerel ve main Linux kaynağında 666 geçti: 259 unit, 153 integration, 254 eval; hakem için 33 ve kural konusu için 91 yeni regresyon |
 | Chromium E2E | 13 geçti; gerçek tarayıcı, yeni üç para kartı ve farklı satırlar |
 | Dev-only, Playwright yok | Son kaynakta 666 geçti / 1 opsiyonel paket atlandı |
 | Mobil Chromium | 390×844 dokunmatik görünümde 13 geçti |
@@ -57,10 +57,11 @@ Bu tablo güncel sayısal ölçümlerin tek özetidir. Tarihî kanıtlar değiş
 | İlk v3 Qwen geliştirme ölçümü | 49/52; modele atfedilebilir 41/44, 2 kritik hata. [İlk ham yanıt](data/evidence/external-review/llm-v3-first/eval.json) |
 | İkinci / üçüncü v3 Qwen ölçümü | İkisi de 51/52, modele atfedilebilir 43/44, kritik hata 0. [İkinci](data/evidence/external-review/llm-v3-second/eval.json) E-35; [üçüncü](data/evidence/external-review/llm-v3-third/eval.json) E-24 hatasını korur |
 | Önceki v3 Qwen ana dal ölçümü | 52/52; modele atfedilebilir 44/44, kritik hata 0. [Ana dal ham yanıtı](data/evidence/external-review/llm-v3-final/eval.json), [koşu](https://github.com/nowackk-cp/karkontrol/actions/runs/37251483476). Ortak 40 eski vakada gerileme yok; 12 yeni vaka. Aynı geliştirme seti üzerinde ayarlandı |
-| Son v3 Qwen tekrar ölçümü | 51/52; modele atfedilebilir 43/44, kritik hata 0. [Ham tekrar](data/evidence/external-review/llm-v3-repeat/eval.json), [koşu](https://github.com/nowackk-cp/karkontrol/actions/runs/37254150079). Kaynak/prompt/veri hashleri önceki ölçümle aynı; E-26 kur sorusu KDV kuralına gitti. Önceki başarı bu sonuç yerine kullanılmadı |
+| Kur düzeltmesinden önceki v3 tekrar ölçümü | 51/52; modele atfedilebilir 43/44, kritik hata 0. [Ham tekrar](data/evidence/external-review/llm-v3-repeat/eval.json), [koşu](https://github.com/nowackk-cp/karkontrol/actions/runs/37254150079). Kaynak/prompt/veri hashleri önceki ölçümle aynı; E-26 kur sorusu KDV kuralına gitti. Önceki başarı bu sonuç yerine kullanılmadı |
+| Son v3 Qwen ana dal ölçümü | 52/52; modele atfedilebilir 44/44, kritik hata 0. [Ham ana dal sonucu](data/evidence/external-review/llm-v3-release/eval.json), [koşu](https://github.com/nowackk-cp/karkontrol/actions/runs/37270587083); açık kur konusu şemada doğrulanır. [Düzeltme PR ölçümü](data/evidence/external-review/llm-v3-rule-fix/eval.json) ayrı korunur. Aynı sentetik geliştirme seti; insan kör kabulü bekliyor |
 | Ayrı hakem yanıtlarının kullanılabilirliği | 30/30 şemaya uygun yanıt; [ham sonuç](data/evidence/external-review/judge-final/judge-scores.json), [koşu](https://github.com/nowackk-cp/karkontrol/actions/runs/37253777571). Qwen3-0.6B ayrı ağırlık, aynı aile; insan etiketleri boş. Bu hakem doğruluğu veya insan uyumu değildir |
 
-[Güncel main CI koşuları](https://github.com/nowackk-cp/karkontrol/actions/workflows/ci.yml?query=branch%3Amain) · [HTML raporları](https://nowackk-cp.github.io/karkontrol/) · [İlk başarısız LLM koşusu](https://github.com/nowackk-cp/karkontrol/actions/runs/37173824046) · [Hazırlanan sürüm kanıtları (yayın bekliyor)](https://github.com/nowackk-cp/karkontrol/releases/tag/v1.2.0).
+[Güncel main CI koşuları](https://github.com/nowackk-cp/karkontrol/actions/workflows/ci.yml?query=branch%3Amain) · [HTML raporları](https://nowackk-cp.github.io/karkontrol/) · [İlk başarısız LLM koşusu](https://github.com/nowackk-cp/karkontrol/actions/runs/37173824046) · [Kalıcı sürüm kanıtları](https://github.com/nowackk-cp/karkontrol/releases/tag/v1.2.0).
 
 ## Bulgular ve kalite kapısı
 
